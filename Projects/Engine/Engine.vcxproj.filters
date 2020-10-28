@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\Components">
+      <UniqueIdentifier>{1ea3e4ee-306f-4134-aa83-6851225a8451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Systems">
+      <UniqueIdentifier>{fb5788a2-6e3a-46aa-a4f5-d62fc2718692}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Components\Collider.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Name.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Rigidbody.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Tags.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Transform.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Velocity.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GameApplication.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\JsonHelper.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Random.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Screen.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Application.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Level.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Lives.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Score.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Camera.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EnttDebugger.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\StringHelper.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Sprite.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CircularBuffer.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\LevelSystem.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\RenderSystem.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\PhysicsSystem.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\SoundSystem.hpp">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Sound.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Types.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ObjectPool.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\VectorHelpers.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Game.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\GameApplication.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\JsonHelper.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Screen.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Application.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EnttDebugger.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\StringHelper.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\RenderSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\PhysicsSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\SoundSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\VectorHelpers.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\EnttDebugger.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\CircularBuffer.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\Random.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\ObjectPool.inl">
+      <Filter>Source</Filter>
+    </None>
+  </ItemGroup>
+</Project>
