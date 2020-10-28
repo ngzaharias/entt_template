@@ -8,7 +8,6 @@
 #include "Components/Name.hpp"
 #include "Components/Rigidbody.hpp"
 #include "Components/Sprite.hpp"
-#include "Components/Tags.hpp"
 #include "Components/Transform.hpp"
 #include "Components/Velocity.hpp"
 

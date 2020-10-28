@@ -41,14 +41,27 @@ int main(int agrc, char* argv[])
 
 	static physx::PxDefaultAllocator gAllocator;
 	static physx::UserErrorCallback gError;
-	physx::PxFoundation* foundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gError);
+	static physx::PxFoundation* gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gError);
+
+	bool recordMemoryAllocations = true;
+
+	physx::PxPvd* visualDebugger = physx::PxCreatePvd(*gFoundation);
+	physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
+	visualDebugger->connect(*transport, physx::PxPvdInstrumentationFlag::ePROFILE);
+
+	physx::PxPhysics* physics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, physx::PxTolerancesScale(), recordMemoryAllocations, visualDebugger);
 
 	application = new GameApplication();
 	application->Execute(agrc, argv);
 	delete(application);
 	application = nullptr;
 
-	foundation->release();
+	physics->release();
+	visualDebugger->disconnect();
+
+	transport->release();
+	visualDebugger->release();
+	gFoundation->release();
 
 	return 0;
 }
