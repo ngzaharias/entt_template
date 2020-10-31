@@ -3,10 +3,8 @@
 #include "StringHelper.hpp"
 
 #include "Components/Camera.hpp"
-#include "Components/Collider.hpp"
 #include "Components/Level.hpp"
 #include "Components/Name.hpp"
-#include "Components/Rigidbody.hpp"
 #include "Components/Sprite.hpp"
 #include "Components/Transform.hpp"
 #include "Components/Velocity.hpp"
@@ -98,7 +96,7 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 
 		ImGui::PushID("Rotate");
 		if (ImGui::CollapsingHeader("Rotate"))
-			ImGui::DragFloat("", &component.m_Rotate);
+			ImGui::DragFloat3("", &component.m_Rotate.x);
 		ImGui::PopID();
 
 		ImGui::PushID("Scale");
@@ -111,14 +109,6 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 	{
 		auto& component = registry.get<debug::Name>(entity);
 		ImGui::Text("%s", component.m_Name.c_str());
-	});
-
-	RegisterWidget<physics::Collider>([](entt::registry& registry, entt::entity& entity)
-	{
-		auto& component = registry.get<physics::Collider>(entity);
-
-		if (ImGui::CollapsingHeader("Extents"))
-			ImGui::DragFloat2("", &component.m_Extents.x);
 	});
 
 	RegisterWidget<physics::Velocity>([](entt::registry& registry, entt::entity& entity)

@@ -26,8 +26,8 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 			auto& transform = cameraView.get<core::Transform>(cameraEntity);
 
 			sf::View view;
-			view.setCenter(transform.m_Translate);
-			view.setRotation(transform.m_Rotate);
+			view.setCenter(transform.m_Translate.x, transform.m_Translate.y);
+			view.setRotation(transform.m_Rotate.z);
 			view.setSize(camera.m_Size);
 			window->setView(view);
 		}
@@ -39,9 +39,9 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 			auto& sprite = renderView.get<render::Sprite>(renderEntity);
 			auto& transform = renderView.get<core::Transform>(renderEntity);
 
-			sprite.m_Sprite.setPosition(transform.m_Translate);
-			sprite.m_Sprite.setRotation(transform.m_Rotate);
-			sprite.m_Sprite.setScale(transform.m_Scale);
+			sprite.m_Sprite.setPosition(transform.m_Translate.x, transform.m_Translate.y);
+			sprite.m_Sprite.setRotation(transform.m_Rotate.z);
+			sprite.m_Sprite.setScale(transform.m_Scale.x, transform.m_Scale.y);
 
 			window->draw(sprite.m_Sprite);
 		}

@@ -8,9 +8,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(SolutionDir)\Bin\*.dll" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)\Bin\PhysX\*.dll" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)\Bin\SFML\*.dll" "$(OutDir)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\;$(SolutionDir)\Include\;$(SolutionDir)\Include\imgui\;$(SolutionDir)\Include\imgui-sfml\;$(SolutionDir)\Include\PhysX\</AdditionalIncludeDirectories>
@@ -19,8 +18,8 @@ xcopy /y /d "$(SolutionDir)\Bin\SFML\*.dll" "$(OutDir)"</Command>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Bin\PhysX\;$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Library\;$(SolutionDir)\Library\PhysX\;$(SolutionDir)\Library\SFML\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>flac.lib;freetype.lib;gdi32.lib;ogg.lib;openal32.lib;opengl32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;winmm.lib;ws2_32.lib;Imgui.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Bin\PhysX\;$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Library\;$(SolutionDir)\Library\SFML\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>flac.lib;freetype.lib;gdi32.lib;ogg.lib;openal32.lib;opengl32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;winmm.lib;ws2_32.lib;Imgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

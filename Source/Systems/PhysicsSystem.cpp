@@ -1,17 +1,51 @@
 #include "PhysicsSystem.hpp"
 
 #include "Math.hpp"
+#include "Types.hpp"
 #include "VectorHelpers.hpp"
 
-#include "Components/Collider.hpp"
 #include "Components/Name.hpp"
-#include "Components/Rigidbody.hpp"
+#include "Components/RigidBody.hpp"
 #include "Components/Transform.hpp"
 #include "Components/Velocity.hpp"
 
+#include <iostream>
 #include <entt/entt.hpp>
+#include <PhysX/PxPhysicsAPI.h>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
+
+namespace physx
+{
+	class UserAllocatorCallback final : public physx::PxAllocatorCallback
+	{
+	public:
+		void* allocate(size_t size, const char*, const char*, int) override
+		{
+			void* ptr = platformAlignedAlloc(size);
+			PX_ASSERT((reinterpret_cast<size_t>(ptr) & 15) == 0);
+			return ptr;
+		}
+
+		void deallocate(void* ptr) override
+		{
+			platformAlignedFree(ptr);
+		}
+	};
+
+	class UserErrorCallback final : public physx::PxErrorCallback
+	{
+		void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) override
+		{
+			printf("PhysX Error: %d %s %s %d", code, message, file, line);
+		}
+	};
+
+	static physx::UserAllocatorCallback gAllocator;
+	static physx::UserErrorCallback gError;
+	static physx::PxFoundation* gFoundation = nullptr;
+	static physx::PxDefaultCpuDispatcher* gDispatcher = nullptr;
+}
 
 physics::PhysicsSystem::PhysicsSystem()
 {
@@ -21,64 +55,118 @@ physics::PhysicsSystem::~PhysicsSystem()
 {
 }
 
+void physics::PhysicsSystem::Initialize(entt::registry& registry)
+{
+	physx::gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, physx::gAllocator, physx::gError);
+
+	m_Debugger = physx::PxCreatePvd(*physx::gFoundation);
+	m_Transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
+	m_Debugger->connect(*m_Transport, physx::PxPvdInstrumentationFlag::eDEBUG);
+
+	m_Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *physx::gFoundation, physx::PxTolerancesScale(), false, m_Debugger);
+
+	physx::gDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
+
+	physx::PxSceneDesc sceneDesc(m_Physics->getTolerancesScale());
+	sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+	sceneDesc.cpuDispatcher = physx::gDispatcher;
+	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+	m_Scene = m_Physics->createScene(sceneDesc);
+
+	m_Material = m_Physics->createMaterial(0.f, 0.f, 1.f);
+
+	registry.on_destroy<physics::RigidBody>().connect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
+
+	// ball
+	{
+		const physx::PxSphereGeometry geometry = physx::PxSphereGeometry(1.f);
+		physx::PxShape* shape = m_Physics->createShape(geometry, *m_Material);
+
+		const auto entity = registry.create();
+		auto& name = registry.emplace<debug::Name>(entity);
+		auto& rigidbody = registry.emplace<physics::RigidBody>(entity);
+		auto& transform = registry.emplace<core::Transform>(entity);
+		name.m_Name = "Ball";
+		rigidbody.m_Actor = m_Physics->createRigidDynamic(physx::PxTransform({ 0.f, 10.f, 0.f }));
+		rigidbody.m_Shapes.push_back(shape);
+
+		for (auto* shape : rigidbody.m_Shapes)
+			rigidbody.m_Actor->attachShape(*shape);
+		m_Scene->addActor(*rigidbody.m_Actor);
+	}
+
+	// floor
+	{
+		const physx::PxBoxGeometry geometry = physx::PxBoxGeometry(10.f, 0.1f, 10.f);
+		physx::PxShape* shape = m_Physics->createShape(geometry, *m_Material);
+
+		const auto entity = registry.create();
+		auto& name = registry.emplace<debug::Name>(entity);
+		auto& rigidbody = registry.emplace<physics::RigidBody>(entity);
+		auto& transform = registry.emplace<core::Transform>(entity);
+		name.m_Name = "Floor";
+		rigidbody.m_Actor = m_Physics->createRigidStatic(physx::PxTransform({ 0.f, 0.f, 0.f }));
+		rigidbody.m_Shapes.push_back(shape);
+
+		for (auto* shape : rigidbody.m_Shapes)
+			rigidbody.m_Actor->attachShape(*shape);
+		m_Scene->addActor(*rigidbody.m_Actor);
+	}
+}
+
+void physics::PhysicsSystem::Destroy(entt::registry& registry)
+{
+	for (const entt::entity& entity : registry.view<physics::RigidBody>())
+	{
+		registry.destroy(entity);
+	}
+
+	registry.on_destroy<physics::RigidBody>().disconnect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
+
+	m_Debugger->disconnect();
+
+	m_Material->release();
+	m_Scene->release();
+	m_Physics->release();
+
+	m_Transport->release();
+	m_Debugger->release();
+	physx::gFoundation->release();
+}
+
 void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& time)
 {
-	const float deltaTime = Math::Min(0.1f, time.asSeconds());
+	const float deltaTime = time.asSeconds();
 
-	const auto viewA = registry.view<core::Transform, physics::Collider, physics::Rigidbody, physics::Velocity>();
-	const auto viewB = registry.view<core::Transform, physics::Collider>();
+	m_Scene->simulate(deltaTime);
+	m_Scene->fetchResults(true);
 
-	for (const entt::entity& entityA : viewA)
+	for (const entt::entity& entity : registry.view<physics::RigidBody, core::Transform>())
 	{
-		auto& colliderA = viewA.get<physics::Collider>(entityA);
-		auto& nameA = registry.get<debug::Name>(entityA);
-		auto& transformA = viewA.get<core::Transform>(entityA);
-		auto& velocityA = viewA.get<physics::Velocity>(entityA);
+		auto& rigidbody = registry.get<physics::RigidBody>(entity);
+		auto& transform = registry.get<core::Transform>(entity);
 
-		transformA.m_Translate += velocityA.m_Velocity * deltaTime;
-
-		for (const entt::entity& entityB : viewB)
-		{
-			auto& colliderB = viewB.get<physics::Collider>(entityB);
-			auto& nameB = registry.get<debug::Name>(entityB);
-			auto& transformB = viewB.get<core::Transform>(entityB);
-
-			if (entityA != entityB)
-			{
-				sf::Vector2f extentsA = Multiply(colliderA.m_Extents, transformA.m_Scale);
-				sf::Vector2f extentsB = Multiply(colliderB.m_Extents, transformB.m_Scale);
-
-				sf::FloatRect intersection;
-				sf::FloatRect rectangleA = { transformA.m_Translate - extentsA, extentsA * 2.f };
-				sf::FloatRect rectangleB = { transformB.m_Translate - extentsB, extentsB * 2.f };
-				if (rectangleA.intersects(rectangleB, intersection))
-				{
-					// distance of box 'b2' to face on 'left' side of 'b1'.
-					// distance of box 'b2' to face on 'right' side of 'b1'
-					// distance of box 'b2' to face on 'top' side of 'b1'.
-					// distance of box 'b2' to face on 'bottom' side of 'b1'.
-					const float left = (rectangleB.left + rectangleB.width) - rectangleA.left;
-					const float right = (rectangleA.left + rectangleA.width) - rectangleB.left;
-					const float top = (rectangleA.top + rectangleA.height) - rectangleB.top;
-					const float bottom = (rectangleB.top + rectangleB.height) - rectangleA.top;
-
-					// #hack: move rigidbody out of the collider
-					const sf::Vector2f direction = Normalized(velocityA.m_Velocity);
-					const sf::Vector2f offset = { direction.x * intersection.width, direction.y * intersection.height };
-					transformA.m_Translate -= offset;
-
-					// #hack: not exactly the best way to get a hit normal
-					sf::Vector2f normal;
-					const float minX = Math::Min<float>(left, right);
-					const float minY = Math::Min<float>(top, bottom);
-					normal.x = (minX < minY) ? (left < right) ? -1.0f : 1.0f : 0.0f;
-					normal.y = (minX < minY) ? 0.0f : (top < bottom) ? -1.0f : 1.0f;
-
-					velocityA.m_Velocity = Reflect(velocityA.m_Velocity, normal);
-
-					m_OnCollisionSignal.publish(entityA, entityB);
-				}
-			}
-		}
+		const physx::PxVec3 translate = rigidbody.m_Actor->getGlobalPose().p;
+		transform.m_Translate = { translate.x, translate.y, translate.z };
 	}
+}
+
+void physics::PhysicsSystem::OnDestroy_RigidBody(entt::registry& registry, entt::entity entity)
+{
+	auto& rigidbody = registry.get<physics::RigidBody>(entity);
+
+	{
+		const uint32 nbShapes = rigidbody.m_Actor->getNbShapes();
+		physx::PxShape** shapes = new physx::PxShape * [nbShapes];
+		rigidbody.m_Actor->getShapes(shapes, nbShapes);
+		for (uint32 i = 0; i < nbShapes; ++i)
+		{
+			physx::PxShape* shape = shapes[i];
+			rigidbody.m_Actor->detachShape(*shape);
+			shape->release();
+		}
+		delete[] shapes;
+	}
+
+	rigidbody.m_Actor->release();
 }

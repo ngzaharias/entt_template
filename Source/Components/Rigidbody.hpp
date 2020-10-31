@@ -1,9 +1,18 @@
 #pragma once
 
+#include <vector>
+
+namespace physx
+{
+	class PxRigidActor;
+	class PxShape;
+}
+
 namespace physics
 {
-	struct Rigidbody
+	struct RigidBody
 	{
-		bool m_Unused;
+		physx::PxRigidActor* m_Actor;
+		std::vector<physx::PxShape*> m_Shapes;
 	};
 }

@@ -21,12 +21,14 @@ void Game::Initialise(entt::registry& registry)
 	m_Registry = &registry;
 
 	m_EnttDebugger.Initialise(registry);
+	m_PhysicsSystem.Initialize(registry);
 	m_SoundSystem.Initialize(registry);
 }
 
 void Game::Destroy(entt::registry& registry)
 {
 	m_EnttDebugger.Destroy(registry);
+	m_PhysicsSystem.Destroy(registry);
 	m_SoundSystem.Destroy(registry);
 }
 

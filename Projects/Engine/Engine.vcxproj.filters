@@ -13,16 +13,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Components\Collider.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Components\Name.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Rigidbody.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Tags.hpp">
       <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Components\Transform.hpp">
@@ -53,12 +44,6 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Components\Level.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Lives.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Score.hpp">
       <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Components\Camera.hpp">
@@ -99,6 +84,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\VectorHelpers.hpp">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Shape.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\RigidBody.hpp">
+      <Filter>Source\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
