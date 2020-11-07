@@ -67,7 +67,7 @@ debug::EnttDebugger::~EnttDebugger()
 {
 }
 
-void debug::EnttDebugger::Initialise(entt::registry& registry)
+void debug::EnttDebugger::Initialize(entt::registry& registry)
 {
 	RegisterWidget<core::Camera>([](entt::registry& registry, entt::entity& entity)
 	{
@@ -91,7 +91,7 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 
 		ImGui::PushID("Translate");
 		if (ImGui::CollapsingHeader("Translate"))
-			ImGui::DragFloat2("", &component.m_Translate.x);
+			ImGui::DragFloat3("", &component.m_Translate.x);
 		ImGui::PopID();
 
 		ImGui::PushID("Rotate");
@@ -101,7 +101,7 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 
 		ImGui::PushID("Scale");
 		if (ImGui::CollapsingHeader("Scale"))
-			ImGui::DragFloat2("", &component.m_Scale.x);
+			ImGui::DragFloat3("", &component.m_Scale.x);
 		ImGui::PopID();
 	});
 

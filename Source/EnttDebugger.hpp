@@ -69,7 +69,7 @@ namespace debug
 		EnttDebugger();
 		~EnttDebugger();
 
-		void Initialise(entt::registry& registry);
+		void Initialize(entt::registry& registry);
 		void Destroy(entt::registry& registry);
 
 		void Update(entt::registry& registry, const sf::Time& time);

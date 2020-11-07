@@ -1,0 +1,23 @@
+{
+	"name": "Floor",
+	"physics": 
+	{
+		"static": {	},
+		"shape":
+		{
+			"channel": 1,
+			"box": { "extents_x": 640, "extents_y": 5, "extents_z": 1 }
+		}
+	},
+	"sprite": 
+	{
+		"size": { "width": 1280, "height": 10 },
+		"texture": "Assets/Textures/T_Default_Dark.png"
+	},
+	"transform" : 
+	{ 
+		"translate":  { "x": 0, "y": -355, "z": 0 },
+		"rotate":  { "x": 0, "y": 0, "z": 0 },
+		"scale":  { "x": 1, "y": 1, "z": 1 }
+	}
+}

@@ -88,7 +88,13 @@
     <ClInclude Include="..\..\Source\Components\Shape.hpp">
       <Filter>Source\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Components\RigidBody.hpp">
+    <ClInclude Include="..\..\Source\CollisionChannels.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\RigidDynamic.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\RigidStatic.hpp">
       <Filter>Source\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -103,9 +109,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Math.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Screen.cpp">
@@ -147,6 +150,9 @@
       <Filter>Source</Filter>
     </None>
     <None Include="..\..\Source\ObjectPool.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\Math.inl">
       <Filter>Source</Filter>
     </None>
   </ItemGroup>

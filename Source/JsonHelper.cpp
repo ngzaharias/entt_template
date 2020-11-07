@@ -4,76 +4,77 @@
 #include <rapidjson/error/en.h>
 #include <rapidjson/error/error.h>
 
-namespace JsonHelper
+bool json::LoadDocument(const char* filepath, rapidjson::Document& document)
 {
-	bool LoadDocument(const char* filepath, rapidjson::Document& document)
+	//load the file
+	FILE* file;
+	fopen_s(&file, filepath, "r");
+	if (!file)
 	{
-		//load the file
-		FILE* file;
-		fopen_s(&file, filepath, "r");
-		if (file == nullptr)
-		{
-			perror("fopen_s");
-			fclose(file);
-			return false;
-		}
-
-		char buffer[65536];
-		rapidjson::FileReadStream is(file, buffer, sizeof(buffer));
-		rapidjson::ParseResult result = document.ParseStream(is);
-		if (result == false)
-		{
-			printf("JSON parse error: %s (%u)\n", rapidjson::GetParseError_En(result.Code()), (unsigned int)result.Offset());
-			fclose(file);
-			return false;
-		}
-
+		perror("fopen_s");
 		fclose(file);
-		return true;
+		return false;
 	}
 
-	bool ParseBool(const rapidjson::Value& value, const char* member, bool default)
+	constexpr size_t size = 65536;
+	char* buffer = new char[size];
+	rapidjson::FileReadStream is(file, buffer, size);
+	rapidjson::ParseResult result = document.ParseStream(is);
+	if (!result)
 	{
-		if (value.HasMember(member) == true && value[member].IsBool() == true)
-		{
-			return value[member].GetBool();
-		}
-		return default;
+		printf("JSON parse error: %s (%u)\n", rapidjson::GetParseError_En(result.Code()), (unsigned int)result.Offset());
+		fclose(file);
+		delete[] buffer;
+		return false;
 	}
 
-	double ParseDouble(const rapidjson::Value& value, const char* member, double default)
-	{
-		if (value.HasMember(member) == true && value[member].IsNumber() == true)
-		{
-			return value[member].GetDouble();
-		}
-		return default;
-	}
+	fclose(file);
+	delete[] buffer;
+	return true;
+}
 
-	float ParseFloat(const rapidjson::Value& value, const char* member, float default)
-	{
-		if (value.HasMember(member) == true && value[member].IsNumber() == true)
-		{
-			return value[member].GetFloat();
-		}
-		return default;
-	}
+bool json::ParseBool(const rapidjson::Value& value, const char* member, const bool default)
+{
+	const auto itr = value.FindMember(member);
+	if (itr != value.MemberEnd(); itr->value.IsBool())
+		return itr->value.GetBool();
+	return default;
+}
 
-	int ParseInt(const rapidjson::Value& value, const char* member, int default)
-	{
-		if (value.HasMember(member) == true && value[member].IsNumber() == true)
-		{
-			return value[member].GetInt();
-		}
-		return default;
-	}
+double json::ParseDouble(const rapidjson::Value & value, const char* member, const double default)
+{
+	const auto itr = value.FindMember(member);
+	if (itr != value.MemberEnd(); itr->value.IsNumber())
+		return itr->value.GetDouble();
+	return default;
+}
 
-	const char* ParseString(const rapidjson::Value& value, const char* member, const char* default)
-	{
-		if (value.HasMember(member) == true && value[member].IsBool() == true)
-		{
-			return value[member].GetString();
-		}
-		return default;
-	}
+float json::ParseFloat(const rapidjson::Value & value, const char* member, const float default)
+{
+	const auto itr = value.FindMember(member);
+	if (itr != value.MemberEnd(); itr->value.IsNumber())
+		return itr->value.GetFloat();
+	return default;
+}
+
+int json::ParseInt(const rapidjson::Value & value, const char* member, const int default)
+{
+	const auto itr = value.FindMember(member);
+	if (itr != value.MemberEnd(); itr->value.IsNumber())
+		return itr->value.GetInt();
+	return default;
+}
+
+const char* json::ParseString(const rapidjson::Value& value, const char* member, const char* default)
+{
+	const auto itr = value.FindMember(member);
+	if (itr != value.MemberEnd(); itr->value.IsString())
+		return itr->value.GetString();
+	return default;
+}
+
+void json::PrintMembers(const rapidjson::Value& value)
+{
+	for (auto iter = value.MemberBegin(); iter != value.MemberEnd(); ++iter)
+		printf("%s\t\n", iter->name.GetString());
 }

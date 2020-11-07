@@ -7,6 +7,12 @@
 Game* Game::s_Instance = nullptr;
 
 Game::Game()
+	: m_Registry(nullptr)
+	, m_EnttDebugger()
+	, m_LevelSystem(m_PhysicsSystem)
+	, m_PhysicsSystem()
+	, m_RenderSystem()
+	, m_SoundSystem()
 {
 	s_Instance = this;
 }
@@ -20,16 +26,20 @@ void Game::Initialise(entt::registry& registry)
 {
 	m_Registry = &registry;
 
-	m_EnttDebugger.Initialise(registry);
 	m_PhysicsSystem.Initialize(registry);
+	m_LevelSystem.Initialize(registry);
 	m_SoundSystem.Initialize(registry);
+
+	m_EnttDebugger.Initialize(registry);
 }
 
 void Game::Destroy(entt::registry& registry)
 {
-	m_EnttDebugger.Destroy(registry);
 	m_PhysicsSystem.Destroy(registry);
+	m_LevelSystem.Destroy(registry);
 	m_SoundSystem.Destroy(registry);
+
+	m_EnttDebugger.Destroy(registry);
 }
 
 void Game::Update(entt::registry& registry, const sf::Time& time)

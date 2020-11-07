@@ -4,15 +4,15 @@
 
 namespace physx
 {
-	class PxRigidActor;
+	class PxRigidDynamic;
 	class PxShape;
 }
 
 namespace physics
 {
-	struct RigidBody
+	struct RigidDynamic
 	{
-		physx::PxRigidActor* m_Actor;
+		physx::PxRigidDynamic* m_Actor;
 		std::vector<physx::PxShape*> m_Shapes;
 	};
 }

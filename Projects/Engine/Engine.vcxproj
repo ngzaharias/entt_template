@@ -13,10 +13,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Application.hpp" />
     <ClInclude Include="..\..\Source\CircularBuffer.hpp" />
+    <ClInclude Include="..\..\Source\CollisionChannels.hpp" />
     <ClInclude Include="..\..\Source\Components\Camera.hpp" />
     <ClInclude Include="..\..\Source\Components\Level.hpp" />
     <ClInclude Include="..\..\Source\Components\Name.hpp" />
-    <ClInclude Include="..\..\Source\Components\RigidBody.hpp" />
+    <ClInclude Include="..\..\Source\Components\RigidDynamic.hpp" />
+    <ClInclude Include="..\..\Source\Components\RigidStatic.hpp" />
     <ClInclude Include="..\..\Source\Components\Shape.hpp" />
     <ClInclude Include="..\..\Source\Components\Sound.hpp" />
     <ClInclude Include="..\..\Source\Components\Sprite.hpp" />
@@ -45,7 +47,6 @@
     <ClCompile Include="..\..\Source\GameApplication.cpp" />
     <ClCompile Include="..\..\Source\JsonHelper.cpp" />
     <ClCompile Include="..\..\Source\Main.cpp" />
-    <ClCompile Include="..\..\Source\Math.cpp" />
     <ClCompile Include="..\..\Source\Screen.cpp" />
     <ClCompile Include="..\..\Source\StringHelper.cpp" />
     <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp" />
@@ -57,6 +58,7 @@
   <ItemGroup>
     <None Include="..\..\Source\CircularBuffer.inl" />
     <None Include="..\..\Source\EnttDebugger.inl" />
+    <None Include="..\..\Source\Math.inl" />
     <None Include="..\..\Source\ObjectPool.inl" />
     <None Include="..\..\Source\Random.inl" />
   </ItemGroup>

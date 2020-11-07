@@ -1,0 +1,29 @@
+{
+	"name": "Ball",
+	"physics": 
+	{
+		"dynamic": 
+		{
+			"eENABLE_CCD": true,
+			"eLOCK_LINEAR_Z": true,
+			"eLOCK_ANGULAR_X": true,
+			"eLOCK_ANGULAR_Y": true
+		},
+		"shape":
+		{
+			"channel": 1,
+			"sphere": { "radius": 11 }
+		}
+	},
+	"sprite": 
+	{
+		"size": { "width": 22, "height": 22 },
+		"texture": "Assets/Textures/T_Default_Light.png"
+	},
+	"transform" : 
+	{ 
+		"translate":  { "x": 0, "y": 360, "z": 0 },
+		"rotate":  { "x": 0, "y": 0, "z": 0 },
+		"scale":  { "x": 1, "y": 1, "z": 1 }
+	}
+}

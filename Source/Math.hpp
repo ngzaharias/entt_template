@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Math
+namespace math
 {
 	template<typename T> T Clamp(const T& value, const T& min, const T& max)
 	{
@@ -17,5 +17,10 @@ namespace Math
 		return (a > b) ? a : b;
 	}
 
-	float Sign(float value);
+	inline float Sign(float value);
+
+	inline float ToDegrees(float radians);
+	inline float ToRadians(float degrees);
 }
+
+#include <Math.inl>

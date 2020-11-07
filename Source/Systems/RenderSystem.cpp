@@ -1,5 +1,7 @@
 #include "RenderSystem.hpp"
 
+#include "VectorHelpers.hpp"
+
 #include "Components/Camera.hpp"
 #include "Components/Sprite.hpp"
 #include "Components/Transform.hpp"
@@ -25,10 +27,12 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 			auto& camera = cameraView.get<core::Camera>(cameraEntity);
 			auto& transform = cameraView.get<core::Transform>(cameraEntity);
 
+			sf::Vector2f size = Multiply(camera.m_Size, { 1.f, -1.f });
+
 			sf::View view;
 			view.setCenter(transform.m_Translate.x, transform.m_Translate.y);
 			view.setRotation(transform.m_Rotate.z);
-			view.setSize(camera.m_Size);
+			view.setSize(size);
 			window->setView(view);
 		}
 
@@ -39,9 +43,15 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 			auto& sprite = renderView.get<render::Sprite>(renderEntity);
 			auto& transform = renderView.get<core::Transform>(renderEntity);
 
+			const sf::Texture* texture = sprite.m_Sprite.getTexture();
+			const sf::Vector2f size = sf::Vector2f(texture->getSize());
+
+			const float scaleX = sprite.m_Size.x / size.x;
+			const float scaleY = sprite.m_Size.y / size.y;
+
 			sprite.m_Sprite.setPosition(transform.m_Translate.x, transform.m_Translate.y);
 			sprite.m_Sprite.setRotation(transform.m_Rotate.z);
-			sprite.m_Sprite.setScale(transform.m_Scale.x, transform.m_Scale.y);
+			sprite.m_Sprite.setScale(transform.m_Scale.x * scaleX, transform.m_Scale.y * scaleY);
 
 			window->draw(sprite.m_Sprite);
 		}
