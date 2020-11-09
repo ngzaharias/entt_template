@@ -2,9 +2,9 @@
 
 #include "Random.hpp"
 
-#include "Components/Name.hpp"
-#include "Components/Sound.hpp"
-#include "Components/Transform.hpp"
+#include "Components/NameComponent.h"
+#include "Components/SoundComponent.h"
+#include "Components/TransformComponent.h"
 
 #include <iostream>
 #include <entt/entt.hpp>
@@ -36,9 +36,9 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 			continue;
 
 		entt::entity entity = registry.create();
-		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sound = registry.emplace<audio::Sound>(entity);
-		auto& transform = registry.emplace<core::Transform>(entity);
+		auto& name = registry.emplace<debug::NameComponent>(entity);
+		auto& sound = registry.emplace<audio::SoundComponent>(entity);
+		auto& transform = registry.emplace<core::TransformComponent>(entity);
 
 		name.m_Name = soundName;
 		sound.m_Sound = m_SoundPool.RequestObject();
@@ -48,10 +48,10 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 	}
 	m_Requests.clear();
 
-	const auto view = registry.view<audio::Sound>();
+	const auto view = registry.view<audio::SoundComponent>();
 	for (const entt::entity& entity : view)
 	{
-		auto& sound = registry.get<audio::Sound>(entity);
+		auto& sound = registry.get<audio::SoundComponent>(entity);
 		if (sound.m_Sound->getStatus() == sf::Sound::Stopped)
 		{
 			m_SoundPool.ReleaseObject(sound.m_Sound);

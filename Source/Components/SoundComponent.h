@@ -5,7 +5,7 @@
 
 namespace audio
 {
-	struct Sound
+	struct SoundComponent
 	{
 		sf::Sound* m_Sound;
 	};

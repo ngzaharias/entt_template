@@ -1,11 +1,10 @@
 #include "EnttDebugger.hpp"
 
-#include "Components/Camera.hpp"
-#include "Components/Level.hpp"
-#include "Components/Name.hpp"
-#include "Components/Sprite.hpp"
-#include "Components/Transform.hpp"
-#include "Components/Velocity.hpp"
+#include "Components/CameraComponent.h"
+#include "Components/LevelComponent.h"
+#include "Components/NameComponent.h"
+#include "Components/SpriteComponent.h"
+#include "Components/TransformComponent.h"
 #include "Strings/StringHelpers.hpp"
 
 #include <iostream>
@@ -36,7 +35,7 @@ namespace
 
 		if (registry.valid(entity))
 		{
-			if (const auto& component = registry.try_get<debug::Name>(entity))
+			if (const auto& component = registry.try_get<debug::NameComponent>(entity))
 				return component->m_Name.c_str();
 		}
 		return "<unknown> (unknown)";
@@ -68,25 +67,25 @@ debug::EnttDebugger::~EnttDebugger()
 
 void debug::EnttDebugger::Initialize(entt::registry& registry)
 {
-	RegisterWidget<core::Camera>([](entt::registry& registry, entt::entity& entity)
+	RegisterWidget<core::CameraComponent>([](entt::registry& registry, entt::entity& entity)
 	{
-		auto& component = registry.get<core::Camera>(entity);
+		auto& component = registry.get<core::CameraComponent>(entity);
 		if (ImGui::CollapsingHeader("Size"))
 			ImGui::DragFloat2("", &component.m_Size.x);
 	});
 
-	RegisterWidget<core::Level>([](entt::registry& registry, entt::entity& entity)
+	RegisterWidget<core::LevelComponent>([](entt::registry& registry, entt::entity& entity)
 	{
-		auto& component = registry.get<core::Level>(entity);
+		auto& component = registry.get<core::LevelComponent>(entity);
 		if (ImGui::CollapsingHeader("Name"))
 			ImGui::Text("%s", component.m_Name.c_str());
 		if (ImGui::CollapsingHeader("Path"))
 			ImGui::Text("%s", component.m_Path.c_str());
 	});
 
-	RegisterWidget<core::Transform>([](entt::registry& registry, entt::entity& entity)
+	RegisterWidget<core::TransformComponent>([](entt::registry& registry, entt::entity& entity)
 	{
-		auto& component = registry.get<core::Transform>(entity);
+		auto& component = registry.get<core::TransformComponent>(entity);
 
 		ImGui::PushID("Translate");
 		if (ImGui::CollapsingHeader("Translate"))
@@ -104,18 +103,10 @@ void debug::EnttDebugger::Initialize(entt::registry& registry)
 		ImGui::PopID();
 	});
 
-	RegisterWidget<debug::Name>([](entt::registry& registry, entt::entity& entity)
+	RegisterWidget<debug::NameComponent>([](entt::registry& registry, entt::entity& entity)
 	{
-		auto& component = registry.get<debug::Name>(entity);
+		auto& component = registry.get<debug::NameComponent>(entity);
 		ImGui::Text("%s", component.m_Name.c_str());
-	});
-
-	RegisterWidget<physics::Velocity>([](entt::registry& registry, entt::entity& entity)
-	{
-		auto& component = registry.get<physics::Velocity>(entity);
-
-		if (ImGui::CollapsingHeader("Velocity"))
-			ImGui::DragFloat2("", &component.m_Velocity.x);
 	});
 }
 

@@ -5,12 +5,11 @@
 #include "Types.hpp"
 #include "VectorHelpers.hpp"
 
-#include "Components/Camera.hpp"
-#include "Components/Name.hpp"
-#include "Components/RigidDynamic.hpp"
-#include "Components/Sprite.hpp"
-#include "Components/Transform.hpp"
-#include "Components/Velocity.hpp"
+#include "Components/CameraComponent.h"
+#include "Components/NameComponent.h"
+#include "Components/RigidDynamicComponent.h"
+#include "Components/SpriteComponent.h"
+#include "Components/TransformComponent.h"
 
 #include <iostream>
 #include <entt/entt.hpp>
@@ -158,17 +157,17 @@ void physics::PhysicsSystem::Initialize(entt::registry& registry)
 
 	m_Material = m_Physics->createMaterial(0.f, 0.f, 0.5f);
 
-	registry.on_destroy<physics::RigidDynamic>().connect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
+	registry.on_destroy<physics::RigidDynamicComponent>().connect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
 }
 
 void physics::PhysicsSystem::Destroy(entt::registry& registry)
 {
-	for (const entt::entity& entity : registry.view<physics::RigidDynamic>())
+	for (const entt::entity& entity : registry.view<physics::RigidDynamicComponent>())
 	{
 		registry.destroy(entity);
 	}
 
-	registry.on_destroy<physics::RigidDynamic>().disconnect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
+	registry.on_destroy<physics::RigidDynamicComponent>().disconnect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
 
 	m_Debugger->disconnect();
 
@@ -195,10 +194,10 @@ void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& ti
 		}
 	}
 
-	for (const entt::entity& entity : registry.view<physics::RigidDynamic, core::Transform>())
+	for (const entt::entity& entity : registry.view<physics::RigidDynamicComponent, core::TransformComponent>())
 	{
-		auto& rigidbody = registry.get<physics::RigidDynamic>(entity);
-		auto& transform = registry.get<core::Transform>(entity);
+		auto& rigidbody = registry.get<physics::RigidDynamicComponent>(entity);
+		auto& transform = registry.get<core::TransformComponent>(entity);
 
 		const physx::PxVec3 translate = rigidbody.m_Actor->getGlobalPose().p;
 		transform.m_Translate = { translate.x, translate.y, translate.z };
@@ -231,7 +230,7 @@ void physics::PhysicsSystem::onWake(physx::PxActor** actors, physx::PxU32 count)
 
 void physics::PhysicsSystem::OnDestroy_RigidBody(entt::registry& registry, entt::entity entity)
 {
-	auto& rigidbody = registry.get<physics::RigidDynamic>(entity);
+	auto& rigidbody = registry.get<physics::RigidDynamicComponent>(entity);
 
 	for (auto* shape : rigidbody.m_Shapes)
 	{

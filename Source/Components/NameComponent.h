@@ -4,7 +4,7 @@
 
 namespace debug
 {
-	struct Name
+	struct NameComponent
 	{
 		std::string m_Name;
 	};

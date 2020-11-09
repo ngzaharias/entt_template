@@ -4,7 +4,7 @@
 
 namespace core
 {
-	struct Transform
+	struct TransformComponent
 	{
 		sf::Vector3f m_Translate = { 0.f, 0.f, 0.f };
 		sf::Vector3f m_Rotate = { 0.f, 0.f, 0.f };

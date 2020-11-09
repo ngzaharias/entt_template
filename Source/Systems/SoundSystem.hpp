@@ -3,7 +3,7 @@
 #include "CircularBuffer.hpp"
 #include "ObjectPool.hpp"
 
-#include "Components/Sound.hpp"
+#include "Components/SoundComponent.h"
 
 #include <string>
 #include <vector>

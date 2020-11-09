@@ -2,9 +2,9 @@
 
 #include "VectorHelpers.hpp"
 
-#include "Components/Camera.hpp"
-#include "Components/Sprite.hpp"
-#include "Components/Transform.hpp"
+#include "Components/CameraComponent.h"
+#include "Components/SpriteComponent.h"
+#include "Components/TransformComponent.h"
 
 #include <entt/entt.hpp>
 #include <SFML/Graphics.hpp>
@@ -19,13 +19,13 @@ render::RenderSystem::~RenderSystem()
 
 void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* window)
 {
-	const auto cameraView = registry.view<core::Camera, core::Transform>();
+	const auto cameraView = registry.view<core::CameraComponent, core::TransformComponent>();
 	for (const entt::entity& cameraEntity : cameraView)
 	{
 		// create the view from the camera
 		{
-			auto& camera = cameraView.get<core::Camera>(cameraEntity);
-			auto& transform = cameraView.get<core::Transform>(cameraEntity);
+			auto& camera = cameraView.get<core::CameraComponent>(cameraEntity);
+			auto& transform = cameraView.get<core::TransformComponent>(cameraEntity);
 
 			sf::Vector2f size = Multiply(camera.m_Size, { 1.f, -1.f });
 
@@ -37,11 +37,11 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 		}
 
 		// render everything
-		const auto renderView = registry.view<render::Sprite, core::Transform>();
+		const auto renderView = registry.view<render::SpriteComponent, core::TransformComponent>();
 		for (const entt::entity& renderEntity : renderView)
 		{
-			auto& sprite = renderView.get<render::Sprite>(renderEntity);
-			auto& transform = renderView.get<core::Transform>(renderEntity);
+			auto& sprite = renderView.get<render::SpriteComponent>(renderEntity);
+			auto& transform = renderView.get<core::TransformComponent>(renderEntity);
 
 			const sf::Texture* texture = sprite.m_Sprite.getTexture();
 			const sf::Vector2f size = sf::Vector2f(texture->getSize());

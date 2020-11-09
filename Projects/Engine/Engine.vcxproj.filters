@@ -16,15 +16,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Components\Name.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Transform.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Velocity.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Game.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -46,17 +37,8 @@
     <ClInclude Include="..\..\Source\Application.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Level.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Camera.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EnttDebugger.hpp">
       <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Sprite.hpp">
-      <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CircularBuffer.hpp">
       <Filter>Source</Filter>
@@ -73,9 +55,6 @@
     <ClInclude Include="..\..\Source\Systems\SoundSystem.hpp">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Sound.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Types.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -85,17 +64,8 @@
     <ClInclude Include="..\..\Source\VectorHelpers.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Components\Shape.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\CollisionChannels.hpp">
       <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\RigidDynamic.hpp">
-      <Filter>Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Components\RigidStatic.hpp">
-      <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Strings\Name.hpp">
       <Filter>Source\Strings</Filter>
@@ -105,6 +75,30 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Strings\NameTable.hpp">
       <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\CameraComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\LevelComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\NameComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\RigidDynamicComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\RigidStaticComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\SoundComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\SpriteComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Components\TransformComponent.h">
+      <Filter>Source\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,12 +5,12 @@
 #include "JsonHelper.hpp"
 #include "Screen.hpp"
 
-#include "Components/Camera.hpp"
-#include "Components/Name.hpp"
-#include "Components/RigidDynamic.hpp"
-#include "Components/RigidStatic.hpp"
-#include "Components/Sprite.hpp"
-#include "Components/Transform.hpp"
+#include "Components/CameraComponent.h"
+#include "Components/NameComponent.h"
+#include "Components/RigidDynamicComponent.h"
+#include "Components/RigidStaticComponent.h"
+#include "Components/SpriteComponent.h"
+#include "Components/TransformComponent.h"
 
 #include <filesystem>
 #include <iostream>
@@ -72,14 +72,14 @@ void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filep
 
 	// name
 	{
-		debug::Name& name = registry.emplace<debug::Name>(entity);
+		debug::NameComponent& name = registry.emplace<debug::NameComponent>(entity);
 		name.m_Name = json::ParseString(document, "name", "<unknown>");
 	}
 
 	// transform
 	if (auto itr_transform = document.FindMember("transform"); itr_transform != document.MemberEnd())
 	{
-		core::Transform& transform = registry.emplace<core::Transform>(entity);
+		core::TransformComponent& transform = registry.emplace<core::TransformComponent>(entity);
 
 		if (auto itr_translate = itr_transform->value.FindMember("translate");  itr_translate != itr_transform->value.MemberEnd())
 		{
@@ -109,7 +109,7 @@ void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filep
 	// camera
 	if (auto itr_camera = document.FindMember("camera"); itr_camera != document.MemberEnd())
 	{
-		core::Camera& camera = registry.emplace<core::Camera>(entity);
+		core::CameraComponent& camera = registry.emplace<core::CameraComponent>(entity);
 		camera.m_Size.x = static_cast<float>(json::ParseInt(itr_camera->value, "width", 800));
 		camera.m_Size.y = static_cast<float>(json::ParseInt(itr_camera->value, "height", 600));
 	}
@@ -125,7 +125,7 @@ void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filep
 		physx::PxVec3 translate = physx::PxVec3(0.f);
 		physx::PxQuat rotate = physx::PxQuat(physx::PxIdentity);
 		physx::PxVec3 scale = physx::PxVec3(1.f);
-		if (core::Transform* component = registry.try_get<core::Transform>(entity))
+		if (core::TransformComponent* component = registry.try_get<core::TransformComponent>(entity))
 		{
 			const float radianX = math::ToRadians(component->m_Rotate.x);
 			const float radianY = math::ToRadians(component->m_Rotate.y);
@@ -164,7 +164,7 @@ void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filep
 		
 		if (auto itr_dynamic = itr_physics->value.FindMember("dynamic"); itr_dynamic != itr_physics->value.MemberEnd())
 		{
-			physics::RigidDynamic& rigidDynamic = registry.emplace<physics::RigidDynamic>(entity);
+			physics::RigidDynamicComponent& rigidDynamic = registry.emplace<physics::RigidDynamicComponent>(entity);
 			rigidDynamic.m_Actor = physics->createRigidDynamic({ translate, rotate });
 			rigidDynamic.m_Actor->userData = reinterpret_cast<void*>(entity);
 			rigidDynamic.m_Shapes.push_back(shape);
@@ -191,7 +191,7 @@ void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filep
 		}
 		else if (auto itr_static = itr_physics->value.FindMember("static"); itr_static != itr_physics->value.MemberEnd())
 		{
-			physics::RigidStatic& rigidStatic = registry.emplace<physics::RigidStatic>(entity);
+			physics::RigidStaticComponent& rigidStatic = registry.emplace<physics::RigidStaticComponent>(entity);
 			rigidStatic.m_Actor = physics->createRigidStatic({ translate, rotate });
 			rigidStatic.m_Actor->userData = reinterpret_cast<void*>(entity);
 			rigidStatic.m_Shapes.push_back(shape);
@@ -205,7 +205,7 @@ void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filep
 	// sprite
 	if (auto itr_sprite = document.FindMember("sprite"); itr_sprite != document.MemberEnd())
 	{
-		render::Sprite& sprite = registry.emplace<render::Sprite>(entity);
+		render::SpriteComponent& sprite = registry.emplace<render::SpriteComponent>(entity);
 
 		if (auto itr_size = itr_sprite->value.FindMember("size"); itr_size != itr_sprite->value.MemberEnd())
 		{

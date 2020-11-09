@@ -4,7 +4,7 @@
 
 namespace core
 {
-	struct Camera
+	struct CameraComponent
 	{
 		sf::Vector2f m_Size;
 	};
