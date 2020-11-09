@@ -5,8 +5,8 @@
 
 namespace string
 {
-	constexpr char* delimiters = " .,:;'\"<>[]{}()\\|/";
-	constexpr char* whitespace = " \t\f\v\n\r";
+	constexpr char* s_Delimiters = " .,:;'\"<>[]{}()\\|/";
+	constexpr char* s_Whitespace = " \t\f\v\n\r";
 
 	bool Contains(std::string string, std::string substring);
 	

@@ -17,14 +17,11 @@ class Map;
 
 class Game final
 {
-	static Game* s_Instance;
-
-public:
-	Game();
-	~Game();
-
 public:
 	static Game& Instance();
+
+	Game();
+	~Game();
 
 	void Initialise(entt::registry& registry);
 	void Destroy(entt::registry& registry);

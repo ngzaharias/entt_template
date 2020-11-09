@@ -11,6 +11,9 @@
     <Filter Include="Source\Systems">
       <UniqueIdentifier>{fb5788a2-6e3a-46aa-a4f5-d62fc2718692}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Strings">
+      <UniqueIdentifier>{9e5119d3-7d22-40e3-b41f-545de4d6e3db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Components\Name.hpp">
@@ -50,9 +53,6 @@
       <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EnttDebugger.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\StringHelper.hpp">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Components\Sprite.hpp">
@@ -97,6 +97,15 @@
     <ClInclude Include="..\..\Source\Components\RigidStatic.hpp">
       <Filter>Source\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Strings\Name.hpp">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Strings\StringHelpers.hpp">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Strings\NameTable.hpp">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Game.cpp">
@@ -120,9 +129,6 @@
     <ClCompile Include="..\..\Source\EnttDebugger.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\StringHelper.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
@@ -137,6 +143,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\VectorHelpers.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Strings\StringHelpers.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Strings\NameTable.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Strings\Name.cpp">
+      <Filter>Source\Strings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

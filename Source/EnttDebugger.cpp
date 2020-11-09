@@ -1,13 +1,12 @@
 #include "EnttDebugger.hpp"
 
-#include "StringHelper.hpp"
-
 #include "Components/Camera.hpp"
 #include "Components/Level.hpp"
 #include "Components/Name.hpp"
 #include "Components/Sprite.hpp"
 #include "Components/Transform.hpp"
 #include "Components/Velocity.hpp"
+#include "Strings/StringHelpers.hpp"
 
 #include <iostream>
 #include <entt/entt.hpp>

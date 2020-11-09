@@ -4,7 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
-Game* Game::s_Instance = nullptr;
+namespace
+{
+	Game* s_Instance = nullptr;
+}
 
 Game::Game()
 	: m_Registry(nullptr)

@@ -1,4 +1,4 @@
-#include "StringHelper.hpp"
+#include "StringHelpers.hpp"
 
 #include <algorithm>
 
@@ -75,8 +75,8 @@ void string::TrimRight(std::string& string, const std::string_view& substring)
 
 void string::TrimWhitespace(std::string& string)
 {
-	std::string::size_type begin = string.find_first_not_of(whitespace, 0);
-	std::string::size_type end = string.find_last_not_of(whitespace) + 1;
+	std::string::size_type begin = string.find_first_not_of(s_Whitespace, 0);
+	std::string::size_type end = string.find_last_not_of(s_Whitespace) + 1;
 	if (begin != std::string::npos && end != std::string::npos)
 	{
 		string = string.substr(begin, end - begin);

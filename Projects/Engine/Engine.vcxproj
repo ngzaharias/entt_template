@@ -32,7 +32,9 @@
     <ClInclude Include="..\..\Source\ObjectPool.hpp" />
     <ClInclude Include="..\..\Source\Random.hpp" />
     <ClInclude Include="..\..\Source\Screen.hpp" />
-    <ClInclude Include="..\..\Source\StringHelper.hpp" />
+    <ClInclude Include="..\..\Source\Strings\Name.hpp" />
+    <ClInclude Include="..\..\Source\Strings\NameTable.hpp" />
+    <ClInclude Include="..\..\Source\Strings\StringHelpers.hpp" />
     <ClInclude Include="..\..\Source\Systems\LevelSystem.hpp" />
     <ClInclude Include="..\..\Source\Systems\PhysicsSystem.hpp" />
     <ClInclude Include="..\..\Source\Systems\RenderSystem.hpp" />
@@ -48,7 +50,9 @@
     <ClCompile Include="..\..\Source\JsonHelper.cpp" />
     <ClCompile Include="..\..\Source\Main.cpp" />
     <ClCompile Include="..\..\Source\Screen.cpp" />
-    <ClCompile Include="..\..\Source\StringHelper.cpp" />
+    <ClCompile Include="..\..\Source\Strings\Name.cpp" />
+    <ClCompile Include="..\..\Source\Strings\NameTable.cpp" />
+    <ClCompile Include="..\..\Source\Strings\StringHelpers.cpp" />
     <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp" />
     <ClCompile Include="..\..\Source\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\Source\Systems\RenderSystem.cpp" />
