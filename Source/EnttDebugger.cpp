@@ -1,11 +1,11 @@
-#include "EnttDebugger.hpp"
+#include "EnttDebugger.h"
 
 #include "Components/CameraComponent.h"
 #include "Components/LevelComponent.h"
 #include "Components/NameComponent.h"
 #include "Components/SpriteComponent.h"
 #include "Components/TransformComponent.h"
-#include "Strings/StringHelpers.hpp"
+#include "Strings/StringHelpers.h"
 
 #include <iostream>
 #include <entt/entt.hpp>

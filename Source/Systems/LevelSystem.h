@@ -27,11 +27,11 @@ namespace core
 
 		void Update(entt::registry& registry, const sf::Time& time);
 
-		bool Load(entt::registry& registry);
+		bool Load(entt::registry& registry, const std::string& directory);
 		void Unload(entt::registry& registry);
 
 	private:
-		void CreateEntity(entt::registry& registry, const char* filepath);
+		entt::entity CreateEntity(entt::registry& registry, const char* filepath);
 
 	private:
 		physics::PhysicsSystem& m_PhysicsSystem;

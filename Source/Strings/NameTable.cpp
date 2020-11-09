@@ -1,4 +1,4 @@
-#include "NameTable.hpp"
+#include "NameTable.h"
 
 #include <assert.h>
 

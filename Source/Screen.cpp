@@ -1,4 +1,4 @@
-#include "Screen.hpp"
+#include "Screen.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Mouse.hpp>

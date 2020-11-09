@@ -1,10 +1,10 @@
 #pragma once
 
-#include "EnttDebugger.hpp"
-#include "Systems/LevelSystem.hpp"
-#include "Systems/PhysicsSystem.hpp"
-#include "Systems/RenderSystem.hpp"
-#include "Systems/SoundSystem.hpp"
+#include "EnttDebugger.h"
+#include "Systems/LevelSystem.h"
+#include "Systems/PhysicsSystem.h"
+#include "Systems/RenderSystem.h"
+#include "Systems/SoundSystem.h"
 
 #include <entt/fwd.hpp>
 

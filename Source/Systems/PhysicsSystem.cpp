@@ -1,9 +1,9 @@
-#include "PhysicsSystem.hpp"
+#include "PhysicsSystem.h"
 
-#include "Math.hpp"
-#include "Screen.hpp"
-#include "Types.hpp"
-#include "VectorHelpers.hpp"
+#include "Math.h"
+#include "Screen.h"
+#include "Types.h"
+#include "VectorHelpers.h"
 
 #include "Components/CameraComponent.h"
 #include "Components/NameComponent.h"
@@ -12,10 +12,10 @@
 #include "Components/TransformComponent.h"
 
 #include <iostream>
-#include <entt/entt.hpp>
+#include <entt/entt.h>
 #include <PhysX/PxPhysicsAPI.h>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/System/Time.hpp>
+#include <SFML/Graphics/Rect.h>
+#include <SFML/System/Time.h>
 
 namespace
 {

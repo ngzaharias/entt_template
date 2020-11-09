@@ -1,4 +1,4 @@
-#include "JsonHelper.hpp"
+#include "JsonHelpers.h"
 
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/error/en.h>

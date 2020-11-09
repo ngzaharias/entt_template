@@ -1,6 +1,6 @@
-#include "RenderSystem.hpp"
+#include "RenderSystem.h"
 
-#include "VectorHelpers.hpp"
+#include "VectorHelpers.h"
 
 #include "Components/CameraComponent.h"
 #include "Components/SpriteComponent.h"

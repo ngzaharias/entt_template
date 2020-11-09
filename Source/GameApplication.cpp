@@ -1,6 +1,6 @@
-#include "GameApplication.hpp"
+#include "GameApplication.h"
 
-#include "Game.hpp"
+#include "Game.h"
 
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>

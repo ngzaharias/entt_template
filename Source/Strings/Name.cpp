@@ -1,9 +1,10 @@
-#include "Name.hpp"
+#include "Name.h"
 
-#include "NameTable.hpp"
+#include "NameTable.h"
 
-string::Name::Name()
+const bool string::Name::IsEmpty() const
 {
+	return m_Hash == Unassigned;
 }
 
 const char* string::Name::ToChar() const

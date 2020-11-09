@@ -11,9 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Application.hpp" />
-    <ClInclude Include="..\..\Source\CircularBuffer.hpp" />
-    <ClInclude Include="..\..\Source\CollisionChannels.hpp" />
+    <ClInclude Include="..\..\Source\Application.h" />
+    <ClInclude Include="..\..\Source\CollisionChannels.h" />
     <ClInclude Include="..\..\Source\Components\CameraComponent.h" />
     <ClInclude Include="..\..\Source\Components\LevelComponent.h" />
     <ClInclude Include="..\..\Source\Components\NameComponent.h" />
@@ -22,30 +21,38 @@
     <ClInclude Include="..\..\Source\Components\SoundComponent.h" />
     <ClInclude Include="..\..\Source\Components\SpriteComponent.h" />
     <ClInclude Include="..\..\Source\Components\TransformComponent.h" />
-    <ClInclude Include="..\..\Source\EnttDebugger.hpp" />
-    <ClInclude Include="..\..\Source\Game.hpp" />
-    <ClInclude Include="..\..\Source\GameApplication.hpp" />
-    <ClInclude Include="..\..\Source\JsonHelper.hpp" />
-    <ClInclude Include="..\..\Source\Math.hpp" />
-    <ClInclude Include="..\..\Source\ObjectPool.hpp" />
-    <ClInclude Include="..\..\Source\Random.hpp" />
-    <ClInclude Include="..\..\Source\Screen.hpp" />
-    <ClInclude Include="..\..\Source\Strings\Name.hpp" />
-    <ClInclude Include="..\..\Source\Strings\NameTable.hpp" />
-    <ClInclude Include="..\..\Source\Strings\StringHelpers.hpp" />
-    <ClInclude Include="..\..\Source\Systems\LevelSystem.hpp" />
-    <ClInclude Include="..\..\Source\Systems\PhysicsSystem.hpp" />
-    <ClInclude Include="..\..\Source\Systems\RenderSystem.hpp" />
-    <ClInclude Include="..\..\Source\Systems\SoundSystem.hpp" />
-    <ClInclude Include="..\..\Source\Types.hpp" />
-    <ClInclude Include="..\..\Source\VectorHelpers.hpp" />
+    <ClInclude Include="..\..\Source\Containers\CircularBuffer.h" />
+    <ClInclude Include="..\..\Source\Containers\ObjectPool.h" />
+    <ClInclude Include="..\..\Source\EnttDebugger.h" />
+    <ClInclude Include="..\..\Source\Game.h" />
+    <ClInclude Include="..\..\Source\GameApplication.h" />
+    <ClInclude Include="..\..\Source\JSON\JsonHelpers.h" />
+    <ClInclude Include="..\..\Source\Math.h" />
+    <ClInclude Include="..\..\Source\Random.h" />
+    <ClInclude Include="..\..\Source\Screen.h" />
+    <ClInclude Include="..\..\Source\Strings\Name.h" />
+    <ClInclude Include="..\..\Source\Strings\NameTable.h" />
+    <ClInclude Include="..\..\Source\Strings\StringHelpers.h" />
+    <ClInclude Include="..\..\Source\Systems\LevelSystem.h" />
+    <ClInclude Include="..\..\Source\Systems\PhysicsSystem.h" />
+    <ClInclude Include="..\..\Source\Systems\RenderSystem.h" />
+    <ClInclude Include="..\..\Source\Systems\SoundSystem.h" />
+    <ClInclude Include="..\..\Source\Types.h" />
+    <ClInclude Include="..\..\Source\VectorHelpers.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Containers\CircularBuffer.inl" />
+    <None Include="..\..\Source\Containers\ObjectPool.inl" />
+    <None Include="..\..\Source\EnttDebugger.inl" />
+    <None Include="..\..\Source\Math.inl" />
+    <None Include="..\..\Source\Random.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Application.cpp" />
     <ClCompile Include="..\..\Source\EnttDebugger.cpp" />
     <ClCompile Include="..\..\Source\Game.cpp" />
     <ClCompile Include="..\..\Source\GameApplication.cpp" />
-    <ClCompile Include="..\..\Source\JsonHelper.cpp" />
+    <ClCompile Include="..\..\Source\JSON\JsonHelpers.cpp" />
     <ClCompile Include="..\..\Source\Main.cpp" />
     <ClCompile Include="..\..\Source\Screen.cpp" />
     <ClCompile Include="..\..\Source\Strings\Name.cpp" />
@@ -56,13 +63,6 @@
     <ClCompile Include="..\..\Source\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Systems\SoundSystem.cpp" />
     <ClCompile Include="..\..\Source\VectorHelpers.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Source\CircularBuffer.inl" />
-    <None Include="..\..\Source\EnttDebugger.inl" />
-    <None Include="..\..\Source\Math.inl" />
-    <None Include="..\..\Source\ObjectPool.inl" />
-    <None Include="..\..\Source\Random.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2471547F-763A-49BA-9A17-6814171F1849}</ProjectGuid>

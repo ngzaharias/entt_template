@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CircularBuffer.hpp"
-#include "ObjectPool.hpp"
+#include "Containers/CircularBuffer.h"
+#include "Containers/ObjectPool.h"
 
 #include "Components/SoundComponent.h"
 

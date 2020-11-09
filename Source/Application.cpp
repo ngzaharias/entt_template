@@ -1,17 +1,13 @@
-#include "Application.hpp"
+#include "Application.h"
 
-#include "Random.hpp"
-#include "Screen.hpp"
-
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+#include "Random.h"
+#include "Screen.h"
 
 #include <random>
 #include <time.h>
-
-struct structa { int v; };
-struct structb { bool v; };
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 Application::Application() 
 { 

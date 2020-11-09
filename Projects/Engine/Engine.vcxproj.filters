@@ -14,68 +14,14 @@
     <Filter Include="Source\Strings">
       <UniqueIdentifier>{9e5119d3-7d22-40e3-b41f-545de4d6e3db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Containers">
+      <UniqueIdentifier>{a4eca0e9-1797-4508-8917-ad8d84f8a62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\JSON">
+      <UniqueIdentifier>{7a54b7e9-0eb7-4005-97af-31620e916695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Game.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\GameApplication.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\JsonHelper.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Math.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Random.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Screen.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Application.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EnttDebugger.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\CircularBuffer.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Systems\LevelSystem.hpp">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Systems\RenderSystem.hpp">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Systems\PhysicsSystem.hpp">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Systems\SoundSystem.hpp">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Types.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ObjectPool.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\VectorHelpers.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\CollisionChannels.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Strings\Name.hpp">
-      <Filter>Source\Strings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Strings\StringHelpers.hpp">
-      <Filter>Source\Strings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Strings\NameTable.hpp">
-      <Filter>Source\Strings</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Components\CameraComponent.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
@@ -100,15 +46,119 @@
     <ClInclude Include="..\..\Source\Components\TransformComponent.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Containers\CircularBuffer.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Containers\ObjectPool.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\JSON\JsonHelpers.h">
+      <Filter>Source\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Strings\Name.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Strings\NameTable.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Strings\StringHelpers.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\LevelSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\PhysicsSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\RenderSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Systems\SoundSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Application.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CollisionChannels.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EnttDebugger.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GameApplication.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Random.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Screen.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Types.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\VectorHelpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Source\Containers\CircularBuffer.inl">
+      <Filter>Source\Containers</Filter>
+    </None>
+    <None Include="..\..\Source\Containers\ObjectPool.inl">
+      <Filter>Source\Containers</Filter>
+    </None>
+    <None Include="..\..\Source\EnttDebugger.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\Math.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\Random.inl">
+      <Filter>Source</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\JSON\JsonHelpers.cpp">
+      <Filter>Source\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Strings\Name.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Strings\NameTable.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Strings\StringHelpers.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\PhysicsSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\RenderSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Systems\SoundSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Application.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EnttDebugger.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Game.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\GameApplication.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\JsonHelper.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
@@ -117,52 +167,8 @@
     <ClCompile Include="..\..\Source\Screen.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Application.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\EnttDebugger.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Systems\RenderSystem.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Systems\PhysicsSystem.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Systems\SoundSystem.cpp">
-      <Filter>Source\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\VectorHelpers.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Strings\StringHelpers.cpp">
-      <Filter>Source\Strings</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Strings\NameTable.cpp">
-      <Filter>Source\Strings</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Strings\Name.cpp">
-      <Filter>Source\Strings</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Source\EnttDebugger.inl">
-      <Filter>Source</Filter>
-    </None>
-    <None Include="..\..\Source\CircularBuffer.inl">
-      <Filter>Source</Filter>
-    </None>
-    <None Include="..\..\Source\Random.inl">
-      <Filter>Source</Filter>
-    </None>
-    <None Include="..\..\Source\ObjectPool.inl">
-      <Filter>Source</Filter>
-    </None>
-    <None Include="..\..\Source\Math.inl">
-      <Filter>Source</Filter>
-    </None>
   </ItemGroup>
 </Project>

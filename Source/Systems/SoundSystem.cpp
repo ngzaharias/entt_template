@@ -1,14 +1,14 @@
-#include "SoundSystem.hpp"
+#include "SoundSystem.h"
 
-#include "Random.hpp"
+#include "Random.h"
 
 #include "Components/NameComponent.h"
 #include "Components/SoundComponent.h"
 #include "Components/TransformComponent.h"
 
 #include <iostream>
-#include <entt/entt.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
+#include <entt/entt.h>
+#include <SFML/Audio/SoundBuffer.h>
 
 audio::SoundSystem::SoundSystem()
 {

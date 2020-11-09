@@ -1,4 +1,4 @@
-#include "Math.hpp"
+#include "Math.h"
 
 inline float math::Sign(float value)
 {

@@ -1,16 +1,17 @@
-#include "LevelSystem.hpp"
+#include "LevelSystem.h"
 
-#include "Game.hpp"
-#include "Math.hpp"
-#include "JsonHelper.hpp"
-#include "Screen.hpp"
-
+#include "Game.h"
+#include "Math.h"
+#include "Screen.h"
 #include "Components/CameraComponent.h"
+#include "Components/LevelComponent.h"
 #include "Components/NameComponent.h"
 #include "Components/RigidDynamicComponent.h"
 #include "Components/RigidStaticComponent.h"
 #include "Components/SpriteComponent.h"
 #include "Components/TransformComponent.h"
+#include "JSON/JsonHelpers.h"
+#include "Strings/Name.h"
 
 #include <filesystem>
 #include <iostream>
@@ -20,6 +21,8 @@
 #include <PhysX/PxPhysicsAPI.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+
+const string::Name strDefaultPath = NAME("Assets/Levels/Default/");
 
 core::LevelSystem::LevelSystem(physics::PhysicsSystem& physicsSystem)
 	: m_PhysicsSystem(physicsSystem)
@@ -33,16 +36,7 @@ core::LevelSystem::~LevelSystem()
 
 void core::LevelSystem::Initialize(entt::registry& registry)
 {
-	physx::PxMaterial* material = Game::Instance().m_PhysicsSystem.m_Material;
-	physx::PxPhysics* physics = Game::Instance().m_PhysicsSystem.m_Physics;
-	physx::PxScene* scene = Game::Instance().m_PhysicsSystem.m_Scene;
-
-	std::string directory = "Assets/Levels/Default/";
-	for (const auto& entry : std::filesystem::directory_iterator(directory))
-	{
-		const std::filesystem::path& path = entry.path();
-		CreateEntity(registry, path.string().c_str());
-	}
+	Load(registry, strDefaultPath.ToChar());
 }
 
 void core::LevelSystem::Destroy(entt::registry& registry)
@@ -53,8 +47,18 @@ void core::LevelSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 }
 
-bool core::LevelSystem::Load(entt::registry& registry)
+bool core::LevelSystem::Load(entt::registry& registry, const std::string& directory)
 {
+	for (const auto& entry : std::filesystem::directory_iterator(directory))
+	{
+		const std::filesystem::path& path = entry.path();
+		const entt::entity entity = CreateEntity(registry, path.string().c_str());
+
+		core::LevelComponent& levelComponent = registry.emplace<core::LevelComponent>(entity);
+		levelComponent.m_Name = directory;
+		levelComponent.m_Path = directory;
+	}
+
 	return true;
 }
 
@@ -62,13 +66,13 @@ void core::LevelSystem::Unload(entt::registry& registry)
 {
 }
 
-void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filepath)
+entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const char* filepath)
 {
 	rapidjson::Document document;
 	if (!json::LoadDocument(filepath, document))
-		return;
+		return entt::null;
 
-	entt::entity entity = registry.create();
+	const entt::entity entity = registry.create();
 
 	// name
 	{
@@ -223,4 +227,6 @@ void core::LevelSystem::CreateEntity(entt::registry& registry, const char* filep
 			sprite.m_Sprite.setOrigin(sf::Vector2f(texture.getSize()) * 0.5f);
 		}
 	}
+
+	return entity;
 }

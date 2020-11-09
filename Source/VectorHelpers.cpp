@@ -1,4 +1,4 @@
-#include "VectorHelpers.hpp"
+#include "VectorHelpers.h"
 
 #include <cmath>
 
