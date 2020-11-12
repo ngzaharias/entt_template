@@ -19,6 +19,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Bin\PhysX\;$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Library\;$(SolutionDir)\Library\SFML\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>flac.lib;freetype.lib;gdi32.lib;ogg.lib;openal32.lib;opengl32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;winmm.lib;ws2_32.lib;Engine.lib;Imgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4098 /ignore:4217 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
