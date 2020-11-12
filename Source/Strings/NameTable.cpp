@@ -6,50 +6,50 @@ namespace
 {
 	std::string strEmpty;
 
-	string::NameTable* s_Instance = nullptr;
+	str::NameTable* s_Instance = nullptr;
 }
 
-string::NameTable& string::NameTable::Instance()
+str::NameTable& str::NameTable::Instance()
 {
 	if (!s_Instance)
 		s_Instance = new NameTable();
 	return *s_Instance;
 }
 
-string::NameTable::NameTable()
+str::NameTable::NameTable()
 {
 	s_Instance = this;
 }
 
-string::NameTable::~NameTable()
+str::NameTable::~NameTable()
 {
 	s_Instance = nullptr;
 }
 
-string::Hash string::NameTable::Register(const char* string)
+str::Hash str::NameTable::Register(const char* string)
 {
 	const std::string value = string;
 	const Hash hash = std::hash<std::string>{}(value);
-	const auto itr = m_Strings.find(hash);
-	if (itr == m_Strings.end())
-		m_Strings[hash] = string;
+	const auto itr = m_Values.find(hash);
+	if (itr == m_Values.end())
+		m_Values[hash] = string;
 	return hash;
 }
 
-string::Hash string::NameTable::Register(const std::string_view& string)
+str::Hash str::NameTable::Register(const std::string_view& string)
 {
 	const std::string value = std::string(string);
 	const Hash hash = std::hash<std::string>{}(value);
-	const auto itr = m_Strings.find(hash);
-	if (itr != m_Strings.end())
-		m_Strings[hash] = string;
+	const auto itr = m_Values.find(hash);
+	if (itr != m_Values.end())
+		m_Values[hash] = string;
 	return hash;
 }
 
-const std::string& string::NameTable::Retrieve(const Hash& hash) const
+const std::string& str::NameTable::Retrieve(const Hash& hash) const
 {
-	const auto itr = m_Strings.find(hash);
-	if (itr != m_Strings.end())
+	const auto itr = m_Values.find(hash);
+	if (itr != m_Values.end())
 		return itr->second;
 	return strEmpty;
 }

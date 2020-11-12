@@ -51,15 +51,14 @@ namespace physics
 		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnTriggerSignal;
 
 	public:
-		physx::PxMaterial* m_Material;
-		physx::PxPhysics* m_Physics;
-		physx::PxScene* m_Scene;
+		physx::PxMaterial* m_Material = nullptr;
+		physx::PxPhysics* m_Physics = nullptr;
+		physx::PxScene* m_Scene = nullptr;
 
 		// debug
-		physx::PxPvd* m_Debugger;
-		physx::PxPvdTransport* m_Transport;
+		physx::PxPvd* m_Debugger = nullptr;
+		physx::PxPvdTransport* m_Transport = nullptr;
 
-		std::vector<entt::entity> m_OnContact;
-		float m_DeltaTimeAccumulated;
+		float m_DeltaTimeAccumulated = 0.f;
 	};
 };

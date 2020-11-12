@@ -1,6 +1,6 @@
 #include "PhysicsSystem.h"
 
-#include "Math.h"
+#include "MathHelpers.h"
 #include "Screen.h"
 #include "Types.h"
 #include "VectorHelpers.h"
@@ -12,10 +12,10 @@
 #include "Components/TransformComponent.h"
 
 #include <iostream>
-#include <entt/entt.h>
+#include <entt/entt.hpp>
 #include <PhysX/PxPhysicsAPI.h>
-#include <SFML/Graphics/Rect.h>
-#include <SFML/System/Time.h>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Time.hpp>
 
 namespace
 {
@@ -127,7 +127,6 @@ namespace physx
 }
 
 physics::PhysicsSystem::PhysicsSystem()
-	: m_DeltaTimeAccumulated(0.f)
 {
 }
 
@@ -155,7 +154,7 @@ void physics::PhysicsSystem::Initialize(entt::registry& registry)
 	sceneDesc.simulationEventCallback = this;
 	m_Scene = m_Physics->createScene(sceneDesc);
 
-	m_Material = m_Physics->createMaterial(0.f, 0.f, 0.5f);
+	m_Material = m_Physics->createMaterial(0.f, 0.f, 1.f);
 
 	registry.on_destroy<physics::RigidDynamicComponent>().connect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
 }
@@ -196,10 +195,10 @@ void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& ti
 
 	for (const entt::entity& entity : registry.view<physics::RigidDynamicComponent, core::TransformComponent>())
 	{
-		auto& rigidbody = registry.get<physics::RigidDynamicComponent>(entity);
+		auto& rigidDynamic = registry.get<physics::RigidDynamicComponent>(entity);
 		auto& transform = registry.get<core::TransformComponent>(entity);
 
-		const physx::PxVec3 translate = rigidbody.m_Actor->getGlobalPose().p;
+		const physx::PxVec3 translate = rigidDynamic.m_Actor->getGlobalPose().p;
 		transform.m_Translate = { translate.x, translate.y, translate.z };
 	}
 }
@@ -212,8 +211,8 @@ void physics::PhysicsSystem::onContact(const physx::PxContactPairHeader& pairHea
 {
 	entt::entity entity0 = entt::entity(size_t(pairHeader.actors[0]->userData));
 	entt::entity entity1 = entt::entity(size_t(pairHeader.actors[1]->userData));
-	m_OnContact.emplace_back(entity0);
-	m_OnContact.emplace_back(entity1);
+
+	m_OnContactSignal.publish(entity0, entity1);
 }
 
 void physics::PhysicsSystem::onSleep(physx::PxActor** actors, physx::PxU32 count)

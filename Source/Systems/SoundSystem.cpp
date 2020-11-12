@@ -1,14 +1,13 @@
 #include "SoundSystem.h"
 
+#include "Game.h"
 #include "Random.h"
-
 #include "Components/NameComponent.h"
 #include "Components/SoundComponent.h"
 #include "Components/TransformComponent.h"
 
-#include <iostream>
-#include <entt/entt.h>
-#include <SFML/Audio/SoundBuffer.h>
+#include <entt/entt.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 
 audio::SoundSystem::SoundSystem()
 {
@@ -28,11 +27,12 @@ void audio::SoundSystem::Destroy(entt::registry& registry)
 
 void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 {
+	core::ResourceManager* resourceManager = Game::Instance().m_ResourceManager;
+
 	for (const audio::Request& request : m_Requests)
 	{
-		const char* soundName = "<unknown>";
-		sf::SoundBuffer* soundBuffer = nullptr;
-		if (!soundBuffer)
+		const core::SoundHandle handle = resourceManager->GetResource<core::SoundResource>(request.m_Filepath);
+		if (!handle)
 			continue;
 
 		entt::entity entity = registry.create();
@@ -40,9 +40,10 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 		auto& sound = registry.emplace<audio::SoundComponent>(entity);
 		auto& transform = registry.emplace<core::TransformComponent>(entity);
 
-		name.m_Name = soundName;
+		name.m_Name = request.m_Filepath.ToString();
+		sound.m_Handle = handle;
 		sound.m_Sound = m_SoundPool.RequestObject();
-		sound.m_Sound->setBuffer(*soundBuffer);
+		sound.m_Sound->setBuffer(handle->m_SoundBuffer);
 		sound.m_Sound->setVolume(20.f);
 		sound.m_Sound->play();
 	}
@@ -60,8 +61,8 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 	}
 }
 
-void audio::SoundSystem::PlaySound()
+void audio::SoundSystem::PlaySound(const str::Path& filepath)
 {
-	m_Requests.push_back({});
+	m_Requests.push_back({ filepath });
 }
 

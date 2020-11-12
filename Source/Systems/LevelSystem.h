@@ -1,7 +1,13 @@
 #pragma once
 
+#include <Strings/Path.h>
+
 #include <entt/fwd.hpp>
-#include <SFML/Graphics/Texture.hpp>
+
+namespace audio
+{
+	class SoundSystem;
+}
 
 namespace physics
 {
@@ -19,7 +25,7 @@ namespace core
 	class LevelSystem
 	{
 	public:
-		LevelSystem(physics::PhysicsSystem& physicsSystem);
+		LevelSystem(physics::PhysicsSystem& physicsSystem, audio::SoundSystem& soundSystem);
 		~LevelSystem();
 
 		void Initialize(entt::registry& registry);
@@ -27,18 +33,16 @@ namespace core
 
 		void Update(entt::registry& registry, const sf::Time& time);
 
-		bool Load(entt::registry& registry, const std::string& directory);
+		bool Load(entt::registry& registry, const str::Path& directory);
 		void Unload(entt::registry& registry);
 
 	private:
 		entt::entity CreateEntity(entt::registry& registry, const char* filepath);
 
+		void MyFunction();
+
 	private:
 		physics::PhysicsSystem& m_PhysicsSystem;
-
-		std::vector<sf::Texture> m_Textures;
-
-		sf::Texture m_TextureDark;
-		sf::Texture m_TextureLight;
+		audio::SoundSystem& m_SoundSystem;
 	};
 };

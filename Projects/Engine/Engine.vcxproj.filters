@@ -20,6 +20,9 @@
     <Filter Include="Source\JSON">
       <UniqueIdentifier>{7a54b7e9-0eb7-4005-97af-31620e916695}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Resources">
+      <UniqueIdentifier>{9104871a-f9d7-4e51-bce2-c2e13c25ead5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Components\CameraComponent.h">
@@ -91,9 +94,6 @@
     <ClInclude Include="..\..\Source\GameApplication.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Math.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Random.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -106,6 +106,24 @@
     <ClInclude Include="..\..\Source\VectorHelpers.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\MathHelpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Strings\Path.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Resources\Resource.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Resources\ResourceManager.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Resources\TextureResource.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Resources\SoundResource.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Containers\CircularBuffer.inl">
@@ -117,11 +135,11 @@
     <None Include="..\..\Source\EnttDebugger.inl">
       <Filter>Source</Filter>
     </None>
-    <None Include="..\..\Source\Math.inl">
-      <Filter>Source</Filter>
-    </None>
     <None Include="..\..\Source\Random.inl">
       <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\Resources\ResourceManager.inl">
+      <Filter>Source\Resources</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +187,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\VectorHelpers.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Strings\Path.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Resources\ResourceManager.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

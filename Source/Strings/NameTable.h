@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-namespace string
+namespace str
 {
 	class NameTable final
 	{
@@ -21,6 +21,6 @@ namespace string
 		const std::string& Retrieve(const Hash& hash) const;
 
 	private:
-		std::map<Hash, std::string> m_Strings;
+		std::map<Hash, std::string> m_Values;
 	};
 }

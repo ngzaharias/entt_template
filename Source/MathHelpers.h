@@ -17,10 +17,18 @@ namespace math
 		return (a > b) ? a : b;
 	}
 
-	inline float Sign(float value);
+	inline float Sign(float value)
+	{
+		return (value < 0.0f) ? -1.0f : 1.0f;
+	}
 
-	inline float ToDegrees(float radians);
-	inline float ToRadians(float degrees);
+	inline float ToDegrees(float radians)
+	{
+		return radians * 57.2958f;
+	}
+
+	inline float ToRadians(float degrees)
+	{
+		return degrees * 0.0174533f;
+	}
 }
-
-#include <Math.inl>

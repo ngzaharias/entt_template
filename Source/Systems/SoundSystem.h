@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Containers/CircularBuffer.h"
-#include "Containers/ObjectPool.h"
-
-#include "Components/SoundComponent.h"
+#include <Containers/CircularBuffer.h>
+#include <Containers/ObjectPool.h>
+#include <Components/SoundComponent.h>
+#include <Resources/ResourceManager.h>
+#include <Strings/Path.h>
 
 #include <string>
 #include <vector>
@@ -20,6 +21,7 @@ namespace audio
 {
 	struct Request
 	{
+		const str::Path& m_Filepath;
 	};
 
 	class SoundSystem
@@ -33,10 +35,10 @@ namespace audio
 
 		void Update(entt::registry& registry, const sf::Time& time);
 
-		void PlaySound();
+		void PlaySound(const str::Path& filepath);
+
 	private:
 		std::vector<audio::Request> m_Requests;
-
 		ObjectPool<sf::Sound, 128> m_SoundPool;
 	};
 };

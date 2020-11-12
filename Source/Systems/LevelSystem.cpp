@@ -1,7 +1,7 @@
 #include "LevelSystem.h"
 
 #include "Game.h"
-#include "Math.h"
+#include "MathHelpers.h"
 #include "Screen.h"
 #include "Components/CameraComponent.h"
 #include "Components/LevelComponent.h"
@@ -11,7 +11,11 @@
 #include "Components/SpriteComponent.h"
 #include "Components/TransformComponent.h"
 #include "JSON/JsonHelpers.h"
+#include "Resources/ResourceManager.h"
 #include "Strings/Name.h"
+#include "Strings/Path.h"
+#include "Systems/PhysicsSystem.h"
+#include "Systems/SoundSystem.h"
 
 #include <filesystem>
 #include <iostream>
@@ -22,11 +26,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
 
-const string::Name strDefaultPath = NAME("Assets/Levels/Default/");
+namespace
+{
+	const str::Path strDefaultPath = str::Path("Assets/Levels/Default/");
+	const str::Path strExampleSound = str::Path("Assets/Sounds/S_Example.ogg");
+}
 
-core::LevelSystem::LevelSystem(physics::PhysicsSystem& physicsSystem)
+core::LevelSystem::LevelSystem(physics::PhysicsSystem& physicsSystem, audio::SoundSystem& soundSystem)
 	: m_PhysicsSystem(physicsSystem)
-	, m_Textures(16)
+	, m_SoundSystem(soundSystem)
 {
 }
 
@@ -37,6 +45,13 @@ core::LevelSystem::~LevelSystem()
 void core::LevelSystem::Initialize(entt::registry& registry)
 {
 	Load(registry, strDefaultPath.ToChar());
+
+	entt::sink(m_PhysicsSystem.m_OnContactSignal).connect<&LevelSystem::MyFunction>(this);
+}
+
+void core::LevelSystem::MyFunction()
+{
+	m_SoundSystem.PlaySound(strExampleSound);
 }
 
 void core::LevelSystem::Destroy(entt::registry& registry)
@@ -47,16 +62,16 @@ void core::LevelSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 }
 
-bool core::LevelSystem::Load(entt::registry& registry, const std::string& directory)
+bool core::LevelSystem::Load(entt::registry& registry, const str::Path& directory)
 {
-	for (const auto& entry : std::filesystem::directory_iterator(directory))
+	for (const auto& entry : std::filesystem::directory_iterator(directory.ToChar()))
 	{
-		const std::filesystem::path& path = entry.path();
-		const entt::entity entity = CreateEntity(registry, path.string().c_str());
+		const str::Path filepath = entry.path().string();
+		const entt::entity entity = CreateEntity(registry, filepath.ToChar());
 
 		core::LevelComponent& levelComponent = registry.emplace<core::LevelComponent>(entity);
-		levelComponent.m_Name = directory;
-		levelComponent.m_Path = directory;
+		levelComponent.m_Name = filepath.ToChar();
+		levelComponent.m_Path = filepath.ToChar();
 	}
 
 	return true;
@@ -71,6 +86,8 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 	rapidjson::Document document;
 	if (!json::LoadDocument(filepath, document))
 		return entt::null;
+
+	core::ResourceManager* resourceManager = Game::Instance().m_ResourceManager;
 
 	const entt::entity entity = registry.create();
 
@@ -220,11 +237,12 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 
 		if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
 		{
-			sf::Texture texture;
-			texture.loadFromFile(itr_texture->value.GetString());
-			m_Textures.push_back(texture);
-			sprite.m_Sprite.setTexture(m_Textures.back());
-			sprite.m_Sprite.setOrigin(sf::Vector2f(texture.getSize()) * 0.5f);
+			const str::Path filepath = str::Path(itr_texture->value.GetString());
+			const core::TextureHandle handle = resourceManager->GetResource<core::TextureResource>(filepath);
+
+			sprite.m_Handle = handle;
+			sprite.m_Sprite.setTexture(handle->m_Texture);
+			sprite.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
 		}
 	}
 

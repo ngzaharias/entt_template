@@ -3,9 +3,9 @@
 #include <functional>
 #include <string>
 
-#define NAME(str) string::Name::Create(str)
+#define NAME(str) str::Name::Create(str)
 
-namespace string
+namespace str
 {
 	using Hash = size_t;
 
@@ -14,15 +14,17 @@ namespace string
 	public:
 		static constexpr Hash Unassigned = -1;
 
+		Name() : m_Hash(Unassigned) { }
+
+		bool operator<(const Name& rhs) const { return m_Hash < rhs.m_Hash; }
+
 		const bool IsEmpty() const;
 
 		const char* ToChar() const;
+		const std::string& ToString() const;
 
 		static Name Create(const char* string);
 		static Name Create(const std::string_view& string);
-
-	private:
-		Name() : m_Hash(Unassigned) { }
 
 	private:
 		Hash m_Hash;

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace string
+namespace str
 {
 	constexpr char* s_Delimiters = " .,:;'\"<>[]{}()\\|/";
 	constexpr char* s_Whitespace = " \t\f\v\n\r";

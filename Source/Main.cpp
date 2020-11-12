@@ -1,3 +1,5 @@
+#define _CRT_FUNCTIONS_REQUIRED 1
+
 #include "Application.h"
 #include "GameApplication.h"
 #include "Types.h"

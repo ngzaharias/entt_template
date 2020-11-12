@@ -27,11 +27,16 @@
     <ClInclude Include="..\..\Source\Game.h" />
     <ClInclude Include="..\..\Source\GameApplication.h" />
     <ClInclude Include="..\..\Source\JSON\JsonHelpers.h" />
-    <ClInclude Include="..\..\Source\Math.h" />
+    <ClInclude Include="..\..\Source\MathHelpers.h" />
     <ClInclude Include="..\..\Source\Random.h" />
+    <ClInclude Include="..\..\Source\Resources\Resource.h" />
+    <ClInclude Include="..\..\Source\Resources\ResourceManager.h" />
+    <ClInclude Include="..\..\Source\Resources\SoundResource.h" />
+    <ClInclude Include="..\..\Source\Resources\TextureResource.h" />
     <ClInclude Include="..\..\Source\Screen.h" />
     <ClInclude Include="..\..\Source\Strings\Name.h" />
     <ClInclude Include="..\..\Source\Strings\NameTable.h" />
+    <ClInclude Include="..\..\Source\Strings\Path.h" />
     <ClInclude Include="..\..\Source\Strings\StringHelpers.h" />
     <ClInclude Include="..\..\Source\Systems\LevelSystem.h" />
     <ClInclude Include="..\..\Source\Systems\PhysicsSystem.h" />
@@ -44,8 +49,8 @@
     <None Include="..\..\Source\Containers\CircularBuffer.inl" />
     <None Include="..\..\Source\Containers\ObjectPool.inl" />
     <None Include="..\..\Source\EnttDebugger.inl" />
-    <None Include="..\..\Source\Math.inl" />
     <None Include="..\..\Source\Random.inl" />
+    <None Include="..\..\Source\Resources\ResourceManager.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Application.cpp" />
@@ -54,9 +59,11 @@
     <ClCompile Include="..\..\Source\GameApplication.cpp" />
     <ClCompile Include="..\..\Source\JSON\JsonHelpers.cpp" />
     <ClCompile Include="..\..\Source\Main.cpp" />
+    <ClCompile Include="..\..\Source\Resources\ResourceManager.cpp" />
     <ClCompile Include="..\..\Source\Screen.cpp" />
     <ClCompile Include="..\..\Source\Strings\Name.cpp" />
     <ClCompile Include="..\..\Source\Strings\NameTable.cpp" />
+    <ClCompile Include="..\..\Source\Strings\Path.cpp" />
     <ClCompile Include="..\..\Source\Strings\StringHelpers.cpp" />
     <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp" />
     <ClCompile Include="..\..\Source\Systems\PhysicsSystem.cpp" />

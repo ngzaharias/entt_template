@@ -2,42 +2,42 @@
 
 #include <algorithm>
 
-bool string::Contains(std::string string, std::string substring)
+bool str::Contains(std::string string, std::string substring)
 {
-	string = string::ToUpper(string);
-	substring = string::ToUpper(substring);
+	string = ToUpper(string);
+	substring = ToUpper(substring);
 	return string.find(substring) != std::string::npos;
 }
 
-bool string::ContainsAny(std::string string, const std::vector<std::string>& substrings)
+bool str::ContainsAny(std::string string, const std::vector<std::string>& substrings)
 {
-	string = string::ToUpper(string);
+	string = ToUpper(string);
 	for (std::string substring : substrings)
 	{
-		substring = string::ToUpper(substring);
+		substring = ToUpper(substring);
 		if (string.find(substring) != std::string::npos)
 			return true;
 	}
 	return false;
 }
 
-bool string::ContainsAll(std::string string, const std::vector<std::string>& substrings)
+bool str::ContainsAll(std::string string, const std::vector<std::string>& substrings)
 {
-	string = string::ToUpper(string);
+	string = ToUpper(string);
 	for (std::string substring : substrings)
 	{
-		substring = string::ToUpper(substring);
+		substring = ToUpper(substring);
 		if (string.find(substring) == std::string::npos)
 			return false;
 	}
 	return true;
 }
 
-std::vector<std::string> string::Split(const std::string& string, const std::string_view& delimiters)
+std::vector<std::string> str::Split(const std::string& string, const std::string_view& delimiters)
 {
 	std::vector<std::string> substrings;
-	std::string::size_type begin = string.find_first_not_of(delimiters, 0);
-	std::string::size_type end = string.find_first_of(delimiters, begin);
+	auto begin = string.find_first_not_of(delimiters, 0);
+	auto end = string.find_first_of(delimiters, begin);
 	while (begin != std::string::npos || end != std::string::npos)
 	{
 		substrings.push_back(string.substr(begin, end - begin));
@@ -47,36 +47,36 @@ std::vector<std::string> string::Split(const std::string& string, const std::str
 	return substrings;
 }
 
-void string::Trim(std::string& string, const std::string_view& substring)
+void str::Trim(std::string& string, const std::string_view& substring)
 {
 	TrimLeft(string, substring);
 	TrimRight(string, substring);
 }
 
-void string::TrimLeft(std::string& string, const std::string_view& substring)
+void str::TrimLeft(std::string& string, const std::string_view& substring)
 {
-	std::string::size_type a_size = string.size();
-	std::string::size_type b_size = substring.size();
-	std::string::size_type begin = 0;
-	std::string::size_type find = string.find(substring, begin);
+	const auto a_size = string.size();
+	const auto b_size = substring.size();
+	const auto begin = 0;
+	const auto find = string.find(substring, begin);
 	if (find == begin)
 		string.erase(begin, b_size);
 }
 
-void string::TrimRight(std::string& string, const std::string_view& substring)
+void str::TrimRight(std::string& string, const std::string_view& substring)
 {
-	std::string::size_type a_size = string.size();
-	std::string::size_type b_size = substring.size();
-	std::string::size_type begin = string.size() - std::min(a_size, b_size);
-	std::string::size_type find = string.find(substring, begin);
+	const auto a_size = string.size();
+	const auto b_size = substring.size();
+	const auto begin = string.size() - std::min(a_size, b_size);
+	const auto find = string.find(substring, begin);
 	if (find == begin)
 		string.erase(begin, a_size);
 }
 
-void string::TrimWhitespace(std::string& string)
+void str::TrimWhitespace(std::string& string)
 {
-	std::string::size_type begin = string.find_first_not_of(s_Whitespace, 0);
-	std::string::size_type end = string.find_last_not_of(s_Whitespace) + 1;
+	const auto begin = string.find_first_not_of(s_Whitespace, 0);
+	const auto end = string.find_last_not_of(s_Whitespace) + 1;
 	if (begin != std::string::npos && end != std::string::npos)
 	{
 		string = string.substr(begin, end - begin);
@@ -87,13 +87,13 @@ void string::TrimWhitespace(std::string& string)
 	}
 }
 
-std::string string::ToLower(std::string string)
+std::string str::ToLower(std::string string)
 {
 	std::transform(string.begin(), string.end(), string.begin(), std::tolower);
 	return string;
 }
 
-std::string string::ToUpper(std::string string)
+std::string str::ToUpper(std::string string)
 {
 	std::transform(string.begin(), string.end(), string.begin(), std::toupper);
 	return string;

@@ -8,6 +8,11 @@
 
 #include <entt/fwd.hpp>
 
+namespace core
+{
+	class ResourceManager;
+}
+
 namespace sf
 {
 	class RenderWindow;
@@ -37,4 +42,6 @@ public:
 	physics::PhysicsSystem m_PhysicsSystem;
 	render::RenderSystem m_RenderSystem;
 	audio::SoundSystem m_SoundSystem;
+
+	core::ResourceManager* m_ResourceManager;
 };
