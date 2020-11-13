@@ -9,11 +9,11 @@ namespace json
 
 	bool LoadDocument(const char* filepath, rapidjson::Document& document);
 
-	bool		ParseBool(const rapidjson::Value& value, const char* member, const bool default);
-	double		ParseDouble(const rapidjson::Value& value, const char* member, const double default);
-	float		ParseFloat(const rapidjson::Value& value, const char* member, const float default);
-	int			ParseInt(const rapidjson::Value& value, const char* member, const int default);
-	const char* ParseString(const rapidjson::Value& value, const char* member, const char* default);
+	bool		ParseBool(const rapidjson::Value& value, const char* member, const bool dflt);
+	double		ParseDouble(const rapidjson::Value& value, const char* member, const double dflt);
+	float		ParseFloat(const rapidjson::Value& value, const char* member, const float dflt);
+	int			ParseInt(const rapidjson::Value& value, const char* member, const int dflt);
+	const char* ParseString(const rapidjson::Value& value, const char* member, const char* dflt);
 
 	void PrintMembers(const rapidjson::Value& value);
 }

@@ -25,6 +25,8 @@
     <ClInclude Include="Engine\NameTable.h" />
     <ClInclude Include="Engine\ObjectPool.h" />
     <ClInclude Include="Engine\Path.h" />
+    <ClInclude Include="Engine\PhysicsManager.h" />
+    <ClInclude Include="Engine\PhysicsMaterialResource.h" />
     <ClInclude Include="Engine\PhysicsSystem.h" />
     <ClInclude Include="Engine\Random.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
@@ -60,6 +62,8 @@
     <ClCompile Include="Engine\Name.cpp" />
     <ClCompile Include="Engine\NameTable.cpp" />
     <ClCompile Include="Engine\Path.cpp" />
+    <ClCompile Include="Engine\PhysicsManager.cpp" />
+    <ClCompile Include="Engine\PhysicsMaterialResource.cpp" />
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />

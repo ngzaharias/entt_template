@@ -6,7 +6,6 @@
 #include <entt/fwd.hpp>
 #include <entt/entity/entity.hpp>
 #include <entt/signal/sigh.hpp>
-#include <PhysX/PxSimulationEventCallback.h>
 
 namespace physx
 {
@@ -26,37 +25,28 @@ namespace sf
 
 namespace physics
 {
-	class PhysicsSystem final 
-		: public core::System
-		, physx::PxSimulationEventCallback
+	class PhysicsManager;
+
+	class PhysicsSystem final : public core::System
 	{
 	public:
-		PhysicsSystem();
+		PhysicsSystem(physics::PhysicsManager& physicsManager);
 		~PhysicsSystem();
 
 		void Initialize(entt::registry& registry) override;
+		void Update(entt::registry& registry, const sf::Time& time) override;
 		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time) override;
-
 	private:
-		void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override { }
-		void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override;
-		void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;
-		void onSleep(physx::PxActor** actors, physx::PxU32 count) override;
-		void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
-		void onWake(physx::PxActor** actors, physx::PxU32 count) override;
-
+		void OnContact(const entt::entity& entityA, const entt::entity& entityB);
 		void OnDestroy_RigidBody(entt::registry& registry, entt::entity entity);
 
 	public:
-		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnContactSignal;
-		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnTriggerSignal;
+		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnCollideSignal;
+		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnOverlapSignal;
 
 	public:
-		physx::PxMaterial* m_Material = nullptr;
-		physx::PxPhysics* m_Physics = nullptr;
-		physx::PxScene* m_Scene = nullptr;
+		physics::PhysicsManager& m_PhysicsManager;
 
 		// debug
 		physx::PxPvd* m_Debugger = nullptr;

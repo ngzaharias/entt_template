@@ -10,13 +10,9 @@ namespace audio
 	class SoundSystem;
 }
 
-namespace core
-{
-	class ResourceManager;
-}
-
 namespace physics
 {
+	class PhysicsManager;
 	class PhysicsSystem;
 }
 
@@ -28,14 +24,15 @@ namespace sf
 
 namespace core
 {
+	class ResourceManager;
+
 	class LevelSystem final : public core::System
 	{
 	public:
 		LevelSystem
 		(
-			core::ResourceManager& resourceManager
-			, physics::PhysicsSystem& physicsSystem
-			, audio::SoundSystem& soundSystem
+			physics::PhysicsManager& physicsManager
+			, core::ResourceManager& resourceManager
 		);
 		~LevelSystem();
 
@@ -50,12 +47,8 @@ namespace core
 	private:
 		entt::entity CreateEntity(entt::registry& registry, const char* filepath);
 
-		void MyFunction();
-
 	private:
+		physics::PhysicsManager& m_PhysicsManager;
 		core::ResourceManager& m_ResourceManager;
-
-		physics::PhysicsSystem& m_PhysicsSystem;
-		audio::SoundSystem& m_SoundSystem;
 	};
 };

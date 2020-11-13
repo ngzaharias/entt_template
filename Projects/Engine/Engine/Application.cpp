@@ -2,6 +2,7 @@
 
 #include "Engine/EnttDebugger.h"
 #include "Engine/LevelSystem.h"
+#include "Engine/PhysicsManager.h"
 #include "Engine/PhysicsSystem.h"
 #include "Engine/RenderSystem.h"
 #include "Engine/ResourceManager.h"
@@ -18,7 +19,6 @@
 #include <SFML/Window.hpp>
 
 core::Application::Application() 
-	: m_ResourceManager(nullptr)
 { 
 	const unsigned int width = static_cast<unsigned int>(Screen::width);
 	const unsigned int height = static_cast<unsigned int>(Screen::height);
@@ -91,17 +91,17 @@ void core::Application::Execute(int argc, char* argv[])
 void core::Application::Register()
 {
 	// managers
+	m_PhysicsManager = new physics::PhysicsManager();
 	m_ResourceManager = new core::ResourceManager();
 
 	// systems
 	RegisterSystem<render::RenderSystem>(*m_Window);
-	RegisterSystem<physics::PhysicsSystem>();
+	RegisterSystem<physics::PhysicsSystem>(*m_PhysicsManager);
 	RegisterSystem<audio::SoundSystem>(*m_ResourceManager);
 	RegisterSystem<core::LevelSystem>
 		(
-			*m_ResourceManager
-			, *GetSystem<physics::PhysicsSystem>()
-			, *GetSystem<audio::SoundSystem>()
+			*m_PhysicsManager 
+			, *m_ResourceManager
 		);
 	RegisterSystem<debug::EnttDebugger>();
 }
@@ -109,6 +109,7 @@ void core::Application::Register()
 bool core::Application::Initialise()
 {
 	// managers
+	m_PhysicsManager->Initialize();
 	m_ResourceManager->Initialize();
 
 	// systems
@@ -141,6 +142,8 @@ void core::Application::Destroy()
 	}
 
 	// managers
+	m_PhysicsManager->Destroy();
 	m_ResourceManager->Destroy();
+	delete m_PhysicsManager;
 	delete m_ResourceManager;
 }

@@ -11,6 +11,11 @@ namespace debug
 	class EnttDebugger;
 }
 
+namespace physics
+{
+	class PhysicsManager;
+}
+
 namespace sf
 {
 	class Clock;
@@ -40,7 +45,7 @@ namespace core
 
 		// #todo: move to a Registry class?
 		template<class TSystem>
-		TSystem* GetSystem();
+		TSystem& GetSystem() const;
 
 		// #todo: move to a Registry class?
 		template<class TSystem, typename... TArgs>
@@ -54,7 +59,8 @@ namespace core
 
 	protected:
 		// managers
-		core::ResourceManager* m_ResourceManager;
+		physics::PhysicsManager* m_PhysicsManager = nullptr;
+		core::ResourceManager* m_ResourceManager = nullptr;
 
 		// systems
 		std::vector<SystemEntry> m_SystemEntries;

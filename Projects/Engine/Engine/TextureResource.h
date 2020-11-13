@@ -6,25 +6,25 @@
 #include <entt/resource/handle.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-namespace core
+namespace render
 {
 	struct TextureResource : public core::Resource
 	{
 		sf::Texture m_Texture;
 	};
 
-	class TextureLoader : public entt::resource_loader<TextureLoader, core::TextureResource>
+	class TextureLoader : public entt::resource_loader<TextureLoader, TextureResource>
 	{
 	public:
-		std::shared_ptr<core::TextureResource> load(const str::Path& filepath) const
+		std::shared_ptr<TextureResource> load(const str::Path& filepath) const
 		{
-			core::TextureResource* resource = new core::TextureResource();
+			TextureResource* resource = new TextureResource();
 			resource->m_Filepath = filepath;
 			resource->m_Texture.loadFromFile(filepath.ToChar());
-			return std::shared_ptr<core::TextureResource>(resource);
+			return std::shared_ptr<TextureResource>(resource);
 		}
 	};
 
-	using TextureCache = entt::resource_cache<core::TextureResource>;
-	using TextureHandle = entt::resource_handle<core::TextureResource>;
+	using TextureCache = entt::resource_cache<TextureResource>;
+	using TextureHandle = entt::resource_handle<TextureResource>;
 }

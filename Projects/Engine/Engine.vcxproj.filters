@@ -97,6 +97,12 @@
     <ClInclude Include="Engine\JsonHelpers.h">
       <Filter>Source\JSON</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\PhysicsMaterialResource.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PhysicsManager.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -160,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="Engine\JsonHelpers.cpp">
       <Filter>Source\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PhysicsMaterialResource.cpp">
+      <Filter>Source\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PhysicsManager.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

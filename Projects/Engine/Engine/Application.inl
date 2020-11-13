@@ -1,7 +1,7 @@
 #pragma once
 
 template<class TSystem>
-TSystem* core::Application::GetSystem()
+TSystem& core::Application::GetSystem() const
 {
 	const SystemEntry::TypeId& typeId = entt::type_info<TSystem>::id();
 
@@ -13,7 +13,7 @@ TSystem* core::Application::GetSystem()
 	});
 
 	assert(result != last);
-	return static_cast<TSystem*>(result->m_System);
+	return *static_cast<TSystem*>(result->m_System);
 }
 
 template<class TSystem, typename... TArgs>

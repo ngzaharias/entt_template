@@ -29,7 +29,7 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 	for (const audio::Request& request : m_Requests)
 	{
-		const core::SoundHandle handle = m_ResourceManager.GetResource<core::SoundResource>(request.m_Filepath);
+		const audio::SoundHandle handle = m_ResourceManager.GetResource<audio::SoundResource>(request.m_Filepath);
 		if (!handle)
 			continue;
 

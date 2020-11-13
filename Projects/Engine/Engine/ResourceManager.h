@@ -1,12 +1,11 @@
 #pragma once
 
-#include <Engine/Name.h>
 #include <Engine/Path.h>
+#include <Engine/PhysicsMaterialResource.h>
 #include <Engine/SoundResource.h>
 #include <Engine/TextureResource.h>
 
-#include <map>
-#include <entt/entt.hpp>
+#include <entt/resource/handle.hpp>
 
 namespace core
 {
@@ -25,22 +24,30 @@ namespace core
 		entt::resource_handle<TResource> LoadResource(const str::Path& filepath);
 
 		//////////////////////////////////////////////////////////////////////////
+		// Physics Material
+		template<>
+		physics::MaterialHandle GetResource<physics::MaterialResource>(const str::Path& filepath);
+		template<>
+		physics::MaterialHandle LoadResource<physics::MaterialResource>(const str::Path& filepath);
+
+		//////////////////////////////////////////////////////////////////////////
 		// Sound
 		template<>
-		SoundHandle GetResource<core::SoundResource>(const str::Path& filepath);
+		audio::SoundHandle GetResource<audio::SoundResource>(const str::Path& filepath);
 		template<>
-		SoundHandle LoadResource<core::SoundResource>(const str::Path& filepath);
+		audio::SoundHandle LoadResource<audio::SoundResource>(const str::Path& filepath);
 
 		//////////////////////////////////////////////////////////////////////////
 		// Texture
 		template<>
-		TextureHandle GetResource<core::TextureResource>(const str::Path& filepath);
+		render::TextureHandle GetResource<render::TextureResource>(const str::Path& filepath);
 		template<>
-		TextureHandle LoadResource<core::TextureResource>(const str::Path& filepath);
+		render::TextureHandle LoadResource<render::TextureResource>(const str::Path& filepath);
 
 	private:
-		core::SoundCache m_SoundCache;
-		core::TextureCache m_TextureCache;
+		physics::MaterialCache m_PhysicsMaterialCache;
+		audio::SoundCache m_SoundCache;
+		render::TextureCache m_TextureCache;
 	};
 }
 

@@ -15,5 +15,7 @@ namespace game
 		bool Initialise() override;
 		bool Update(const sf::Time& time) override;
 		void Destroy() override;
+
+		void PlaySound();
 	};
 }

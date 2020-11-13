@@ -6,25 +6,25 @@
 #include <entt/resource/handle.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
-namespace core
+namespace audio
 {
 	struct SoundResource : public core::Resource
 	{
 		sf::SoundBuffer m_SoundBuffer;
 	};
 
-	class SoundLoader : public entt::resource_loader<SoundLoader, core::SoundResource>
+	class SoundLoader : public entt::resource_loader<SoundLoader, SoundResource>
 	{
 	public:
-		std::shared_ptr<core::SoundResource> load(const str::Path& filepath) const
+		std::shared_ptr<SoundResource> load(const str::Path& filepath) const
 		{
-			core::SoundResource* resource = new core::SoundResource();
+			SoundResource* resource = new SoundResource();
 			resource->m_Filepath = filepath;
 			resource->m_SoundBuffer.loadFromFile(filepath.ToChar());
-			return std::shared_ptr<core::SoundResource>(resource);
+			return std::shared_ptr<SoundResource>(resource);
 		}
 	};
 
-	using SoundCache = entt::resource_cache<core::SoundResource>;
-	using SoundHandle = entt::resource_handle<core::SoundResource>;
+	using SoundCache = entt::resource_cache<SoundResource>;
+	using SoundHandle = entt::resource_handle<SoundResource>;
 }
