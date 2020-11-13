@@ -1,61 +1,188 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Engine\Application.h" />
-    <ClInclude Include="Engine\CameraComponent.h" />
-    <ClInclude Include="Engine\CircularBuffer.h" />
-    <ClInclude Include="Engine\CollisionChannels.h" />
-    <ClInclude Include="Engine\EnttDebugger.h" />
-    <ClInclude Include="Engine\JsonHelpers.h" />
-    <ClInclude Include="Engine\LevelComponent.h" />
-    <ClInclude Include="Engine\LevelSystem.h" />
-    <ClInclude Include="Engine\MathHelpers.h" />
-    <ClInclude Include="Engine\Name.h" />
-    <ClInclude Include="Engine\NameComponent.h" />
-    <ClInclude Include="Engine\NameTable.h" />
-    <ClInclude Include="Engine\ObjectPool.h" />
-    <ClInclude Include="Engine\Path.h" />
-    <ClInclude Include="Engine\PhysicsSystem.h" />
-    <ClInclude Include="Engine\Random.h" />
-    <ClInclude Include="Engine\RenderSystem.h" />
-    <ClInclude Include="Engine\Resource.h" />
-    <ClInclude Include="Engine\ResourceManager.h" />
-    <ClInclude Include="Engine\RigidDynamicComponent.h" />
-    <ClInclude Include="Engine\RigidStaticComponent.h" />
-    <ClInclude Include="Engine\Screen.h" />
-    <ClInclude Include="Engine\SoundComponent.h" />
-    <ClInclude Include="Engine\SoundResource.h" />
-    <ClInclude Include="Engine\SoundSystem.h" />
-    <ClInclude Include="Engine\SpriteComponent.h" />
-    <ClInclude Include="Engine\StringHelpers.h" />
-    <ClInclude Include="Engine\TextureResource.h" />
-    <ClInclude Include="Engine\TransformComponent.h" />
-    <ClInclude Include="Engine\Types.h" />
-    <ClInclude Include="Engine\VectorHelpers.h" />
-    <ClInclude Include="Engine\System.h" />
+    <ClInclude Include="Engine\Application.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CollisionChannels.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\MathHelpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Random.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Screen.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Types.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\VectorHelpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\LevelSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PhysicsSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RenderSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SoundSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CircularBuffer.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ObjectPool.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ResourceManager.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Resource.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SoundResource.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\TextureResource.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Name.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Path.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RigidStaticComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RigidDynamicComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\NameComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\LevelComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CameraComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SoundComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SpriteComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\TransformComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EnttDebugger.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\StringHelpers.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\NameTable.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\JsonHelpers.h">
+      <Filter>Source\JSON</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\CircularBuffer.inl" />
-    <None Include="Engine\EnttDebugger.inl" />
-    <None Include="Engine\ObjectPool.inl" />
-    <None Include="Engine\Random.inl" />
-    <None Include="Engine\ResourceManager.inl" />
-    <None Include="Engine\Application.inl" />
+    <None Include="Engine\Application.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="Engine\Random.inl">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="Engine\CircularBuffer.inl">
+      <Filter>Source\Containers</Filter>
+    </None>
+    <None Include="Engine\ObjectPool.inl">
+      <Filter>Source\Containers</Filter>
+    </None>
+    <None Include="Engine\ResourceManager.inl">
+      <Filter>Source\Resources</Filter>
+    </None>
+    <None Include="Engine\EnttDebugger.inl">
+      <Filter>Source\Systems</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\EnttDebugger.cpp" />
-    <ClCompile Include="Engine\JsonHelpers.cpp" />
-    <ClCompile Include="Engine\LevelSystem.cpp" />
-    <ClCompile Include="Engine\Name.cpp" />
-    <ClCompile Include="Engine\NameTable.cpp" />
-    <ClCompile Include="Engine\Path.cpp" />
-    <ClCompile Include="Engine\PhysicsSystem.cpp" />
-    <ClCompile Include="Engine\RenderSystem.cpp" />
-    <ClCompile Include="Engine\ResourceManager.cpp" />
-    <ClCompile Include="Engine\Screen.cpp" />
-    <ClCompile Include="Engine\SoundSystem.cpp" />
-    <ClCompile Include="Engine\StringHelpers.cpp" />
-    <ClCompile Include="Engine\VectorHelpers.cpp" />
-    <ClCompile Include="Engine\Application.cpp" />
+    <ClCompile Include="Engine\Application.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Screen.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\VectorHelpers.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\LevelSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PhysicsSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\RenderSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SoundSystem.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ResourceManager.cpp">
+      <Filter>Source\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Name.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Path.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EnttDebugger.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\StringHelpers.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\NameTable.cpp">
+      <Filter>Source\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\JsonHelpers.cpp">
+      <Filter>Source\JSON</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{860711d6-55fc-4639-9bc7-9633c405f649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Systems">
+      <UniqueIdentifier>{3bb8f5c2-e0d5-4686-9070-bf45b45b5654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Containers">
+      <UniqueIdentifier>{5b9d8b91-49a5-43e5-847b-700edd3c1beb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Resources">
+      <UniqueIdentifier>{9f916f55-4046-40b7-b990-a0c0ba1a3cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Strings">
+      <UniqueIdentifier>{12725d94-9f1f-43d2-ad47-45fb4ebeb6ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Components">
+      <UniqueIdentifier>{62c03163-6b05-472b-b54f-f18444f892e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\JSON">
+      <UniqueIdentifier>{4731fb0a-1860-4eec-a50a-f06f37bb40cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
