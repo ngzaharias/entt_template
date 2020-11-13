@@ -1,15 +1,24 @@
 #include "Engine/Application.h"
 
-#include "Engine/Random.h"
+#include "Engine/EnttDebugger.h"
+#include "Engine/LevelSystem.h"
+#include "Engine/PhysicsSystem.h"
+#include "Engine/RenderSystem.h"
+#include "Engine/ResourceManager.h"
 #include "Engine/Screen.h"
+#include "Engine/SoundSystem.h"
 
 #include <random>
 #include <time.h>
-#include <SFML/System.hpp>
+#include <entt/entt.hpp>
+#include <imgui-sfml/imgui-SFML.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
-Application::Application() 
+core::Application::Application() 
+	: m_ResourceManager(nullptr)
 { 
 	const unsigned int width = static_cast<unsigned int>(Screen::width);
 	const unsigned int height = static_cast<unsigned int>(Screen::height);
@@ -23,7 +32,7 @@ Application::Application()
 	srand((unsigned int)time(NULL));
 }
 
-Application::~Application() 
+core::Application::~Application()
 { 
 	delete m_Clock;
 	delete m_Window;
@@ -31,18 +40,107 @@ Application::~Application()
 	Screen::SetWindow(nullptr);
 }
 
-void Application::Execute(int argc, char* argv[])
+void core::Application::Execute(int argc, char* argv[])
 {
-	if (!Initialise(argc, argv))
+	ImGui::SFML::Init(*m_Window);
+
+	Register();
+	if (!Initialise())
 		return;
 
 	while (true)
 	{
-		if (!Update())
+		if (!m_Window->isOpen())
 			break;
 
-		if (!Render())
+		sf::Time time = m_Clock->restart();
+
+		sf::Event event;
+		while (m_Window->pollEvent(event))
+		{
+			ImGui::SFML::ProcessEvent(event);
+
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+				m_Window->close();
+				break;
+			};
+		}
+
+		// #todo: move into render system?
+		m_Window->clear();
+
+		ImGui::SFML::Update(*m_Window, time);
+
+		if (!Update(time))
 			break;
+
+		// #todo: move into render system?
+		//ImGui::ShowDemoWindow();
+		ImGui::SFML::Render(*m_Window);
+		// #todo: move into render system?
+		m_Window->display();
 	}
+
 	Destroy();
+
+	ImGui::SFML::Shutdown();
+}
+
+void core::Application::Register()
+{
+	// managers
+	m_ResourceManager = new core::ResourceManager();
+
+	// systems
+	RegisterSystem<render::RenderSystem>(*m_Window);
+	RegisterSystem<physics::PhysicsSystem>();
+	RegisterSystem<audio::SoundSystem>(*m_ResourceManager);
+	RegisterSystem<core::LevelSystem>
+		(
+			*m_ResourceManager
+			, *GetSystem<physics::PhysicsSystem>()
+			, *GetSystem<audio::SoundSystem>()
+		);
+	RegisterSystem<debug::EnttDebugger>();
+}
+
+bool core::Application::Initialise()
+{
+	// managers
+	m_ResourceManager->Initialize();
+
+	// systems
+	for (core::SystemEntry& entry : m_SystemEntries)
+	{
+		entry.m_System->Initialize(m_Registry);
+	}
+
+	return true;
+}
+
+bool core::Application::Update(const sf::Time& time)
+{
+	// systems
+	for (core::SystemEntry& entry : m_SystemEntries)
+	{
+		entry.m_System->Update(m_Registry, time);
+	}
+
+	return true;
+}
+
+void core::Application::Destroy()
+{
+	// systems
+	for (core::SystemEntry& entry : m_SystemEntries)
+	{
+		entry.m_System->Destroy(m_Registry);
+		delete entry.m_System;
+	}
+
+	// managers
+	m_ResourceManager->Destroy();
+	delete m_ResourceManager;
 }

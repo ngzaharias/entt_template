@@ -201,6 +201,8 @@ void debug::EnttDebugger::Update(entt::registry& registry, const sf::Time& time)
 			m_EntityOrphans.emplace(entity);
 		});
 	}
+
+	Render(registry);
 }
 
 void debug::EnttDebugger::Render(entt::registry& registry)

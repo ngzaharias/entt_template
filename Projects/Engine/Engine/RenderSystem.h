@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/System.h>
+
 #include <entt/fwd.hpp>
 
 namespace sf
@@ -9,12 +11,15 @@ namespace sf
 
 namespace render
 {
-	class RenderSystem
+	class RenderSystem : public core::System
 	{
 	public:
-		RenderSystem();
+		RenderSystem(sf::RenderWindow& window);
 		~RenderSystem();
 
-		void Update(entt::registry& registry, sf::RenderWindow* window);
+		void Update(entt::registry& registry, const sf::Time& time) override;
+
+	private:
+		sf::RenderWindow& m_Window;
 	};
 };

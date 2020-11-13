@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/Path.h>
+#include <Engine/System.h>
 
 #include <entt/fwd.hpp>
 
@@ -27,7 +28,7 @@ namespace sf
 
 namespace core
 {
-	class LevelSystem
+	class LevelSystem final : public core::System
 	{
 	public:
 		LevelSystem
@@ -38,10 +39,10 @@ namespace core
 		);
 		~LevelSystem();
 
-		void Initialize(entt::registry& registry);
-		void Destroy(entt::registry& registry);
+		void Initialize(entt::registry& registry) override;
+		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time);
+		void Update(entt::registry& registry, const sf::Time& time) override;
 
 		bool Load(entt::registry& registry, const str::Path& directory);
 		void Unload(entt::registry& registry);

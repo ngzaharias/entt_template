@@ -32,6 +32,7 @@
     <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\Types.h" />
     <ClInclude Include="Engine\VectorHelpers.h" />
+    <ClInclude Include="Engine\System.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\CircularBuffer.inl" />
@@ -39,6 +40,7 @@
     <None Include="Engine\ObjectPool.inl" />
     <None Include="Engine\Random.inl" />
     <None Include="Engine\ResourceManager.inl" />
+    <None Include="Engine\Application.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\EnttDebugger.cpp" />

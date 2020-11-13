@@ -8,7 +8,8 @@
 #include <entt/entt.hpp>
 #include <SFML/Graphics.hpp>
 
-render::RenderSystem::RenderSystem()
+render::RenderSystem::RenderSystem(sf::RenderWindow& window)
+	: m_Window(window)
 {
 }
 
@@ -16,7 +17,7 @@ render::RenderSystem::~RenderSystem()
 {
 }
 
-void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* window)
+void render::RenderSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 	const auto cameraView = registry.view<core::CameraComponent, core::TransformComponent>();
 	for (const entt::entity& cameraEntity : cameraView)
@@ -32,7 +33,7 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 			view.setCenter(transform.m_Translate.x, transform.m_Translate.y);
 			view.setRotation(transform.m_Rotate.z);
 			view.setSize(size);
-			window->setView(view);
+			m_Window.setView(view);
 		}
 
 		// render everything
@@ -52,7 +53,7 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 			sprite.m_Sprite.setRotation(transform.m_Rotate.z);
 			sprite.m_Sprite.setScale(transform.m_Scale.x * scaleX, transform.m_Scale.y * scaleY);
 
-			window->draw(sprite.m_Sprite);
+			m_Window.draw(sprite.m_Sprite);
 		}
 	}
 }

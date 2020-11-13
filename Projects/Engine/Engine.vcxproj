@@ -38,12 +38,14 @@
     <ClInclude Include="Engine\SoundSystem.h" />
     <ClInclude Include="Engine\SpriteComponent.h" />
     <ClInclude Include="Engine\StringHelpers.h" />
+    <ClInclude Include="Engine\System.h" />
     <ClInclude Include="Engine\TextureResource.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\Types.h" />
     <ClInclude Include="Engine\VectorHelpers.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\Application.inl" />
     <None Include="Engine\CircularBuffer.inl" />
     <None Include="Engine\EnttDebugger.inl" />
     <None Include="Engine\ObjectPool.inl" />

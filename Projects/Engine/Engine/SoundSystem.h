@@ -5,6 +5,7 @@
 #include <Engine/Path.h>
 #include <Engine/ResourceManager.h>
 #include <Engine/SoundComponent.h>
+#include <Engine/System.h>
 
 #include <string>
 #include <vector>
@@ -24,16 +25,16 @@ namespace audio
 		const str::Path& m_Filepath;
 	};
 
-	class SoundSystem
+	class SoundSystem final : public core::System
 	{
 	public:
 		SoundSystem(core::ResourceManager& resourceManager);
 		~SoundSystem();
 
-		void Initialize(entt::registry& registry);
-		void Destroy(entt::registry& registry);
+		void Initialize(entt::registry& registry) override;
+		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time);
+		void Update(entt::registry& registry, const sf::Time& time) override;
 
 		void PlaySound(const str::Path& filepath);
 

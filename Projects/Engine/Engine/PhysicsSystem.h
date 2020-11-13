@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/System.h>
+
 #include <vector>
 #include <entt/fwd.hpp>
 #include <entt/entity/entity.hpp>
@@ -24,16 +26,18 @@ namespace sf
 
 namespace physics
 {
-	class PhysicsSystem final : public physx::PxSimulationEventCallback
+	class PhysicsSystem final 
+		: public core::System
+		, physx::PxSimulationEventCallback
 	{
 	public:
 		PhysicsSystem();
 		~PhysicsSystem();
 
-		void Initialize(entt::registry& registry);
-		void Destroy(entt::registry& registry);
+		void Initialize(entt::registry& registry) override;
+		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time);
+		void Update(entt::registry& registry, const sf::Time& time) override;
 
 	private:
 		void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override { }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/CircularBuffer.h>
+#include <Engine/System.h>
 
 #include <functional>
 #include <map>
@@ -60,7 +61,7 @@ namespace debug
 		THistory Redos = { };
 	};
 
-	class EnttDebugger
+	class EnttDebugger final : public core::System
 	{
 		using WidgetCallback = std::function<void(entt::registry&, entt::entity&)>;
 
@@ -68,10 +69,10 @@ namespace debug
 		EnttDebugger();
 		~EnttDebugger();
 
-		void Initialize(entt::registry& registry);
-		void Destroy(entt::registry& registry);
+		void Initialize(entt::registry& registry) override;
+		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time);
+		void Update(entt::registry& registry, const sf::Time& time) override;
 		void Render(entt::registry& registry);
 
 		void Select(const entt::entity& entity);
