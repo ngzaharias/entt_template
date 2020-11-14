@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entt/core/hashed_string.hpp>
+#include <PhysX/PxPhysics.h>
 
 template<>
 physics::MaterialHandle core::ResourceManager::GetResource<physics::MaterialResource>(const str::Path& filepath)
@@ -11,7 +12,8 @@ physics::MaterialHandle core::ResourceManager::GetResource<physics::MaterialReso
 template<>
 physics::MaterialHandle core::ResourceManager::LoadResource<physics::MaterialResource>(const str::Path& filepath)
 {
-	return m_PhysicsMaterialCache.load<physics::MaterialLoader>(entt::hashed_string{ filepath.ToChar() }, filepath);
+	physx::PxPhysics& physics = m_PhysicsManager.GetPhysics();
+	return m_PhysicsMaterialCache.load<physics::MaterialLoader>(entt::hashed_string{ filepath.ToChar() }, physics, filepath);
 }
 
 template<>

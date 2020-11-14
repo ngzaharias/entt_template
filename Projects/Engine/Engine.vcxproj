@@ -63,7 +63,6 @@
     <ClCompile Include="Engine\NameTable.cpp" />
     <ClCompile Include="Engine\Path.cpp" />
     <ClCompile Include="Engine\PhysicsManager.cpp" />
-    <ClCompile Include="Engine\PhysicsMaterialResource.cpp" />
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />

@@ -167,9 +167,6 @@
     <ClCompile Include="Engine\JsonHelpers.cpp">
       <Filter>Source\JSON</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PhysicsMaterialResource.cpp">
-      <Filter>Source\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\PhysicsManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>

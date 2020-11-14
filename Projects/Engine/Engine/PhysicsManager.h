@@ -25,8 +25,6 @@ namespace physics
 	class PhysicsManager final : public physx::PxSimulationEventCallback
 	{
 	public:
-		static PhysicsManager& Instance();
-
 		PhysicsManager();
 		~PhysicsManager();
 

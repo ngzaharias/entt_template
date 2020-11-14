@@ -92,7 +92,7 @@ void core::Application::Register()
 {
 	// managers
 	m_PhysicsManager = new physics::PhysicsManager();
-	m_ResourceManager = new core::ResourceManager();
+	m_ResourceManager = new core::ResourceManager(*m_PhysicsManager);
 
 	// systems
 	RegisterSystem<render::RenderSystem>(*m_Window);

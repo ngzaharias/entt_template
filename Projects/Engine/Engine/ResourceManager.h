@@ -7,12 +7,17 @@
 
 #include <entt/resource/handle.hpp>
 
+namespace
+{
+	class PhysicsManager;
+}
+
 namespace core
 {
 	class ResourceManager final
 	{
 	public:
-		ResourceManager();
+		ResourceManager(physics::PhysicsManager& physicsManager);
 		~ResourceManager();
 
 		void Initialize();
@@ -45,6 +50,8 @@ namespace core
 		render::TextureHandle LoadResource<render::TextureResource>(const str::Path& filepath);
 
 	private:
+		physics::PhysicsManager& m_PhysicsManager;
+
 		physics::MaterialCache m_PhysicsMaterialCache;
 		audio::SoundCache m_SoundCache;
 		render::TextureCache m_TextureCache;

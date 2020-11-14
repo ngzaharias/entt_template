@@ -4,11 +4,6 @@
 
 #include <PhysX/PxPhysicsAPI.h>
 
-namespace
-{
-	static physics::PhysicsManager* s_Instance = nullptr;
-}
-
 namespace physx
 {
 	class UserAllocatorCallback final : public physx::PxAllocatorCallback
@@ -111,19 +106,12 @@ namespace physx
 	}
 }
 
-physics::PhysicsManager& physics::PhysicsManager::Instance()
-{
-	return *s_Instance;
-}
-
 physics::PhysicsManager::PhysicsManager()
 {
-	s_Instance = this;
 }
 
 physics::PhysicsManager::~PhysicsManager()
 {
-	s_Instance = nullptr;
 }
 
 void physics::PhysicsManager::Initialize()

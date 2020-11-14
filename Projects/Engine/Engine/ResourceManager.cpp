@@ -11,7 +11,8 @@ namespace
 	constexpr char* s_TexturesDirectory = "Assets/Textures/";
 }
 
-core::ResourceManager::ResourceManager()
+core::ResourceManager::ResourceManager(physics::PhysicsManager& physicsManager)
+	: m_PhysicsManager(physicsManager)
 {
 }
 
