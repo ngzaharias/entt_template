@@ -29,7 +29,7 @@
 
 namespace
 {
-	str::Path strDefaultMaterial = "Assets/Physics/Default.json";
+	str::Guid strDefaultMaterial = "a4835493-ae5a-40ba-8083-06deb381c801";
 }
 
 core::LevelSystem::LevelSystem
@@ -233,8 +233,8 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 
 		if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
 		{
-			const str::Path filepath = str::Path(itr_texture->value.GetString());
-			const render::TextureHandle handle = m_ResourceManager.GetResource<render::TextureResource>(filepath);
+			const str::Guid guid = itr_texture->value.GetString();
+			const render::TextureHandle handle = m_ResourceManager.GetResource<render::TextureResource>(guid);
 
 			sprite.m_Handle = handle;
 			sprite.m_Sprite.setTexture(handle->m_Texture);

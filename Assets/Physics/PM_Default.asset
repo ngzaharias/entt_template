@@ -1,0 +1,7 @@
+{
+	"resource_guid":"a4835493-ae5a-40ba-8083-06deb381c801",
+	"resource_type": "physics_material",
+	"static_friction": 0,
+	"dynamic_friction": 0,
+	"restituation": 1
+}

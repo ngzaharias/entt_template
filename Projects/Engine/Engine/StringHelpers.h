@@ -5,21 +5,31 @@
 
 namespace str
 {
-	constexpr char* s_Delimiters = " .,:;'\"<>[]{}()\\|/";
-	constexpr char* s_Whitespace = " \t\f\v\n\r";
+	using TString = std::string;
+	using TStringView = std::string_view;
+	using TStringViews = std::vector<TStringView>;
 
-	bool Contains(std::string string, std::string substring);
-	
-	bool ContainsAny(std::string string, const std::vector<std::string>& substrings);
-	bool ContainsAll(std::string string, const std::vector<std::string>& substrings);
+	constexpr std::string_view s_Delimiters = " .,:;'\"<>[]{}()\\|/";
+	constexpr std::string_view s_Whitespace = " \t\f\v\n\r";
 
-	std::vector<std::string> Split(const std::string& string, const std::string_view& delimiters = " .,:;'\"<>[]{}()\\|/");
-	
-	void Trim(std::string& string, const std::string_view& substring);
-	void TrimLeft(std::string& string, const std::string_view& substring);
-	void TrimRight(std::string& string, const std::string_view& substring);
-	void TrimWhitespace(std::string& string);
+	bool Contains(const TStringView& string, const TStringView& substring);
+	bool Contains_NoCase(const TStringView& string, const TStringView& substring);
 
-	std::string ToLower(std::string string);
-	std::string ToUpper(std::string string);
+	bool ContainsAll(const TStringView& string, const TStringViews& substrings);
+	bool ContainsAll_NoCase(const TStringView& string, const TStringViews& substrings);
+	bool ContainsAny(const TStringView& string, const TStringViews& substrings);
+	bool ContainsAny_NoCase(const TStringView& string, const TStringViews& substrings);
+
+	bool Equals(const TStringView& string, const TStringView& substring);
+	bool Equals_NoCase(const TStringView& string, const TStringView& substring);
+
+	TStringViews Split(const TStringView& string, const TStringView& delimiters = " .,:;'\"<>[]{}()\\|/");
+
+	void Trim(TString& string, const TStringView& substring);
+	void TrimLeft(TString& string, const TStringView& substring);
+	void TrimRight(TString& string, const TStringView& substring);
+	void TrimWhitespace(TString& string);
+
+	TString ToLower(TString string);
+	TString ToUpper(TString string);
 }

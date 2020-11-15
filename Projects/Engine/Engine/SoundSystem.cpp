@@ -29,7 +29,7 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 	for (const audio::Request& request : m_Requests)
 	{
-		const audio::SoundHandle handle = m_ResourceManager.GetResource<audio::SoundResource>(request.m_Filepath);
+		const audio::SoundHandle handle = m_ResourceManager.GetResource<audio::SoundResource>(request.m_Guid);
 		if (!handle)
 			continue;
 
@@ -38,7 +38,7 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 		auto& sound = registry.emplace<audio::SoundComponent>(entity);
 		auto& transform = registry.emplace<core::TransformComponent>(entity);
 
-		name.m_Name = request.m_Filepath.ToString();
+		name.m_Name = request.m_Guid.ToChar();
 		sound.m_Handle = handle;
 		sound.m_Sound = m_SoundPool.RequestObject();
 		sound.m_Sound->setBuffer(handle->m_SoundBuffer);
@@ -59,8 +59,8 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 	}
 }
 
-void audio::SoundSystem::PlaySound(const str::Path& filepath)
+void audio::SoundSystem::PlaySound(const str::Guid& guid)
 {
-	m_Requests.push_back({ filepath });
+	m_Requests.push_back({ guid });
 }
 

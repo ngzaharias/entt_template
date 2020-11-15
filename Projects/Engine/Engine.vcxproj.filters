@@ -103,6 +103,9 @@
     <ClInclude Include="Engine\PhysicsManager.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Guid.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -122,6 +125,9 @@
     </None>
     <None Include="Engine\EnttDebugger.inl">
       <Filter>Source\Systems</Filter>
+    </None>
+    <None Include="Engine\JsonHelpers.inl">
+      <Filter>Source\JSON</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Engine\PhysicsManager.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Guid.cpp">
+      <Filter>Source\Strings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

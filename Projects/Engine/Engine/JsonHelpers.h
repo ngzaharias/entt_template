@@ -5,15 +5,17 @@
 
 namespace json
 {
-	using TCallback = std::function<void(rapidjson::Value& value)>;
-
 	bool LoadDocument(const char* filepath, rapidjson::Document& document);
 
-	bool		ParseBool(const rapidjson::Value& value, const char* member, const bool dflt);
-	double		ParseDouble(const rapidjson::Value& value, const char* member, const double dflt);
-	float		ParseFloat(const rapidjson::Value& value, const char* member, const float dflt);
-	int			ParseInt(const rapidjson::Value& value, const char* member, const int dflt);
-	const char* ParseString(const rapidjson::Value& value, const char* member, const char* dflt);
+	bool		ParseBool(const rapidjson::Value& value, const char* member, const bool _default);
+	double		ParseDouble(const rapidjson::Value& value, const char* member, const double _default);
+	template<class TEnum>
+	TEnum		ParseEnum(const rapidjson::Value& value, const char* member, const TEnum _default);
+	float		ParseFloat(const rapidjson::Value& value, const char* member, const float _default);
+	int			ParseInt(const rapidjson::Value& value, const char* member, const int _default);
+	const char* ParseString(const rapidjson::Value& value, const char* member, const char* _default);
 
 	void PrintMembers(const rapidjson::Value& value);
 }
+
+#include "JsonHelpers.inl"

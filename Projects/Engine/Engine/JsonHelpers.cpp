@@ -33,44 +33,44 @@ bool json::LoadDocument(const char* filepath, rapidjson::Document& document)
 	return true;
 }
 
-bool json::ParseBool(const rapidjson::Value& value, const char* member, const bool dflt)
+bool json::ParseBool(const rapidjson::Value& value, const char* member, const bool _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd(); itr->value.IsBool())
 		return itr->value.GetBool();
-	return dflt;
+	return _default;
 }
 
-double json::ParseDouble(const rapidjson::Value& value, const char* member, const double dflt)
+double json::ParseDouble(const rapidjson::Value& value, const char* member, const double _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd(); itr->value.IsNumber())
 		return itr->value.GetDouble();
-	return dflt;
+	return _default;
 }
 
-float json::ParseFloat(const rapidjson::Value& value, const char* member, const float dflt)
+float json::ParseFloat(const rapidjson::Value& value, const char* member, const float _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd(); itr->value.IsNumber())
 		return itr->value.GetFloat();
-	return dflt;
+	return _default;
 }
 
-int json::ParseInt(const rapidjson::Value& value, const char* member, const int dflt)
+int json::ParseInt(const rapidjson::Value& value, const char* member, const int _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd(); itr->value.IsNumber())
 		return itr->value.GetInt();
-	return dflt;
+	return _default;
 }
 
-const char* json::ParseString(const rapidjson::Value& value, const char* member, const char* dflt)
+const char* json::ParseString(const rapidjson::Value& value, const char* member, const char* _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd(); itr->value.IsString())
 		return itr->value.GetString();
-	return dflt;
+	return _default;
 }
 
 void json::PrintMembers(const rapidjson::Value& value)

@@ -7,7 +7,7 @@
 namespace
 {
 	const str::Path strDefaultPath = str::Path("Assets/Levels/Default/");
-	const str::Path strExampleSound = str::Path("Assets/Sounds/S_Example.ogg");
+	const str::Guid strExampleSound = "18fa78b3-6f37-4680-81b4-951747f76f3a";
 }
 
 game::Application::Application()

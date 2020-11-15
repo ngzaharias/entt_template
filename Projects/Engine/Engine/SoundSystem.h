@@ -22,7 +22,7 @@ namespace audio
 {
 	struct Request
 	{
-		const str::Path& m_Filepath;
+		const str::Guid& m_Guid;
 	};
 
 	class SoundSystem final : public core::System
@@ -36,7 +36,7 @@ namespace audio
 
 		void Update(entt::registry& registry, const sf::Time& time) override;
 
-		void PlaySound(const str::Path& filepath);
+		void PlaySound(const str::Guid& guid);
 
 	private:
 		core::ResourceManager& m_ResourceManager;

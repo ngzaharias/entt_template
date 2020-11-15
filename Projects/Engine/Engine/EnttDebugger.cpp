@@ -274,11 +274,11 @@ void debug::EnttDebugger::RenderComponents(entt::registry& /*registry*/)
 
 		if (ImGui::BeginChild("body", { 0, 0 }, false, ImGuiWindowFlags_HorizontalScrollbar))
 		{
-			std::vector<std::string> substrings = str::Split(m_ComponentSettings.FilterText, " ");
+			const str::TStringViews substrings = str::Split(m_ComponentSettings.FilterText, " ");
 
 			for (const auto& info : m_ComponentInfo)
 			{
-				if (!m_ComponentSettings.FilterText.empty() && !str::ContainsAll(info.Name, substrings))
+				if (!m_ComponentSettings.FilterText.empty() && !str::ContainsAll_NoCase(info.Name, substrings))
 					continue;
 
 				bool isInList = m_ComponentSettings.FilterTypes.count(info.TypeId);
@@ -333,7 +333,7 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 
 		if (ImGui::BeginChild("body", { 0, 0 }, false, ImGuiWindowFlags_HorizontalScrollbar))
 		{
-			std::vector<std::string> substrings = str::Split(m_EntitySettings.FilterText, " ");
+			const str::TStringViews substrings = str::Split(m_EntitySettings.FilterText, " ");
 			if (m_EntitySettings.IsShowingOrphans)
 			{
 				for (const auto& entity : m_EntityOrphans)
@@ -353,7 +353,7 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 					if (!registry.valid(info.Entity))
 						continue;
 
-					if (!m_EntitySettings.FilterText.empty() && !str::ContainsAll(info.Name, substrings))
+					if (!m_EntitySettings.FilterText.empty() && !str::ContainsAll_NoCase(info.Name, substrings))
 						continue;
 
 					ImGui::PushID(static_cast<int>(info.Entity));

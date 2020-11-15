@@ -15,8 +15,13 @@ namespace str
 		void operator=(const char* string);
 		void operator=(const std::string_view& string);
 
+		bool HasFileExtension(const char* extension) const;
+		bool IsDirectory() const;
+		bool IsFile() const;
+
 		const char* ToChar() const { return m_Value.c_str(); }
 		const std::string& ToString() const { return m_Value; }
+		const std::string_view& ToStringView() const { return m_Value; }
 
 		///		/My/Example/Directory/Foo.bar
 		///		++++++++++++++++++++++

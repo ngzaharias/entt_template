@@ -16,6 +16,7 @@
     <ClInclude Include="Engine\CircularBuffer.h" />
     <ClInclude Include="Engine\CollisionChannels.h" />
     <ClInclude Include="Engine\EnttDebugger.h" />
+    <ClInclude Include="Engine\Guid.h" />
     <ClInclude Include="Engine\JsonHelpers.h" />
     <ClInclude Include="Engine\LevelComponent.h" />
     <ClInclude Include="Engine\LevelSystem.h" />
@@ -50,6 +51,7 @@
     <None Include="Engine\Application.inl" />
     <None Include="Engine\CircularBuffer.inl" />
     <None Include="Engine\EnttDebugger.inl" />
+    <None Include="Engine\JsonHelpers.inl" />
     <None Include="Engine\ObjectPool.inl" />
     <None Include="Engine\Random.inl" />
     <None Include="Engine\ResourceManager.inl" />
@@ -57,6 +59,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\Application.cpp" />
     <ClCompile Include="Engine\EnttDebugger.cpp" />
+    <ClCompile Include="Engine\Guid.cpp" />
     <ClCompile Include="Engine\JsonHelpers.cpp" />
     <ClCompile Include="Engine\LevelSystem.cpp" />
     <ClCompile Include="Engine\Name.cpp" />
