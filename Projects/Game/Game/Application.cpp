@@ -1,13 +1,14 @@
 #include "Game/Application.h"
 
-#include <Engine/LevelSystem.h>
-#include <Engine/PhysicsSystem.h>
-#include <Engine/SoundSystem.h>
+#include "Engine/LevelSystem.h"
+#include "Engine/Name.h"
+#include "Engine/PhysicsSystem.h"
+#include "Engine/SoundSystem.h"
 
 namespace
 {
 	const str::Path strDefaultPath = str::Path("Assets/Levels/Default/");
-	const str::Guid strExampleSound = "18fa78b3-6f37-4680-81b4-951747f76f3a";
+	const str::Name strExampleSound = str::Name::Create("18fa78b3-6f37-4680-81b4-951747f76f3a");
 }
 
 game::Application::Application()

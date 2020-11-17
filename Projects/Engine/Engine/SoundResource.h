@@ -1,12 +1,16 @@
 #pragma once
 
-#include <Engine/JsonHelpers.h>
 #include <Engine/Path.h>
 #include <Engine/Resource.h>
 
 #include <entt/resource/cache.hpp>
 #include <entt/resource/handle.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
+
+namespace core
+{
+	struct ResourceEntry;
+}
 
 namespace audio
 {
@@ -19,19 +23,7 @@ namespace audio
 	class SoundLoader : public entt::resource_loader<SoundLoader, SoundResource>
 	{
 	public:
-		std::shared_ptr<SoundResource> load(const str::Path& filepath) const
-		{
-			rapidjson::Document document;
-			json::LoadDocument(filepath.ToChar(), document);
-
-			str::Path sourceFile = json::ParseString(document, "source_file", nullptr);
-
-			SoundResource* resource = new SoundResource();
-			resource->m_Filepath = filepath;
-			resource->m_SoundBuffer.loadFromFile(sourceFile.ToChar());
-			resource->m_SourceFile = sourceFile;
-			return std::shared_ptr<SoundResource>(resource);
-		}
+		std::shared_ptr<SoundResource> load(const core::ResourceEntry& resourceEntry) const;
 	};
 
 	using SoundCache = entt::resource_cache<SoundResource>;

@@ -4,8 +4,6 @@
 
 using byte = unsigned char;
 
-using float32 = float;
-
 using int8 = int8_t;
 using int16 = int16_t;
 using int32 = int32_t;

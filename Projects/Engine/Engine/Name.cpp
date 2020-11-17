@@ -24,7 +24,14 @@ str::Name str::Name::Create(const char* string)
 	return name;
 }
 
-str::Name str::Name::Create(const std::string_view& string)
+str::Name str::Name::Create(const str::String& string)
+{
+	Name name;
+	name.m_Hash = NameTable::Instance().Register(string);
+	return name;
+}
+
+str::Name str::Name::Create(const str::StringView& string)
 {
 	Name name;
 	name.m_Hash = NameTable::Instance().Register(string);

@@ -1,35 +1,35 @@
 #pragma once
 
-#include <string>
+#include <Engine/String.h>
+#include <Engine/StringView.h>
+
 #include <vector>
 
 namespace str
 {
-	using TString = std::string;
-	using TStringView = std::string_view;
-	using TStringViews = std::vector<TStringView>;
+	using StringViews = std::vector<str::StringView>;
 
-	constexpr std::string_view s_Delimiters = " .,:;'\"<>[]{}()\\|/";
-	constexpr std::string_view s_Whitespace = " \t\f\v\n\r";
+	constexpr str::StringView s_Delimiters = " .,:;'\"<>[]{}()\\|/";
+	constexpr str::StringView s_Whitespace = " \t\f\v\n\r";
 
-	bool Contains(const TStringView& string, const TStringView& substring);
-	bool Contains_NoCase(const TStringView& string, const TStringView& substring);
+	bool Contains(const str::StringView& string, const str::StringView& substring);
+	bool Contains_NoCase(const str::StringView& string, const str::StringView& substring);
 
-	bool ContainsAll(const TStringView& string, const TStringViews& substrings);
-	bool ContainsAll_NoCase(const TStringView& string, const TStringViews& substrings);
-	bool ContainsAny(const TStringView& string, const TStringViews& substrings);
-	bool ContainsAny_NoCase(const TStringView& string, const TStringViews& substrings);
+	bool ContainsAll(const str::StringView& string, const str::StringViews& substrings);
+	bool ContainsAll_NoCase(const str::StringView& string, const str::StringViews& substrings);
+	bool ContainsAny(const str::StringView& string, const str::StringViews& substrings);
+	bool ContainsAny_NoCase(const str::StringView& string, const str::StringViews& substrings);
 
-	bool Equals(const TStringView& string, const TStringView& substring);
-	bool Equals_NoCase(const TStringView& string, const TStringView& substring);
+	bool Equals(const str::StringView& string, const str::StringView& substring);
+	bool Equals_NoCase(const str::StringView& string, const str::StringView& substring);
 
-	TStringViews Split(const TStringView& string, const TStringView& delimiters = " .,:;'\"<>[]{}()\\|/");
+	str::StringViews Split(const str::StringView& string, const str::StringView& delimiters = " .,:;'\"<>[]{}()\\|/");
 
-	void Trim(TString& string, const TStringView& substring);
-	void TrimLeft(TString& string, const TStringView& substring);
-	void TrimRight(TString& string, const TStringView& substring);
-	void TrimWhitespace(TString& string);
+	void Trim(str::String& string, const str::StringView& substring);
+	void TrimLeft(str::String& string, const str::StringView& substring);
+	void TrimRight(str::String& string, const str::StringView& substring);
+	void TrimWhitespace(str::String& string);
 
-	TString ToLower(TString string);
-	TString ToUpper(TString string);
+	str::String ToLower(str::String string);
+	str::String ToUpper(str::String string);
 }

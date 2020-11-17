@@ -16,7 +16,7 @@
     <ClInclude Include="Engine\CircularBuffer.h" />
     <ClInclude Include="Engine\CollisionChannels.h" />
     <ClInclude Include="Engine\EnttDebugger.h" />
-    <ClInclude Include="Engine\Guid.h" />
+    <ClInclude Include="Engine\Hash.h" />
     <ClInclude Include="Engine\JsonHelpers.h" />
     <ClInclude Include="Engine\LevelComponent.h" />
     <ClInclude Include="Engine\LevelSystem.h" />
@@ -33,6 +33,7 @@
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\Resource.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
+    <ClInclude Include="Engine\ResourceTypes.h" />
     <ClInclude Include="Engine\RigidDynamicComponent.h" />
     <ClInclude Include="Engine\RigidStaticComponent.h" />
     <ClInclude Include="Engine\Screen.h" />
@@ -40,7 +41,9 @@
     <ClInclude Include="Engine\SoundResource.h" />
     <ClInclude Include="Engine\SoundSystem.h" />
     <ClInclude Include="Engine\SpriteComponent.h" />
+    <ClInclude Include="Engine\String.h" />
     <ClInclude Include="Engine\StringHelpers.h" />
+    <ClInclude Include="Engine\StringView.h" />
     <ClInclude Include="Engine\System.h" />
     <ClInclude Include="Engine\TextureResource.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
@@ -59,19 +62,21 @@
   <ItemGroup>
     <ClCompile Include="Engine\Application.cpp" />
     <ClCompile Include="Engine\EnttDebugger.cpp" />
-    <ClCompile Include="Engine\Guid.cpp" />
     <ClCompile Include="Engine\JsonHelpers.cpp" />
     <ClCompile Include="Engine\LevelSystem.cpp" />
     <ClCompile Include="Engine\Name.cpp" />
     <ClCompile Include="Engine\NameTable.cpp" />
     <ClCompile Include="Engine\Path.cpp" />
     <ClCompile Include="Engine\PhysicsManager.cpp" />
+    <ClCompile Include="Engine\PhysicsMaterialResource.cpp" />
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />
     <ClCompile Include="Engine\Screen.cpp" />
+    <ClCompile Include="Engine\SoundResource.cpp" />
     <ClCompile Include="Engine\SoundSystem.cpp" />
     <ClCompile Include="Engine\StringHelpers.cpp" />
+    <ClCompile Include="Engine\TextureResource.cpp" />
     <ClCompile Include="Engine\VectorHelpers.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

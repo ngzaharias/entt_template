@@ -29,7 +29,7 @@
 
 namespace
 {
-	str::Guid strDefaultMaterial = "a4835493-ae5a-40ba-8083-06deb381c801";
+	str::Name strDefaultMaterial = str::Name::Create("a4835493-ae5a-40ba-8083-06deb381c801");
 }
 
 core::LevelSystem::LevelSystem
@@ -98,25 +98,25 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 
 		if (auto itr_translate = itr_transform->value.FindMember("translate");  itr_translate != itr_transform->value.MemberEnd())
 		{
-			const float32 x = itr_translate->value["x"].GetFloat();
-			const float32 y = itr_translate->value["y"].GetFloat();
-			const float32 z = itr_translate->value["z"].GetFloat();
+			const float x = itr_translate->value["x"].GetFloat();
+			const float y = itr_translate->value["y"].GetFloat();
+			const float z = itr_translate->value["z"].GetFloat();
 			transform.m_Translate = { x, y, z };
 		}
 
 		if (auto itr_rotate = itr_transform->value.FindMember("rotate"); itr_rotate != itr_transform->value.MemberEnd())
 		{
-			const float32 x = itr_rotate->value["x"].GetFloat();
-			const float32 y = itr_rotate->value["y"].GetFloat();
-			const float32 z = itr_rotate->value["z"].GetFloat();
+			const float x = itr_rotate->value["x"].GetFloat();
+			const float y = itr_rotate->value["y"].GetFloat();
+			const float z = itr_rotate->value["z"].GetFloat();
 			transform.m_Rotate = { x, y, z };
 		}
 
 		if (auto itr_scale = itr_transform->value.FindMember("scale"); itr_scale != itr_transform->value.MemberEnd())
 		{
-			const float32 x = itr_scale->value["x"].GetFloat();
-			const float32 y = itr_scale->value["y"].GetFloat();
-			const float32 z = itr_scale->value["z"].GetFloat();
+			const float x = itr_scale->value["x"].GetFloat();
+			const float y = itr_scale->value["y"].GetFloat();
+			const float z = itr_scale->value["z"].GetFloat();
 			transform.m_Scale = { x, y, z };
 		}
 	}
@@ -125,8 +125,8 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 	if (auto itr_camera = document.FindMember("camera"); itr_camera != document.MemberEnd())
 	{
 		core::CameraComponent& camera = registry.emplace<core::CameraComponent>(entity);
-		camera.m_Size.x = static_cast<float32>(json::ParseInt(itr_camera->value, "width", 800));
-		camera.m_Size.y = static_cast<float32>(json::ParseInt(itr_camera->value, "height", 600));
+		camera.m_Size.x = static_cast<float>(json::ParseInt(itr_camera->value, "width", 800));
+		camera.m_Size.y = static_cast<float>(json::ParseInt(itr_camera->value, "height", 600));
 	}
 
 	// physics
@@ -141,9 +141,9 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 		physx::PxVec3 scale = physx::PxVec3(1.f);
 		if (core::TransformComponent* component = registry.try_get<core::TransformComponent>(entity))
 		{
-			const float32 radianX = math::ToRadians(component->m_Rotate.x);
-			const float32 radianY = math::ToRadians(component->m_Rotate.y);
-			const float32 radianZ = math::ToRadians(component->m_Rotate.z);
+			const float radianX = math::ToRadians(component->m_Rotate.x);
+			const float radianY = math::ToRadians(component->m_Rotate.y);
+			const float radianZ = math::ToRadians(component->m_Rotate.z);
 			const physx::PxQuat quatX = physx::PxQuat(radianX, { 1.f, 0.f, 0.f });
 			const physx::PxQuat quatY = physx::PxQuat(radianY, { 0.f, 1.f, 0.f });
 			const physx::PxQuat quatZ = physx::PxQuat(radianZ, { 0.f, 0.f, 1.f });
@@ -155,23 +155,23 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 
 		if (auto itr_shape = itr_physics->value.FindMember("shape"); itr_shape != itr_physics->value.MemberEnd())
 		{
-			const physics::MaterialHandle handle = m_ResourceManager.GetResource<physics::MaterialResource>(strDefaultMaterial);
+			const physics::MaterialHandle handle = m_ResourceManager.LoadResource<physics::MaterialResource>(strDefaultMaterial);
 
 			const int32 world0 = json::ParseInt(itr_shape->value, "channel", 0);
 			const physx::PxFilterData filterData = physx::PxFilterData(world0, 0, 0, 0);
 
 			if (auto itr_box = itr_shape->value.FindMember("box"); itr_box != itr_shape->value.MemberEnd())
 			{
-				const float32 extents_x = itr_box->value["extents_x"].GetFloat() * scale.x;
-				const float32 extents_y = itr_box->value["extents_y"].GetFloat() * scale.y;
-				const float32 extents_z = itr_box->value["extents_z"].GetFloat() * scale.z;
+				const float extents_x = itr_box->value["extents_x"].GetFloat() * scale.x;
+				const float extents_y = itr_box->value["extents_y"].GetFloat() * scale.y;
+				const float extents_z = itr_box->value["extents_z"].GetFloat() * scale.z;
 
 				shape = physics.createShape(physx::PxBoxGeometry(extents_x, extents_y, extents_z), *handle->m_Material);
 				shape->setSimulationFilterData(filterData);
 			}
 			else if (auto itr_sphere = itr_shape->value.FindMember("sphere"); itr_sphere != itr_shape->value.MemberEnd())
 			{
-				const float32 radius = json::ParseFloat(itr_sphere->value, "radius", 10.f);
+				const float radius = json::ParseFloat(itr_sphere->value, "radius", 10.f);
 
 				// #todo: move creation to PhysicsManager
 				shape = physics.createShape(physx::PxSphereGeometry(radius * scale.x), *handle->m_Material);
@@ -226,15 +226,15 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const cha
 
 		if (auto itr_size = itr_sprite->value.FindMember("size"); itr_size != itr_sprite->value.MemberEnd())
 		{
-			const float32 width = json::ParseFloat(itr_size->value, "width", 32.f);
-			const float32 height = json::ParseFloat(itr_size->value, "height", 32.f);
+			const float width = json::ParseFloat(itr_size->value, "width", 32.f);
+			const float height = json::ParseFloat(itr_size->value, "height", 32.f);
 			sprite.m_Size = { width, height };
 		}
 
 		if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
 		{
-			const str::Guid guid = itr_texture->value.GetString();
-			const render::TextureHandle handle = m_ResourceManager.GetResource<render::TextureResource>(guid);
+			const str::Name name = str::Name::Create(itr_texture->value.GetString());
+			const render::TextureHandle handle = m_ResourceManager.LoadResource<render::TextureResource>(name);
 
 			sprite.m_Handle = handle;
 			sprite.m_Sprite.setTexture(handle->m_Texture);

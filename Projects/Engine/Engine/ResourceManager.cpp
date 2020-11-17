@@ -1,6 +1,5 @@
 #include "Engine/ResourceManager.h"
 
-#include "Engine/Guid.h"
 #include "Engine/Path.h"
 #include "Engine/StringHelpers.h"
 
@@ -11,9 +10,16 @@ namespace
 {
 	constexpr char* s_AssetsDirectory = "Assets/";
 
-	const entt::id_type ID_PhysicsMaterial = entt::type_info<physics::MaterialResource>::id();
-	const entt::id_type ID_Sound = entt::type_info<audio::SoundResource>::id();
-	const entt::id_type ID_Texture = entt::type_info<render::TextureResource>::id();
+	core::EResourceType ToResourceType(const char* string)
+	{
+		if (str::Equals(string, "physics_material"))
+			return core::EResourceType::PhysicsMaterial;
+		if (str::Equals(string, "sound"))
+			return core::EResourceType::Sound;
+		if (str::Equals(string, "texture"))
+			return core::EResourceType::Texture;
+		return core::EResourceType::Unknown;
+	}
 }
 
 core::ResourceManager::ResourceManager(physics::PhysicsManager& physicsManager)
@@ -27,7 +33,7 @@ core::ResourceManager::~ResourceManager()
 
 void core::ResourceManager::Initialize()
 {
-	LoadResources(s_AssetsDirectory, true);
+	LoadDirectory(s_AssetsDirectory, true);
 }
 
 void core::ResourceManager::Destroy()
@@ -37,13 +43,13 @@ void core::ResourceManager::Destroy()
 	m_TextureCache.clear();
 }
 
-void core::ResourceManager::LoadResources(const char* directory, const bool isSearchingSubdirectories)
+void core::ResourceManager::LoadDirectory(const char* directory, const bool isSearchingSubdirectories)
 {
 	for (const auto& entry : std::filesystem::directory_iterator(directory))
 	{
 		if (entry.is_directory() && isSearchingSubdirectories)
 		{
-			LoadResources(entry.path().string().c_str(), true);
+			LoadDirectory(entry.path().string().c_str(), true);
 		}
 		else
 		{
@@ -53,40 +59,28 @@ void core::ResourceManager::LoadResources(const char* directory, const bool isSe
 				rapidjson::Document document;
 				json::LoadDocument(filepath.ToChar(), document);
 
-				const char* resourceType = json::ParseString(document, "resource_type", nullptr);
-				const char* resourceGUID = json::ParseString(document, "resource_guid", nullptr);
+				const char* guidString = json::ParseString(document, "resource_guid", nullptr);
+				const char* typeString = json::ParseString(document, "resource_type", nullptr);
 
-				entt::id_type typeId;
-				if (str::Equals(resourceType, "physics_material"))
-				{
-					typeId = ID_PhysicsMaterial;
-				}
-				else if (str::Equals(resourceType, "sound"))
-				{
-					typeId = ID_Sound;
-				}
-				else if (str::Equals(resourceType, "texture"))
-				{
-					typeId = ID_Texture;
-				}
-
-				m_ResourceMap.insert({ resourceGUID, { resourceGUID, filepath, typeId } });
+				const str::Name name = str::Name::Create(guidString);
+				const EResourceType type = ToResourceType(typeString);
+				m_ResourceMap.insert({ name, ResourceEntry{ name, filepath, type } });
 			}
 		}
 	}
 
-	for (const auto& entry : m_ResourceMap)
+	for (auto&& [key, value] : m_ResourceMap)
 	{
-		switch (entry.second.m_TypeId)
+		switch (value.m_Type)
 		{
-		case ID_PhysicsMaterial:
-			LoadResource<physics::MaterialResource>(entry.second.m_Guid);
+		case EResourceType::PhysicsMaterial:
+			LoadResource<physics::MaterialResource>(value.m_Name);
 			break;
-		case ID_Sound:
-			LoadResource<audio::SoundResource>(entry.second.m_Guid);
+		case EResourceType::Sound:
+			LoadResource<audio::SoundResource>(value.m_Name);
 			break;
-		case ID_Texture:
-			LoadResource<render::TextureResource>(entry.second.m_Guid);
+		case EResourceType::Texture:
+			LoadResource<render::TextureResource>(value.m_Name);
 			break;
 		}
 	}

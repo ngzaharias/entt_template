@@ -274,7 +274,7 @@ void debug::EnttDebugger::RenderComponents(entt::registry& /*registry*/)
 
 		if (ImGui::BeginChild("body", { 0, 0 }, false, ImGuiWindowFlags_HorizontalScrollbar))
 		{
-			const str::TStringViews substrings = str::Split(m_ComponentSettings.FilterText, " ");
+			const str::StringViews substrings = str::Split(m_ComponentSettings.FilterText, " ");
 
 			for (const auto& info : m_ComponentInfo)
 			{
@@ -333,7 +333,7 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 
 		if (ImGui::BeginChild("body", { 0, 0 }, false, ImGuiWindowFlags_HorizontalScrollbar))
 		{
-			const str::TStringViews substrings = str::Split(m_EntitySettings.FilterText, " ");
+			const str::StringViews substrings = str::Split(m_EntitySettings.FilterText, " ");
 			if (m_EntitySettings.IsShowingOrphans)
 			{
 				for (const auto& entity : m_EntityOrphans)

@@ -1,9 +1,11 @@
 #pragma once
 
+#include <Engine/Hash.h>
 #include <Engine/Name.h>
+#include <Engine/String.h>
+#include <Engine/StringView.h>
 
 #include <map>
-#include <string>
 
 namespace str
 {
@@ -15,12 +17,13 @@ namespace str
 		NameTable();
 		~NameTable();
 
-		Hash Register(const char* string);
-		Hash Register(const std::string_view& string);
+		core::Hash Register(const char* string);
+		core::Hash Register(const str::String& string);
+		core::Hash Register(const str::StringView& string);
 
-		const std::string& Retrieve(const Hash& hash) const;
+		const str::String& Retrieve(const core::Hash& hash) const;
 
 	private:
-		std::map<Hash, std::string> m_Values;
+		std::map<core::Hash, str::String> m_Values;
 	};
 }

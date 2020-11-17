@@ -1,32 +1,33 @@
 #pragma once
 
-#include <functional>
-#include <string>
+#include <Engine/Hash.h>
+#include <Engine/String.h>
+#include <Engine/StringView.h>
 
 #define NAME(str) str::Name::Create(str)
 
 namespace str
 {
-	using Hash = size_t;
-
 	class Name final
 	{
 	public:
-		static constexpr Hash Unassigned = -1;
+		static constexpr core::Hash Unassigned = -1;
 
 		Name() : m_Hash(Unassigned) { }
 
-		bool operator<(const Name& rhs) const { return m_Hash < rhs.m_Hash; }
+		bool operator<(const str::Name& rhs) const { return m_Hash < rhs.m_Hash; }
 
 		const bool IsEmpty() const;
 
 		const char* ToChar() const;
-		const std::string& ToString() const;
+		const core::Hash ToHash() const { return m_Hash; }
+		const str::String& ToString() const;
 
-		static Name Create(const char* string);
-		static Name Create(const std::string_view& string);
+		static str::Name Create(const char* string);
+		static str::Name Create(const str::String& string);
+		static str::Name Create(const str::StringView& string);
 
 	private:
-		Hash m_Hash;
+		core::Hash m_Hash;
 	};
 }

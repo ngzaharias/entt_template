@@ -103,7 +103,16 @@
     <ClInclude Include="Engine\PhysicsManager.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Guid.h">
+    <ClInclude Include="Engine\ResourceTypes.h">
+      <Filter>Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\String.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\StringView.h">
+      <Filter>Source\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Hash.h">
       <Filter>Source\Strings</Filter>
     </ClInclude>
   </ItemGroup>
@@ -176,8 +185,14 @@
     <ClCompile Include="Engine\PhysicsManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Guid.cpp">
-      <Filter>Source\Strings</Filter>
+    <ClCompile Include="Engine\SoundResource.cpp">
+      <Filter>Source\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\TextureResource.cpp">
+      <Filter>Source\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PhysicsMaterialResource.cpp">
+      <Filter>Source\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

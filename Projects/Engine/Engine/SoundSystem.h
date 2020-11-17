@@ -1,28 +1,33 @@
 #pragma once
 
-#include <Engine/CircularBuffer.h>
 #include <Engine/ObjectPool.h>
 #include <Engine/Path.h>
-#include <Engine/ResourceManager.h>
-#include <Engine/SoundComponent.h>
 #include <Engine/System.h>
 
-#include <string>
 #include <vector>
 #include <entt/fwd.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
+
+namespace core
+{
+	class ResourceManager;
+}
 
 namespace sf
 {
-	class Sound;
 	class Time;
+}
+
+namespace str
+{
+	class Name;
 }
 
 namespace audio
 {
 	struct Request
 	{
-		const str::Guid& m_Guid;
+		const str::Name& m_Name;
 	};
 
 	class SoundSystem final : public core::System
@@ -36,7 +41,7 @@ namespace audio
 
 		void Update(entt::registry& registry, const sf::Time& time) override;
 
-		void PlaySound(const str::Guid& guid);
+		void PlaySound(const str::Name& name);
 
 	private:
 		core::ResourceManager& m_ResourceManager;

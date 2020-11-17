@@ -7,6 +7,11 @@
 #include <entt/resource/handle.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+namespace core
+{
+	struct ResourceEntry;
+}
+
 namespace render
 {
 	struct TextureResource : public core::Resource
@@ -18,19 +23,7 @@ namespace render
 	class TextureLoader : public entt::resource_loader<TextureLoader, TextureResource>
 	{
 	public:
-		std::shared_ptr<TextureResource> load(const str::Path& filepath) const
-		{
-			rapidjson::Document document;
-			json::LoadDocument(filepath.ToChar(), document);
-
-			str::Path sourceFile = json::ParseString(document, "source_file", nullptr);
-
-			TextureResource* resource = new TextureResource();
-			resource->m_Filepath = filepath;
-			resource->m_SourceFile = sourceFile;
-			resource->m_Texture.loadFromFile(sourceFile.ToChar());
-			return std::shared_ptr<TextureResource>(resource);
-		}
+		std::shared_ptr<TextureResource> load(const core::ResourceEntry& resourceEntry) const;
 	};
 
 	using TextureCache = entt::resource_cache<TextureResource>;

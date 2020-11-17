@@ -1,10 +1,11 @@
 #include "Engine/NameTable.h"
 
 #include <assert.h>
+#include <entt/core/hashed_string.hpp>
 
 namespace
 {
-	std::string strEmpty;
+	str::String strEmpty;
 
 	str::NameTable* s_Instance = nullptr;
 }
@@ -26,31 +27,37 @@ str::NameTable::~NameTable()
 	s_Instance = nullptr;
 }
 
-str::Hash str::NameTable::Register(const char* string)
+core::Hash str::NameTable::Register(const char* string)
 {
-	const std::string value = string;
-	const Hash hash = std::hash<std::string>{}(value);
+	const core::Hash hash = entt::hashed_string{ string };
 	const auto itr = m_Values.find(hash);
 	if (itr == m_Values.end())
 		m_Values[hash] = string;
 	return hash;
 }
 
-str::Hash str::NameTable::Register(const std::string_view& string)
+core::Hash str::NameTable::Register(const str::String& string)
 {
-	const std::string value = std::string(string);
-	const Hash hash = std::hash<std::string>{}(value);
+	const core::Hash hash = entt::hashed_string{ string.c_str() };
 	const auto itr = m_Values.find(hash);
 	if (itr != m_Values.end())
 		m_Values[hash] = string;
 	return hash;
 }
 
-const std::string& str::NameTable::Retrieve(const Hash& hash) const
+core::Hash str::NameTable::Register(const str::StringView& string)
+{
+	const core::Hash hash = entt::hashed_string{ str::String(string).c_str() };
+	const auto itr = m_Values.find(hash);
+	if (itr != m_Values.end())
+		m_Values[hash] = string;
+	return hash;
+}
+
+const str::String& str::NameTable::Retrieve(const core::Hash& hash) const
 {
 	const auto itr = m_Values.find(hash);
 	if (itr != m_Values.end())
 		return itr->second;
 	return strEmpty;
 }
-
