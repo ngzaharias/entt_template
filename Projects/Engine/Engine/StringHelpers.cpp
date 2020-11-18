@@ -1,6 +1,18 @@
 #include "Engine/StringHelpers.h"
 
+#include "Engine/Types.h"
+
 #include <algorithm>
+#include <random>
+#include <type_traits>
+
+namespace
+{
+	std::mt19937_64 s_MT = std::mt19937_64(std::random_device{}());
+
+	constexpr char* s_GuidFormatCompact = "%08x%04hx%04hx%04hx%04hx%04hx%04hx";
+	constexpr char* s_GuidFormatHyphenated = "%08x-%04hx-%04hx-%04hx-%04hx%04hx%04hx";
+}
 
 bool str::Contains(const str::StringView& string, const str::StringView& substring)
 {
@@ -64,7 +76,31 @@ bool str::Equals_NoCase(const str::StringView& string, const str::StringView& su
 	return std::equal(string.begin(), string.end(), substring.begin(), substring.end(), [](char a, char b) { return tolower(a) == tolower(b); });
 }
 
-str::StringViews str::Split(const str::StringView& string, const str::StringView& delimiters)
+str::String str::GenerateGUID(const bool isHyphenated /*= true*/)
+{
+	std::uniform_int_distribution<uint64> dist(1, UINT64_MAX);
+
+	uint64 data[2];
+	data[0] = dist(s_MT);
+	data[1] = dist(s_MT);
+
+	char buffer[64];
+	const char* cData = reinterpret_cast<const char*>(data);
+	const char* format = isHyphenated ? s_GuidFormatHyphenated : s_GuidFormatCompact;
+
+	snprintf
+	(
+		buffer, sizeof(buffer), format,
+		*reinterpret_cast<const uint32*>(cData),		*reinterpret_cast<const uint16*>(cData + 4),
+		*reinterpret_cast<const uint16*>(cData + 6),	*reinterpret_cast<const uint16*>(cData + 8),
+		*reinterpret_cast<const uint16*>(cData + 10),	*reinterpret_cast<const uint16*>(cData + 12),
+		*reinterpret_cast<const uint16*>(cData + 14)
+	);
+
+	return str::String(buffer);
+}
+
+str::StringViews str::Split(const str::StringView& string, const str::StringView& delimiters /*= s_Delimiters*/)
 {
 	str::StringViews substrings;
 	auto begin = string.find_first_not_of(delimiters, 0);

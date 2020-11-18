@@ -23,7 +23,9 @@ namespace str
 	bool Equals(const str::StringView& string, const str::StringView& substring);
 	bool Equals_NoCase(const str::StringView& string, const str::StringView& substring);
 
-	str::StringViews Split(const str::StringView& string, const str::StringView& delimiters = " .,:;'\"<>[]{}()\\|/");
+	str::String GenerateGUID(const bool isHyphenated = true);
+
+	str::StringViews Split(const str::StringView& string, const str::StringView& delimiters = s_Delimiters);
 
 	void Trim(str::String& string, const str::StringView& substring);
 	void TrimLeft(str::String& string, const str::StringView& substring);

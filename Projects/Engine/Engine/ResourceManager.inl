@@ -2,6 +2,13 @@
 
 #include <PhysX/PxPhysics.h>
 
+template<class TResource>
+entt::resource_handle<TResource> core::ResourceManager::LoadResource(const str::Name& name)
+{
+	static_assert(false, "Resource Type doesn't exist!");
+	return nullptr;
+}
+
 template<>
 physics::MaterialHandle core::ResourceManager::LoadResource<physics::MaterialResource>(const str::Name& name)
 {

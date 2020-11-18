@@ -3,16 +3,20 @@
 #include "Engine/JsonHelpers.h"
 #include "Engine/ResourceTypes.h"
 
+#include <SFML/System/FileInputStream.hpp>
+
 std::shared_ptr<render::TextureResource> render::TextureLoader::load(const core::ResourceEntry& resourceEntry) const
 {
 	rapidjson::Document document;
 	json::LoadDocument(resourceEntry.m_Filepath.ToChar(), document);
 
-	str::Path sourceFile = json::ParseString(document, "source_file", nullptr);
+	str::Path sourceFile = json::ParseString(document, "source_file", "");
+	json::Binary binaryData = json::ParseBinary(document, "binary_data", json::Binary());
 
 	render::TextureResource* resource = new render::TextureResource();
-	resource->m_Filepath = resourceEntry.m_Filepath;
+	resource->m_Name = resourceEntry.m_Name;
 	resource->m_SourceFile = sourceFile;
-	resource->m_Texture.loadFromFile(sourceFile.ToChar());
+	resource->m_Texture.loadFromMemory(binaryData.m_Data, binaryData.m_Size);
+
 	return std::shared_ptr<render::TextureResource>(resource);
 }

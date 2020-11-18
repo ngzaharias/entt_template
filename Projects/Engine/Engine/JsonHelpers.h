@@ -5,8 +5,18 @@
 
 namespace json
 {
-	bool LoadDocument(const char* filepath, rapidjson::Document& document);
+	struct Binary
+	{
+		bool IsValid() const { return m_Data && m_Size > 0; }
 
+		const char* m_Data = nullptr;
+		size_t m_Size = 0;
+	};
+
+	bool LoadDocument(const char* filepath, rapidjson::Document& document);
+	bool SaveDocument(const char* filepath, rapidjson::Document& document);
+
+	Binary		ParseBinary(const rapidjson::Value& value, const char* member, Binary _default);
 	bool		ParseBool(const rapidjson::Value& value, const char* member, const bool _default);
 	double		ParseDouble(const rapidjson::Value& value, const char* member, const double _default);
 	template<class TEnum>

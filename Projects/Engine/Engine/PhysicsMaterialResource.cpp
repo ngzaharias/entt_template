@@ -19,7 +19,7 @@ std::shared_ptr<physics::MaterialResource> physics::MaterialLoader::load(const c
 	const float restituation = json::ParseFloat(document, "restituation", 0.f);
 
 	physics::MaterialResource* resource = new physics::MaterialResource();
-	resource->m_Filepath = resourceEntry.m_Filepath;
+	resource->m_Name = resourceEntry.m_Name;
 	resource->m_Material = physics.createMaterial(static_friction, dynamic_friction, restituation);
 	return std::shared_ptr<physics::MaterialResource>(resource);
 }
