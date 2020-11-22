@@ -16,6 +16,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Projects\Game\Game.
 		{2471547F-763A-49BA-9A17-6814171F1849} = {2471547F-763A-49BA-9A17-6814171F1849}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Projects\Editor\Editor.vcxproj", "{CC70E15A-7314-4036-9DDD-7A511E245908}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C1C3CF00-1902-4C96-AFF2-25925642BEC3} = {C1C3CF00-1902-4C96-AFF2-25925642BEC3}
+		{1E28BC3F-C095-4338-BB5C-825371B69751} = {1E28BC3F-C095-4338-BB5C-825371B69751}
+		{2471547F-763A-49BA-9A17-6814171F1849} = {2471547F-763A-49BA-9A17-6814171F1849}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -42,6 +49,12 @@ Global
 		{1E28BC3F-C095-4338-BB5C-825371B69751}.Release|x64.ActiveCfg = Release|x64
 		{1E28BC3F-C095-4338-BB5C-825371B69751}.Release|x64.Build.0 = Release|x64
 		{1E28BC3F-C095-4338-BB5C-825371B69751}.Release|x86.ActiveCfg = Release|x64
+		{CC70E15A-7314-4036-9DDD-7A511E245908}.Debug|x64.ActiveCfg = Debug|x64
+		{CC70E15A-7314-4036-9DDD-7A511E245908}.Debug|x64.Build.0 = Debug|x64
+		{CC70E15A-7314-4036-9DDD-7A511E245908}.Debug|x86.ActiveCfg = Debug|x64
+		{CC70E15A-7314-4036-9DDD-7A511E245908}.Release|x64.ActiveCfg = Release|x64
+		{CC70E15A-7314-4036-9DDD-7A511E245908}.Release|x64.Build.0 = Release|x64
+		{CC70E15A-7314-4036-9DDD-7A511E245908}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

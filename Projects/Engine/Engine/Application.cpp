@@ -12,6 +12,7 @@
 #include <random>
 #include <time.h>
 #include <entt/entt.hpp>
+#include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics.hpp>

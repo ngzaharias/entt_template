@@ -45,7 +45,7 @@ namespace core
 		void Unload(entt::registry& registry);
 
 	private:
-		entt::entity CreateEntity(entt::registry& registry, const char* filepath);
+		entt::entity CreateEntity(entt::registry& registry, const str::Path& filepath);
 
 	private:
 		physics::PhysicsManager& m_PhysicsManager;

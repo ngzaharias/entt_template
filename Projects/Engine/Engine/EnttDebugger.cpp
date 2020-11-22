@@ -202,7 +202,7 @@ void debug::EnttDebugger::Update(entt::registry& registry, const sf::Time& time)
 		});
 	}
 
-	Render(registry);
+	//Render(registry);
 }
 
 void debug::EnttDebugger::Render(entt::registry& registry)

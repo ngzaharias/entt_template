@@ -6,7 +6,6 @@
 #include <entt/fwd.hpp>
 #include <entt/core/type_info.hpp>
 
-
 namespace audio
 {
 	struct SoundResource;
@@ -33,9 +32,12 @@ namespace core
 		Texture				= entt::type_info<render::TextureResource>::id(),
 	};
 
+	core::EResourceType ToResourceType(const char* string);
+	const char* ToResourceType(core::EResourceType resourceType);
+
 	struct ResourceEntry
 	{
-		str::Name m_Name;
+		str::Name m_Guid;
 		str::Path m_Filepath;
 		EResourceType m_Type;
 	};

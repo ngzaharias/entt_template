@@ -1,35 +1,21 @@
 #include "Game/Application.h"
 
+#include <Engine/FileHelpers.h>
 #include <Engine/JsonHelpers.h>
 #include <Engine/Path.h>
 #include <Engine/String.h>
 #include <Engine/StringHelpers.h>
 
 #include <direct.h>
-#include <fstream>
-#include <iostream>
-#include <sstream>
 
 namespace
 {
-	bool LoadAsBinary(const str::Path& filepath, str::String& out_String)
-	{
-		std::ifstream is;
-		std::ostringstream stream;
-		is.open(filepath.ToChar(), std::ios::binary);
-		stream << is.rdbuf();
-		is.close();
-
-		out_String = stream.str();
-		return true;
-	}
-
-	bool ConvertToTextureAsset(const str::Path& inputPath, const str::Path& outputPath)
+	bool GenerateAsset(const str::Path& inputPath, const str::Path& outputPath)
 	{
 		str::String resourceGuid = str::GenerateGUID();
 
 		str::String binaryData;
-		LoadAsBinary(inputPath, binaryData);
+		core::LoadFileAsBinary(inputPath, binaryData);
 		rapidjson::SizeType binarySize = static_cast<rapidjson::SizeType>(binaryData.size());
 
 		rapidjson::Document document;

@@ -7,6 +7,6 @@ namespace core
 {
 	struct Resource
 	{
-		str::Name m_Name;
+		str::Name m_Guid;
 	};
 }

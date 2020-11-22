@@ -27,7 +27,8 @@ namespace physics
 	class MaterialLoader : public entt::resource_loader<MaterialLoader, MaterialResource>
 	{
 	public:
-		std::shared_ptr<MaterialResource> load(const core::ResourceEntry& resourceEntry, const physics::PhysicsManager& physicsManager) const;
+		bool save(const core::ResourceEntry& entry) const;
+		std::shared_ptr<MaterialResource> load(const core::ResourceEntry& entry, const physics::PhysicsManager& physicsManager) const;
 	};
 
 	using MaterialCache = entt::resource_cache<MaterialResource>;

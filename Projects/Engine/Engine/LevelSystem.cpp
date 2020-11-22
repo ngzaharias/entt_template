@@ -63,11 +63,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const str::Path& director
 	for (const auto& entry : std::filesystem::directory_iterator(directory.ToChar()))
 	{
 		const str::Path filepath = entry.path().string();
-		const entt::entity entity = CreateEntity(registry, filepath.ToChar());
-
-		core::LevelComponent& levelComponent = registry.emplace<core::LevelComponent>(entity);
-		levelComponent.m_Name = filepath.ToChar();
-		levelComponent.m_Path = filepath.ToChar();
+		const entt::entity entity = CreateEntity(registry, filepath);
 	}
 
 	return true;
@@ -77,13 +73,20 @@ void core::LevelSystem::Unload(entt::registry& registry)
 {
 }
 
-entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const char* filepath)
+entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str::Path& filepath)
 {
 	rapidjson::Document document;
-	if (!json::LoadDocument(filepath, document))
+	if (!json::LoadDocument(filepath.ToChar(), document))
 		return entt::null;
 
 	const entt::entity entity = registry.create();
+
+	// level
+	{
+		core::LevelComponent& levelComponent = registry.emplace<core::LevelComponent>(entity);
+		levelComponent.m_Name = filepath.ToChar();
+		levelComponent.m_Path = filepath.ToChar();
+	}
 
 	// name
 	{

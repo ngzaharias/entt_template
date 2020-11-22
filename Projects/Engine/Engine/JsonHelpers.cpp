@@ -13,7 +13,6 @@ bool json::LoadDocument(const char* filepath, rapidjson::Document& document)
 	if (!file)
 	{
 		perror("fopen_s");
-		fclose(file);
 		return false;
 	}
 
@@ -41,7 +40,6 @@ bool json::SaveDocument(const char* filepath, rapidjson::Document& document)
 	if (!file)
 	{
 		perror("fopen_s");
-		fclose(file);
 		return false;
 	}
 

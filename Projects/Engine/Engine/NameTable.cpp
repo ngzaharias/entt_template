@@ -40,7 +40,7 @@ core::Hash str::NameTable::Register(const str::String& string)
 {
 	const core::Hash hash = entt::hashed_string{ string.c_str() };
 	const auto itr = m_Values.find(hash);
-	if (itr != m_Values.end())
+	if (itr == m_Values.end())
 		m_Values[hash] = string;
 	return hash;
 }
@@ -49,7 +49,7 @@ core::Hash str::NameTable::Register(const str::StringView& string)
 {
 	const core::Hash hash = entt::hashed_string{ str::String(string).c_str() };
 	const auto itr = m_Values.find(hash);
-	if (itr != m_Values.end())
+	if (itr == m_Values.end())
 		m_Values[hash] = string;
 	return hash;
 }

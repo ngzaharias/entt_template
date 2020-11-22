@@ -8,18 +8,7 @@
 
 namespace
 {
-	constexpr char* s_AssetsDirectory = "Assets/";
-
-	core::EResourceType ToResourceType(const char* string)
-	{
-		if (str::Equals(string, "physics_material"))
-			return core::EResourceType::PhysicsMaterial;
-		if (str::Equals(string, "sound"))
-			return core::EResourceType::Sound;
-		if (str::Equals(string, "texture"))
-			return core::EResourceType::Texture;
-		return core::EResourceType::Unknown;
-	}
+	constexpr char* s_AssetsDirectory = "Assets\\";
 }
 
 core::ResourceManager::ResourceManager(physics::PhysicsManager& physicsManager)
@@ -47,9 +36,10 @@ void core::ResourceManager::LoadDirectory(const char* directory, const bool isSe
 {
 	for (const auto& entry : std::filesystem::directory_iterator(directory))
 	{
+		const std::filesystem::path& path = entry.path();
 		if (entry.is_directory() && isSearchingSubdirectories)
 		{
-			LoadDirectory(entry.path().string().c_str(), true);
+			LoadDirectory(path.string().c_str(), true);
 		}
 		else
 		{
@@ -62,26 +52,10 @@ void core::ResourceManager::LoadDirectory(const char* directory, const bool isSe
 				const char* guidString = json::ParseString(document, "resource_guid", nullptr);
 				const char* typeString = json::ParseString(document, "resource_type", nullptr);
 
-				const str::Name name = str::Name::Create(guidString);
-				const EResourceType type = ToResourceType(typeString);
-				m_ResourceMap.insert({ name, ResourceEntry{ name, filepath, type } });
+				const str::Name guid = str::Name::Create(guidString);
+				const EResourceType type = core::ToResourceType(typeString);
+				m_ResourceEntries.insert({ guid, ResourceEntry{ guid, filepath, type } });
 			}
-		}
-	}
-
-	for (auto&& [key, value] : m_ResourceMap)
-	{
-		switch (value.m_Type)
-		{
-		case EResourceType::PhysicsMaterial:
-			LoadResource<physics::MaterialResource>(value.m_Name);
-			break;
-		case EResourceType::Sound:
-			LoadResource<audio::SoundResource>(value.m_Name);
-			break;
-		case EResourceType::Texture:
-			LoadResource<render::TextureResource>(value.m_Name);
-			break;
 		}
 	}
 }

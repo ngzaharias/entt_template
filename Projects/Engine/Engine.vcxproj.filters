@@ -115,6 +115,9 @@
     <ClInclude Include="Engine\Hash.h">
       <Filter>Source\Strings</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\FileHelpers.h">
+      <Filter>Source\Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -194,6 +197,12 @@
     <ClCompile Include="Engine\PhysicsMaterialResource.cpp">
       <Filter>Source\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\FileHelpers.cpp">
+      <Filter>Source\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ResourceTypes.cpp">
+      <Filter>Source\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -216,6 +225,9 @@
     </Filter>
     <Filter Include="Source\JSON">
       <UniqueIdentifier>{4731fb0a-1860-4eec-a50a-f06f37bb40cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Files">
+      <UniqueIdentifier>{606c1a6a-ad5a-4bff-b528-14f99feb5335}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

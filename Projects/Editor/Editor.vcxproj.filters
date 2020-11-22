@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{5576e069-7519-4adf-9b4d-aecf63242122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Widgets">
+      <UniqueIdentifier>{5aa5f23b-7fe8-4b82-88de-04e9fad9ad09}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Editor\Application.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\AssetBrowser.cpp">
+      <Filter>Source\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\MainMenuBar.cpp">
+      <Filter>Source\Widgets</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Editor\Application.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\AssetBrowser.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\MainMenuBar.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

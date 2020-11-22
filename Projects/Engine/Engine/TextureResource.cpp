@@ -14,7 +14,7 @@ std::shared_ptr<render::TextureResource> render::TextureLoader::load(const core:
 	json::Binary binaryData = json::ParseBinary(document, "binary_data", json::Binary());
 
 	render::TextureResource* resource = new render::TextureResource();
-	resource->m_Name = resourceEntry.m_Name;
+	resource->m_Guid = resourceEntry.m_Guid;
 	resource->m_SourceFile = sourceFile;
 	resource->m_Texture.loadFromMemory(binaryData.m_Data, binaryData.m_Size);
 
