@@ -1,6 +1,7 @@
 #include "Editor/MainMenuBar.h"
 
 #include "Editor/AssetBrowser.h"
+#include "Editor/Inspector.h"
 
 #include <imgui/imgui.h>
 #include <SFML/System/Time.hpp>
@@ -20,8 +21,9 @@ namespace
 	const ImVec4 s_Invalid = ImVec4(0.92f, 0.14f, 0.25f, 1.f);
 }
 
-editor::MainMenuBar::MainMenuBar(editor::AssetBrowser& assetBrowser)
+editor::MainMenuBar::MainMenuBar(editor::AssetBrowser& assetBrowser, editor::Inspector& inspector)
 	: m_AssetBrowser(assetBrowser)
+	, m_Inspector(inspector)
 {
 }
 
@@ -93,8 +95,12 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 		if (ImGui::BeginMenu("Window"))
 		{
 			ImGui::Text("General");
+
 			if (ImGui::MenuItem("Asset Browser"))
 				m_AssetBrowser.SetVisible(true);
+
+			if (ImGui::MenuItem("Inspector"))
+				m_Inspector.SetVisible(true);
 
 			ImGui::Separator();
 

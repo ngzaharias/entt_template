@@ -7,11 +7,12 @@
 namespace editor
 {
 	class AssetBrowser;
+	class Inspector;
 
 	class MainMenuBar final : public core::System
 	{
 	public:
-		MainMenuBar(editor::AssetBrowser& assetBrowser);
+		MainMenuBar(editor::AssetBrowser& assetBrowser, editor::Inspector& inspector);
 		~MainMenuBar();
 
 		void Initialize(entt::registry& registry) override;
@@ -22,5 +23,6 @@ namespace editor
 
 	private:
 		editor::AssetBrowser& m_AssetBrowser;
+		editor::Inspector& m_Inspector;
 	};
 }

@@ -1,10 +1,12 @@
 #pragma once
 
+#include <Engine/String.h>
+
 namespace core
 {
 	struct LevelComponent
 	{
-		std::string m_Name = { };
-		std::string m_Path = { };
+		str::String m_Name = { };
+		str::String m_Path = { };
 	};
 }

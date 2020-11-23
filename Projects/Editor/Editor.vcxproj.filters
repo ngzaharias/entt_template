@@ -21,6 +21,9 @@
     <ClCompile Include="Editor\MainMenuBar.cpp">
       <Filter>Source\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\Inspector.cpp">
+      <Filter>Source\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h">
@@ -30,6 +33,9 @@
       <Filter>Source\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="Editor\MainMenuBar.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Inspector.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
