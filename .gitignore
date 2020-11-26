@@ -36,3 +36,4 @@
 *.db
 *.opendb
 *.user
+imgui.ini
