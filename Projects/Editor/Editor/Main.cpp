@@ -1,6 +1,7 @@
 #include "Editor/Application.h"
 
 #include <direct.h>
+#include <entt/entt.hpp>
 
 int main(int agrc, char* argv[])
 {

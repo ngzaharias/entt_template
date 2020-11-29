@@ -16,12 +16,19 @@
     <ClCompile Include="Editor\Inspector.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
     <ClCompile Include="Editor\MainMenuBar.cpp" />
+    <ClCompile Include="Editor\PropertyHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h" />
     <ClInclude Include="Editor\AssetBrowser.h" />
     <ClInclude Include="Editor\Inspector.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
+    <ClInclude Include="Editor\PropertyHelpers.h" />
+    <ClInclude Include="Editor\PropertyDefines.h" />
+    <ClInclude Include="Editor\PropertyWidgets.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor\PropertyWidgets.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

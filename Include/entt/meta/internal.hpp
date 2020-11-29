@@ -264,6 +264,9 @@ struct meta_type_node {
     id_type id;
     meta_type_node * next;
     meta_prop_node * prop;
+    const bool has_boolean;
+    const bool has_integer;
+    const bool has_float;
     const bool is_void;
     const bool is_integral;
     const bool is_floating_point;
@@ -408,6 +411,9 @@ public:
             {},
             nullptr,
             nullptr,
+            std::is_same<Type, bool>::value,
+            std::is_same<Type, int>::value,
+            std::is_same<Type, float>::value,
             std::is_void_v<Type>,
             std::is_integral_v<Type>,
             std::is_floating_point_v<Type>,

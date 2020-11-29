@@ -24,6 +24,9 @@
     <ClCompile Include="Editor\Inspector.cpp">
       <Filter>Source\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\PropertyHelpers.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h">
@@ -38,5 +41,19 @@
     <ClInclude Include="Editor\Inspector.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\PropertyWidgets.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\PropertyHelpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\PropertyDefines.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor\PropertyWidgets.inl">
+      <Filter>Source\Widgets</Filter>
+    </None>
   </ItemGroup>
 </Project>
