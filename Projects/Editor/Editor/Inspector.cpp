@@ -6,22 +6,24 @@
 #include <Engine/LevelComponent.h>
 #include <Engine/NameComponent.h>
 #include <Engine/ResourceManager.h>
+#include <Engine/StringTable.h>
 #include <Engine/TransformComponent.h>
 
 #include <iostream>
 #include <entt/entt.hpp>
+#include <entt/meta/container.hpp>
 #include <imgui/imgui.h>
 #include <SFML/System/Time.hpp>
 
 //#define REFLECT_CLASS(class_name, pretty_name) \
 //entt::meta<class_name>() \
 //	.type(#class_name""_hs) \
-//	.prop(strName, pretty_name) \
+//	.prop(core::strName, pretty_name) \
 //
 //#define REFLECT_MEMBER(class_name, member_name, pretty_name) \
 //.data<&class_name::member_name>(#class_name"::"#member_name""_hs) \
-//	.prop(strName, pretty_name) \
-//	.prop(strOffset, offsetof(class_name, member_name)) \
+//	.prop(core::strName, pretty_name) \
+//	.prop(core::strOffset, offsetof(class_name, member_name)) \
 
 #define metaid(type) entt::type_info<type>::id()
 
@@ -105,76 +107,80 @@ void editor::Inspector::Initialize(entt::registry& registry)
 
 	entt::meta<POD>()
 		.type("POD"_hs)
-		.prop(strName, "POD")
+		.prop(core::strName, "POD")
 	.data<&POD::m_Float>("POD::m_Float"_hs)
-		.prop(strName, "m_Float")
-		.prop(strOffset, offsetof(POD, m_Float))
+		.prop(core::strName, "m_Float")
+		.prop(core::strOffset, offsetof(POD, m_Float))
 	.data<&POD::m_Int>("POD::m_Int"_hs)
-		.prop(strName, "m_Int")
-		.prop(strOffset, offsetof(POD, m_Int))
+		.prop(core::strName, "m_Int")
+		.prop(core::strOffset, offsetof(POD, m_Int))
 	.data<&POD::m_Bool>("POD::m_Bool"_hs)
-		.prop(strName, "m_Bool")
-		.prop(strOffset, offsetof(POD, m_Bool));
+		.prop(core::strName, "m_Bool")
+		.prop(core::strOffset, offsetof(POD, m_Bool));
 
 	entt::meta<CContainers>()
 		.type("CContainers"_hs)
-		.prop(strName, "CContainers")
+		.prop(core::strName, "CContainers")
 	.data<&CContainers::m_Array>("CContainers::m_Array"_hs)
-		.prop(strName, "m_Array")
-		.prop(strOffset, offsetof(CContainers, m_Array))
-		.prop(strStride, sizeof_member(CContainers::m_Array));
+		.prop(core::strName, "m_Array")
+		.prop(core::strOffset, offsetof(CContainers, m_Array))
+		.prop(core::strStride, sizeof_member(CContainers::m_Array));
+	//.data<&CContainers::m_Vector>("CContainers::m_Vector"_hs)
+	//	.prop(core::strName, "m_Vector")
+	//	.prop(core::strOffset, offsetof(CContainers, m_Vector))
+	//	.prop(core::strStride, sizeof_member(CContainers::m_Vector));
 
 	entt::meta<TContainers>()
 		.type("TContainers"_hs)
-		.prop(strName, "TContainers")
+		.prop(core::strName, "TContainers")
 	.data<&TContainers::m_Array>("TContainers::m_Array"_hs)
-		.prop(strName, "m_Array")
-		.prop(strOffset, offsetof(TContainers, m_Array))
-		.prop(strStride, sizeof_member(TContainers::m_Array))
-	.data<&TContainers::m_Vector>("TContainers::m_Vector"_hs)
-		.prop(strName, "m_Vector")
-		.prop(strOffset, offsetof(TContainers, m_Vector))
-		.prop(strStride, sizeof_member(TContainers::m_Vector));
+		.prop(core::strName, "m_Array")
+		.prop(core::strOffset, offsetof(TContainers, m_Array))
+		.prop(core::strStride, sizeof_member(TContainers::m_Array));
+	//.data<&TContainers::m_Vector>("TContainers::m_Vector"_hs)
+	//	.prop(core::strName, "m_Vector")
+	//	.prop(core::strOffset, offsetof(TContainers, m_Vector))
+	//	.prop(core::strStride, sizeof_member(TContainers::m_Vector));
 
 	entt::meta<Combined>()
 		.type("Combined"_hs)
-		.prop(strName, "Combined")
+		.prop(core::strName, "Combined")
 	.data<&Combined::m_Pod>("Combined::m_Pod"_hs)
-		.prop(strName, "m_Pod")
-		.prop(strOffset, offsetof(Combined, m_Pod))
+		.prop(core::strName, "m_Pod")
+		.prop(core::strOffset, offsetof(Combined, m_Pod))
 	.data<&Combined::m_CContainers>("Combined::m_CContainers"_hs)
-		.prop(strName, "m_CContainers")
-		.prop(strOffset, offsetof(Combined, m_CContainers))
+		.prop(core::strName, "m_CContainers")
+		.prop(core::strOffset, offsetof(Combined, m_CContainers))
 	.data<&Combined::m_TContainers>("Combined::m_TContainers"_hs)
-		.prop(strName, "m_TContainers")
-		.prop(strOffset, offsetof(Combined, m_TContainers));
+		.prop(core::strName, "m_TContainers")
+		.prop(core::strOffset, offsetof(Combined, m_TContainers));
 
 	entt::meta<sf::Vector3f>()
 		.type("sf::Vector3f"_hs)
-		.prop(strName, "Vector3")
-		.func<&editor::PropertyWidget<sf::Vector3f>>(strCustom)
+		.prop(core::strName, "Vector3")
+		.func<&editor::PropertyWidget<sf::Vector3f>>(core::strCustomInspector)
 	.data<&sf::Vector3f::z>("&sf::Vector3f::z"_hs)
-		.prop(strName, "Z")
-		.prop(strOffset, offsetof(sf::Vector3f, z))
+		.prop(core::strName, "Z")
+		.prop(core::strOffset, offsetof(sf::Vector3f, z))
 	.data<&sf::Vector3f::y>("&sf::Vector3f::y"_hs)
-		.prop(strName, "Y")
-		.prop(strOffset, offsetof(sf::Vector3f, y))
+		.prop(core::strName, "Y")
+		.prop(core::strOffset, offsetof(sf::Vector3f, y))
 	.data<&sf::Vector3f::x>("&sf::Vector3f::x"_hs)
-		.prop(strName, "X")
-		.prop(strOffset, offsetof(sf::Vector3f, x));
+		.prop(core::strName, "X")
+		.prop(core::strOffset, offsetof(sf::Vector3f, x));
 
 	entt::meta<core::TransformComponent>()
 		.type("core::TransformComponent"_hs)
-		.prop(strName, "Transform Component")
+		.prop(core::strName, "Transform Component")
 	.data<&core::TransformComponent::m_Scale>("&core::TransformComponent::m_Scale"_hs)
-		.prop(strName, "Scale")
-		.prop(strOffset, offsetof(core::TransformComponent, m_Scale))
+		.prop(core::strName, "Scale")
+		.prop(core::strOffset, offsetof(core::TransformComponent, m_Scale))
 	.data<&core::TransformComponent::m_Rotate>("&core::TransformComponent::m_Rotate"_hs)
-		.prop(strName, "Rotate")
-		.prop(strOffset, offsetof(core::TransformComponent, m_Rotate))
+		.prop(core::strName, "Rotate")
+		.prop(core::strOffset, offsetof(core::TransformComponent, m_Rotate))
 	.data<&core::TransformComponent::m_Translate>("&core::TransformComponent::m_Translate"_hs)
-		.prop(strName, "Translate")
-		.prop(strOffset, offsetof(core::TransformComponent, m_Translate));
+		.prop(core::strName, "Translate")
+		.prop(core::strOffset, offsetof(core::TransformComponent, m_Translate));
 }
 
 void editor::Inspector::Destroy(entt::registry& registry)
@@ -207,7 +213,7 @@ void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_
 	const char* name = editor::PropertyName(metaData, nullptr);
 	const bool isSkipHeader = !name;
 
-	if (const entt::meta_func& funcCustom = metaType.func(editor::strCustom))
+	if (const entt::meta_func& funcCustom = metaType.func(core::strCustomInspector))
 	{
 		editor::Void wrapper = { data };
 		entt::meta_handle handle = { };
@@ -216,7 +222,7 @@ void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_
 	else if (metaType.is_array())
 	{
 		// #todo: multi-dimensional arrays, use entt::meta_type::rank
-		const size_t stride = metaData.prop(editor::strStride).value().cast<size_t>();
+		const size_t stride = metaData.prop(core::strStride).value().cast<size_t>();
 		const size_t extent = metaType.extent();
 		const entt::meta_type& childMetaType = metaType.remove_extent();
 
@@ -255,6 +261,10 @@ void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_
 	}
 	else if (metaType.is_sequence_container())
 	{
+		const size_t stride = metaData.prop(core::strStride).value().cast<size_t>();
+		const size_t extent = metaType.extent();
+		const entt::meta_type& childMetaType = metaType.remove_extent();
+
 		ImGui::CollapsingHeader("is_sequence_container", ImGuiTreeNodeFlags_Bullet);
 	}
 	else if (metaType.is_class())

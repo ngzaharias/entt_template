@@ -1,13 +1,13 @@
 #include "Editor/PropertyHelpers.h"
 
-#include "Editor/PropertyDefines.h"
+#include <Engine/StringTable.h>
 
 const char* editor::PropertyName(const entt::meta_data& metaData, const char* _default /*= nullptr*/)
 {
 	if (!metaData)
 		return _default;
 
-	const entt::meta_prop& metaProp = metaData.prop(editor::strName);
+	const entt::meta_prop& metaProp = metaData.prop(core::strName);
 	if (!metaProp)
 		return _default;
 
@@ -19,7 +19,7 @@ const char* editor::PropertyName(const entt::meta_type& metaType, const char* _d
 	if (!metaType)
 		return _default;
 
-	const entt::meta_prop& metaProp = metaType.prop(editor::strName);
+	const entt::meta_prop& metaProp = metaType.prop(core::strName);
 	if (!metaProp)
 		return _default;
 
@@ -32,7 +32,7 @@ size_t editor::PropertyOffset(const entt::meta_data& metaData, const size_t _def
 	if (!metaData)
 		return _default;
 
-	const entt::meta_prop& metaProp = metaData.prop(editor::strOffset);
+	const entt::meta_prop& metaProp = metaData.prop(core::strOffset);
 	if (!metaProp)
 		return _default;
 
@@ -44,7 +44,7 @@ size_t editor::PropertyStride(const entt::meta_data& metaData, const size_t _def
 	if (!metaData)
 		return _default;
 
-	const entt::meta_prop& metaProp = metaData.prop(editor::strStride);
+	const entt::meta_prop& metaProp = metaData.prop(core::strStride);
 	if (!metaProp)
 		return _default;
 

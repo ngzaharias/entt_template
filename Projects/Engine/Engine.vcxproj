@@ -44,6 +44,7 @@
     <ClInclude Include="Engine\SpriteComponent.h" />
     <ClInclude Include="Engine\String.h" />
     <ClInclude Include="Engine\StringHelpers.h" />
+    <ClInclude Include="Engine\StringTable.h" />
     <ClInclude Include="Engine\StringView.h" />
     <ClInclude Include="Engine\System.h" />
     <ClInclude Include="Engine\TextureResource.h" />
