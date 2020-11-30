@@ -1,6 +1,8 @@
 #pragma once
 
+#include <entt/meta/meta.hpp>
+
 namespace editor
 {
-	struct Void { void* p; };
+	struct Any { entt::meta_any data; };
 }

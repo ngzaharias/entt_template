@@ -3,6 +3,7 @@
 #include "Editor/PropertyDefines.h"
 #include "Editor/PropertyWidgets.h"
 
+#include <Engine/CircularBuffer.h>
 #include <Engine/LevelComponent.h>
 #include <Engine/NameComponent.h>
 #include <Engine/ResourceManager.h>
@@ -15,24 +16,10 @@
 #include <imgui/imgui.h>
 #include <SFML/System/Time.hpp>
 
-//#define REFLECT_CLASS(class_name, pretty_name) \
-//entt::meta<class_name>() \
-//	.type(#class_name""_hs) \
-//	.prop(core::strName, pretty_name) \
-//
-//#define REFLECT_MEMBER(class_name, member_name, pretty_name) \
-//.data<&class_name::member_name>(#class_name"::"#member_name""_hs) \
-//	.prop(core::strName, pretty_name) \
-//	.prop(core::strOffset, offsetof(class_name, member_name)) \
-
 #define metaid(type) entt::type_info<type>::id()
-
 #define typeof_member(member) std::remove_all_extents<decltype(member)>::type
 #define typeid_member(member) entt::type_info<typeof_member(member)>::id()
-
 #define sizeof_member(member) sizeof(typeof_member(member))
-
-#define void_pointer(value) (*((char**)(&value)))
 
 namespace
 {
@@ -48,12 +35,16 @@ namespace
 		static constexpr POD s_Sample = { };
 
 		POD m_Array[3] = { s_Sample, s_Sample, s_Sample };
+		CircularBuffer<POD, 3> m_CircleBuffer;
+		std::map<int, POD> m_Map = { { 1, s_Sample }, { 2, s_Sample }, { 3, s_Sample } };
 		std::vector<POD> m_Vector = { s_Sample, s_Sample, s_Sample };
 	};
 
 	struct TContainers
 	{
 		float m_Array[3] = { 1.f, 2.f, 3.f };
+		CircularBuffer<float, 3> m_CircleBuffer;
+		std::map<int, float> m_Map = { { 1, 1.f }, { 2, 2.f }, { 3, 3.f } };
 		std::vector<float> m_Vector = { 1.f, 2.f, 3.f };
 	};
 
@@ -70,23 +61,23 @@ namespace
 		return registry.runtime_view(std::cbegin(types), std::cend(types)).contains(entity);
 	}
 
-	void* GetVoidComponent(entt::registry& registry, const entt::entity& entity, const entt::id_type& componentId)
+	entt::meta_any GetComponent(entt::registry& registry, const entt::entity& entity, const entt::id_type& componentId)
 	{
 		switch (componentId)
 		{
 		case entt::type_info<core::TransformComponent>::id():
-			return &registry.get<core::TransformComponent>(entity);
+			return registry.get<core::TransformComponent>(entity);
 		case entt::type_info<POD>::id():
-			return &registry.get<POD>(entity);
+			return registry.get<POD>(entity);
 		case entt::type_info<Combined>::id():
-			return &registry.get<Combined>(entity);
+			return registry.get<Combined>(entity);
 		case entt::type_info<CContainers>::id():
-			return &registry.get<CContainers>(entity);
+			return registry.get<CContainers>(entity);
 		case entt::type_info<TContainers>::id():
-			return &registry.get<TContainers>(entity);
+			return registry.get<TContainers>(entity);
 		}
 
-		return nullptr;
+		return { };
 	};
 }
 
@@ -102,7 +93,7 @@ editor::Inspector::~Inspector()
 void editor::Inspector::Initialize(entt::registry& registry)
 {
 	m_Entity = registry.create();
-	registry.emplace<Combined>(m_Entity);
+	//registry.emplace<Combined>(m_Entity);
 	registry.emplace<core::TransformComponent>(m_Entity);
 
 	entt::meta<POD>()
@@ -110,77 +101,65 @@ void editor::Inspector::Initialize(entt::registry& registry)
 		.prop(core::strName, "POD")
 	.data<&POD::m_Float>("POD::m_Float"_hs)
 		.prop(core::strName, "m_Float")
-		.prop(core::strOffset, offsetof(POD, m_Float))
 	.data<&POD::m_Int>("POD::m_Int"_hs)
 		.prop(core::strName, "m_Int")
-		.prop(core::strOffset, offsetof(POD, m_Int))
 	.data<&POD::m_Bool>("POD::m_Bool"_hs)
-		.prop(core::strName, "m_Bool")
-		.prop(core::strOffset, offsetof(POD, m_Bool));
+		.prop(core::strName, "m_Bool");
 
 	entt::meta<CContainers>()
 		.type("CContainers"_hs)
 		.prop(core::strName, "CContainers")
 	.data<&CContainers::m_Array>("CContainers::m_Array"_hs)
-		.prop(core::strName, "m_Array")
-		.prop(core::strOffset, offsetof(CContainers, m_Array))
-		.prop(core::strStride, sizeof_member(CContainers::m_Array));
+		.prop(core::strName, "m_Array");
+	/*.data<&CContainers::m_Map>("CContainers::m_Map"_hs)
+		.prop(core::strName, "m_Map");*/
 	//.data<&CContainers::m_Vector>("CContainers::m_Vector"_hs)
-	//	.prop(core::strName, "m_Vector")
-	//	.prop(core::strOffset, offsetof(CContainers, m_Vector))
-	//	.prop(core::strStride, sizeof_member(CContainers::m_Vector));
+	//	.prop(core::strName, "m_Vector");
 
 	entt::meta<TContainers>()
 		.type("TContainers"_hs)
 		.prop(core::strName, "TContainers")
+		// #todo: arrays aren't working, 
+		// issue within entt when converting meta_any -> meta_handle
 	.data<&TContainers::m_Array>("TContainers::m_Array"_hs)
 		.prop(core::strName, "m_Array")
-		.prop(core::strOffset, offsetof(TContainers, m_Array))
-		.prop(core::strStride, sizeof_member(TContainers::m_Array));
-	//.data<&TContainers::m_Vector>("TContainers::m_Vector"_hs)
-	//	.prop(core::strName, "m_Vector")
-	//	.prop(core::strOffset, offsetof(TContainers, m_Vector))
-	//	.prop(core::strStride, sizeof_member(TContainers::m_Vector));
+	//.data<&TContainers::m_CircleBuffer>("TContainers::m_CircleBuffer"_hs)
+	//	.prop(core::strName, "m_CircleBuffer")
+	.data<&TContainers::m_Map>("TContainers::m_Map"_hs)
+		.prop(core::strName, "m_Map")
+	.data<&TContainers::m_Vector>("TContainers::m_Vector"_hs)
+		.prop(core::strName, "m_Vector");
 
 	entt::meta<Combined>()
 		.type("Combined"_hs)
 		.prop(core::strName, "Combined")
 	.data<&Combined::m_Pod>("Combined::m_Pod"_hs)
 		.prop(core::strName, "m_Pod")
-		.prop(core::strOffset, offsetof(Combined, m_Pod))
 	.data<&Combined::m_CContainers>("Combined::m_CContainers"_hs)
 		.prop(core::strName, "m_CContainers")
-		.prop(core::strOffset, offsetof(Combined, m_CContainers))
 	.data<&Combined::m_TContainers>("Combined::m_TContainers"_hs)
-		.prop(core::strName, "m_TContainers")
-		.prop(core::strOffset, offsetof(Combined, m_TContainers));
+		.prop(core::strName, "m_TContainers");
 
 	entt::meta<sf::Vector3f>()
 		.type("sf::Vector3f"_hs)
 		.prop(core::strName, "Vector3")
 		.func<&editor::PropertyWidget<sf::Vector3f>>(core::strCustomInspector)
-	.data<&sf::Vector3f::z>("&sf::Vector3f::z"_hs)
-		.prop(core::strName, "Z")
-		.prop(core::strOffset, offsetof(sf::Vector3f, z))
-	.data<&sf::Vector3f::y>("&sf::Vector3f::y"_hs)
-		.prop(core::strName, "Y")
-		.prop(core::strOffset, offsetof(sf::Vector3f, y))
 	.data<&sf::Vector3f::x>("&sf::Vector3f::x"_hs)
 		.prop(core::strName, "X")
-		.prop(core::strOffset, offsetof(sf::Vector3f, x));
+	.data<&sf::Vector3f::y>("&sf::Vector3f::y"_hs)
+		.prop(core::strName, "Y")
+	.data<&sf::Vector3f::z>("&sf::Vector3f::z"_hs)
+		.prop(core::strName, "Z");
 
 	entt::meta<core::TransformComponent>()
 		.type("core::TransformComponent"_hs)
 		.prop(core::strName, "Transform Component")
 	.data<&core::TransformComponent::m_Scale>("&core::TransformComponent::m_Scale"_hs)
 		.prop(core::strName, "Scale")
-		.prop(core::strOffset, offsetof(core::TransformComponent, m_Scale))
 	.data<&core::TransformComponent::m_Rotate>("&core::TransformComponent::m_Rotate"_hs)
 		.prop(core::strName, "Rotate")
-		.prop(core::strOffset, offsetof(core::TransformComponent, m_Rotate))
 	.data<&core::TransformComponent::m_Translate>("&core::TransformComponent::m_Translate"_hs)
-		.prop(core::strName, "Translate")
-		.prop(core::strOffset, offsetof(core::TransformComponent, m_Translate));
+		.prop(core::strName, "Translate");
 }
 
 void editor::Inspector::Destroy(entt::registry& registry)
@@ -205,8 +184,9 @@ void editor::Inspector::Render(entt::registry& registry)
 	ImGui::End();
 }
 
-void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_data& metaData = nullptr)
+void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr)
 {
+	const entt::meta_type& metaType = data.type();
 	if (!metaType)
 		return;
 
@@ -215,41 +195,25 @@ void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_
 
 	if (const entt::meta_func& funcCustom = metaType.func(core::strCustomInspector))
 	{
-		editor::Void wrapper = { data };
+		// #todo, entt doesn't handle entt::meta_any as an arg?
 		entt::meta_handle handle = { };
+		editor::Any wrapper = { data };
 		funcCustom.invoke(handle, wrapper, metaData);
 	}
 	else if (metaType.is_array())
 	{
 		// #todo: multi-dimensional arrays, use entt::meta_type::rank
-		const size_t stride = metaData.prop(core::strStride).value().cast<size_t>();
-		const size_t extent = metaType.extent();
 		const entt::meta_type& childMetaType = metaType.remove_extent();
-
 		const bool isChildAClass = childMetaType.is_class();
 
 		if (isSkipHeader || ImGui::CollapsingHeader(name))
 		{
+			int i = 0;
 			ImGui::Indent();
-			for (int i = 0; i < extent; ++i)
+			for (auto itr : data.as_sequence_container())
 			{
-				// #todo: multi-dimensional arrays, also advance by array dimension
-				void* childData = void_pointer(data) + (stride * i);
-
-				ImGui::PushID(i);
-				if (isChildAClass)
-				{
-					const str::String index = std::to_string(i);
-					if (ImGui::CollapsingHeader(index.c_str()))
-						Render_Child(childData, childMetaType);
-				}
-				else
-				{
-					const str::String index = std::to_string(i) + ": ";
-					ImGui::Text(index.c_str());
-					ImGui::SameLine();
-					Render_Child(childData, childMetaType);
-				}
+				ImGui::PushID(++i);
+				Render_Child(itr);
 				ImGui::PopID();
 			}
 			ImGui::Unindent();
@@ -257,15 +221,62 @@ void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_
 	}
 	else if (metaType.is_associative_container())
 	{
-		ImGui::CollapsingHeader("is_associative_container", ImGuiTreeNodeFlags_Bullet);
+		const entt::meta_type& childMetaType = metaType.remove_extent();
+		const bool isChildAClass = childMetaType.is_class();
+
+		if (isSkipHeader || ImGui::CollapsingHeader(name))
+		{
+			int i = 0;
+			ImGui::Indent();
+			for (auto itr : data.as_associative_container())
+			{
+				ImGui::PushID(++i);
+				ImGui::Text("Key:   ");
+				ImGui::SameLine();
+				Render_Child(itr.first);
+				ImGui::PopID();
+
+				ImGui::PushID(++i);
+				ImGui::Text("Value: ");
+				ImGui::SameLine();
+				Render_Child(itr.second);
+				ImGui::PopID();
+
+				ImGui::Separator();
+			}
+			ImGui::Unindent();
+		}
 	}
 	else if (metaType.is_sequence_container())
 	{
-		const size_t stride = metaData.prop(core::strStride).value().cast<size_t>();
-		const size_t extent = metaType.extent();
 		const entt::meta_type& childMetaType = metaType.remove_extent();
+		const bool isChildAClass = childMetaType.is_class();
 
-		ImGui::CollapsingHeader("is_sequence_container", ImGuiTreeNodeFlags_Bullet);
+		if (isSkipHeader || ImGui::CollapsingHeader(name))
+		{
+			ImGui::Indent();
+
+			int i = 0;
+			for (auto itr : data.as_sequence_container())
+			{
+				ImGui::PushID(++i);
+				if (isChildAClass)
+				{
+					const str::String index = std::to_string(i);
+					if (ImGui::CollapsingHeader(index.c_str()))
+					Render_Child(itr);
+				}
+				else
+				{
+					const str::String index = std::to_string(i) + ": ";
+					ImGui::Text(index.c_str());
+					ImGui::SameLine();
+					Render_Child(itr);
+				}
+				ImGui::PopID();
+			}
+			ImGui::Unindent();
+		}
 	}
 	else if (metaType.is_class())
 	{
@@ -273,13 +284,14 @@ void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_
 		{
 			for (const entt::meta_data& childMetaData : metaType.data())
 			{
+				entt::meta_any childData = childMetaData.get(data);
+				entt::meta_type childMetaType = childMetaData.type();
+
 				const char* childName = editor::PropertyName(childMetaData);
-				const size_t childOffset = editor::PropertyOffset(childMetaData);
-				void* childData = void_pointer(data) + childOffset;
 
 				ImGui::PushID(childName);
 				ImGui::Indent();
-				Render_Child(childData, childMetaData.type(), childMetaData);
+				Render_Child(childData, childMetaData);
 				ImGui::Unindent();
 				ImGui::PopID();
 			}
@@ -299,20 +311,6 @@ void Render_Child(void* data, const entt::meta_type& metaType, const entt::meta_
 	}
 }
 
-void Render_Component(entt::registry& registry, const entt::entity& entity, const entt::id_type& componentId)
-{
-	if (const entt::meta_type& metaType = entt::resolve_type(componentId))
-	{
-		const char* name = editor::PropertyName(metaType);
-		void* data = GetVoidComponent(registry, entity, componentId);
-
-		ImGui::PushID(static_cast<int>(componentId));
-		if (!name || ImGui::CollapsingHeader(name))
-			Render_Child(data, metaType);
-		ImGui::PopID();
-	}
-}
-
 void editor::Inspector::Render_Entity(entt::registry& registry)
 {
 	if (ImGui::BeginChild("entity"))
@@ -323,7 +321,16 @@ void editor::Inspector::Render_Entity(entt::registry& registry)
 
 			registry.visit(m_Entity, [&](const entt::id_type& componentId)
 			{
-				Render_Component(registry, m_Entity, componentId);
+				if (const entt::meta_type& metaType = entt::resolve_type(componentId))
+				{
+					const char* name = editor::PropertyName(metaType);
+					entt::meta_any data = GetComponent(registry, m_Entity, componentId);
+
+					ImGui::PushID(static_cast<int>(componentId));
+					if (!name || ImGui::CollapsingHeader(name))
+						Render_Child(data);
+					ImGui::PopID();
+				}
 			});
 
 			ImGui::PopID();
@@ -336,11 +343,6 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 {
 	if (ImGui::BeginMenuBar())
 	{
-		if (ImGui::BeginMenu("(dummy)"))
-		{
-			ImGui::EndMenu();
-		}
-
 		ImGui::EndMenuBar();
 	}
 }

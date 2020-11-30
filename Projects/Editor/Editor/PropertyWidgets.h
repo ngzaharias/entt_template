@@ -8,16 +8,16 @@
 namespace editor
 {
 	template<class Type>
-	void PropertyWidget(Void propertyData, const entt::meta_data& metaData);
+	void PropertyWidget(editor::Any propertyData, const entt::meta_data& metaData);
 
 	template<>
-	void PropertyWidget<bool>(Void propertyData, const entt::meta_data& metaData);
+	void PropertyWidget<bool>(editor::Any propertyData, const entt::meta_data& metaData);
 
 	template<>
-	void PropertyWidget<int>(Void propertyData, const entt::meta_data& metaData);
+	void PropertyWidget<int>(editor::Any propertyData, const entt::meta_data& metaData);
 
 	template<>
-	void PropertyWidget<sf::Vector3f>(Void propertyData, const entt::meta_data& metaData);
+	void PropertyWidget<sf::Vector3f>(editor::Any propertyData, const entt::meta_data& metaData);
 }
 
 #include "PropertyWidgets.inl"
