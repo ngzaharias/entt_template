@@ -23,58 +23,12 @@
 
 namespace
 {
-	struct POD
-	{
-		bool m_Bool = true;
-		int m_Int = 666;
-		float m_Float = 1337.f;
-	};
-
-	struct CContainers
-	{
-		static constexpr POD s_Sample = { };
-
-		POD m_Array[3] = { s_Sample, s_Sample, s_Sample };
-		CircularBuffer<POD, 3> m_CircleBuffer;
-		std::map<int, POD> m_Map = { { 1, s_Sample }, { 2, s_Sample }, { 3, s_Sample } };
-		std::vector<POD> m_Vector = { s_Sample, s_Sample, s_Sample };
-	};
-
-	struct TContainers
-	{
-		float m_Array[3] = { 1.f, 2.f, 3.f };
-		CircularBuffer<float, 3> m_CircleBuffer;
-		std::map<int, float> m_Map = { { 1, 1.f }, { 2, 2.f }, { 3, 3.f } };
-		std::vector<float> m_Vector = { 1.f, 2.f, 3.f };
-	};
-
-	struct Combined
-	{
-		POD m_Pod;
-		CContainers m_CContainers;
-		TContainers m_TContainers;
-	};
-
-	bool HasComponent(const entt::registry& registry, const entt::entity& entity, const entt::id_type& typeId)
-	{
-		entt::id_type types[] = { typeId };
-		return registry.runtime_view(std::cbegin(types), std::cend(types)).contains(entity);
-	}
-
 	entt::meta_any GetComponent(entt::registry& registry, const entt::entity& entity, const entt::id_type& componentId)
 	{
 		switch (componentId)
 		{
 		case entt::type_info<core::TransformComponent>::id():
 			return registry.get<core::TransformComponent>(entity);
-		case entt::type_info<POD>::id():
-			return registry.get<POD>(entity);
-		case entt::type_info<Combined>::id():
-			return registry.get<Combined>(entity);
-		case entt::type_info<CContainers>::id():
-			return registry.get<CContainers>(entity);
-		case entt::type_info<TContainers>::id():
-			return registry.get<TContainers>(entity);
 		}
 
 		return { };
@@ -93,52 +47,8 @@ editor::Inspector::~Inspector()
 void editor::Inspector::Initialize(entt::registry& registry)
 {
 	m_Entity = registry.create();
-	//registry.emplace<Combined>(m_Entity);
 	registry.emplace<core::TransformComponent>(m_Entity);
 
-	entt::meta<POD>()
-		.type("POD"_hs)
-		.prop(core::strName, "POD")
-	.data<&POD::m_Float>("POD::m_Float"_hs)
-		.prop(core::strName, "m_Float")
-	.data<&POD::m_Int>("POD::m_Int"_hs)
-		.prop(core::strName, "m_Int")
-	.data<&POD::m_Bool>("POD::m_Bool"_hs)
-		.prop(core::strName, "m_Bool");
-
-	entt::meta<CContainers>()
-		.type("CContainers"_hs)
-		.prop(core::strName, "CContainers")
-	.data<&CContainers::m_Array>("CContainers::m_Array"_hs)
-		.prop(core::strName, "m_Array");
-	/*.data<&CContainers::m_Map>("CContainers::m_Map"_hs)
-		.prop(core::strName, "m_Map");*/
-	//.data<&CContainers::m_Vector>("CContainers::m_Vector"_hs)
-	//	.prop(core::strName, "m_Vector");
-
-	entt::meta<TContainers>()
-		.type("TContainers"_hs)
-		.prop(core::strName, "TContainers")
-		// #todo: arrays aren't working, 
-		// issue within entt when converting meta_any -> meta_handle
-	.data<&TContainers::m_Array>("TContainers::m_Array"_hs)
-		.prop(core::strName, "m_Array")
-	//.data<&TContainers::m_CircleBuffer>("TContainers::m_CircleBuffer"_hs)
-	//	.prop(core::strName, "m_CircleBuffer")
-	.data<&TContainers::m_Map>("TContainers::m_Map"_hs)
-		.prop(core::strName, "m_Map")
-	.data<&TContainers::m_Vector>("TContainers::m_Vector"_hs)
-		.prop(core::strName, "m_Vector");
-
-	entt::meta<Combined>()
-		.type("Combined"_hs)
-		.prop(core::strName, "Combined")
-	.data<&Combined::m_Pod>("Combined::m_Pod"_hs)
-		.prop(core::strName, "m_Pod")
-	.data<&Combined::m_CContainers>("Combined::m_CContainers"_hs)
-		.prop(core::strName, "m_CContainers")
-	.data<&Combined::m_TContainers>("Combined::m_TContainers"_hs)
-		.prop(core::strName, "m_TContainers");
 
 	entt::meta<sf::Vector3f>()
 		.type("sf::Vector3f"_hs)
