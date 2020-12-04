@@ -207,18 +207,6 @@ void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr
 			}
 		}
 	}
-	else if (metaType.has_boolean())
-	{
-		editor::PropertyWidget<bool>({ data }, metaData);
-	}
-	else if (metaType.has_integer())
-	{
-		editor::PropertyWidget<int>({ data }, metaData);
-	}
-	else if (metaType.has_float())
-	{
-		editor::PropertyWidget<float>({ data }, metaData);
-	}
 }
 
 void editor::Inspector::Render_Entity(entt::registry& registry)

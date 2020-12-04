@@ -1044,18 +1044,6 @@ public:
         return node->id;
     }
 
-	[[nodiscard]] bool has_boolean() const ENTT_NOEXCEPT {
-		return node->has_boolean;
-	}
-
-	[[nodiscard]] bool has_integer() const ENTT_NOEXCEPT {
-		return node->has_integer;
-	}
-
-	[[nodiscard]] bool has_float() const ENTT_NOEXCEPT {
-		return node->has_float;
-	}
-
     /**
      * @brief Checks whether a type refers to void or not.
      * @return True if the underlying type is void, false otherwise.
