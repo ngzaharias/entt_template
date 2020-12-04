@@ -4330,14 +4330,14 @@ namespace refl::detail
 
 #ifndef REFL_NO_STD_SUPPORT
 
-REFL_TYPE(std::exception, debug{ refl::detail::write_exception() })
+REFL_TYPE(std::exception, refl::attr::debug{ refl::detail::write_exception() })
     REFL_FUNC(what, property{ })
 REFL_END
 
 REFL_TEMPLATE(
     (typename Elem, typename Traits, typename Alloc),
     (std::basic_string<Elem, Traits, Alloc>),
-    debug{ refl::detail::write_basic_string() })
+	refl::attr::debug{ refl::detail::write_basic_string() })
     REFL_FUNC(size, property{ })
     REFL_FUNC(data, property{ })
 REFL_END
@@ -4347,7 +4347,7 @@ REFL_END
 REFL_TEMPLATE(
     (typename Elem, typename Traits),
     (std::basic_string_view<Elem, Traits>),
-    debug{ refl::detail::write_basic_string_view() })
+	refl::attr::debug{ refl::detail::write_basic_string_view() })
     REFL_FUNC(size, property{ })
     REFL_FUNC(data, property{ })
 REFL_END
@@ -4357,25 +4357,25 @@ REFL_END
 REFL_TEMPLATE(
     (typename... Ts),
     (std::tuple<Ts...>),
-    debug{ refl::detail::write_tuple() })
+	refl::attr::debug{ refl::detail::write_tuple() })
 REFL_END
 
 REFL_TEMPLATE(
     (typename T, typename D),
     (std::unique_ptr<T, D>),
-    debug{ refl::detail::write_unique_ptr() })
+	refl::attr::debug{ refl::detail::write_unique_ptr() })
 REFL_END
 
 REFL_TEMPLATE(
     (typename T),
     (std::shared_ptr<T>),
-    debug{ refl::detail::write_shared_ptr() })
+	refl::attr::debug{ refl::detail::write_shared_ptr() })
 REFL_END
 
 REFL_TEMPLATE(
     (typename K, typename V),
     (std::pair<K, V>),
-    debug{ refl::detail::write_pair() })
+	refl::attr::debug{ refl::detail::write_pair() })
 REFL_END
 
 #ifndef REFL_NO_STD_COMPLEX
@@ -4383,7 +4383,7 @@ REFL_END
 REFL_TEMPLATE(
     (typename T),
     (std::complex<T>),
-    debug{ refl::detail::write_complex() })
+	refl::attr::debug{ refl::detail::write_complex() })
 REFL_END
 
 #endif // !REFL_NO_STD_COMPLEX
