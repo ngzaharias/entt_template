@@ -16,6 +16,7 @@
 #include <imgui/imgui.h>
 #include <SFML/System/Time.hpp>
 
+// #todo: move somewhere else? they could be quite useful 
 #define metaid(type) entt::type_info<type>::id()
 #define typeof_member(member) std::remove_all_extents<decltype(member)>::type
 #define typeid_member(member) entt::type_info<typeof_member(member)>::id()
@@ -49,17 +50,25 @@ void editor::Inspector::Initialize(entt::registry& registry)
 	m_Entity = registry.create();
 	registry.emplace<core::TransformComponent>(m_Entity);
 
+	entt::meta<bool>()
+		.type("bool"_hs)
+		.prop(core::strName, "Boolean")
+		.func<&editor::PropertyWidget<bool>>(core::strInspector);
+
+	entt::meta<int>()
+		.type("int"_hs)
+		.prop(core::strName, "Integer")
+		.func<&editor::PropertyWidget<int>>(core::strInspector);
+
+	entt::meta<float>()
+		.type("float"_hs)
+		.prop(core::strName, "Floating Point")
+		.func<&editor::PropertyWidget<float>>(core::strInspector);
 
 	entt::meta<sf::Vector3f>()
 		.type("sf::Vector3f"_hs)
 		.prop(core::strName, "Vector3")
-		.func<&editor::PropertyWidget<sf::Vector3f>>(core::strCustomInspector)
-	.data<&sf::Vector3f::x>("&sf::Vector3f::x"_hs)
-		.prop(core::strName, "X")
-	.data<&sf::Vector3f::y>("&sf::Vector3f::y"_hs)
-		.prop(core::strName, "Y")
-	.data<&sf::Vector3f::z>("&sf::Vector3f::z"_hs)
-		.prop(core::strName, "Z");
+		.func<&editor::PropertyWidget<sf::Vector3f>>(core::strInspector);
 
 	entt::meta<core::TransformComponent>()
 		.type("core::TransformComponent"_hs)
@@ -103,7 +112,7 @@ void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr
 	const char* name = editor::PropertyName(metaData, nullptr);
 	const bool isSkipHeader = !name;
 
-	if (const entt::meta_func& funcCustom = metaType.func(core::strCustomInspector))
+	if (const entt::meta_func& funcCustom = metaType.func(core::strInspector))
 	{
 		// #todo, entt doesn't handle entt::meta_any as an arg?
 		entt::meta_handle handle = { };
@@ -112,7 +121,7 @@ void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr
 	}
 	else if (metaType.is_array())
 	{
-		// #todo: multi-dimensional arrays, use entt::meta_type::rank
+		// #todo: multi-dimensional arrays?
 		const entt::meta_type& childMetaType = metaType.remove_extent();
 		const bool isChildAClass = childMetaType.is_class();
 
@@ -120,10 +129,10 @@ void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr
 		{
 			int i = 0;
 			ImGui::Indent();
-			for (auto itr : data.as_sequence_container())
+			for (entt::meta_any childData : data.as_sequence_container())
 			{
 				ImGui::PushID(++i);
-				Render_Child(itr);
+				Render_Child(childData);
 				ImGui::PopID();
 			}
 			ImGui::Unindent();
@@ -138,18 +147,18 @@ void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr
 		{
 			int i = 0;
 			ImGui::Indent();
-			for (auto itr : data.as_associative_container())
+			for (auto node : data.as_associative_container())
 			{
 				ImGui::PushID(++i);
 				ImGui::Text("Key:   ");
 				ImGui::SameLine();
-				Render_Child(itr.first);
+				Render_Child(node.first);
 				ImGui::PopID();
 
 				ImGui::PushID(++i);
 				ImGui::Text("Value: ");
 				ImGui::SameLine();
-				Render_Child(itr.second);
+				Render_Child(node.second);
 				ImGui::PopID();
 
 				ImGui::Separator();
@@ -167,21 +176,21 @@ void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr
 			ImGui::Indent();
 
 			int i = 0;
-			for (auto itr : data.as_sequence_container())
+			for (auto childData : data.as_sequence_container())
 			{
 				ImGui::PushID(++i);
 				if (isChildAClass)
 				{
 					const str::String index = std::to_string(i);
 					if (ImGui::CollapsingHeader(index.c_str()))
-					Render_Child(itr);
+					Render_Child(childData);
 				}
 				else
 				{
 					const str::String index = std::to_string(i) + ": ";
 					ImGui::Text(index.c_str());
 					ImGui::SameLine();
-					Render_Child(itr);
+					Render_Child(childData);
 				}
 				ImGui::PopID();
 			}
