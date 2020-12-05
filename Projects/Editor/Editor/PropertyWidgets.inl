@@ -137,7 +137,7 @@ void editor::PropertyWidget_AssociativeContainer(entt::meta_any propertyData, co
 	{
 		if (ImGui::Button("++"))
 		{
-			// #todo: bug in entt? seems weird that we use mapped_type instead of value_type
+			// #note: mapped_type == value (not value_type).
 			entt::meta_ctor ctorK = container.key_type().ctor<>();
 			entt::meta_ctor ctorV = container.mapped_type().ctor<>();
 			container.insert(ctorK.invoke(), ctorV.invoke());
@@ -218,7 +218,7 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 				ImGui::PushID(i + 1);
 				{
 					ImGui::Button("::");
-					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+					if (ImGui::BeginDragDropSource())
 					{
 						ImGui::SetDragDropPayload("DRAG", &i, sizeof(int));
 						ImGui::Text(label.c_str());
@@ -235,7 +235,7 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 					}
 
 					ImGui::SameLine();
-					ImGui::Text(label.c_str());
+					ImGui::Selectable(label.c_str());
 					ImGui::NextColumn();
 					PropertyWidget_Child(childData);
 					ImGui::SameLine();
@@ -262,8 +262,7 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 
 	std::visit(overload
 		{
-			// #todo: remove auto
-			[&](auto&) {},
+			[&](None&) {},
 			[&](Delete& arg)
 			{
 				meta_iterator itr = container.begin();
