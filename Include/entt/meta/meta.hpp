@@ -2032,6 +2032,7 @@ struct meta_associative_container::meta_associative_container_proxy {
 
 /**
  * @brief Returns the key meta type of the wrapped container type.
+ * Mapped_type is == first of the pair (also known as the value).
  * @return The key meta type of the wrapped container type.
  */
 [[nodiscard]] inline meta_type meta_associative_container::key_type() const ENTT_NOEXCEPT {
@@ -2041,6 +2042,7 @@ struct meta_associative_container::meta_associative_container_proxy {
 
 /**
  * @brief Returns the mapped meta type of the wrapped container type.
+ * Mapped_type is == second of the pair (also known as the key).
  * @return The mapped meta type of the wrapped container type.
  */
 [[nodiscard]] inline meta_type meta_associative_container::mapped_type() const ENTT_NOEXCEPT {
