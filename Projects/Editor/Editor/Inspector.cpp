@@ -24,12 +24,38 @@
 
 namespace
 {
+	struct ExampleStruct
+	{
+		bool m_Bool;
+		int m_Int;
+		float m_Float;
+
+		bool operator==(const ExampleStruct&) const { return false; }
+	};
+
+	struct ExampleComponent
+	{
+		std::map<int, float> m_MapA = { {1, 1.f}, {2, 2.f}, {3, 3.f} };
+		std::map<int, ExampleStruct> m_MapB = { {1, ExampleStruct()} };
+		std::vector<int> m_VectorA = { 0, 1, 2, 3, 4, 5 };
+		std::vector<ExampleStruct> m_VectorB = { ExampleStruct() };
+	};
+
+	// #todo: we should be able to get this as a func or as a part of the register
+	// 
+	//	registry.visit(m_Entity, [&](auto comp)
+	//	{
+	//		entt::resolve(comp).func("get"_hs).invoke({}, registry, entity);
+	//	}
+	// 
 	entt::meta_any GetComponent(entt::registry& registry, const entt::entity& entity, const entt::id_type& componentId)
 	{
 		switch (componentId)
 		{
+		case entt::type_info<ExampleComponent>::id():
+			return std::ref(registry.get<ExampleComponent>(entity));
 		case entt::type_info<core::TransformComponent>::id():
-			return registry.get<core::TransformComponent>(entity);
+			return std::ref(registry.get<core::TransformComponent>(entity));
 		}
 
 		return { };
@@ -48,36 +74,59 @@ editor::Inspector::~Inspector()
 void editor::Inspector::Initialize(entt::registry& registry)
 {
 	m_Entity = registry.create();
+	registry.emplace<ExampleComponent>(m_Entity);
 	registry.emplace<core::TransformComponent>(m_Entity);
 
-	entt::meta<bool>()
+	entt::meta<bool>().ctor<>()
 		.type("bool"_hs)
 		.prop(core::strName, "Boolean")
 		.func<&editor::PropertyWidget<bool>>(core::strInspector);
 
-	entt::meta<int>()
+	entt::meta<int>().ctor<>()
 		.type("int"_hs)
 		.prop(core::strName, "Integer")
 		.func<&editor::PropertyWidget<int>>(core::strInspector);
 
-	entt::meta<float>()
+	entt::meta<float>().ctor<>()
 		.type("float"_hs)
 		.prop(core::strName, "Floating Point")
 		.func<&editor::PropertyWidget<float>>(core::strInspector);
 
-	entt::meta<sf::Vector3f>()
+	entt::meta<sf::Vector3f>().ctor<>()
 		.type("sf::Vector3f"_hs)
 		.prop(core::strName, "Vector3")
 		.func<&editor::PropertyWidget<sf::Vector3f>>(core::strInspector);
 
-	entt::meta<core::TransformComponent>()
+	entt::meta<ExampleStruct>().ctor<>()
+		.type("ExampleStruct"_hs)
+		.prop(core::strName, "Example Struct")
+	.data<&ExampleStruct::m_Bool, entt::as_ref_t>("ExampleStruct::m_Bool"_hs)
+		.prop(core::strName, "m_Bool")
+	.data<&ExampleStruct::m_Int, entt::as_ref_t>("ExampleStruct::m_Int"_hs)
+		.prop(core::strName, "m_Int")
+	.data<&ExampleStruct::m_Float, entt::as_ref_t>("ExampleStruct::m_Float"_hs)
+		.prop(core::strName, "m_Float");
+
+	entt::meta<ExampleComponent>().ctor<>()
+		.type("ExampleComponent"_hs)
+		.prop(core::strName, "Example Component")
+	.data<&ExampleComponent::m_MapA, entt::as_ref_t>("ExampleComponent::m_MapA"_hs)
+		.prop(core::strName, "m_MapA")
+	.data<&ExampleComponent::m_MapB, entt::as_ref_t>("ExampleComponent::m_MapB"_hs)
+		.prop(core::strName, "m_MapB")
+	.data<&ExampleComponent::m_VectorA, entt::as_ref_t>("ExampleComponent::m_VectorA"_hs)
+		.prop(core::strName, "m_VectorA")
+	.data<&ExampleComponent::m_VectorB, entt::as_ref_t>("ExampleComponent::m_VectorB"_hs)
+		.prop(core::strName, "m_VectorB");
+
+	entt::meta<core::TransformComponent>().ctor<>()
 		.type("core::TransformComponent"_hs)
 		.prop(core::strName, "Transform Component")
-	.data<&core::TransformComponent::m_Scale>("&core::TransformComponent::m_Scale"_hs)
+	.data<&core::TransformComponent::m_Scale, entt::as_ref_t>("core::TransformComponent::m_Scale"_hs)
 		.prop(core::strName, "Scale")
-	.data<&core::TransformComponent::m_Rotate>("&core::TransformComponent::m_Rotate"_hs)
+	.data<&core::TransformComponent::m_Rotate, entt::as_ref_t>("core::TransformComponent::m_Rotate"_hs)
 		.prop(core::strName, "Rotate")
-	.data<&core::TransformComponent::m_Translate>("&core::TransformComponent::m_Translate"_hs)
+	.data<&core::TransformComponent::m_Translate, entt::as_ref_t>("core::TransformComponent::m_Translate"_hs)
 		.prop(core::strName, "Translate");
 }
 
@@ -103,121 +152,6 @@ void editor::Inspector::Render(entt::registry& registry)
 	ImGui::End();
 }
 
-void Render_Child(entt::meta_any data, const entt::meta_data& metaData = nullptr)
-{
-	const entt::meta_type& metaType = data.type();
-	if (!metaType)
-		return;
-
-	const char* name = editor::PropertyName(metaData, nullptr);
-	const bool isSkipHeader = !name;
-
-	if (const entt::meta_func& funcCustom = metaType.func(core::strInspector))
-	{
-		// #todo, entt doesn't handle entt::meta_any as an arg?
-		entt::meta_handle handle = { };
-		editor::Any wrapper = { data };
-		funcCustom.invoke(handle, wrapper, metaData);
-	}
-	else if (metaType.is_array())
-	{
-		// #todo: multi-dimensional arrays?
-		const entt::meta_type& childMetaType = metaType.remove_extent();
-		const bool isChildAClass = childMetaType.is_class();
-
-		if (isSkipHeader || ImGui::CollapsingHeader(name))
-		{
-			int i = 0;
-			ImGui::Indent();
-			for (entt::meta_any childData : data.as_sequence_container())
-			{
-				ImGui::PushID(++i);
-				Render_Child(childData);
-				ImGui::PopID();
-			}
-			ImGui::Unindent();
-		}
-	}
-	else if (metaType.is_associative_container())
-	{
-		const entt::meta_type& childMetaType = metaType.remove_extent();
-		const bool isChildAClass = childMetaType.is_class();
-
-		if (isSkipHeader || ImGui::CollapsingHeader(name))
-		{
-			int i = 0;
-			ImGui::Indent();
-			for (auto node : data.as_associative_container())
-			{
-				ImGui::PushID(++i);
-				ImGui::Text("Key:   ");
-				ImGui::SameLine();
-				Render_Child(node.first);
-				ImGui::PopID();
-
-				ImGui::PushID(++i);
-				ImGui::Text("Value: ");
-				ImGui::SameLine();
-				Render_Child(node.second);
-				ImGui::PopID();
-
-				ImGui::Separator();
-			}
-			ImGui::Unindent();
-		}
-	}
-	else if (metaType.is_sequence_container())
-	{
-		const entt::meta_type& childMetaType = metaType.remove_extent();
-		const bool isChildAClass = childMetaType.is_class();
-
-		if (isSkipHeader || ImGui::CollapsingHeader(name))
-		{
-			ImGui::Indent();
-
-			int i = 0;
-			for (auto childData : data.as_sequence_container())
-			{
-				ImGui::PushID(++i);
-				if (isChildAClass)
-				{
-					const str::String index = std::to_string(i);
-					if (ImGui::CollapsingHeader(index.c_str()))
-					Render_Child(childData);
-				}
-				else
-				{
-					const str::String index = std::to_string(i) + ": ";
-					ImGui::Text(index.c_str());
-					ImGui::SameLine();
-					Render_Child(childData);
-				}
-				ImGui::PopID();
-			}
-			ImGui::Unindent();
-		}
-	}
-	else if (metaType.is_class())
-	{
-		if (isSkipHeader || ImGui::CollapsingHeader(name))
-		{
-			for (const entt::meta_data& childMetaData : metaType.data())
-			{
-				entt::meta_any childData = childMetaData.get(data);
-				entt::meta_type childMetaType = childMetaData.type();
-
-				const char* childName = editor::PropertyName(childMetaData);
-
-				ImGui::PushID(childName);
-				ImGui::Indent();
-				Render_Child(childData, childMetaData);
-				ImGui::Unindent();
-				ImGui::PopID();
-			}
-		}
-	}
-}
-
 void editor::Inspector::Render_Entity(entt::registry& registry)
 {
 	if (ImGui::BeginChild("entity"))
@@ -235,7 +169,7 @@ void editor::Inspector::Render_Entity(entt::registry& registry)
 
 					ImGui::PushID(static_cast<int>(componentId));
 					if (!name || ImGui::CollapsingHeader(name))
-						Render_Child(data);
+						PropertyWidget_Child(data);
 					ImGui::PopID();
 				}
 			});
