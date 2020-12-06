@@ -228,15 +228,8 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 		if (ImGui::Button("RemoveAll"))
 			command = RemoveAll();
 
-		ImGui::Columns(2, "tree", true);
+		ImGui::Columns(2, "", true);
 		{
-			//if (containerType.is_class())
-			//{
-			//	ImGui::NextColumn();
-			//	ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
-			//	ImGui::NextColumn();
-			//}
-
 			meta_iterator itr = container.begin();
 			meta_iterator end = container.end();
 			for (int i = 0; itr != end; ++itr, ++i)
@@ -272,7 +265,7 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 
 					if (containerType.is_class())
 					{
-						const bool isExpanded = ImGui::CollapsingHeader("...");
+						const bool isExpanded = ImGui::CollapsingHeader("...", ImGuiTreeNodeFlags_AllowItemOverlap);
 						ImGui::SameLine(ImGui::GetColumnWidth());
 						widgetArrow(i);
 
@@ -292,9 +285,6 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 						widgetArrow(i);
 					}
 				}
-
-				//if (containerType.is_class())
-				//	ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
 				ImGui::PopID();
 				ImGui::NextColumn();
