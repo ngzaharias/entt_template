@@ -77,7 +77,7 @@ void core::Application::Execute(int argc, char* argv[])
 			break;
 
 		// #todo: move into render system?
-		//ImGui::ShowDemoWindow();
+		ImGui::ShowDemoWindow();
 		ImGui::SFML::Render(*m_Window);
 		// #todo: move into render system?
 		m_Window->display();

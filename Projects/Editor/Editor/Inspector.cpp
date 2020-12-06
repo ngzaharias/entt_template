@@ -38,7 +38,7 @@ namespace
 		std::map<int, float> m_MapA = { {1, 1.f}, {2, 2.f}, {3, 3.f} };
 		std::map<int, ExampleStruct> m_MapB = { {1, ExampleStruct()} };
 		std::vector<int> m_VectorA = { 0, 1, 2, 3, 4, 5 };
-		std::vector<ExampleStruct> m_VectorB = { ExampleStruct() };
+		std::vector<ExampleStruct> m_VectorB = { ExampleStruct(), ExampleStruct(), ExampleStruct() };
 	};
 
 	// #todo: we should be able to get this as a func or as a part of the register

@@ -8,6 +8,7 @@
 #include <variant>
 #include <entt/meta/meta.hpp>
 #include <entt/meta/resolve.hpp>
+#include <imgui/GroupPanel.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 
@@ -177,6 +178,11 @@ void editor::PropertyWidget_AssociativeContainer(entt::meta_any propertyData, co
 		container.erase(toRemove);
 }
 
+void Widget()
+{
+
+}
+
 void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const entt::meta_data& metaData /*= nullptr*/)
 {
 	struct None { };
@@ -192,6 +198,23 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 
 	Command command = None();
 	meta_container container = propertyData.as_sequence_container();
+	entt::meta_type containerType = container.value_type();
+
+	auto widgetArrow = [&command](int index)
+	{
+		if (ImGui::ArrowButton("_", ImGuiDir_Down))
+			ImGui::OpenPopup("Menu");
+		if (ImGui::BeginPopup("Menu"))
+		{
+			if (ImGui::MenuItem("Insert"))
+				command = Insert{ index };
+			if (ImGui::MenuItem("Delete"))
+				command = Delete{ index };
+			if (ImGui::MenuItem("Duplicate"))
+				command = Duplicate{ index };
+			ImGui::EndPopup();
+		}
+	};
 
 	const char* name = editor::PropertyName(metaData, "?????");
 	if (ImGui::CollapsingHeader(name))
@@ -207,12 +230,18 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 
 		ImGui::Columns(2, "tree", true);
 		{
+			//if (containerType.is_class())
+			//{
+			//	ImGui::NextColumn();
+			//	ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+			//	ImGui::NextColumn();
+			//}
+
 			meta_iterator itr = container.begin();
 			meta_iterator end = container.end();
 			for (int i = 0; itr != end; ++itr, ++i)
 			{
 				entt::meta_any childData = *itr;
-				entt::meta_type childMetaType = childData.type();
 				const str::String label = std::to_string(i);
 
 				ImGui::PushID(i + 1);
@@ -236,22 +265,37 @@ void editor::PropertyWidget_SequenceContainer(entt::meta_any propertyData, const
 
 					ImGui::SameLine();
 					ImGui::Selectable(label.c_str());
+
+					//////////////////////////////////////////////////////////////////////////
 					ImGui::NextColumn();
-					PropertyWidget_Child(childData);
-					ImGui::SameLine();
-					if (ImGui::ArrowButton("_", ImGuiDir_Down))
-						ImGui::OpenPopup("Menu");
-					if (ImGui::BeginPopup("Menu"))
+					//////////////////////////////////////////////////////////////////////////
+
+					if (containerType.is_class())
 					{
-						if (ImGui::MenuItem("Insert"))
-							command = Insert{ i };
-						if (ImGui::MenuItem("Delete"))
-							command = Delete{ i };
-						if (ImGui::MenuItem("Duplicate"))
-							command = Duplicate{ i };
-						ImGui::EndPopup();
+						const bool isExpanded = ImGui::CollapsingHeader("...");
+						ImGui::SameLine(ImGui::GetColumnWidth());
+						widgetArrow(i);
+
+						if (isExpanded)
+						{
+							ImGui::BeginGroupPanel(nullptr, { ImGui::GetColumnWidth() - 14.f, 0.f });
+							PropertyWidget_Child(childData);
+							ImGui::Spacing();
+							ImGui::Spacing();
+							ImGui::EndGroupPanel();
+						}
+					}
+					else
+					{
+						PropertyWidget_Child(childData);
+						ImGui::SameLine(ImGui::GetColumnWidth());
+						widgetArrow(i);
 					}
 				}
+
+				//if (containerType.is_class())
+				//	ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
 				ImGui::PopID();
 				ImGui::NextColumn();
 			}

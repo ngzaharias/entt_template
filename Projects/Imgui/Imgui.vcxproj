@@ -84,6 +84,10 @@
     <ClCompile Include="..\..\Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ImGui\GroupPanel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ImGui\GroupPanel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

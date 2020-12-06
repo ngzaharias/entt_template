@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source\Custom">
+      <UniqueIdentifier>{794bf265-b1bb-49ea-9c5a-0bc52ea576de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\imgui\imgui.cpp">
@@ -22,5 +25,13 @@
     <ClCompile Include="..\..\Include\imgui-sfml\imgui-SFML.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="ImGui\GroupPanel.cpp">
+      <Filter>Source\Custom</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ImGui\GroupPanel.h">
+      <Filter>Source\Custom</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
