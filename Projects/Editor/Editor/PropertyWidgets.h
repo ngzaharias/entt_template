@@ -1,19 +1,23 @@
 #pragma once
 
-#include <Editor/PropertyDefines.h>
-
-#include <entt/meta/meta.hpp>
 #include <SFML/System/Vector3.hpp>
 
 namespace editor
 {
-	template<class Type>
-	void PropertyWidget(editor::Any propertyData, const entt::meta_data& metaData);
+	template<class Descriptor, class Type>
+	void PropertyWidget(const Descriptor& descriptor, Type& value);
 
-	void PropertyWidget_Child(entt::meta_any propertyData, const entt::meta_data& metaData = nullptr);
+	template<class Descriptor>
+	void PropertyWidget(const Descriptor& descriptor, bool& value);
 
-	void PropertyWidget_AssociativeContainer(entt::meta_any propertyData, const entt::meta_data& metaData = nullptr);
-	void PropertyWidget_SequenceContainer(entt::meta_any propertyData, const entt::meta_data& metaData = nullptr);
+	template<class Descriptor>
+	void PropertyWidget(const Descriptor& descriptor, int& value);
+
+	template<class Descriptor>
+	void PropertyWidget(const Descriptor& descriptor, float& value);
+
+	template<class Descriptor>
+	void PropertyWidget(const Descriptor& descriptor, sf::Vector3f& value);
 }
 
 #include "PropertyWidgets.inl"

@@ -121,6 +121,15 @@
     <ClInclude Include="Engine\StringTable.h">
       <Filter>Source\Strings</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\TypeList.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AttributeHelpers.h">
+      <Filter>Source\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FieldAttributes.h">
+      <Filter>Source\Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -143,6 +152,9 @@
     </None>
     <None Include="Engine\JsonHelpers.inl">
       <Filter>Source\JSON</Filter>
+    </None>
+    <None Include="Engine\AttributeHelpers.inl">
+      <Filter>Source\Reflection</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +243,9 @@
     </Filter>
     <Filter Include="Source\Files">
       <UniqueIdentifier>{606c1a6a-ad5a-4bff-b528-14f99feb5335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Reflection">
+      <UniqueIdentifier>{b2aae735-c3c5-418f-8b71-dd730aaf9629}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

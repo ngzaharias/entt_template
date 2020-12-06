@@ -27,8 +27,8 @@ namespace editor
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:
-		void Render_Entity(entt::registry& registry);
 		void Render_MenuBar(entt::registry& registry);
+		void Render_Selected(entt::registry& registry);
 
 	private:
 		core::ResourceManager& m_ResourceManager;
