@@ -13,7 +13,6 @@ namespace core
 		Vector3f m_Translate = { 0.f, 0.f, 0.f };
 		Vector3f m_Rotate = { 0.f, 0.f, 0.f };
 		Vector3f m_Scale = { 1.f, 1.f, 1.f };
-		int32 m_MyInt;
 	};
 }
 
