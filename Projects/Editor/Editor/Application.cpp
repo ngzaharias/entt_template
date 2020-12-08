@@ -1,6 +1,7 @@
 #include "Editor/Application.h"
 
 #include "Editor/AssetBrowser.h"
+#include "Editor/History.h"
 #include "Editor/Inspector.h"
 #include "Editor/MainMenuBar.h"
 
@@ -17,11 +18,12 @@ void editor::Application::Register()
 	core::Application::Register();
 
 	RegisterSystem<editor::AssetBrowser>(*m_ResourceManager);
-	RegisterSystem<editor::Inspector>(*m_ResourceManager);
+	RegisterSystem<editor::History>();
 	RegisterSystem<editor::Inspector>();
 	RegisterSystem<editor::MainMenuBar>
 		(
 			GetSystem<editor::AssetBrowser>()
+			, GetSystem<editor::History>()
 			, GetSystem<editor::Inspector>()
 		);
 }

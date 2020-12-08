@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Editor\Application.cpp" />
     <ClCompile Include="Editor\AssetBrowser.cpp" />
+    <ClCompile Include="Editor\History.cpp" />
     <ClCompile Include="Editor\Inspector.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
     <ClCompile Include="Editor\MainMenuBar.cpp" />
@@ -20,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Editor\Application.h" />
     <ClInclude Include="Editor\AssetBrowser.h" />
+    <ClInclude Include="Editor\History.h" />
     <ClInclude Include="Editor\Inspector.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
     <ClInclude Include="Editor\PropertyWidgets.h" />

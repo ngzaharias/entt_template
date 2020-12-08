@@ -7,6 +7,9 @@
     <Filter Include="Source\Widgets">
       <UniqueIdentifier>{5aa5f23b-7fe8-4b82-88de-04e9fad9ad09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Windows">
+      <UniqueIdentifier>{62b718e3-6e91-4a08-b8a4-d137511a5695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Editor\Application.cpp">
@@ -17,12 +20,19 @@
     </ClCompile>
     <ClCompile Include="Editor\AssetBrowser.cpp">
       <Filter>Source\Widgets</Filter>
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Inspector.cpp">
+      <Filter>Source\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Editor\MainMenuBar.cpp">
       <Filter>Source\Widgets</Filter>
+      <Filter>Source\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Editor\Inspector.cpp">
       <Filter>Source\Widgets</Filter>
+    <ClCompile Include="Editor\History.cpp">
+      <Filter>Source\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,12 +44,20 @@
     </ClInclude>
     <ClInclude Include="Editor\MainMenuBar.h">
       <Filter>Source\Widgets</Filter>
+    <ClInclude Include="Editor\AssetBrowser.h">
+      <Filter>Source\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Inspector.h">
       <Filter>Source\Widgets</Filter>
+      <Filter>Source\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Editor\PropertyWidgets.h">
       <Filter>Source\Widgets</Filter>
+    <ClInclude Include="Editor\MainMenuBar.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\History.h">
+      <Filter>Source\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
