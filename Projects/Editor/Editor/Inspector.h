@@ -4,17 +4,12 @@
 
 #include <entt/entity/entity.hpp>
 
-namespace core
-{
-	class ResourceManager;
-}
-
 namespace editor
 {
 	class Inspector final : public core::System
 	{
 	public:
-		Inspector(core::ResourceManager& resourceManager);
+		Inspector();
 		~Inspector();
 
 		void Initialize(entt::registry& registry) override;
@@ -31,8 +26,6 @@ namespace editor
 		void Render_Selected(entt::registry& registry);
 
 	private:
-		core::ResourceManager& m_ResourceManager;
-
 		entt::entity m_Entity = entt::null;
 		bool m_IsVisible = true;
 	};

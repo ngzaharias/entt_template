@@ -34,25 +34,6 @@ namespace
 		if constexpr (refl::is_reflectable<Type>() && std::is_class<Type>::value)
 		{
 			if (ImGui::CollapsingHeader(name))
-			{
-				ImGui::Indent();
-				for_each(refl::reflect<Type>().members, [&](auto field)
-				{
-					auto& fieldDescriptor = field;
-					auto& fieldValue = field(value);
-					RenderField(fieldDescriptor, fieldValue);
-				});
-				ImGui::Unindent();
-			}
-		}
-		else
-		{
-			ImGui::PushID(name);
-			editor::PropertyWidget(descriptor, value);
-			ImGui::PopID();
-		}
-		ImGui::PopID();
-	}
 
 	template<typename Component>
 	void RenderComponent(entt::registry& registry, entt::entity entity)
@@ -95,6 +76,7 @@ REFL_AUTO
 
 editor::Inspector::Inspector(core::ResourceManager& resourceManager)
 	: m_ResourceManager(resourceManager)
+editor::Inspector::Inspector()
 {
 }
 
@@ -105,7 +87,6 @@ editor::Inspector::~Inspector()
 void editor::Inspector::Initialize(entt::registry& registry)
 {
 	m_Entity = registry.create();
-	registry.emplace<::ExampleComponent>(m_Entity);
 	registry.emplace<core::TransformComponent>(m_Entity);
 }
 
@@ -143,7 +124,6 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 {
 	using ComponentsList = core::TypeList
 		<
-		::ExampleComponent
 		, core::TransformComponent
 		>;
 
@@ -154,7 +134,6 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 			ImGui::PushID(static_cast<int>(m_Entity));
 
 			ComponentsList components;
-			RenderEntity(registry, m_Entity, components);
 
 			ImGui::PopID();
 		}

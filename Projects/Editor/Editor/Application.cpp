@@ -18,6 +18,7 @@ void editor::Application::Register()
 
 	RegisterSystem<editor::AssetBrowser>(*m_ResourceManager);
 	RegisterSystem<editor::Inspector>(*m_ResourceManager);
+	RegisterSystem<editor::Inspector>();
 	RegisterSystem<editor::MainMenuBar>
 		(
 			GetSystem<editor::AssetBrowser>()
