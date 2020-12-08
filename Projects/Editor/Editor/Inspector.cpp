@@ -7,8 +7,8 @@
 #include <Engine/TransformComponent.h>
 #include <Engine/TypeList.h>
 
-#include <iostream>
-#include <tuple>
+#include <map>
+#include <vector>
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>
 #include <refl/refl.hpp>
@@ -22,36 +22,27 @@ namespace
 		int m_Int = 1337;
 		float m_Float = 0.666f;
 		sf::Vector3f m_Vector3 = { 1.f, 2.f, 3.f };
+
+		std::map<int, int> m_Map = { {1,1}, {2,2}, {3,3} };
+		std::vector<int> m_Vector = { 1, 2, 3, 4, 5 };
 	};
 
-	template<typename Descriptor, typename Type>
-	constexpr void RenderField(const Descriptor descriptor, Type& value)
-	{
-		constexpr entt::id_type s_ComponentId = entt::type_info<Type>::id();
-		const char* name = reflect::GetName(descriptor);
-
-		ImGui::PushID(s_ComponentId);
-		if constexpr (refl::is_reflectable<Type>() && std::is_class<Type>::value)
-		{
-			if (ImGui::CollapsingHeader(name))
-
 	template<typename Component>
-	void RenderComponent(entt::registry& registry, entt::entity entity)
+	void InspectComponent(entt::registry& registry, entt::entity entity)
 	{
-		if (Component* component = registry.try_get<Component>(entity))
+		if (Component* value = registry.try_get<Component>(entity))
 		{
-			Component& value = *component;
-			refl::type_descriptor descriptor = refl::reflect<Component>();
-
+			constexpr refl::type_descriptor descriptor = refl::reflect<Component>();
 			const char* name = get_display_name(descriptor);
+
 			if (ImGui::CollapsingHeader(name))
 			{
 				ImGui::Indent();
 				for_each(refl::reflect<Component>().members, [&](auto field)
 				{
 					auto& fieldDescriptor = field;
-					auto& fieldValue = field(value);
-					RenderField(fieldDescriptor, fieldValue);
+					auto& fieldValue = field(*value);
+					editor::Field(fieldDescriptor, fieldValue);
 				});
 				ImGui::Unindent();
 			}
@@ -59,23 +50,23 @@ namespace
 	}
 
 	template <typename ...Types>
-	void RenderEntity(entt::registry& registry, entt::entity entity, core::TypeList<Types...> typeList)
+	void InspectComponents(entt::registry& registry, entt::entity entity, core::TypeList<Types...> typeList)
 	{
-		(RenderComponent<Types>(registry, entity), ...);
+		(InspectComponent<Types>(registry, entity), ...);
 	}
 }
 
 REFL_AUTO
 (
-	type(::ExampleComponent)
+	type(ExampleComponent)
 	, field(m_Bool, field::Name("Boolean"))
 	, field(m_Int, field::Name("Integer"))
 	, field(m_Float, field::Name("Float"))
 	, field(m_Vector3, field::Name("Vector3"))
+	, field(m_Map, field::Name("Map"))
+	, field(m_Vector, field::Name("Vector"))
 )
 
-editor::Inspector::Inspector(core::ResourceManager& resourceManager)
-	: m_ResourceManager(resourceManager)
 editor::Inspector::Inspector()
 {
 }
@@ -87,6 +78,7 @@ editor::Inspector::~Inspector()
 void editor::Inspector::Initialize(entt::registry& registry)
 {
 	m_Entity = registry.create();
+	registry.emplace<ExampleComponent>(m_Entity);
 	registry.emplace<core::TransformComponent>(m_Entity);
 }
 
@@ -124,6 +116,7 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 {
 	using ComponentsList = core::TypeList
 		<
+		ExampleComponent
 		, core::TransformComponent
 		>;
 
@@ -134,6 +127,7 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 			ImGui::PushID(static_cast<int>(m_Entity));
 
 			ComponentsList components;
+			InspectComponents(registry, m_Entity, components);
 
 			ImGui::PopID();
 		}
