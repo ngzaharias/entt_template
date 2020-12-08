@@ -16,6 +16,7 @@
     <ClInclude Include="Engine\CameraComponent.h" />
     <ClInclude Include="Engine\CircularBuffer.h" />
     <ClInclude Include="Engine\CollisionChannels.h" />
+    <ClInclude Include="Engine\EnginePCH.h" />
     <ClInclude Include="Engine\EnttDebugger.h" />
     <ClInclude Include="Engine\FieldAttributes.h" />
     <ClInclude Include="Engine\FileHelpers.h" />
@@ -53,6 +54,8 @@
     <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\TypeList.h" />
     <ClInclude Include="Engine\Types.h" />
+    <ClInclude Include="Engine\Vector2.h" />
+    <ClInclude Include="Engine\Vector3.h" />
     <ClInclude Include="Engine\VectorHelpers.h" />
   </ItemGroup>
   <ItemGroup>
