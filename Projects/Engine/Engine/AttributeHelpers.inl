@@ -10,8 +10,5 @@ constexpr const char* reflect::GetName(Descriptor descriptor)
 		field::Name prettyName = refl::descriptor::get_attribute<field::Name>(descriptor);
 		return prettyName.m_Value;
 	}
-	else
-	{
-		return get_display_name(descriptor);
-	}
+	return "";
 }

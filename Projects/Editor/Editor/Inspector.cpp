@@ -8,15 +8,16 @@
 #include <Engine/TransformComponent.h>
 #include <Engine/TypeList.h>
 
-#include <map>
-#include <vector>
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>
-#include <refl/refl.hpp>
 #include <SFML/System/Time.hpp>
 
 namespace
 {
+	struct A { bool m_A; bool m_B; };
+	struct B { int m_A; int m_B; int m_C; };
+	struct C { float m_A; };
+
 	struct ExampleComponent
 	{
 		bool m_Bool = true;
@@ -26,6 +27,8 @@ namespace
 
 		std::map<int, int> m_Map = { {1,1}, {2,2}, {3,3} };
 		std::vector<int> m_Vector = { 1, 2, 3, 4, 5 };
+
+		std::variant<A, B, C> m_Variant = B();
 	};
 
 	template<typename Component>
@@ -59,6 +62,25 @@ namespace
 
 REFL_AUTO
 (
+	type(A)
+	, field(m_A)
+	, field(m_B)
+)
+REFL_AUTO
+(
+	type(B)
+	, field(m_A)
+	, field(m_B)
+	, field(m_C)
+)
+REFL_AUTO
+(
+	type(C)
+	, field(m_A)
+)
+
+REFL_AUTO
+(
 	type(ExampleComponent)
 	, field(m_Bool, field::Name("Boolean"))
 	, field(m_Int, field::Name("Integer"))
@@ -66,6 +88,7 @@ REFL_AUTO
 	, field(m_Vector3, field::Name("Vector3"))
 	, field(m_Map, field::Name("Map"))
 	, field(m_Vector, field::Name("Vector"))
+	, field(m_Variant, field::Name("Variant"))
 )
 
 editor::Inspector::Inspector()

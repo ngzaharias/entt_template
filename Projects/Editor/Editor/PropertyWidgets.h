@@ -1,9 +1,5 @@
 #pragma once
 
-#include <map>
-#include <vector>
-#include <SFML/System/Vector3.hpp>
-
 namespace editor
 {
 	template<typename Descriptor, typename Type>
@@ -24,6 +20,14 @@ namespace editor
 
 	template<class Descriptor, class Type>
 	void FieldAsContainer(const Descriptor descriptor, std::vector<Type>& container);
+
+	//////////////////////////////////////////////////////////////////////////
+
+	template<class Descriptor, class Variant>
+	void FieldAsVariant(const Descriptor descriptor, Variant& variant);
+
+	template<class Descriptor, typename ...Types>
+	void FieldAsVariant(const Descriptor descriptor, std::variant<Types...>& variant);
 
 	//////////////////////////////////////////////////////////////////////////
 

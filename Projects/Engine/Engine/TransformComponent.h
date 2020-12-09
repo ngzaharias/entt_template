@@ -1,10 +1,6 @@
 #pragma once
 
 #include <Engine/FieldAttributes.h>
-#include <Engine/Vector3.h>
-
-#include <entt/entt.hpp>
-#include <refl/refl.hpp>
 
 namespace core
 {

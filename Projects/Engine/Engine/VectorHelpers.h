@@ -1,8 +1,5 @@
 #pragma once
 
-#include <Engine/Vector2.h>
-#include <Engine/Vector3.h>
-
 float Dot(const Vector2f& a, const Vector2f& b);
 
 float Length(const Vector2f& value);

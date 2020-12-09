@@ -1,11 +1,21 @@
 #pragma once
 
 #include <Engine/AttributeHelpers.h>
-#include <Engine/String.h>
 
-#include <variant>
 #include <imgui/GroupPanel.h>
 #include <imgui/imgui.h>
+
+namespace
+{
+	template<typename T> struct is_variant : std::false_type {};
+
+	template<typename ...Types>
+	struct is_variant<std::variant<Types...>> : std::true_type {};
+
+	template<class... Ts> struct overload : Ts... { using Ts::operator()...; };
+	template<class... Ts> overload(Ts...)->overload<Ts...>;
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -20,8 +30,12 @@ void editor::Field(const Descriptor descriptor, Type& value)
 	{
 		editor::FieldAsClass(descriptor, value);
 	}
+	else if constexpr (is_variant<Type>::value)
+	{
+		editor::FieldAsVariant(descriptor, value);
+	}
 	// #note: containers aren't reflectable, so they will need to check themselves
-	else if (refl::trait::is_container<Type>::value)
+	else if constexpr (refl::trait::is_container<Type>::value)
 	{
 		editor::FieldAsContainer(descriptor, value);
 	}
@@ -40,15 +54,18 @@ void editor::FieldAsClass(const Descriptor descriptor, Type& value)
 	constexpr const char* name = reflect::GetName(descriptor);
 	if (ImGui::CollapsingHeader(name))
 	{
+		int32 i = 1;
 		ImGui::Indent();
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
 			auto& childDescriptor = field;
 			auto& childValue = field(value);
 
+			ImGui::PushID(i++);
 			ImGui::Text("%s: ", name);
 			ImGui::SameLine();
 			Field(childDescriptor, childValue);
+			ImGui::PopID();
 		});
 		ImGui::Unindent();
 	}
@@ -59,7 +76,7 @@ void editor::FieldAsClass(const Descriptor descriptor, Type& value)
 template<class Descriptor, class Container>
 void editor::FieldAsContainer(const Descriptor descriptor, Container& container)
 {
-	ImGui::Text("Unsupported Container!");
+	ImGui::Text("Unsupported Container Type!");
 }
 
 template<class Descriptor, class Key, class Value>
@@ -145,6 +162,23 @@ void editor::FieldAsContainer(const Descriptor descriptor, std::vector<Type>& co
 		ImGui::Columns(1);
 		ImGui::Unindent();
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+template<class Descriptor, class Variant>
+void editor::FieldAsVariant(const Descriptor descriptor, Variant& variant)
+{
+	ImGui::Text("Unsupported Variant Type!");
+}
+
+template<class Descriptor, typename ...Types>
+void editor::FieldAsVariant(const Descriptor descriptor, std::variant<Types...>& variant)
+{
+	std::visit([&](auto&& typeValue)
+	{
+		editor::Field(descriptor, typeValue);
+	}, variant);
 }
 
 //////////////////////////////////////////////////////////////////////////
