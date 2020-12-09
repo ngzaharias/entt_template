@@ -12,10 +12,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application.h" />
+    <ClInclude Include="Engine\AttributeHelpers.h" />
     <ClInclude Include="Engine\CameraComponent.h" />
     <ClInclude Include="Engine\CircularBuffer.h" />
     <ClInclude Include="Engine\CollisionChannels.h" />
+    <ClInclude Include="Engine\EnginePCH.h" />
     <ClInclude Include="Engine\EnttDebugger.h" />
+    <ClInclude Include="Engine\FieldAttributes.h" />
     <ClInclude Include="Engine\FileHelpers.h" />
     <ClInclude Include="Engine\Hash.h" />
     <ClInclude Include="Engine\JsonHelpers.h" />
@@ -49,11 +52,15 @@
     <ClInclude Include="Engine\System.h" />
     <ClInclude Include="Engine\TextureResource.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
+    <ClInclude Include="Engine\TypeList.h" />
     <ClInclude Include="Engine\Types.h" />
+    <ClInclude Include="Engine\Vector2.h" />
+    <ClInclude Include="Engine\Vector3.h" />
     <ClInclude Include="Engine\VectorHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl" />
+    <None Include="Engine\AttributeHelpers.inl" />
     <None Include="Engine\CircularBuffer.inl" />
     <None Include="Engine\EnttDebugger.inl" />
     <None Include="Engine\JsonHelpers.inl" />
@@ -63,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Application.cpp" />
+    <ClCompile Include="Engine\EnginePCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Engine\EnttDebugger.cpp" />
     <ClCompile Include="Engine\FileHelpers.cpp" />
     <ClCompile Include="Engine\JsonHelpers.cpp" />

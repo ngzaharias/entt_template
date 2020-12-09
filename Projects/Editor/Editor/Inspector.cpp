@@ -1,69 +1,74 @@
+#include "Editor/EditorPCH.h"
 #include "Editor/Inspector.h"
 
-#include "Editor/PropertyDefines.h"
 #include "Editor/PropertyWidgets.h"
 
-#include <Engine/CircularBuffer.h>
-#include <Engine/LevelComponent.h>
-#include <Engine/NameComponent.h>
-#include <Engine/ResourceManager.h>
-#include <Engine/StringTable.h>
+#include <Engine/AttributeHelpers.h>
+#include <Engine/FieldAttributes.h>
 #include <Engine/TransformComponent.h>
+#include <Engine/TypeList.h>
 
-#include <iostream>
+#include <map>
+#include <vector>
 #include <entt/entt.hpp>
-#include <entt/meta/container.hpp>
 #include <imgui/imgui.h>
+#include <refl/refl.hpp>
 #include <SFML/System/Time.hpp>
-
-// #todo: move somewhere else? they could be quite useful 
-#define metaid(type) entt::type_info<type>::id()
-#define typeof_member(member) std::remove_all_extents<decltype(member)>::type
-#define typeid_member(member) entt::type_info<typeof_member(member)>::id()
-#define sizeof_member(member) sizeof(typeof_member(member))
 
 namespace
 {
-	struct ExampleStruct
-	{
-		bool m_Bool;
-		int m_Int;
-		float m_Float;
-
-		bool operator==(const ExampleStruct&) const { return false; }
-	};
-
 	struct ExampleComponent
 	{
-		std::map<int, float> m_MapA = { {1, 1.f}, {2, 2.f}, {3, 3.f} };
-		std::map<int, ExampleStruct> m_MapB = { {1, ExampleStruct()} };
-		std::vector<int> m_VectorA = { 0, 1, 2, 3, 4, 5 };
-		std::vector<ExampleStruct> m_VectorB = { ExampleStruct(), ExampleStruct(), ExampleStruct() };
+		bool m_Bool = true;
+		int m_Int = 1337;
+		float m_Float = 0.666f;
+		sf::Vector3f m_Vector3 = { 1.f, 2.f, 3.f };
+
+		std::map<int, int> m_Map = { {1,1}, {2,2}, {3,3} };
+		std::vector<int> m_Vector = { 1, 2, 3, 4, 5 };
 	};
 
-	// #todo: we should be able to get this as a func or as a part of the register
-	// 
-	//	registry.visit(m_Entity, [&](auto comp)
-	//	{
-	//		entt::resolve(comp).func("get"_hs).invoke({}, registry, entity);
-	//	}
-	// 
-	entt::meta_any GetComponent(entt::registry& registry, const entt::entity& entity, const entt::id_type& componentId)
+	template<typename Component>
+	void InspectComponent(entt::registry& registry, entt::entity entity)
 	{
-		switch (componentId)
+		if (Component* value = registry.try_get<Component>(entity))
 		{
-		case entt::type_info<ExampleComponent>::id():
-			return std::ref(registry.get<ExampleComponent>(entity));
-		case entt::type_info<core::TransformComponent>::id():
-			return std::ref(registry.get<core::TransformComponent>(entity));
-		}
+			constexpr refl::type_descriptor descriptor = refl::reflect<Component>();
+			const char* name = get_display_name(descriptor);
 
-		return { };
-	};
+			if (ImGui::CollapsingHeader(name))
+			{
+				ImGui::Indent();
+				for_each(refl::reflect<Component>().members, [&](auto field)
+				{
+					auto& fieldDescriptor = field;
+					auto& fieldValue = field(*value);
+					editor::Field(fieldDescriptor, fieldValue);
+				});
+				ImGui::Unindent();
+			}
+		}
+	}
+
+	template <typename ...Types>
+	void InspectComponents(entt::registry& registry, entt::entity entity, core::TypeList<Types...> typeList)
+	{
+		(InspectComponent<Types>(registry, entity), ...);
+	}
 }
 
-editor::Inspector::Inspector(core::ResourceManager& resourceManager)
-	: m_ResourceManager(resourceManager)
+REFL_AUTO
+(
+	type(ExampleComponent)
+	, field(m_Bool, field::Name("Boolean"))
+	, field(m_Int, field::Name("Integer"))
+	, field(m_Float, field::Name("Float"))
+	, field(m_Vector3, field::Name("Vector3"))
+	, field(m_Map, field::Name("Map"))
+	, field(m_Vector, field::Name("Vector"))
+)
+
+editor::Inspector::Inspector()
 {
 }
 
@@ -76,58 +81,6 @@ void editor::Inspector::Initialize(entt::registry& registry)
 	m_Entity = registry.create();
 	registry.emplace<ExampleComponent>(m_Entity);
 	registry.emplace<core::TransformComponent>(m_Entity);
-
-	entt::meta<bool>().ctor<>()
-		.type("bool"_hs)
-		.prop(core::strName, "Boolean")
-		.func<&editor::PropertyWidget<bool>>(core::strInspector);
-
-	entt::meta<int>().ctor<>()
-		.type("int"_hs)
-		.prop(core::strName, "Integer")
-		.func<&editor::PropertyWidget<int>>(core::strInspector);
-
-	entt::meta<float>().ctor<>()
-		.type("float"_hs)
-		.prop(core::strName, "Floating Point")
-		.func<&editor::PropertyWidget<float>>(core::strInspector);
-
-	entt::meta<sf::Vector3f>().ctor<>()
-		.type("sf::Vector3f"_hs)
-		.prop(core::strName, "Vector3")
-		.func<&editor::PropertyWidget<sf::Vector3f>>(core::strInspector);
-
-	entt::meta<ExampleStruct>().ctor<>()
-		.type("ExampleStruct"_hs)
-		.prop(core::strName, "Example Struct")
-	.data<&ExampleStruct::m_Bool, entt::as_ref_t>("ExampleStruct::m_Bool"_hs)
-		.prop(core::strName, "m_Bool")
-	.data<&ExampleStruct::m_Int, entt::as_ref_t>("ExampleStruct::m_Int"_hs)
-		.prop(core::strName, "m_Int")
-	.data<&ExampleStruct::m_Float, entt::as_ref_t>("ExampleStruct::m_Float"_hs)
-		.prop(core::strName, "m_Float");
-
-	entt::meta<ExampleComponent>().ctor<>()
-		.type("ExampleComponent"_hs)
-		.prop(core::strName, "Example Component")
-	.data<&ExampleComponent::m_MapA, entt::as_ref_t>("ExampleComponent::m_MapA"_hs)
-		.prop(core::strName, "m_MapA")
-	.data<&ExampleComponent::m_MapB, entt::as_ref_t>("ExampleComponent::m_MapB"_hs)
-		.prop(core::strName, "m_MapB")
-	.data<&ExampleComponent::m_VectorA, entt::as_ref_t>("ExampleComponent::m_VectorA"_hs)
-		.prop(core::strName, "m_VectorA")
-	.data<&ExampleComponent::m_VectorB, entt::as_ref_t>("ExampleComponent::m_VectorB"_hs)
-		.prop(core::strName, "m_VectorB");
-
-	entt::meta<core::TransformComponent>().ctor<>()
-		.type("core::TransformComponent"_hs)
-		.prop(core::strName, "Transform Component")
-	.data<&core::TransformComponent::m_Scale, entt::as_ref_t>("core::TransformComponent::m_Scale"_hs)
-		.prop(core::strName, "Scale")
-	.data<&core::TransformComponent::m_Rotate, entt::as_ref_t>("core::TransformComponent::m_Rotate"_hs)
-		.prop(core::strName, "Rotate")
-	.data<&core::TransformComponent::m_Translate, entt::as_ref_t>("core::TransformComponent::m_Translate"_hs)
-		.prop(core::strName, "Translate");
 }
 
 void editor::Inspector::Destroy(entt::registry& registry)
@@ -147,37 +100,9 @@ void editor::Inspector::Render(entt::registry& registry)
 	ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar);
 
 	Render_MenuBar(registry);
-	Render_Entity(registry);
+	Render_Selected(registry);
 
 	ImGui::End();
-}
-
-void editor::Inspector::Render_Entity(entt::registry& registry)
-{
-	if (ImGui::BeginChild("entity"))
-	{
-		if (registry.valid(m_Entity))
-		{
-			ImGui::PushID(static_cast<int>(m_Entity));
-
-			registry.visit(m_Entity, [&](const entt::id_type& componentId)
-			{
-				if (const entt::meta_type& metaType = entt::resolve_type(componentId))
-				{
-					const char* name = editor::PropertyName(metaType);
-					entt::meta_any data = GetComponent(registry, m_Entity, componentId);
-
-					ImGui::PushID(static_cast<int>(componentId));
-					if (!name || ImGui::CollapsingHeader(name))
-						PropertyWidget_Child(data);
-					ImGui::PopID();
-				}
-			});
-
-			ImGui::PopID();
-		}
-		ImGui::EndChild();
-	}
 }
 
 void editor::Inspector::Render_MenuBar(entt::registry& registry)
@@ -185,5 +110,28 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 	if (ImGui::BeginMenuBar())
 	{
 		ImGui::EndMenuBar();
+	}
+}
+
+void editor::Inspector::Render_Selected(entt::registry& registry)
+{
+	using ComponentsList = core::TypeList
+		<
+		ExampleComponent
+		, core::TransformComponent
+		>;
+
+	if (ImGui::BeginChild("entity"))
+	{
+		if (registry.valid(m_Entity))
+		{
+			ImGui::PushID(static_cast<int>(m_Entity));
+
+			ComponentsList components;
+			InspectComponents(registry, m_Entity, components);
+
+			ImGui::PopID();
+		}
+		ImGui::EndChild();
 	}
 }

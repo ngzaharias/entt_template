@@ -7,8 +7,8 @@
     <Filter Include="Source\Widgets">
       <UniqueIdentifier>{5aa5f23b-7fe8-4b82-88de-04e9fad9ad09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Experimental">
-      <UniqueIdentifier>{10b369c7-65ae-46a9-890e-c9ab6822f51f}</UniqueIdentifier>
+    <Filter Include="Source\Windows">
+      <UniqueIdentifier>{62b718e3-6e91-4a08-b8a4-d137511a5695}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -19,57 +19,42 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Editor\AssetBrowser.cpp">
-      <Filter>Source\Widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\MainMenuBar.cpp">
-      <Filter>Source\Widgets</Filter>
+      <Filter>Source\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Editor\Inspector.cpp">
-      <Filter>Source\Widgets</Filter>
+      <Filter>Source\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\PropertyHelpers.cpp">
+    <ClCompile Include="Editor\MainMenuBar.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\History.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorPCH.cpp">
       <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\Experimental\experimental_pod.cpp">
-      <Filter>Source\Experimental</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\Experimental\experimental_variant.cpp">
-      <Filter>Source\Experimental</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\Experimental\experimental_containers.cpp">
-      <Filter>Source\Experimental</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\AssetBrowser.h">
-      <Filter>Source\Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\MainMenuBar.h">
-      <Filter>Source\Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Inspector.h">
-      <Filter>Source\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\PropertyWidgets.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\PropertyHelpers.h">
+    <ClInclude Include="Editor\AssetBrowser.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Inspector.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\MainMenuBar.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\History.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorPCH.h">
       <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\PropertyDefines.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Experimental\experimental_pod.h">
-      <Filter>Source\Experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Experimental\experimental_variant.h">
-      <Filter>Source\Experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Experimental\experimental_containers.h">
-      <Filter>Source\Experimental</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

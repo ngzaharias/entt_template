@@ -13,24 +13,23 @@
   <ItemGroup>
     <ClCompile Include="Editor\Application.cpp" />
     <ClCompile Include="Editor\AssetBrowser.cpp" />
-    <ClCompile Include="Editor\Experimental\experimental_containers.cpp" />
-    <ClCompile Include="Editor\Experimental\experimental_pod.cpp" />
-    <ClCompile Include="Editor\Experimental\experimental_variant.cpp" />
+    <ClCompile Include="Editor\EditorPCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Editor/EditorPCH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EditorPCH.pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <ClCompile Include="Editor\History.cpp" />
     <ClCompile Include="Editor\Inspector.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
     <ClCompile Include="Editor\MainMenuBar.cpp" />
-    <ClCompile Include="Editor\PropertyHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h" />
     <ClInclude Include="Editor\AssetBrowser.h" />
-    <ClInclude Include="Editor\Experimental\experimental_containers.h" />
-    <ClInclude Include="Editor\Experimental\experimental_pod.h" />
-    <ClInclude Include="Editor\Experimental\experimental_variant.h" />
+    <ClInclude Include="Editor\EditorPCH.h" />
+    <ClInclude Include="Editor\History.h" />
     <ClInclude Include="Editor\Inspector.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
-    <ClInclude Include="Editor\PropertyHelpers.h" />
-    <ClInclude Include="Editor\PropertyDefines.h" />
     <ClInclude Include="Editor\PropertyWidgets.h" />
   </ItemGroup>
   <ItemGroup>

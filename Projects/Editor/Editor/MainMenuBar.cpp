@@ -1,6 +1,8 @@
+#include "Editor/EditorPCH.h"
 #include "Editor/MainMenuBar.h"
 
 #include "Editor/AssetBrowser.h"
+#include "Editor/History.h"
 #include "Editor/Inspector.h"
 
 #include <imgui/imgui.h>
@@ -21,8 +23,14 @@ namespace
 	const ImVec4 s_Invalid = ImVec4(0.92f, 0.14f, 0.25f, 1.f);
 }
 
-editor::MainMenuBar::MainMenuBar(editor::AssetBrowser& assetBrowser, editor::Inspector& inspector)
+editor::MainMenuBar::MainMenuBar
+(
+	editor::AssetBrowser& assetBrowser
+	, editor::History& history
+	, editor::Inspector& inspector
+)
 	: m_AssetBrowser(assetBrowser)
+	, m_History(history)
 	, m_Inspector(inspector)
 {
 }
@@ -98,7 +106,8 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 
 			if (ImGui::MenuItem("Asset Browser"))
 				m_AssetBrowser.SetVisible(true);
-
+			if (ImGui::MenuItem("History"))
+				m_History.SetVisible(true);
 			if (ImGui::MenuItem("Inspector"))
 				m_Inspector.SetVisible(true);
 

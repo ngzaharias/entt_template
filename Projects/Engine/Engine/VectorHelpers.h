@@ -1,16 +1,17 @@
 #pragma once
 
-#include <SFML/System/Vector2.hpp>
+#include <Engine/Vector2.h>
+#include <Engine/Vector3.h>
 
-float Dot(const sf::Vector2f& a, const sf::Vector2f& b);
+float Dot(const Vector2f& a, const Vector2f& b);
 
-float Length(const sf::Vector2f& value);
+float Length(const Vector2f& value);
 
 [[nodiscard]]
-sf::Vector2f Normalized(const sf::Vector2f& value);
+Vector2f Normalized(const Vector2f& value);
 
-sf::Vector2f Reflect(const sf::Vector2f& vector, const sf::Vector2f& normal);
+Vector2f Reflect(const Vector2f& vector, const Vector2f& normal);
 
-sf::Vector2f Divide(const sf::Vector2f& lhs, const sf::Vector2f& rhs);
+Vector2f Divide(const Vector2f& lhs, const Vector2f& rhs);
 
-sf::Vector2f Multiply(const sf::Vector2f& lhs, const sf::Vector2f& rhs);
+Vector2f Multiply(const Vector2f& lhs, const Vector2f& rhs);

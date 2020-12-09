@@ -1,3 +1,4 @@
+#include "Engine/EnginePCH.h"
 #include "Engine/Path.h"
 
 str::Path::Path()

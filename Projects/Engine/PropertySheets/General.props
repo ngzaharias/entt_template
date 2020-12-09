@@ -16,6 +16,10 @@
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Engine/EnginePCH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>EnginePCH.pch</PrecompiledHeaderOutputFile>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Library\;$(SolutionDir)\Library\SFML\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

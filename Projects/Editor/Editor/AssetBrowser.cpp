@@ -1,3 +1,4 @@
+#include "Editor/EditorPCH.h"
 #include "Editor/AssetBrowser.h"
 
 #include <Engine/ResourceManager.h>

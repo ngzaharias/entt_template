@@ -16,6 +16,9 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Editor/EditorPCH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>EditorPCH.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Bin\PhysX\;$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Library\;$(SolutionDir)\Library\SFML\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
