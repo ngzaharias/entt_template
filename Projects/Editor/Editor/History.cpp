@@ -1,3 +1,4 @@
+#include "Editor/EditorPCH.h"
 #include "Editor/History.h"
 
 editor::History::History()

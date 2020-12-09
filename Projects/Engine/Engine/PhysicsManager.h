@@ -53,5 +53,7 @@ namespace physics
 		// debug
 		physx::PxPvd* m_Debugger = nullptr;
 		physx::PxPvdTransport* m_Transport = nullptr;
+
+		int32 m_Int;
 	};
 }

@@ -1,3 +1,4 @@
+#include "Engine/EnginePCH.h"
 #include "Engine/SoundResource.h"
 
 #include "Engine/JsonHelpers.h"

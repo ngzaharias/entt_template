@@ -1,3 +1,4 @@
+#include "Editor/EditorPCH.h"
 #include "Editor/Application.h"
 
 #include <direct.h>

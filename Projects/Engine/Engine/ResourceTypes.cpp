@@ -1,3 +1,4 @@
+#include "Engine/EnginePCH.h"
 #include "Engine/ResourceTypes.h"
 
 #include "Engine/StringHelpers.h"

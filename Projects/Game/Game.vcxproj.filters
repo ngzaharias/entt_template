@@ -7,6 +7,9 @@
     <ClCompile Include="Game\Application.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GamePCH.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -15,6 +18,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Application.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GamePCH.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

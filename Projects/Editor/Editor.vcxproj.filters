@@ -30,6 +30,9 @@
     <ClCompile Include="Editor\History.cpp">
       <Filter>Source\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\EditorPCH.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Editor\History.h">
       <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorPCH.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

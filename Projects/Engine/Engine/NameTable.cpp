@@ -1,3 +1,4 @@
+#include "Engine/EnginePCH.h"
 #include "Engine/NameTable.h"
 
 #include <assert.h>

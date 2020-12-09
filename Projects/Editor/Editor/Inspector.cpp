@@ -1,3 +1,4 @@
+#include "Editor/EditorPCH.h"
 #include "Editor/Inspector.h"
 
 #include "Editor/PropertyWidgets.h"

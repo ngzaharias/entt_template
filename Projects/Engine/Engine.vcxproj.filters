@@ -127,9 +127,6 @@
     <ClInclude Include="Engine\FieldAttributes.h">
       <Filter>Source\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\EnginePCH.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Vector3.h">
       <Filter>Source\Vector</Filter>
     </ClInclude>
@@ -138,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="Engine\VectorHelpers.h">
       <Filter>Source\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EnginePCH.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,11 +224,11 @@
     <ClCompile Include="Engine\ResourceTypes.cpp">
       <Filter>Source\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\EnginePCH.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\VectorHelpers.cpp">
       <Filter>Source\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EnginePCH.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
