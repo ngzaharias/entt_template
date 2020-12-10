@@ -14,9 +14,9 @@
 
 namespace
 {
-	struct A { bool m_A; bool m_B; };
-	struct B { int m_A; int m_B; int m_C; };
-	struct C { float m_A; };
+	struct AsBools { bool m_A; bool m_B; };
+	struct AsInts { int m_A; int m_B; int m_C; };
+	struct AsFloat { float m_A; };
 
 	struct ExampleComponent
 	{
@@ -28,7 +28,7 @@ namespace
 		std::map<int, int> m_Map = { {1,1}, {2,2}, {3,3} };
 		std::vector<int> m_Vector = { 1, 2, 3, 4, 5 };
 
-		std::variant<A, B, C> m_Variant = B();
+		std::variant<AsBools, AsInts, AsFloat> m_Variant = AsInts();
 	};
 
 	template<typename Component>
@@ -60,24 +60,9 @@ namespace
 	}
 }
 
-REFL_AUTO
-(
-	type(A)
-	, field(m_A)
-	, field(m_B)
-)
-REFL_AUTO
-(
-	type(B)
-	, field(m_A)
-	, field(m_B)
-	, field(m_C)
-)
-REFL_AUTO
-(
-	type(C)
-	, field(m_A)
-)
+REFL_AUTO(type(AsBools), field(m_A), field(m_B))
+REFL_AUTO(type(AsInts), field(m_A), field(m_B), field(m_C))
+REFL_AUTO(type(AsFloat), field(m_A))
 
 REFL_AUTO
 (

@@ -1,21 +1,11 @@
 #pragma once
 
 #include <Engine/AttributeHelpers.h>
+#include <Engine/TypeHelpers.h>
+#include <Engine/VariantHelpers.h>
 
 #include <imgui/GroupPanel.h>
 #include <imgui/imgui.h>
-
-namespace
-{
-	template<typename T> struct is_variant : std::false_type {};
-
-	template<typename ...Types>
-	struct is_variant<std::variant<Types...>> : std::true_type {};
-
-	template<class... Ts> struct overload : Ts... { using Ts::operator()...; };
-	template<class... Ts> overload(Ts...)->overload<Ts...>;
-}
-
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -30,7 +20,7 @@ void editor::Field(const Descriptor descriptor, Type& value)
 	{
 		editor::FieldAsClass(descriptor, value);
 	}
-	else if constexpr (is_variant<Type>::value)
+	else if constexpr (core::IsVariant<Type>::value)
 	{
 		editor::FieldAsVariant(descriptor, value);
 	}
@@ -175,6 +165,17 @@ void editor::FieldAsVariant(const Descriptor descriptor, Variant& variant)
 template<class Descriptor, typename ...Types>
 void editor::FieldAsVariant(const Descriptor descriptor, std::variant<Types...>& variant)
 {
+	using Variant = std::variant<Types...>;
+	using Builder = typename core::VariantBuilder<Variant>::type;
+
+	// #todo: build this compile time
+	static std::vector<const char*> names = core::TypeNames<Types...>();
+
+	int index = static_cast<int>(variant.index());
+	int size = static_cast<int>(sizeof...(Types));
+	if (ImGui::Combo("Variant", &index, &names[0], size))
+		variant = Builder::variants[index];
+
 	std::visit([&](auto&& typeValue)
 	{
 		editor::Field(descriptor, typeValue);

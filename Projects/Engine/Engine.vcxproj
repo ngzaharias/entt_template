@@ -52,8 +52,10 @@
     <ClInclude Include="Engine\System.h" />
     <ClInclude Include="Engine\TextureResource.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
+    <ClInclude Include="Engine\TypeHelpers.h" />
     <ClInclude Include="Engine\TypeList.h" />
     <ClInclude Include="Engine\Types.h" />
+    <ClInclude Include="Engine\VariantHelpers.h" />
     <ClInclude Include="Engine\Vector2.h" />
     <ClInclude Include="Engine\Vector3.h" />
     <ClInclude Include="Engine\VectorHelpers.h" />
