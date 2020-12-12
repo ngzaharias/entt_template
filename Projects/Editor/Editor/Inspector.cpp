@@ -23,6 +23,7 @@ namespace
 		bool m_Bool = true;
 		int m_Int = 1337;
 		float m_Float = 0.666f;
+		AsBools m_MyStruct = AsBools();
 		sf::Vector3f m_Vector3 = { 1.f, 2.f, 3.f };
 
 		std::map<int, int> m_Map = { {1,1}, {2,2}, {3,3} };
@@ -34,6 +35,8 @@ namespace
 	template<typename Component>
 	void InspectComponent(entt::registry& registry, entt::entity entity)
 	{
+		static float offset = 150.f;
+
 		if (Component* value = registry.try_get<Component>(entity))
 		{
 			constexpr refl::type_descriptor descriptor = refl::reflect<Component>();
@@ -41,6 +44,8 @@ namespace
 
 			if (ImGui::CollapsingHeader(name))
 			{
+				ImGui::BeginColumns("", 2);
+				ImGui::SetColumnOffset(1, offset);
 				ImGui::Indent();
 				for_each(refl::reflect<Component>().members, [&](auto field)
 				{
@@ -49,6 +54,7 @@ namespace
 					editor::Field(fieldDescriptor, fieldValue);
 				});
 				ImGui::Unindent();
+				ImGui::EndColumns(offset);
 			}
 		}
 	}
@@ -67,12 +73,13 @@ REFL_AUTO(type(AsFloat), field(m_A))
 REFL_AUTO
 (
 	type(ExampleComponent)
-	, field(m_Bool, field::Name("Boolean"))
-	, field(m_Int, field::Name("Integer"))
-	, field(m_Float, field::Name("Float"))
-	, field(m_Vector3, field::Name("Vector3"))
-	, field(m_Map, field::Name("Map"))
-	, field(m_Vector, field::Name("Vector"))
+	//, field(m_Bool, field::Name("Boolean"))
+	//, field(m_Int, field::Name("Integer"))
+	//, field(m_Float, field::Name("Float"))
+	//, field(m_MyStruct, field::Name("MyStruct"))
+	//, field(m_Vector3, field::Name("Vector3"))
+	//, field(m_Map, field::Name("Map"))
+	//, field(m_Vector, field::Name("Vector"))
 	, field(m_Variant, field::Name("Variant"))
 )
 
@@ -83,6 +90,8 @@ editor::Inspector::Inspector()
 editor::Inspector::~Inspector()
 {
 }
+
+#include <iostream>
 
 void editor::Inspector::Initialize(entt::registry& registry)
 {
@@ -135,8 +144,73 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 		{
 			ImGui::PushID(static_cast<int>(m_Entity));
 
-			ComponentsList components;
-			InspectComponents(registry, m_Entity, components);
+			//ComponentsList components;
+			//InspectComponents(registry, m_Entity, components);
+			static float offset = 200.f;
+			static bool unuseda = true;
+			static float unusedb = 0.f;
+
+			if (ImGui::CollapsingHeader("Example A Component"))
+			{
+				ImGui::Indent();
+				ImGui::BeginColumns("ExampleA", 2);
+				ImGui::SetColumnOffset(1, offset);
+
+				ImGui::Text("Boolean");
+				ImGui::NextColumn();
+				ImGui::Checkbox("##b", &unuseda);
+				ImGui::NextColumn();
+
+				ImGui::Text("Float");
+				ImGui::NextColumn();
+				ImGui::DragFloat("##f", &unusedb);
+				ImGui::NextColumn();
+
+				ImGui::EndColumns(offset);
+				ImGui::Unindent();
+			}
+
+			if (ImGui::CollapsingHeader("Example B Component"))
+			{
+				ImGui::Indent();
+				ImGui::BeginColumns("ExampleA", 2);
+				ImGui::SetColumnOffset(1, offset);
+
+				ImGui::Text("Boolean");
+				ImGui::NextColumn();
+				ImGui::Checkbox("##b", &unuseda);
+				ImGui::NextColumn();
+
+				ImGui::Text("Float");
+				ImGui::NextColumn();
+				ImGui::DragFloat("##f", &unusedb);
+				ImGui::NextColumn();
+
+				bool isExpanded = ImGui::CollapsingHeader("Struct");
+				ImGui::NextColumn();
+				ImGui::Spacing();
+				ImGui::NextColumn();
+
+				if (isExpanded)
+				{
+					ImGui::Indent();
+
+					ImGui::Text("Boolean");
+					ImGui::NextColumn();
+					ImGui::Checkbox("##b", &unuseda);
+					ImGui::NextColumn();
+
+					ImGui::Text("Float");
+					ImGui::NextColumn();
+					ImGui::DragFloat("##f", &unusedb);
+					ImGui::NextColumn();
+
+					ImGui::Unindent();
+				}
+
+				ImGui::EndColumns(offset);
+				ImGui::Unindent();
+			}
 
 			ImGui::PopID();
 		}

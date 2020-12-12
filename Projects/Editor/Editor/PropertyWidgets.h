@@ -32,19 +32,19 @@ namespace editor
 	//////////////////////////////////////////////////////////////////////////
 
 	template<class Type>
-	void PropertyWidget(Type& value);
+	void PropertyWidget(const char* name, Type& value);
 
 	template<>
-	void PropertyWidget(bool& value);
+	void PropertyWidget(const char* name, bool& value);
 
 	template<>
-	void PropertyWidget(int& value);
+	void PropertyWidget(const char* name, int& value);
 
 	template<>
-	void PropertyWidget(float& value);
+	void PropertyWidget(const char* name, float& value);
 
 	template<>
-	void PropertyWidget(sf::Vector3f& value);
+	void PropertyWidget(const char* name, sf::Vector3f& value);
 }
 
 #include "PropertyWidgets.inl"

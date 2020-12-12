@@ -6123,8 +6123,9 @@ void ImGui::End()
         IM_ASSERT_USER_ERROR(g.WithinEndChild, "Must call EndChild() and not End()!");
 
     // Close anything that is open
+	float unused;
     if (window->DC.CurrentColumns)
-        EndColumns();
+        EndColumns(unused);
     PopClipRect();   // Inner window clip rectangle
 
     // Stop logging
