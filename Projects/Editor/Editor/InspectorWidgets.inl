@@ -351,14 +351,14 @@ namespace
 		imgui::SetColumnIndex(0);
 		bool isExpanded = widget::CollapsingHeader(name);
 
-
+		imgui::SetColumnIndex(1);
+		if (ImGui::Combo("", &index, &names[0], size))
+			variant = Builder::variants[index];
 
 		if (isExpanded)
 		{
 			imgui::SetColumnIndex(0);
 			ImGui::Indent();
-			if (ImGui::Combo("", &index, &names[0], size))
-				variant = Builder::variants[index];
 
 			std::visit([&](auto&& typeValue)
 			{
