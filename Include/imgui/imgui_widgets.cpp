@@ -8199,7 +8199,7 @@ void ImGui::NextColumn()
     window->WorkRect.Max.x = window->Pos.x + offset_1 - column_padding;
 }
 
-void ImGui::EndColumns(float& dragged_offset)
+void ImGui::EndColumns()
 {
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = GetCurrentWindow();
@@ -8264,7 +8264,6 @@ void ImGui::EndColumns(float& dragged_offset)
             columns->IsBeingResized = is_being_resized = true;
             float x = GetDraggedColumnOffset(columns, dragging_column);
             SetColumnOffset(dragging_column, x);
-			dragged_offset = x;
         }
     }
     columns->IsBeingResized = is_being_resized;
@@ -8288,9 +8287,8 @@ void ImGui::Columns(int columns_count, const char* id, bool border)
     if (columns != NULL && columns->Count == columns_count && columns->Flags == flags)
         return;
 
-	float unused;
     if (columns != NULL)
-        EndColumns(unused);
+        EndColumns();
 
     if (columns_count != 1)
         BeginColumns(id, columns_count, flags);

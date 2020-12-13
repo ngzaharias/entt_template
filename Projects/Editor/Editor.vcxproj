@@ -29,11 +29,12 @@
     <ClInclude Include="Editor\EditorPCH.h" />
     <ClInclude Include="Editor\History.h" />
     <ClInclude Include="Editor\Inspector.h" />
+    <ClInclude Include="Editor\InspectorExamples.h" />
+    <ClInclude Include="Editor\InspectorWidgets.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
-    <ClInclude Include="Editor\PropertyWidgets.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Editor\PropertyWidgets.inl" />
+    <None Include="Editor\InspectorWidgets.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

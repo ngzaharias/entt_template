@@ -53,8 +53,6 @@ void editor::MainMenuBar::Initialize(entt::registry& registry)
 	style.Colors[ImGuiCol_TitleBg] = s_PurpleEnabled;
 	style.Colors[ImGuiCol_TitleBgActive] = s_PurpleEnabled;
 	style.Colors[ImGuiCol_TitleBgCollapsed] = s_PurpleEnabled;
-	style.IndentSpacing = 10.f;
-	style.ItemSpacing.y = 5.f;
 }
 
 void editor::MainMenuBar::Destroy(entt::registry& registry)

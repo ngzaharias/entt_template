@@ -38,9 +38,6 @@
     <ClInclude Include="Editor\Application.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\PropertyWidgets.h">
-      <Filter>Source\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\AssetBrowser.h">
       <Filter>Source\Windows</Filter>
     </ClInclude>
@@ -56,9 +53,15 @@
     <ClInclude Include="Editor\EditorPCH.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\InspectorWidgets.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\InspectorExamples.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Editor\PropertyWidgets.inl">
+    <None Include="Editor\InspectorWidgets.inl">
       <Filter>Source\Widgets</Filter>
     </None>
   </ItemGroup>
