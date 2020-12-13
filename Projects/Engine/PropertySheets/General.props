@@ -19,7 +19,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Engine/EnginePCH.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>EnginePCH.pch</PrecompiledHeaderOutputFile>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Library\;$(SolutionDir)\Library\SFML\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
