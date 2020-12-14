@@ -153,6 +153,105 @@ namespace
 	}
 }
 
+bool widget::ArrowButton(const char* str_id)
+{
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiID id = window->GetID(str_id);
+	ImGuiContext& g = *GImGui;
+	ImGuiTreeNodeFlags flags = 0;
+	const ImGuiStyle& style = g.Style;
+	const ImVec2 padding = style.FramePadding;
+
+	bool is_open = ImGui::TreeNodeBehaviorIsOpen(id, 0);
+
+	ImGuiButtonFlags button_flags = ImGuiTreeNodeFlags_None;
+	button_flags |= ImGuiButtonFlags_AllowItemOverlap;
+	button_flags |= ImGuiButtonFlags_PressedOnDragDropHold;
+
+	ImVec2 arrow_pos = window->DC.CursorPos;
+	arrow_pos += padding;
+
+	ImRect frame_bb;
+	frame_bb.Min = arrow_pos;
+	frame_bb.Max = arrow_pos + ImVec2{ s_ArrowWidth, g.FontSize };
+	frame_bb.Min -= padding;
+	frame_bb.Max.y += padding.y;
+
+	ImRect interact_bb = frame_bb;
+
+	ImGui::ItemSize(frame_bb, padding.y);
+
+	const bool is_mouse_x_over_arrow = (g.IO.MousePos.x >= interact_bb.Min.x && g.IO.MousePos.x < interact_bb.Max.x);
+	if (window != g.HoveredWindow || !is_mouse_x_over_arrow)
+		button_flags |= ImGuiButtonFlags_NoKeyModifiers;
+
+	if (is_mouse_x_over_arrow)
+	{
+		button_flags |= ImGuiButtonFlags_PressedOnClick;
+	}
+	else
+	{
+		button_flags |= ImGuiButtonFlags_PressedOnClickRelease;
+	}
+
+	// #todo: row selection
+
+	bool hovered, held;
+	bool pressed = ImGui::ButtonBehavior(interact_bb, id, &hovered, &held, button_flags);
+	bool toggled = false;
+	{
+		if (pressed && g.DragDropHoldJustPressedId != id)
+		{
+			if ((flags & (ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) == 0 || (g.NavActivateId == id))
+				toggled = true;
+			if (flags & ImGuiTreeNodeFlags_OpenOnArrow)
+				toggled |= is_mouse_x_over_arrow && !g.NavDisableMouseHover; // Lightweight equivalent of IsMouseHoveringRect() since ButtonBehavior() already did the job
+			if ((flags & ImGuiTreeNodeFlags_OpenOnDoubleClick) && g.IO.MouseDoubleClicked[0])
+				toggled = true;
+		}
+		else if (pressed && g.DragDropHoldJustPressedId == id)
+		{
+			IM_ASSERT(button_flags & ImGuiButtonFlags_PressedOnDragDropHold);
+			if (!is_open) // When using Drag and Drop "hold to open" we keep the node highlighted after opening, but never close it again.
+				toggled = true;
+		}
+
+		if (g.NavId == id && g.NavMoveRequest && g.NavMoveDir == ImGuiDir_Left && is_open)
+		{
+			toggled = true;
+			ImGui::NavMoveRequestCancel();
+		}
+		if (g.NavId == id && g.NavMoveRequest && g.NavMoveDir == ImGuiDir_Right && !is_open) // If there's something upcoming on the line we may want to give it the priority?
+		{
+			toggled = true;
+			ImGui::NavMoveRequestCancel();
+		}
+
+		if (toggled)
+		{
+			is_open = !is_open;
+			window->DC.StateStorage->SetInt(id, is_open);
+			window->DC.LastItemStatusFlags |= ImGuiItemStatusFlags_ToggledOpen;
+		}
+	}
+
+	// Render
+	if (hovered)
+	{
+		const ImU32 bg_col = ImGui::GetColorU32((held && hovered) ? ImGuiCol_HeaderActive : hovered ? ImGuiCol_HeaderHovered : ImGuiCol_Header);
+		ImGui::RenderFrame(frame_bb.Min, frame_bb.Max, bg_col, true, style.FrameRounding);
+		ImGui::RenderNavHighlight(frame_bb, id, ImGuiNavHighlightFlags_TypeThin);
+	}
+
+	const ImU32 text_col = ImGui::GetColorU32(ImGuiCol_Text);
+	ImGui::RenderArrow(window->DrawList, arrow_pos, text_col, is_open ? ImGuiDir_Down : ImGuiDir_Right, 1.0f);
+
+	return is_open;
+}
+
 bool widget::CollapsingHeader(const char* fmt, ...)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();

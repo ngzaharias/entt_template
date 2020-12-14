@@ -64,9 +64,6 @@ editor::Inspector::~Inspector()
 
 void editor::Inspector::Initialize(entt::registry& registry)
 {
-	auto reflected = refl::reflect<example::Component>().members;
-	reflected.size;
-
 	m_Entity = registry.create();
 	registry.emplace<example::Component>(m_Entity);
 	registry.emplace<core::TransformComponent>(m_Entity);

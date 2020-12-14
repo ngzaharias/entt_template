@@ -351,27 +351,22 @@ namespace
 		imgui::SetColumnIndex(0);
 		bool isExpanded = widget::CollapsingHeader(name);
 
-		imgui::SetColumnIndex(1);
-		if (ImGui::Combo("", &index, &names[0], size))
-			variant = Builder::variants[index];
-
 		if (isExpanded)
 		{
 			imgui::SetColumnIndex(0);
 			ImGui::Indent();
 
-			std::visit([&](auto&& typeValue)
+			widget::ArrowButton("");
+			ImGui::SameLine();
+			if (ImGui::Combo("", &index, &names[0], size))
+				variant = Builder::variants[index];
+
+			std::visit([&](auto& typeValue)
 			{
-				using Type = decltype(typeValue);
-				const bool isTrivial = !std::is_class<Type>::value;
-				if (isTrivial)
-				{
-					TypeAsValue_TrivialR(typeValue);
-				}
-				else
-				{
-					TypeAsValue_ComplexLR(typeValue);
-				}
+				// #todo: if trivial, add info to column 0
+				// #hack: column will be overridden if it is a class
+				imgui::SetColumnIndex(1);
+				editor::InspectorType(typeValue);
 			}, variant);
 
 			imgui::SetColumnIndex(0);
