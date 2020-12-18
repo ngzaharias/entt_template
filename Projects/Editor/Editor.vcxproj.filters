@@ -59,9 +59,27 @@
     <ClInclude Include="Editor\InspectorExamples.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\ContainerWidgets.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\TrivialWidgets.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\VariantWidgets.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\InspectorWidgets.inl">
+      <Filter>Source\Widgets</Filter>
+    </None>
+    <None Include="Editor\ContainerWidgets.inl">
+      <Filter>Source\Widgets</Filter>
+    </None>
+    <None Include="Editor\TrivialWidgets.inl">
+      <Filter>Source\Widgets</Filter>
+    </None>
+    <None Include="Editor\VariantWidgets.inl">
       <Filter>Source\Widgets</Filter>
     </None>
   </ItemGroup>

@@ -10,7 +10,7 @@ static ImVector<ImRect> s_GroupPanelLabelStack;
 
 namespace
 {
-	bool CollapsingHeaderEx(const char* label, ImGuiID id, ImGuiTreeNodeFlags flags)
+	bool FieldHeaderEx(const char* label, ImGuiID id, ImGuiTreeNodeFlags flags)
 	{
 		using namespace ImGui;
 
@@ -153,7 +153,7 @@ namespace
 	}
 }
 
-bool widget::ArrowButton(const char* str_id)
+bool imgui::ArrowButton(const char* str_id)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
@@ -252,7 +252,7 @@ bool widget::ArrowButton(const char* str_id)
 	return is_open;
 }
 
-bool widget::CollapsingHeader(const char* fmt, ...)
+bool imgui::FieldHeader(const char* fmt, ...)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
@@ -268,10 +268,14 @@ bool widget::CollapsingHeader(const char* fmt, ...)
 	ImGuiID id = window->GetID(g.TempBuffer);
 	ImGuiTreeNodeFlags flags = 0;
 
-	return CollapsingHeaderEx(g.TempBuffer, id, flags);
+	imgui::Unindent_x(2);
+	bool isExpanded = FieldHeaderEx(g.TempBuffer, id, flags);
+	imgui::Indent_x(2);
+
+	return isExpanded;
 }
 
-void widget::GroupPanel_Begin(const char* name, const ImVec2& size)
+void imgui::GroupPanel_Begin(const char* name, const ImVec2& size)
 {
 	ImGui::BeginGroup();
 
@@ -321,7 +325,7 @@ void widget::GroupPanel_Begin(const char* name, const ImVec2& size)
 	s_GroupPanelLabelStack.push_back(ImRect(labelMin, labelMax));
 }
 
-void widget::GroupPanel_End()
+void imgui::GroupPanel_End()
 {
 	ImGui::PopItemWidth();
 
@@ -391,4 +395,16 @@ void widget::GroupPanel_End()
 	ImGui::Dummy(ImVec2(0.0f, 0.0f));
 
 	ImGui::EndGroup();
+}
+
+void imgui::Indent_x(int x)
+{
+	for (int i = 0; i < x; ++i)
+		ImGui::Indent();
+}
+
+void imgui::Unindent_x(int x)
+{
+	for (int i = 0; i < x; ++i)
+		ImGui::Unindent();
 }

@@ -26,15 +26,21 @@
   <ItemGroup>
     <ClInclude Include="Editor\Application.h" />
     <ClInclude Include="Editor\AssetBrowser.h" />
+    <ClInclude Include="Editor\ContainerWidgets.h" />
     <ClInclude Include="Editor\EditorPCH.h" />
     <ClInclude Include="Editor\History.h" />
     <ClInclude Include="Editor\Inspector.h" />
     <ClInclude Include="Editor\InspectorExamples.h" />
     <ClInclude Include="Editor\InspectorWidgets.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
+    <ClInclude Include="Editor\TrivialWidgets.h" />
+    <ClInclude Include="Editor\VariantWidgets.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Editor\ContainerWidgets.inl" />
     <None Include="Editor\InspectorWidgets.inl" />
+    <None Include="Editor\TrivialWidgets.inl" />
+    <None Include="Editor\VariantWidgets.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

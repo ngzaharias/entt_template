@@ -11,14 +11,31 @@ namespace example
 	struct AsBools { bool m_BoolA; bool m_BoolB; };
 	struct AsInts { int m_IntA; int m_IntB; int m_IntC; };
 	struct AsFloat { float m_FloatA; };
+	struct AsStruct { AsBools m_Bools; };
 
-	struct Struct
+	struct NoReflect { bool m_Bool; };
+	struct YesReflect
 	{
 		bool m_Bool = false;
 		int m_Int = 0;
 		float m_Float = 0.f;
+		AsFloat m_Struct = AsFloat();
 
-		bool operator<(const Struct& rhs) const
+		bool operator==(const YesReflect& rhs) const
+		{
+			return m_Bool == rhs.m_Bool
+				&& m_Int == rhs.m_Int
+				&& m_Float == rhs.m_Float;
+		}
+
+		bool operator!=(const YesReflect& rhs) const
+		{
+			return m_Bool != rhs.m_Bool
+				|| m_Int != rhs.m_Int
+				|| m_Float != rhs.m_Float;
+		}
+
+		bool operator<(const YesReflect& rhs) const
 		{
 			return m_Bool < rhs.m_Bool
 				&& m_Int < rhs.m_Int
@@ -34,36 +51,39 @@ namespace example
 		float m_Float = 0.666f;
 
 		// struct
-		Struct m_Struct = Struct();
+		YesReflect m_YesReflect = YesReflect();
+		NoReflect m_NoReflect = NoReflect();
 
 		// customised
 		sf::Vector3f m_Custom = { 1.f, 2.f, 3.f };
 
 		// maps
-		std::map<int, int> m_MapA = { {1, 10} };
-		std::map<int, Struct> m_MapB = { {1, Struct()} };
-		std::map<Struct, int> m_MapC = { {Struct(), 10} };
-		std::map<Struct, Struct> m_MapD = { {Struct(), Struct()} };
+		std::map<int, int> m_MapA = { {1, 10}, {2, 10}, {3, 10} };
+		std::map<int, YesReflect> m_MapB = { { 1, YesReflect()}, { 2, YesReflect()} };
+		std::map<YesReflect, int> m_MapC = { { YesReflect(), 10} };
+		std::map<YesReflect, YesReflect> m_MapD = { {YesReflect(), YesReflect()} };
 
 		// vectors
 		std::vector<int> m_VectorA = { 1, 2, 3, 4, 5 };
-		std::vector<Struct> m_VectorB = { Struct(), Struct(), Struct() };
+		std::vector<YesReflect> m_VectorB = { YesReflect(), YesReflect(), YesReflect() };
 
 		// variant
-		std::variant<bool, int, float, AsBools, AsInts, AsFloat> m_Variant = AsInts();
+		std::variant<bool, int, float, AsBools, AsInts, AsFloat, AsStruct> m_Variant = AsInts();
 	};
 }
 
 REFL_AUTO(type(example::AsBools), field(m_BoolA), field(m_BoolB))
 REFL_AUTO(type(example::AsInts), field(m_IntA), field(m_IntB), field(m_IntC))
 REFL_AUTO(type(example::AsFloat), field(m_FloatA))
+REFL_AUTO(type(example::AsStruct), field(m_Bools))
 
 REFL_AUTO
 (
-	type(example::Struct)
+	type(example::YesReflect)
 	, field(m_Bool)
 	, field(m_Int)
 	, field(m_Float)
+	, field(m_Struct)
 )
 
 REFL_AUTO
@@ -72,7 +92,8 @@ REFL_AUTO
 	, field(m_Bool)
 	, field(m_Int)
 	, field(m_Float)
-	, field(m_Struct)
+	, field(m_YesReflect)
+	, field(m_NoReflect)
 	, field(m_Custom)
 	, field(m_MapA)
 	, field(m_MapB)
