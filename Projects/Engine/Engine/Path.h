@@ -10,36 +10,36 @@ namespace str
 	public:
 		Path();
 		Path(const char* string);
-		Path(const std::string_view& string);
+		Path(const str::StringView& string);
 
 		void operator=(const char* string);
-		void operator=(const std::string_view& string);
+		void operator=(const str::StringView& string);
 
 		bool HasFileExtension(const char* extension) const;
 		bool IsDirectory() const;
 		bool IsFile() const;
 
 		const char* ToChar() const { return m_Value.c_str(); }
-		const std::string& ToString() const { return m_Value; }
-		const std::string_view& ToStringView() const { return m_Value; }
+		const str::String& ToString() const { return m_Value; }
+		const str::StringView& ToStringView() const { return m_Value; }
 
 		///		/My/Example/Directory/Foo.bar
 		///		++++++++++++++++++++++
-		std::string_view GetDirectory() const;
+		str::StringView GetDirectory() const;
 
 		///		/My/Example/Directory/Foo.bar
 		///								 ++++
-		std::string_view GetFileExtension() const;
+		str::StringView GetFileExtension() const;
 
 		///		/My/Example/Directory/Foo.bar
 		///							  +++++++
-		std::string_view GetFileName() const;
+		str::StringView GetFileName() const;
 
 		///		/My/Example/Directory/Foo.bar
 		///							  +++
-		std::string_view GetFileNameNoExtension() const;
+		str::StringView GetFileNameNoExtension() const;
 
 	private:
-		std::string m_Value;
+		str::String m_Value;
 	};
 }

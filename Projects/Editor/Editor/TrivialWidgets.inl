@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Editor/TrivialWidgets.h"
-
 #include <Engine/AttributeHelpers.h>
 
 #include <imgui/imgui.h>

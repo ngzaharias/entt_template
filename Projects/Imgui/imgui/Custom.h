@@ -8,11 +8,10 @@ namespace imgui
 
 	bool ArrowButton(const char* str_id);
 
+	void Bullet();
+
 	bool FieldHeader(const char* fmt, ...);
 
 	void GroupPanel_Begin(const char* name, const ImVec2& size);
 	void GroupPanel_End();
-
-	void Indent_x(int x);
-	void Unindent_x(int x);
 }

@@ -37,12 +37,16 @@ void widget::FieldAsVariant(const char* text, std::variant<Types...>& variant, T
 
 	if (isExpanded)
 	{
+		imgui::SetColumnIndex(0);
+		ImGui::Indent();
+
 		// #todo: can this be done compile time?
 		if (std::is_class<Type>::value)
 		{
 			imgui::SetColumnIndex(0);
 			bool isClassExpanded = imgui::ArrowButton("##button");
 			ImGui::SameLine();
+			ImGui::SetNextItemWidth(-1);
 			if (ImGui::Combo("##combo", &index, &names[0], size))
 				variant = Builder::variants[index];
 
@@ -52,24 +56,27 @@ void widget::FieldAsVariant(const char* text, std::variant<Types...>& variant, T
 			if (isClassExpanded)
 			{
 				imgui::SetColumnIndex(0);
-				imgui::Indent_x(4);
+				ImGui::Indent();
 
 				widget::TypeAsIs(value);
 
 				imgui::SetColumnIndex(0);
-				imgui::Unindent_x(4);
+				ImGui::Unindent();
 			}
 		}
 		else
 		{
 			imgui::SetColumnIndex(0);
-			imgui::Indent_x(2);
+			imgui::Bullet();
+			ImGui::SetNextItemWidth(-1);
 			if (ImGui::Combo("##combo", &index, &names[0], size))
 				variant = Builder::variants[index];
-			imgui::Unindent_x(2);
 
 			imgui::SetColumnIndex(1);
 			widget::TypeAsIs(value);
 		}
+
+		imgui::SetColumnIndex(0);
+		ImGui::Unindent();
 	}
 }

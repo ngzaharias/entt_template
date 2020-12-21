@@ -4,8 +4,8 @@
 #include "Editor/InspectorExamples.h"
 #include "Editor/InspectorWidgets.h"
 
-#include <Engine/TransformComponent.h>
 #include <Engine/TypeList.h>
+#include <Engine/TransformComponent.h>
 
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>
@@ -19,9 +19,26 @@ namespace
 	static float s_DividerOffset = 250.f;
 
 	template<typename Component>
+	void CloneComponent(entt::registry& oldRegistry, entt::entity oldEntity, entt::registry& newRegistry, entt::entity newEntity)
+	{
+		if (!oldRegistry.has<Component>(oldEntity))
+			return;
+
+		Component& oldComponent = oldRegistry.get<Component>(oldEntity);
+		Component& newComponent = newRegistry.emplace<Component>(newEntity);
+		newComponent = oldComponent;
+	}
+
+	template <typename ...Types>
+	void CloneEntity(entt::registry& oldRegistry, entt::entity oldEntity, entt::registry& newRegistry, entt::entity newEntity, core::TypeList<Types...> typeList)
+	{
+		(CloneComponent<Types>(oldRegistry, oldEntity, newRegistry, newEntity), ...);
+	}
+
+	template<typename Component>
 	void InspectComponent(entt::registry& registry, entt::entity entity)
 	{
-		if (Component* value = registry.try_get<Component>(entity))
+		if (Component* component = registry.try_get<Component>(entity))
 		{
 			constexpr refl::type_descriptor descriptor = refl::reflect<Component>();
 			const char* name = get_display_name(descriptor);
@@ -31,9 +48,7 @@ namespace
 				ImGui::Columns(2, "Columns");
 				ImGui::SetColumnOffset(1, s_DividerOffset);
 
-				imgui::Indent_x(2);
-				widget::TypeAsIs(*value);
-				imgui::Unindent_x(2);
+				widget::TypeAsIs(*component);
 
 				ImGui::Columns(1);
 				s_DividerOffset = imgui::GetColumnOffset("Columns", 2, 1);
@@ -44,7 +59,7 @@ namespace
 	template <typename ...Types>
 	void InspectComponents(entt::registry& registry, entt::entity entity, core::TypeList<Types...> typeList)
 	{
-		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 13.f);
+		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 20.f);
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 8.f, 8.f });
 
 		(InspectComponent<Types>(registry, entity), ...);
@@ -63,9 +78,6 @@ editor::Inspector::~Inspector()
 
 void editor::Inspector::Initialize(entt::registry& registry)
 {
-	m_Entity = registry.create();
-	registry.emplace<example::Component>(m_Entity);
-	registry.emplace<core::TransformComponent>(m_Entity);
 }
 
 void editor::Inspector::Destroy(entt::registry& registry)
@@ -100,11 +112,8 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 
 void editor::Inspector::Render_Selected(entt::registry& registry)
 {
-	using ComponentsList = core::TypeList
-		<
-		example::Component
-		, core::TransformComponent
-		>;
+	using ComponentsList = core::TypeList<example::Component, core::TransformComponent>;
+	ComponentsList components;
 
 	if (ImGui::BeginChild("entity"))
 	{
@@ -112,7 +121,6 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 		{
 			ImGui::PushID(static_cast<int>(m_Entity));
 
-			ComponentsList components;
 			InspectComponents(registry, m_Entity, components);
 
 			ImGui::PopID();

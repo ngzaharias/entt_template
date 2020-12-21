@@ -27,60 +27,37 @@
 // - rename keys
 // - maintain key order after rename
 
-namespace
+namespace imgui
 {
-	// inline
-	// left only
-	template<typename Type>
-	void TypeInContainer_v1(const int column, Type& value)
+	int32 DragDrop(const char* text, int32 index)
 	{
-		using TypeDescriptor = refl::type_descriptor<Type>;
-		constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
+		int32 source = -1;
 
-		// type
-		imgui::SetColumnIndex(column);
-		widget::TypeAsIs(value);
-	}
-
-	// inline
-	// left and right
-	template<typename Type>
-	void TypeInContainer_v2(const char* name, Type& value)
-	{
-		using TypeDescriptor = refl::type_descriptor<Type>;
-		constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
-
-		// label
+		ImGui::PushID(index);
 		imgui::SetColumnIndex(0);
-		ImGui::Text("%s (%s)", name, typeDescriptor.name.c_str());
-
-		// type
-		imgui::SetColumnIndex(1);
-		widget::TypeAsIs(value);
-	}
-
-	// not inline
-	// left and right
-	template<typename Type>
-	void TypeInContainer_v3(const char* name, Type& key)
-	{
-		using TypeDescriptor = refl::type_descriptor<Type>;
-		constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
-
-		// left
-		imgui::SetColumnIndex(0);
-		if (imgui::FieldHeader("%s (%s)", name, typeDescriptor.name.c_str()))
+		ImGui::Unindent();
+		ImGui::Button("::");
+		ImGui::Indent();
+		ImGui::SameLine();
+		if (ImGui::BeginDragDropSource())
 		{
-			widget::TypeAsIs(key);
+			ImGui::SetDragDropPayload("DRAG", &index, sizeof(int32));
+			ImGui::Text(text);
+			ImGui::EndDragDropSource();
 		}
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG"))
+			{
+				source = *(int32*)payload->Data;
+			}
+			ImGui::EndDragDropTarget();
+		}
+		ImGui::PopID();
 
-		// right
-		imgui::SetColumnIndex(1);
-		ImGui::Text("%d Members", typeDescriptor.members.size);
+		return source;
 	}
 }
-
-//////////////////////////////////////////////////////////////////////////
 
 template<class Container>
 void widget::FieldAsContainer(const char* text, Container& container)
@@ -91,31 +68,42 @@ void widget::FieldAsContainer(const char* text, Container& container)
 template<class Key, class Value>
 void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 {
+	struct None { };
+	struct Insert { Key key; };
+	struct RemoveAll { };
+	struct Rename { int32 index; Key key; };
+
 	using Iterator = typename std::map<Key, Value>::iterator;
-	struct Rename { Iterator itr; Key key; };
+	using Command = std::variant<None, Insert, RemoveAll, Rename>;
 
 	if constexpr (!refl::trait::is_reflectable<Key>::value || !refl::trait::is_reflectable<Value>::value)
 		return;
 
-	Rename rename = { container.end(), Key() };
+	Command command = None();
 
 	imgui::SetColumnIndex(0);
 	bool isExpanded = imgui::FieldHeader(text);
 
 	imgui::SetColumnIndex(1);
-	ImGui::Text("%d Map Elements", container.size());
+	ImGui::Text("%d Elements", container.size());
+	ImGui::SameLine(ImGui::GetColumnWidth() - 50.f);
+	if (ImGui::Button("+"))
+		command = Insert{ Key() };
+	ImGui::SameLine();
+	if (ImGui::Button("x"))
+		command = RemoveAll();
 
 	if (isExpanded)
 	{
 		imgui::SetColumnIndex(0);
-		imgui::Indent_x(2);
+		ImGui::Indent();
 
 		constexpr bool isKeyInlined = !std::is_class<Key>::value;
 		constexpr bool isValInlined = !std::is_class<Value>::value;
 
-		auto itr = container.begin();
-		auto end = container.end();
-		for (int i = 0, id = 0; itr != end; ++itr, ++i)
+		Iterator itr = container.begin();
+		Iterator end = container.end();
+		for (int32 i = 0, id = 0; itr != end; ++itr, ++i)
 		{
 			Key key = itr->first;
 			Value& value = itr->second;
@@ -125,14 +113,16 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 			if (isKeyInlined && isValInlined)
 			{
 				imgui::SetColumnIndex(0);
+				imgui::Bullet();
+				ImGui::SetNextItemWidth(-1);
 				widget::TypeAsIs(key);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::Field("Key: ", key);
+				editor::Field("Key", key);
 			if (!isKeyInlined && isValInlined)
-				editor::Field("Key: ", key);
+				editor::Field("Key", key);
 			if (!isKeyInlined && !isValInlined)
-				editor::Field("Key: ", key);
+				editor::Field("Key", key);
 			ImGui::PopID();
 
 			// value
@@ -143,53 +133,111 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 				widget::TypeAsIs(value);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::Field("Value: ", value);
+				editor::Field("Value", value);
 			if (!isKeyInlined && isValInlined)
-				editor::Field("Value: ", value);
+				editor::Field("Value", value);
 			if (!isKeyInlined && !isValInlined)
-				editor::Field("Value: ", value);
+				editor::Field("Value", value);
 			ImGui::PopID();
 
-			if (key != itr->first)
-				rename = { itr, key };
+			if (key != itr->first && ImGui::IsItemDeactivatedAfterEdit())
+				command = Rename{ i, key };
 		}
 
 		imgui::SetColumnIndex(0);
-		imgui::Unindent_x(2);
+		ImGui::Unindent();
 	}
+
+	std::visit(core::VariantOverload
+	{ 
+		[&](const None& arg)		{},
+		[&](const Insert& arg)		{ container.try_emplace(arg.key); },
+		[&](const RemoveAll& arg)	{ container.clear(); },
+		[&](const Rename& arg)
+		{
+			if (container.count(arg.key) == 0)
+			{
+				Iterator itr = std::next(container.begin(), arg.index);
+				auto node = container.extract(itr);
+				node.key() = arg.key;
+				container.insert(std::move(node));
+			}
+		}
+	}, command);
 }
 
 template<typename Type>
 void widget::FieldAsContainer(const char* text, std::vector<Type>& container)
 {
-	using TypeDescriptor = refl::type_descriptor<Type>;
-	constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
+	struct None { };
+	struct DragDrop { int32 source, target; };
+	struct Insert { int32 index; };
+	struct RemoveAll { };
+
+	using Command = std::variant<None, DragDrop, Insert, RemoveAll>;
+	using Iterator = typename std::vector<Type>::iterator;
 
 	if constexpr (!refl::trait::is_reflectable<Type>::value)
 		return;
+
+	Command command = None();
 
 	imgui::SetColumnIndex(0);
 	bool isExpanded = imgui::FieldHeader(text);
 
 	imgui::SetColumnIndex(1);
-	ImGui::Text("%d Array Elements", container.size());
+	ImGui::Text("%d Elements", container.size());
+	ImGui::SameLine(ImGui::GetColumnWidth() - 50.f);
+	if (ImGui::Button("+"))
+		command = Insert{ static_cast<int32>(container.size()) };
+	ImGui::SameLine();
+	if (ImGui::Button("x"))
+		command = RemoveAll();
 
 	if (isExpanded)
 	{
 		imgui::SetColumnIndex(0);
-		imgui::Indent_x(2);
+		ImGui::Indent();
 
-		auto itr = container.begin();
-		auto end = container.end();
-		for (int i = 0; itr != end; ++itr, ++i)
+		Iterator itr = container.begin();
+		Iterator end = container.end();
+		for (int32 i = 0; itr != end; ++itr, ++i)
 		{
 			Type& value = *itr;
 			str::String label = std::to_string(i);
+
+			int32 source = imgui::DragDrop(label.c_str(), i);
+			if (source != -1)
+			{
+				command = DragDrop{ source, i };
+			}
 
 			editor::Field(label.c_str(), value);
 		}
 
 		imgui::SetColumnIndex(0);
-		imgui::Unindent_x(2);
+		ImGui::Unindent();
 	}
+
+	std::visit(core::VariantOverload
+	{ 
+		[&](auto& arg) {},
+		[&](DragDrop& arg)
+		{
+			const bool isUnderneath = arg.source < arg.target;
+			Iterator source = std::next(container.begin(), arg.source);
+			Iterator target = std::next(container.begin(), isUnderneath ? arg.target + 1 : arg.target);
+			container.insert(target, *source);
+
+			// iterators were invalidated
+			source = std::next(container.begin(), !isUnderneath ? arg.source + 1 : arg.source);
+			container.erase(source);
+		},
+		[&](Insert& arg)		
+		{ 
+			Iterator itr = container.begin() + arg.index;
+			container.insert(itr, Type());
+		},
+		[&](RemoveAll& arg)	{ container.clear(); },
+	}, command);
 }

@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Engine/PhysicsMaterialResource.h>
+#include <Engine/SoundResource.h>
+#include <Engine/TextureResource.h>
+
 #include <map>
 #include <variant>
 #include <vector>
@@ -55,7 +59,12 @@ namespace example
 		NoReflect m_NoReflect = NoReflect();
 
 		// customised
-		sf::Vector3f m_Custom = { 1.f, 2.f, 3.f };
+		sf::Vector3f m_Vector3 = { 1.f, 2.f, 3.f };
+
+		// resources
+		physics::MaterialHandle m_PhysicsMaterial;
+		audio::SoundHandle m_Sound;
+		render::TextureHandle m_Texture;
 
 		// maps
 		std::map<int, int> m_MapA = { {1, 10}, {2, 10}, {3, 10} };
@@ -94,7 +103,10 @@ REFL_AUTO
 	, field(m_Float)
 	, field(m_YesReflect)
 	, field(m_NoReflect)
-	, field(m_Custom)
+	, field(m_PhysicsMaterial)
+	, field(m_Sound)
+	, field(m_Texture)
+	, field(m_Vector3)
 	, field(m_MapA)
 	, field(m_MapB)
 	, field(m_MapC)

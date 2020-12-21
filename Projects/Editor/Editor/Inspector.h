@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Engine/ResourceManager.h>
 #include <Engine/System.h>
 
 #include <entt/entity/entity.hpp>

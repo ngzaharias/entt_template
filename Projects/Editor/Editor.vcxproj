@@ -33,12 +33,14 @@
     <ClInclude Include="Editor\InspectorExamples.h" />
     <ClInclude Include="Editor\InspectorWidgets.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
+    <ClInclude Include="Editor\ResourceWidgets.h" />
     <ClInclude Include="Editor\TrivialWidgets.h" />
     <ClInclude Include="Editor\VariantWidgets.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\ContainerWidgets.inl" />
     <None Include="Editor\InspectorWidgets.inl" />
+    <None Include="Editor\ResourceWidgets.inl" />
     <None Include="Editor\TrivialWidgets.inl" />
     <None Include="Editor\VariantWidgets.inl" />
   </ItemGroup>

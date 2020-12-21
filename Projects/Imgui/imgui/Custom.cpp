@@ -252,6 +252,31 @@ bool imgui::ArrowButton(const char* str_id)
 	return is_open;
 }
 
+void imgui::Bullet()
+{
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return;
+
+	ImGui::AlignTextToFramePadding();
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+	const float line_height = ImMax(ImMin(window->DC.CurrLineSize.y, g.FontSize + g.Style.FramePadding.y * 2), g.FontSize);
+	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + ImVec2(g.FontSize, line_height));
+	ImGui::ItemSize(bb);
+	if (!ImGui::ItemAdd(bb, 0))
+	{
+		ImGui::SameLine(0, style.FramePadding.x * 2);
+		return;
+	}
+
+	// Render and stay on same line
+	ImU32 text_col = ImGui::GetColorU32(ImGuiCol_Text);
+	ImGui::RenderBullet(window->DrawList, bb.Min + ImVec2(style.FramePadding.x + g.FontSize * 0.5f, line_height * 0.5f), text_col);
+	ImGui::SameLine(0, style.FramePadding.x * 3.0f);
+}
+
 bool imgui::FieldHeader(const char* fmt, ...)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -268,11 +293,7 @@ bool imgui::FieldHeader(const char* fmt, ...)
 	ImGuiID id = window->GetID(g.TempBuffer);
 	ImGuiTreeNodeFlags flags = 0;
 
-	imgui::Unindent_x(2);
-	bool isExpanded = FieldHeaderEx(g.TempBuffer, id, flags);
-	imgui::Indent_x(2);
-
-	return isExpanded;
+	return FieldHeaderEx(g.TempBuffer, id, flags);
 }
 
 void imgui::GroupPanel_Begin(const char* name, const ImVec2& size)
@@ -395,16 +416,4 @@ void imgui::GroupPanel_End()
 	ImGui::Dummy(ImVec2(0.0f, 0.0f));
 
 	ImGui::EndGroup();
-}
-
-void imgui::Indent_x(int x)
-{
-	for (int i = 0; i < x; ++i)
-		ImGui::Indent();
-}
-
-void imgui::Unindent_x(int x)
-{
-	for (int i = 0; i < x; ++i)
-		ImGui::Unindent();
 }

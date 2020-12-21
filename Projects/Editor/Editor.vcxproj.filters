@@ -68,6 +68,9 @@
     <ClInclude Include="Editor\VariantWidgets.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\ResourceWidgets.h">
+      <Filter>Source\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\InspectorWidgets.inl">
@@ -80,6 +83,9 @@
       <Filter>Source\Widgets</Filter>
     </None>
     <None Include="Editor\VariantWidgets.inl">
+      <Filter>Source\Widgets</Filter>
+    </None>
+    <None Include="Editor\ResourceWidgets.inl">
       <Filter>Source\Widgets</Filter>
     </None>
   </ItemGroup>

@@ -2,6 +2,7 @@
 
 #include "Editor/ContainerWidgets.h"
 #include "Editor/InspectorWidgets.h"
+#include "Editor/ResourceWidgets.h"
 #include "Editor/TrivialWidgets.h"
 #include "Editor/VariantWidgets.h"
 
@@ -9,15 +10,6 @@
 #include <imgui/Helpers.h>
 #include <imgui/imgui.h>
 #include <refl/refl.hpp>
-
-// #todo: contains:
-// - re-orderable elements
-// - append new
-// - clear contents
-// - element options: insert, delete
-
-// #todo: maps:
-// - maintain key order after rename
 
 // #todo: override check box if inherited
 
@@ -31,24 +23,19 @@
 template<typename Type>
 void editor::Field(const char* text, Type& value)
 {
-	constexpr bool isClass = std::is_class<Type>::value;
-	constexpr bool isContainer = refl::trait::is_container<Type>::value;
-	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
-	constexpr bool isVariant = core::IsVariant<Type>::value;
-
 	ImGui::PushID(text);
-	if constexpr (isClass && isReflectable)
+	if constexpr (std::is_class<Type>::value && refl::trait::is_reflectable<Type>::value)
 	{
 		editor::FieldAsClass(text, value);
 	}
-	else if constexpr (isVariant)
+	else if constexpr (core::IsVariant<Type>::value)
 	{
 		std::visit([&](auto& subValue)
 		{
 			widget::FieldAsVariant(text, value, subValue);
 		}, value);
 	}
-	else if constexpr (isContainer)
+	else if constexpr (refl::trait::is_container<Type>::value)
 	{
 		// #note: containers aren't reflectable, so they will need to check internally
 		widget::FieldAsContainer(text, value);
@@ -56,6 +43,7 @@ void editor::Field(const char* text, Type& value)
 	else
 	{
 		imgui::SetColumnIndex(0);
+		imgui::Bullet();
 		ImGui::Text(text);
 
 		imgui::SetColumnIndex(1);
@@ -64,17 +52,16 @@ void editor::Field(const char* text, Type& value)
 	ImGui::PopID();
 }
 
+// variations:
+//
+// v Element X	: X Members
+// |   m_Member : Value
+//
+// v FieldName	: X Members
+// |   m_Member : Value
 template<typename Type>
 void editor::FieldAsClass(const char* text, Type& value)
 {
-	// variations:
-	//
-	// v Element X	: X Members
-	// |   m_Member : Value
-	//
-	// v FieldName	: X Members
-	// |   m_Member : Value
-
 	using TypeDescriptor = refl::type_descriptor<Type>;
 	constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
 
@@ -87,49 +74,35 @@ void editor::FieldAsClass(const char* text, Type& value)
 	if (isExpanded)
 	{
 		imgui::SetColumnIndex(0);
-		imgui::Indent_x(2);
+		ImGui::Indent();
 
 		widget::TypeAsIs(value);
 
 		imgui::SetColumnIndex(0);
-		imgui::Unindent_x(2);
+		ImGui::Unindent();
 	}
 }
 
-
 /*
-
 MyComponent
-   m_Bool
-   m_Struct
- |   m_Int 
- v m_Other
- |   m_Float
- v m_VectorA
- | v Element 0
- | |   m_Bool
- | |   m_Int
- | v Element 1
- | |   m_Bool
- | |   m_Int
- v m_VectorB
- |   Element 0
- |   Element 1
- |   Element 2
- v m_Map
- |   Key
- |   Value
- 
- 
- 
- 
- 
- 
-
-
- 
- 
- 
- 
- 
+- m_Bool
+- m_Struct
+- m_Int
+v m_Other
+ - m_Float
+v m_VectorA
+ v Element 0
+  - m_Bool
+  - m_Int
+ > Element 1
+ > Element 2
+v m_VectorB
+ - Element 0
+ - Element 1
+ - Element 2
+v m_MapA
+ - [Key]	| [Value]
+v m_MapB
+ - Key		| [Key]
+ > Value
 */
