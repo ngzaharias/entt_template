@@ -28,12 +28,18 @@
     <ClCompile Include="imgui\Helpers.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Include\imgui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\Custom.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="imgui\Helpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\imgui\misc\cpp\imgui_stdlib.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

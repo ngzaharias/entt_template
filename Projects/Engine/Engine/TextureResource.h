@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/JsonHelpers.h>
 #include <Engine/Resource.h>
+#include <Engine/ResourceTypes.h>
 
 #include <entt/resource/cache.hpp>
 #include <entt/resource/handle.hpp>
@@ -23,9 +23,11 @@ namespace render
 	class TextureLoader : public entt::resource_loader<TextureLoader, TextureResource>
 	{
 	public:
-		std::shared_ptr<TextureResource> load(const core::ResourceEntry& resourceEntry) const;
+		bool Import(const str::Path& inputPath, const str::Path& outputPath) const;
+		std::shared_ptr<TextureResource> load(const core::ResourceEntry& entry) const;
 	};
 
 	using TextureCache = entt::resource_cache<TextureResource>;
-	using TextureHandle = entt::resource_handle<TextureResource>;
+	using TextureHandle = core::ResourceHandle<TextureResource>;
+	using TexturePtr = entt::resource_handle<TextureResource>;
 }

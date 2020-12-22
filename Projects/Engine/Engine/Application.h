@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/System.h>
+#include <Engine/TypeList.h>
 
 #include <entt/fwd.hpp>
 #include <entt/core/type_info.hpp>
@@ -27,12 +28,19 @@ namespace core
 	class ResourceManager;
 	class System;
 
+	struct ComponentEntry
+	{
+		using TypeId = entt::id_type;
+
+		const TypeId m_TypeId = 0;
+	};
+
 	struct SystemEntry
 	{
 		using TypeId = entt::id_type;
 
+		const TypeId m_TypeId = 0;
 		core::System* m_System = nullptr;
-		const TypeId m_TypeId;
 	};
 
 	class Application
@@ -43,11 +51,15 @@ namespace core
 
 		void Execute(int argc, char* argv[]);
 
-		// #todo: move to a Registry class?
+		// #todo: move to an ECS class?
 		template<class TSystem>
 		TSystem& GetSystem() const;
 
-		// #todo: move to a Registry class?
+		// #todo: move to an ECS class?
+		template<class TComponent>
+		void RegisterComponent();
+
+		// #todo: move to an ECS class?
 		template<class TSystem, typename... TArgs>
 		void RegisterSystem(TArgs&&... args);
 
@@ -62,6 +74,9 @@ namespace core
 		physics::PhysicsManager* m_PhysicsManager = nullptr;
 		core::ResourceManager* m_ResourceManager = nullptr;
 
+		// components
+		std::vector<ComponentEntry> m_ComponentEntries;
+
 		// systems
 		std::vector<SystemEntry> m_SystemEntries;
 
@@ -69,6 +84,8 @@ namespace core
 
 		sf::Clock* m_Clock;
 		sf::RenderWindow* m_Window;
+
+		core::TypeList<> m_ComponentList;
 	};
 }
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Engine/Name.h>
-#include <Engine/Path.h>
+#include <Engine/ResourceTypes.h>
 
 #include <entt/fwd.hpp>
 #include <entt/core/type_info.hpp>
@@ -32,6 +31,12 @@ namespace core
 		Texture				= entt::type_info<render::TextureResource>::id(),
 	};
 
+	template<class TResource>
+	core::EResourceType ToResourceType()
+	{
+		constexpr entt::id_type typeId = entt::type_info<TResource>::id();
+		return static_cast<EResourceType>(typeId);
+	}
 	core::EResourceType ToResourceType(const char* string);
 	const char* ToResourceType(core::EResourceType resourceType);
 
@@ -40,5 +45,12 @@ namespace core
 		str::Name m_Guid;
 		str::Path m_Filepath;
 		EResourceType m_Type;
+	};
+
+	template<typename TResource>
+	struct ResourceHandle
+	{
+		str::Name m_Guid;
+		EResourceType m_Type = ToResourceType<TResource>();
 	};
 }

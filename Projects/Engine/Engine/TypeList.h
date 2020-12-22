@@ -3,5 +3,9 @@
 namespace core
 {
 	template <typename... Types>
-	struct TypeList { };
+	struct TypeList 
+	{ 
+		template <typename... Added>
+		using Append = TypeList<Types..., Added...>;
+	};
 }

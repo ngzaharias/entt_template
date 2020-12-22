@@ -48,6 +48,7 @@ std::shared_ptr<physics::MaterialResource> physics::MaterialLoader::load(const c
 
 	physics::MaterialResource* resource = new physics::MaterialResource();
 	resource->m_Guid = entry.m_Guid;
+	resource->m_Filepath = entry.m_Filepath;
 	resource->m_Material = physics.createMaterial(static_friction, dynamic_friction, restituation);
 	return std::shared_ptr<physics::MaterialResource>(resource);
 }

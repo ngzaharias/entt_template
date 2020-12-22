@@ -62,6 +62,7 @@ namespace example
 		sf::Vector3f m_Vector3 = { 1.f, 2.f, 3.f };
 
 		// resources
+		// #todo: should these be handles or should it be the guid?
 		physics::MaterialHandle m_PhysicsMaterial;
 		audio::SoundHandle m_Sound;
 		render::TextureHandle m_Texture;

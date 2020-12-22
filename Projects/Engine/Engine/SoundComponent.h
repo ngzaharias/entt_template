@@ -8,7 +8,7 @@ namespace audio
 {
 	struct SoundComponent
 	{
-		audio::SoundHandle m_Handle;
+		audio::SoundPtr m_Handle;
 		sf::Sound* m_Sound;
 	};
 }

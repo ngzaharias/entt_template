@@ -277,6 +277,51 @@ void imgui::Bullet()
 	ImGui::SameLine(0, style.FramePadding.x * 3.0f);
 }
 
+bool imgui::FakeCombo(const char* label, const char* text)
+{
+	ImGuiContext& g = *GImGui;
+	bool has_window_size_constraint = (g.NextWindowData.Flags & ImGuiNextWindowDataFlags_HasSizeConstraint) != 0;
+	g.NextWindowData.Flags &= ~ImGuiNextWindowDataFlags_HasSizeConstraint;
+
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	const ImGuiStyle& style = g.Style;
+	const ImGuiID id = window->GetID(label);
+
+	const float arrow_size = ImGui::GetFrameHeight();
+	const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
+	const float expected_w = ImGui::CalcItemWidth();
+	const ImRect frame_bb(window->DC.CursorPos, window->DC.CursorPos + ImVec2(expected_w, label_size.y + style.FramePadding.y * 2.0f));
+	const ImRect total_bb(frame_bb.Min, frame_bb.Max + ImVec2(label_size.x > 0.0f ? style.ItemInnerSpacing.x + label_size.x : 0.0f, 0.0f));
+	ImGui::ItemSize(total_bb, style.FramePadding.y);
+	if (!ImGui::ItemAdd(total_bb, id, &frame_bb))
+		return false;
+
+	bool hovered, held;
+	bool pressed = ImGui::ButtonBehavior(frame_bb, id, &hovered, &held);
+
+	const ImU32 frame_col = ImGui::GetColorU32(hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
+	const float value_x2 = ImMax(frame_bb.Min.x, frame_bb.Max.x - arrow_size);
+	ImGui::RenderNavHighlight(frame_bb, id);
+
+	window->DrawList->AddRectFilled(frame_bb.Min, ImVec2(value_x2, frame_bb.Max.y), frame_col, style.FrameRounding, ImDrawCornerFlags_Left);
+
+	{
+		ImU32 bg_col = ImGui::GetColorU32(hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+		ImU32 text_col = ImGui::GetColorU32(ImGuiCol_Text);
+		window->DrawList->AddRectFilled(ImVec2(value_x2, frame_bb.Min.y), frame_bb.Max, bg_col, style.FrameRounding, ImDrawCornerFlags_Right);
+		if (value_x2 + arrow_size - style.FramePadding.x <= frame_bb.Max.x)
+			ImGui::RenderArrow(window->DrawList, ImVec2(value_x2 + style.FramePadding.y, frame_bb.Min.y + style.FramePadding.y), text_col, ImGuiDir_Down, 1.0f);
+	}
+
+	ImGui::RenderFrameBorder(frame_bb.Min, frame_bb.Max, style.FrameRounding);
+	ImGui::RenderTextClipped(frame_bb.Min + style.FramePadding, ImVec2(value_x2, frame_bb.Max.y), text, NULL, NULL, ImVec2(0.0f, 0.0f));
+
+	return pressed;
+}
+
 bool imgui::FieldHeader(const char* fmt, ...)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();

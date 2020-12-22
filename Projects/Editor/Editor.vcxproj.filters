@@ -71,6 +71,9 @@
     <ClInclude Include="Editor\ResourceWidgets.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\AssetPopup.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\InspectorWidgets.inl">
@@ -87,6 +90,9 @@
     </None>
     <None Include="Editor\ResourceWidgets.inl">
       <Filter>Source\Widgets</Filter>
+    </None>
+    <None Include="Editor\AssetPopup.inl">
+      <Filter>Source\Windows</Filter>
     </None>
   </ItemGroup>
 </Project>

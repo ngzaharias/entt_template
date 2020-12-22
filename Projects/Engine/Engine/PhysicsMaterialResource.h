@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/Resource.h>
+#include <Engine/ResourceTypes.h>
 
 #include <entt/resource/cache.hpp>
 #include <entt/resource/handle.hpp>
@@ -32,5 +33,6 @@ namespace physics
 	};
 
 	using MaterialCache = entt::resource_cache<MaterialResource>;
-	using MaterialHandle = entt::resource_handle<MaterialResource>;
+	using MaterialHandle = core::ResourceHandle<MaterialResource>;
+	using MaterialPtr = entt::resource_handle<MaterialResource>;
 }

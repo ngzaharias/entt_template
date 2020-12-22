@@ -9,7 +9,7 @@ namespace render
 {
 	struct SpriteComponent
 	{
-		render::TextureHandle m_Handle;
+		render::TexturePtr m_Handle;
 		sf::Vector2f m_Size = sf::Vector2f(1.f, 1.f);
 		sf::Sprite m_Sprite = sf::Sprite();
 	};

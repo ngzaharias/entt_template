@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Path.h>
 #include <Engine/Resource.h>
+#include <Engine/ResourceTypes.h>
 
 #include <entt/resource/cache.hpp>
 #include <entt/resource/handle.hpp>
@@ -23,9 +23,11 @@ namespace audio
 	class SoundLoader : public entt::resource_loader<SoundLoader, SoundResource>
 	{
 	public:
-		std::shared_ptr<SoundResource> load(const core::ResourceEntry& resourceEntry) const;
+		bool Import(const str::Path& inputPath, const str::Path& outputPath) const;
+		std::shared_ptr<SoundResource> load(const core::ResourceEntry& entry) const;
 	};
 
 	using SoundCache = entt::resource_cache<SoundResource>;
-	using SoundHandle = entt::resource_handle<SoundResource>;
+	using SoundHandle = core::ResourceHandle<SoundResource>;
+	using SoundPtr = entt::resource_handle<SoundResource>;
 }

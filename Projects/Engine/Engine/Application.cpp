@@ -1,23 +1,32 @@
 #include "Engine/EnginePCH.h"
 #include "Engine/Application.h"
 
+#include "Engine/CameraComponent.h"
 #include "Engine/EnttDebugger.h"
+#include "Engine/FileHelpers.h"
+#include "Engine/LevelComponent.h"
 #include "Engine/LevelSystem.h"
+#include "Engine/NameComponent.h"
 #include "Engine/PhysicsManager.h"
 #include "Engine/PhysicsSystem.h"
 #include "Engine/RenderSystem.h"
 #include "Engine/ResourceManager.h"
+#include "Engine/RigidDynamicComponent.h"
+#include "Engine/RigidStaticComponent.h"
 #include "Engine/Screen.h"
 #include "Engine/SoundSystem.h"
+#include "Engine/SpriteComponent.h"
+#include "Engine/TransformComponent.h"
 
 #include <random>
 #include <time.h>
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+
+#include <fstream>
 
 core::Application::Application() 
 { 
@@ -80,7 +89,6 @@ void core::Application::Execute(int argc, char* argv[])
 		// #todo: move into render system?
 		ImGui::ShowDemoWindow();
 		ImGui::SFML::Render(*m_Window);
-		// #todo: move into render system?
 		m_Window->display();
 	}
 
@@ -94,6 +102,15 @@ void core::Application::Register()
 	// managers
 	m_PhysicsManager = new physics::PhysicsManager();
 	m_ResourceManager = new core::ResourceManager(*m_PhysicsManager);
+
+	// components
+	RegisterComponent<core::CameraComponent>();
+	RegisterComponent<core::LevelComponent>();
+	RegisterComponent<debug::NameComponent>();
+	RegisterComponent<physics::RigidDynamicComponent>();
+	RegisterComponent<physics::RigidStaticComponent>();
+	RegisterComponent<render::SpriteComponent>();
+	RegisterComponent<core::TransformComponent>();
 
 	// systems
 	RegisterSystem<render::RenderSystem>(*m_Window);
@@ -135,12 +152,16 @@ bool core::Application::Update(const sf::Time& time)
 
 void core::Application::Destroy()
 {
+	// components
+	m_ComponentEntries.clear();
+
 	// systems
 	for (core::SystemEntry& entry : m_SystemEntries)
 	{
 		entry.m_System->Destroy(m_Registry);
 		delete entry.m_System;
 	}
+	m_SystemEntries.clear();
 
 	// managers
 	m_PhysicsManager->Destroy();

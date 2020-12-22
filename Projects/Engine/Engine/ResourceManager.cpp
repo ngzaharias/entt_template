@@ -1,7 +1,7 @@
 #include "Engine/EnginePCH.h"
 #include "Engine/ResourceManager.h"
 
-#include "Engine/Path.h"
+#include "Engine/JsonHelpers.h"
 #include "Engine/StringHelpers.h"
 
 #include <filesystem>
@@ -10,11 +10,20 @@
 namespace
 {
 	constexpr char* s_AssetsDirectory = "Assets\\";
+
+	core::ResourceManager* s_Instance = nullptr;
+}
+
+core::ResourceManager& core::ResourceManager::Instance()
+{
+	return *s_Instance;
 }
 
 core::ResourceManager::ResourceManager(physics::PhysicsManager& physicsManager)
 	: m_PhysicsManager(physicsManager)
 {
+	assert(!s_Instance);
+	s_Instance = this;
 }
 
 core::ResourceManager::~ResourceManager()
@@ -47,16 +56,21 @@ void core::ResourceManager::LoadDirectory(const char* directory, const bool isSe
 			const str::Path filepath = entry.path().string();
 			if (filepath.HasFileExtension(".asset"))
 			{
-				rapidjson::Document document;
-				json::LoadDocument(filepath.ToChar(), document);
-
-				const char* guidString = json::ParseString(document, "resource_guid", nullptr);
-				const char* typeString = json::ParseString(document, "resource_type", nullptr);
-
-				const str::Name guid = str::Name::Create(guidString);
-				const EResourceType type = core::ToResourceType(typeString);
-				m_ResourceEntries.insert({ guid, ResourceEntry{ guid, filepath, type } });
+				LoadFile(filepath.ToChar());
 			}
 		}
 	}
+}
+
+void core::ResourceManager::LoadFile(const char* filepath)
+{
+	rapidjson::Document document;
+	json::LoadDocument(filepath, document);
+
+	const char* guidString = json::ParseString(document, "resource_guid", nullptr);
+	const char* typeString = json::ParseString(document, "resource_type", nullptr);
+
+	const str::Name guid = str::Name::Create(guidString);
+	const EResourceType type = core::ToResourceType(typeString);
+	m_Entries.insert({ guid, ResourceEntry{ guid, filepath, type } });
 }

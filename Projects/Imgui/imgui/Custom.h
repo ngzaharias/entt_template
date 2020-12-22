@@ -10,6 +10,8 @@ namespace imgui
 
 	void Bullet();
 
+	bool FakeCombo(const char* label, const char* text);
+
 	bool FieldHeader(const char* fmt, ...);
 
 	void GroupPanel_Begin(const char* name, const ImVec2& size);

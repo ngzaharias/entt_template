@@ -4,6 +4,7 @@
 #include <Engine/ResourceManager.h>
 
 #include <imgui/imgui.h>
+#include <imgui/misc/cpp/imgui_stdlib.h>
 #include <SFML/System/Time.hpp>
 
 editor::AssetBrowser::AssetBrowser(core::ResourceManager& resourceManager)
@@ -37,7 +38,7 @@ void editor::AssetBrowser::Render(entt::registry& registry)
 
 	Render_MenuBar();
 
-	for (auto&& [guid, entry] : m_ResourceManager.m_ResourceEntries)
+	for (auto&& [guid, entry] : m_ResourceManager.GetEntries())
 	{
 		ImGui::CollapsingHeader(entry.m_Filepath.ToChar(), ImGuiTreeNodeFlags_Bullet);
 	}
@@ -52,6 +53,7 @@ void editor::AssetBrowser::Render_MenuBar()
 		{
 			if (ImGui::BeginMenu("Physics\t"))
 			{
+				// #todo: folder path and unique filename
 				if (ImGui::MenuItem("Material"))
 					m_ResourceManager.CreateResource<physics::MaterialResource>("Assets\\Temp\\Example.asset");
 				ImGui::EndMenu();
@@ -59,7 +61,37 @@ void editor::AssetBrowser::Render_MenuBar()
 			ImGui::EndMenu();
 		}
 
-		ImGui::MenuItem("Import...");
+		if (ImGui::Button("Import..."))
+			ImGui::OpenPopup("Import...");
+		if (ImGui::BeginPopupModal("Import...", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			std::string inputPath;
+			std::string outputPath;
+
+			// #todo: file browser
+			ImGui::Text("Input Path:  ");
+			ImGui::SameLine();
+			ImGui::InputTextWithHint("##input", "C:\\MyFolder\\MyFile.png", &inputPath);
+
+			ImGui::Text("Output Path: ");
+			ImGui::SameLine();
+			ImGui::InputTextWithHint("##output", "Assets\\MyFolder\\MyFile.asset", &outputPath);
+
+			//////////////////////////////////////////////////////////////////////////
+			ImGui::Separator();
+			//////////////////////////////////////////////////////////////////////////
+
+			if (ImGui::Button("OK", ImVec2(120, 0)))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SetItemDefaultFocus();
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel", ImVec2(120, 0))) 
+				ImGui::CloseCurrentPopup();
+
+			ImGui::EndPopup();
+		}
 
 		ImGui::EndMenuBar();
 	}

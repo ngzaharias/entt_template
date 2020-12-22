@@ -16,13 +16,23 @@ TSystem& core::Application::GetSystem() const
 	return *static_cast<TSystem*>(result->m_System);
 }
 
+template<class TComponent>
+void core::Application::RegisterComponent()
+{
+	ComponentEntry entry =
+	{
+		entt::type_info<TComponent>::id()
+	};
+	m_ComponentEntries.push_back(entry);
+}
+
 template<class TSystem, typename... TArgs>
 void core::Application::RegisterSystem(TArgs&&... args)
 {
 	SystemEntry entry =
 	{
-		new TSystem(std::forward<TArgs>(args)...)
-		, entt::type_info<TSystem>::id()
+		entt::type_info<TSystem>::id()
+		, new TSystem(std::forward<TArgs>(args)...)
 	};
 	m_SystemEntries.push_back(entry);
 }

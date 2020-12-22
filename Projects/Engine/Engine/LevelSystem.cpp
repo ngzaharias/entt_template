@@ -158,7 +158,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 
 		if (auto itr_shape = itr_physics->value.FindMember("shape"); itr_shape != itr_physics->value.MemberEnd())
 		{
-			const physics::MaterialHandle handle = m_ResourceManager.LoadResource<physics::MaterialResource>(strDefaultMaterial);
+			const physics::MaterialPtr handle = m_ResourceManager.LoadResource<physics::MaterialResource>(strDefaultMaterial);
 
 			const int32 world0 = json::ParseInt(itr_shape->value, "channel", 0);
 			const physx::PxFilterData filterData = physx::PxFilterData(world0, 0, 0, 0);
@@ -237,7 +237,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 		if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
 		{
 			const str::Name name = str::Name::Create(itr_texture->value.GetString());
-			const render::TextureHandle handle = m_ResourceManager.LoadResource<render::TextureResource>(name);
+			const render::TexturePtr handle = m_ResourceManager.LoadResource<render::TextureResource>(name);
 
 			sprite.m_Handle = handle;
 			sprite.m_Sprite.setTexture(handle->m_Texture);

@@ -32,7 +32,7 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 	for (const audio::Request& request : m_Requests)
 	{
-		const audio::SoundHandle handle = m_ResourceManager.LoadResource<audio::SoundResource>(request.m_Name);
+		const audio::SoundPtr handle = m_ResourceManager.LoadResource<audio::SoundResource>(request.m_Name);
 		if (!handle)
 			continue;
 

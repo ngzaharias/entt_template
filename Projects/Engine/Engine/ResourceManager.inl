@@ -27,41 +27,62 @@ void core::ResourceManager::CreateResource(const str::Path& filepath)
 }
 
 template<>
-void core::ResourceManager::CreateResource<physics::MaterialResource>(const str::Path& folder)
+void core::ResourceManager::CreateResource<physics::MaterialResource>(const str::Path& folderPath)
 {
-	core::ResourceEntry entry = GenerateEntry(folder);
+	core::ResourceEntry entry = GenerateEntry(folderPath);
 
 	physics::MaterialLoader loader;
 	if (loader.save(entry))
 	{
-		m_ResourceEntries[entry.m_Guid] = entry;
+		m_Entries[entry.m_Guid] = entry;
 	}
 }
 
 template<class TResource>
-entt::resource_handle<TResource> core::ResourceManager::LoadResource(const str::Name& name)
+void core::ResourceManager::ImportResource(const str::Path& inputPath, const str::Path& outputPath)
 {
 	static_assert(false, "Resource Type doesn't exist!");
 	return nullptr;
 }
 
 template<>
-physics::MaterialHandle core::ResourceManager::LoadResource<physics::MaterialResource>(const str::Name& name)
+void core::ResourceManager::ImportResource<audio::SoundResource>(const str::Path& inputPath, const str::Path& outputPath)
 {
-	const core::ResourceEntry& resourceEntry = m_ResourceEntries[name];
-	return m_PhysicsMaterialCache.load<physics::MaterialLoader>(name.ToHash(), resourceEntry, m_PhysicsManager);
+	audio::SoundLoader loader;
+	loader.Import(inputPath, outputPath);
 }
 
 template<>
-audio::SoundHandle core::ResourceManager::LoadResource<audio::SoundResource>(const str::Name& name)
+void core::ResourceManager::ImportResource<render::TextureResource>(const str::Path& inputPath, const str::Path& outputPath)
 {
-	const core::ResourceEntry& resourceEntry = m_ResourceEntries[name];
-	return m_SoundCache.load<audio::SoundLoader>(name.ToHash(), resourceEntry);
+	render::TextureLoader loader;
+	loader.Import(inputPath, outputPath);
+}
+
+template<class TResource>
+entt::resource_handle<TResource> core::ResourceManager::LoadResource(const str::Name& guid)
+{
+	static_assert(false, "Resource Type doesn't exist!");
+	return nullptr;
 }
 
 template<>
-render::TextureHandle core::ResourceManager::LoadResource<render::TextureResource>(const str::Name& name)
+physics::MaterialPtr core::ResourceManager::LoadResource<physics::MaterialResource>(const str::Name& guid)
 {
-	const core::ResourceEntry& resourceEntry = m_ResourceEntries[name];
-	return m_TextureCache.load<render::TextureLoader>(name.ToHash(), resourceEntry);
+	const core::ResourceEntry& resourceEntry = m_Entries[guid];
+	return m_PhysicsMaterialCache.load<physics::MaterialLoader>(guid.ToHash(), resourceEntry, m_PhysicsManager);
+}
+
+template<>
+audio::SoundPtr core::ResourceManager::LoadResource<audio::SoundResource>(const str::Name& guid)
+{
+	const core::ResourceEntry& resourceEntry = m_Entries[guid];
+	return m_SoundCache.load<audio::SoundLoader>(guid.ToHash(), resourceEntry);
+}
+
+template<>
+render::TexturePtr core::ResourceManager::LoadResource<render::TextureResource>(const str::Name& guid)
+{
+	const core::ResourceEntry& resourceEntry = m_Entries[guid];
+	return m_TextureCache.load<render::TextureLoader>(guid.ToHash(), resourceEntry);
 }
