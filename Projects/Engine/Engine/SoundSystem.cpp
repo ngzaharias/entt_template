@@ -3,16 +3,16 @@
 
 #include "Engine/NameComponent.h"
 #include "Engine/Random.h"
-#include "Engine/ResourceManager.h"
+#include "Engine/AssetManager.h"
 #include "Engine/SoundComponent.h"
-#include "Engine/SoundResource.h"
+#include "Engine/SoundAsset.h"
 #include "Engine/TransformComponent.h"
 
 #include <entt/entt.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
-audio::SoundSystem::SoundSystem(core::ResourceManager& resourceManager)
-	: m_ResourceManager(resourceManager)
+audio::SoundSystem::SoundSystem(core::AssetManager& assetManager)
+	: m_AssetManager(assetManager)
 {
 }
 
@@ -32,7 +32,7 @@ void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 	for (const audio::Request& request : m_Requests)
 	{
-		const audio::SoundPtr handle = m_ResourceManager.LoadResource<audio::SoundResource>(request.m_Name);
+		const audio::SoundHandle handle = m_AssetManager.LoadAsset<audio::SoundAsset>(request.m_Name);
 		if (!handle)
 			continue;
 

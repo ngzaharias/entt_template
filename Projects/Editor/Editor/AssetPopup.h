@@ -1,19 +1,15 @@
 #pragma once
 
-#include <Engine/ResourceTypes.h>
-
-namespace core
-{
-	class ResourceManager;
-}
+#include <Engine/Asset.h>
+#include <Engine/AssetHandle.h>
 
 namespace editor
 {
 	class AssetPopup
 	{
 	public:
-		template<class TResource>
-		static void Resource(core::ResourceHandle<TResource>& handle);
+		template<typename Type>
+		static void SelectOne(core::AssetHandle<Type>& handle);
 	};
 }
 

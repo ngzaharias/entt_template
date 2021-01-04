@@ -10,7 +10,7 @@
 #include "Engine/PhysicsManager.h"
 #include "Engine/PhysicsSystem.h"
 #include "Engine/RenderSystem.h"
-#include "Engine/ResourceManager.h"
+#include "Engine/AssetManager.h"
 #include "Engine/RigidDynamicComponent.h"
 #include "Engine/RigidStaticComponent.h"
 #include "Engine/Screen.h"
@@ -101,7 +101,7 @@ void core::Application::Register()
 {
 	// managers
 	m_PhysicsManager = new physics::PhysicsManager();
-	m_ResourceManager = new core::ResourceManager(*m_PhysicsManager);
+	m_AssetManager = new core::AssetManager(*m_PhysicsManager);
 
 	// components
 	RegisterComponent<core::CameraComponent>();
@@ -115,11 +115,11 @@ void core::Application::Register()
 	// systems
 	RegisterSystem<render::RenderSystem>(*m_Window);
 	RegisterSystem<physics::PhysicsSystem>(*m_PhysicsManager);
-	RegisterSystem<audio::SoundSystem>(*m_ResourceManager);
+	RegisterSystem<audio::SoundSystem>(*m_AssetManager);
 	RegisterSystem<core::LevelSystem>
 		(
 			*m_PhysicsManager 
-			, *m_ResourceManager
+			, *m_AssetManager
 		);
 	RegisterSystem<debug::EnttDebugger>();
 }
@@ -128,7 +128,7 @@ bool core::Application::Initialise()
 {
 	// managers
 	m_PhysicsManager->Initialize();
-	m_ResourceManager->Initialize();
+	m_AssetManager->Initialize();
 
 	// systems
 	for (core::SystemEntry& entry : m_SystemEntries)
@@ -165,7 +165,7 @@ void core::Application::Destroy()
 
 	// managers
 	m_PhysicsManager->Destroy();
-	m_ResourceManager->Destroy();
+	m_AssetManager->Destroy();
 	delete m_PhysicsManager;
-	delete m_ResourceManager;
+	delete m_AssetManager;
 }

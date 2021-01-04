@@ -18,6 +18,8 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Editor/EditorPCH.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EditorPCH.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClCompile Include="Editor\EntityBrowser.cpp" />
+    <ClCompile Include="Editor\EntityPopup.cpp" />
     <ClCompile Include="Editor\History.cpp" />
     <ClCompile Include="Editor\Inspector.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
@@ -27,22 +29,24 @@
     <ClInclude Include="Editor\Application.h" />
     <ClInclude Include="Editor\AssetBrowser.h" />
     <ClInclude Include="Editor\AssetPopup.h" />
+    <ClInclude Include="Editor\AssetWidgets.h" />
     <ClInclude Include="Editor\ContainerWidgets.h" />
     <ClInclude Include="Editor\EditorPCH.h" />
+    <ClInclude Include="Editor\EntityBrowser.h" />
+    <ClInclude Include="Editor\EntityPopup.h" />
     <ClInclude Include="Editor\History.h" />
     <ClInclude Include="Editor\Inspector.h" />
     <ClInclude Include="Editor\InspectorExamples.h" />
     <ClInclude Include="Editor\InspectorWidgets.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
-    <ClInclude Include="Editor\ResourceWidgets.h" />
     <ClInclude Include="Editor\TrivialWidgets.h" />
     <ClInclude Include="Editor\VariantWidgets.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\AssetPopup.inl" />
+    <None Include="Editor\AssetWidgets.inl" />
     <None Include="Editor\ContainerWidgets.inl" />
     <None Include="Editor\InspectorWidgets.inl" />
-    <None Include="Editor\ResourceWidgets.inl" />
     <None Include="Editor\TrivialWidgets.inl" />
     <None Include="Editor\VariantWidgets.inl" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/ResourceManager.h>
+#include <Engine/AssetManager.h>
 #include <Engine/System.h>
 
 #include <entt/entity/entity.hpp>
@@ -18,6 +18,8 @@ namespace editor
 
 		void Update(entt::registry& registry, const sf::Time& time) override;
 		void Render(entt::registry& registry);
+
+		bool IsVisible() { return m_IsVisible; }
 
 		void SetEntity(const entt::entity value) { m_Entity = value; }
 		void SetVisible(const bool value) { m_IsVisible = value; }

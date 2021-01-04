@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/PhysicsMaterialResource.h>
-#include <Engine/SoundResource.h>
-#include <Engine/TextureResource.h>
+#include <Engine/PhysicsMaterialAsset.h>
+#include <Engine/SoundAsset.h>
+#include <Engine/TextureAsset.h>
 
 #include <map>
 #include <variant>
@@ -61,7 +61,7 @@ namespace example
 		// customised
 		sf::Vector3f m_Vector3 = { 1.f, 2.f, 3.f };
 
-		// resources
+		// Assets
 		// #todo: should these be handles or should it be the guid?
 		physics::MaterialHandle m_PhysicsMaterial;
 		audio::SoundHandle m_Sound;

@@ -37,18 +37,6 @@
     <ClInclude Include="Engine\ObjectPool.h">
       <Filter>Source\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ResourceManager.h">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Resource.h">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\SoundResource.h">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\TextureResource.h">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Name.h">
       <Filter>Source\Strings</Filter>
     </ClInclude>
@@ -94,14 +82,8 @@
     <ClInclude Include="Engine\JsonHelpers.h">
       <Filter>Source\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PhysicsMaterialResource.h">
-      <Filter>Source\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\PhysicsManager.h">
       <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ResourceTypes.h">
-      <Filter>Source\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Engine\String.h">
       <Filter>Source\Strings</Filter>
@@ -145,6 +127,42 @@
     <ClInclude Include="Engine\TypeHelpers.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\AssetManager.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AssetTypes.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PhysicsMaterialAsset.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SoundAsset.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\TextureAsset.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Asset.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AssetCache.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AssetHandle.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AssetPtr.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AssetHelpers.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EntityTemplateAsset.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AssetLoader.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -159,9 +177,6 @@
     <None Include="Engine\ObjectPool.inl">
       <Filter>Source\Containers</Filter>
     </None>
-    <None Include="Engine\ResourceManager.inl">
-      <Filter>Source\Resources</Filter>
-    </None>
     <None Include="Engine\EnttDebugger.inl">
       <Filter>Source\Systems</Filter>
     </None>
@@ -170,6 +185,12 @@
     </None>
     <None Include="Engine\AttributeHelpers.inl">
       <Filter>Source\Reflection</Filter>
+    </None>
+    <None Include="Engine\AssetManager.inl">
+      <Filter>Source\Assets</Filter>
+    </None>
+    <None Include="Engine\AssetHelpers.inl">
+      <Filter>Source\Assets</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -190,9 +211,6 @@
     </ClCompile>
     <ClCompile Include="Engine\SoundSystem.cpp">
       <Filter>Source\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ResourceManager.cpp">
-      <Filter>Source\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Name.cpp">
       <Filter>Source\Strings</Filter>
@@ -215,26 +233,32 @@
     <ClCompile Include="Engine\PhysicsManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\SoundResource.cpp">
-      <Filter>Source\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\TextureResource.cpp">
-      <Filter>Source\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\PhysicsMaterialResource.cpp">
-      <Filter>Source\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\FileHelpers.cpp">
       <Filter>Source\Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ResourceTypes.cpp">
-      <Filter>Source\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Engine\VectorHelpers.cpp">
       <Filter>Source\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Engine\EnginePCH.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\AssetManager.cpp">
+      <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PhysicsMaterialAsset.cpp">
+      <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SoundAsset.cpp">
+      <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\TextureAsset.cpp">
+      <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\AssetHelpers.cpp">
+      <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EntityTemplateAsset.cpp">
+      <Filter>Source\Assets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -247,7 +271,7 @@
     <Filter Include="Source\Containers">
       <UniqueIdentifier>{5b9d8b91-49a5-43e5-847b-700edd3c1beb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Resources">
+    <Filter Include="Source\Assets">
       <UniqueIdentifier>{9f916f55-4046-40b7-b990-a0c0ba1a3cf2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Strings">

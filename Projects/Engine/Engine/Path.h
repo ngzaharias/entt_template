@@ -9,19 +9,26 @@ namespace str
 
 	public:
 		Path();
-		Path(const char* string);
-		Path(const str::StringView& string);
+		Path(const char* value);
+		Path(const str::String& value);
+		Path(const str::StringView& value);
 
-		void operator=(const char* string);
-		void operator=(const str::StringView& string);
+		void operator=(const char* rhs);
+		void operator=(const str::Path& rhs);
+		void operator=(const str::String& rhs);
+		void operator=(const str::StringView& rhs);
+
+		void operator+=(const char* rhs);
+		void operator+=(const str::Path& rhs);
+		void operator+=(const str::String& rhs);
+		void operator+=(const str::StringView& rhs);
 
 		bool HasFileExtension(const char* extension) const;
 		bool IsDirectory() const;
+		bool IsEmpty() const { return m_Value == ""; }
 		bool IsFile() const;
 
 		const char* ToChar() const { return m_Value.c_str(); }
-		const str::String& ToString() const { return m_Value; }
-		const str::StringView& ToStringView() const { return m_Value; }
 
 		///		/My/Example/Directory/Foo.bar
 		///		++++++++++++++++++++++
@@ -38,6 +45,10 @@ namespace str
 		///		/My/Example/Directory/Foo.bar
 		///							  +++
 		str::StringView GetFileNameNoExtension() const;
+
+		///		/My/Example/Directory/Foo.bar
+		///		+++++++++++++++++++++++++
+		str::StringView GetPathNoExtension() const;
 
 	private:
 		str::String m_Value;

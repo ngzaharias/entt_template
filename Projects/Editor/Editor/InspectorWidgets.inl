@@ -2,7 +2,7 @@
 
 #include "Editor/ContainerWidgets.h"
 #include "Editor/InspectorWidgets.h"
-#include "Editor/ResourceWidgets.h"
+#include "Editor/AssetWidgets.h"
 #include "Editor/TrivialWidgets.h"
 #include "Editor/VariantWidgets.h"
 

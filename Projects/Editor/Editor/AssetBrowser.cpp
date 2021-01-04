@@ -1,14 +1,29 @@
 #include "Editor/EditorPCH.h"
 #include "Editor/AssetBrowser.h"
 
-#include <Engine/ResourceManager.h>
+#include <Engine/FileHelpers.h>
+#include <Engine/AssetManager.h>
 
 #include <imgui/imgui.h>
 #include <imgui/misc/cpp/imgui_stdlib.h>
 #include <SFML/System/Time.hpp>
 
-editor::AssetBrowser::AssetBrowser(core::ResourceManager& resourceManager)
-	: m_ResourceManager(resourceManager)
+namespace
+{
+	static const str::String strSounds = "*.ogg";
+	static const str::String strTextures = "*.png";
+	static const str::String strAll = strSounds + ";" + strTextures;
+
+	static const std::vector<std::string> s_AssetFilters =
+	{
+		"All Files (" + strAll + ")", strAll,
+		"Sounds (" + strSounds + ")", strSounds,
+		"Textures (" + strTextures + ")", strTextures,
+	};
+}
+
+editor::AssetBrowser::AssetBrowser(core::AssetManager& assetManager)
+	: m_AssetManager(assetManager)
 {
 }
 
@@ -35,12 +50,21 @@ void editor::AssetBrowser::Render(entt::registry& registry)
 		return;
 
 	ImGui::Begin("Asset Browser", &m_IsVisible, ImGuiWindowFlags_MenuBar);
-
-	Render_MenuBar();
-
-	for (auto&& [guid, entry] : m_ResourceManager.GetEntries())
 	{
-		ImGui::CollapsingHeader(entry.m_Filepath.ToChar(), ImGuiTreeNodeFlags_Bullet);
+		Render_MenuBar();
+
+		// #todo: show directories
+		// #todo: sort alphabetically
+		// #todo: drag/drop -> inspector
+		ImGui::Columns(3, "columns", false);
+		for (auto&& [guid, entry] : m_AssetManager.GetEntries())
+		{
+			const str::String filename = str::String(entry.m_Filepath.GetFileNameNoExtension());
+			ImGui::CollapsingHeader(filename.c_str(), ImGuiTreeNodeFlags_Bullet);
+			ImGui::NextColumn();
+
+		}
+		ImGui::Columns(1);
 	}
 	ImGui::End();
 }
@@ -55,44 +79,55 @@ void editor::AssetBrowser::Render_MenuBar()
 			{
 				// #todo: folder path and unique filename
 				if (ImGui::MenuItem("Material"))
-					m_ResourceManager.CreateResource<physics::MaterialResource>("Assets\\Temp\\Example.asset");
+					m_AssetManager.CreateAsset<physics::MaterialAsset>("Assets\\Temp\\Example.asset");
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::Button("Import..."))
-			ImGui::OpenPopup("Import...");
-		if (ImGui::BeginPopupModal("Import...", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-		{
-			std::string inputPath;
-			std::string outputPath;
-
-			// #todo: file browser
-			ImGui::Text("Input Path:  ");
-			ImGui::SameLine();
-			ImGui::InputTextWithHint("##input", "C:\\MyFolder\\MyFile.png", &inputPath);
-
-			ImGui::Text("Output Path: ");
-			ImGui::SameLine();
-			ImGui::InputTextWithHint("##output", "Assets\\MyFolder\\MyFile.asset", &outputPath);
-
-			//////////////////////////////////////////////////////////////////////////
-			ImGui::Separator();
-			//////////////////////////////////////////////////////////////////////////
-
-			if (ImGui::Button("OK", ImVec2(120, 0)))
-			{
-				ImGui::CloseCurrentPopup();
-			}
-			ImGui::SetItemDefaultFocus();
-			ImGui::SameLine();
-			if (ImGui::Button("Cancel", ImVec2(120, 0))) 
-				ImGui::CloseCurrentPopup();
-
-			ImGui::EndPopup();
-		}
+			Import();
 
 		ImGui::EndMenuBar();
 	}
 }
+
+void editor::AssetBrowser::Import()
+{
+	core::SelectFileSettings fileSettings;
+	fileSettings.m_Filters = s_AssetFilters;
+	fileSettings.m_IsMultiSelect = true;
+
+	core::SelectFolderSettings folderSettings;
+
+	std::vector<str::Path> inputFilepaths = core::SelectFileDialog(fileSettings);
+	if (inputFilepaths.empty())
+		return;
+
+	str::Path outputFolder = core::SelectFolderDialog(folderSettings);
+	if (outputFolder.IsEmpty())
+		return;
+
+	for (const str::Path& inputFilepath : inputFilepaths)
+	{
+		str::Path outputFilepath = outputFolder;
+		outputFilepath += "\\";
+		outputFilepath += inputFilepath.GetFileNameNoExtension();
+		outputFilepath += ".asset";
+
+		// #todo: check output directory for filename conflict
+
+		const str::StringView& extension = inputFilepath.GetFileExtension();
+		if (str::ContainsAny_NoCase(extension, { ".png" }))
+		{
+			m_AssetManager.ImportAsset<render::TextureAsset>(inputFilepath, outputFilepath);
+		}
+		else if (str::ContainsAny_NoCase(extension, { ".ogg" }))
+		{
+			m_AssetManager.ImportAsset<audio::SoundAsset>(inputFilepath, outputFilepath);
+		}
+
+		m_AssetManager.LoadFile(outputFilepath.ToChar());
+	}
+}
+

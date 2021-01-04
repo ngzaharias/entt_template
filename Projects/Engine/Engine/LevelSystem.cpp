@@ -9,8 +9,8 @@
 #include "Engine/NameComponent.h"
 #include "Engine/Path.h"
 #include "Engine/PhysicsManager.h"
-#include "Engine/PhysicsMaterialResource.h"
-#include "Engine/ResourceManager.h"
+#include "Engine/PhysicsMaterialAsset.h"
+#include "Engine/AssetManager.h"
 #include "Engine/RigidDynamicComponent.h"
 #include "Engine/RigidStaticComponent.h"
 #include "Engine/SpriteComponent.h"
@@ -35,10 +35,10 @@ namespace
 core::LevelSystem::LevelSystem
 (
 	physics::PhysicsManager& physicsManager
-	, core::ResourceManager& resourceManager
+	, core::AssetManager& assetManager
 )
 	: m_PhysicsManager(physicsManager)
-	, m_ResourceManager(resourceManager)
+	, m_AssetManager(assetManager)
 {
 }
 
@@ -158,7 +158,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 
 		if (auto itr_shape = itr_physics->value.FindMember("shape"); itr_shape != itr_physics->value.MemberEnd())
 		{
-			const physics::MaterialPtr handle = m_ResourceManager.LoadResource<physics::MaterialResource>(strDefaultMaterial);
+			const physics::MaterialHandle handle = m_AssetManager.LoadAsset<physics::MaterialAsset>(strDefaultMaterial);
 
 			const int32 world0 = json::ParseInt(itr_shape->value, "channel", 0);
 			const physx::PxFilterData filterData = physx::PxFilterData(world0, 0, 0, 0);
@@ -237,7 +237,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 		if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
 		{
 			const str::Name name = str::Name::Create(itr_texture->value.GetString());
-			const render::TexturePtr handle = m_ResourceManager.LoadResource<render::TextureResource>(name);
+			const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
 
 			sprite.m_Handle = handle;
 			sprite.m_Sprite.setTexture(handle->m_Texture);

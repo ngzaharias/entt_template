@@ -33,6 +33,12 @@
     <ClCompile Include="Editor\EditorPCH.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\EntityBrowser.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EntityPopup.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h">
@@ -68,10 +74,16 @@
     <ClInclude Include="Editor\VariantWidgets.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\ResourceWidgets.h">
+    <ClInclude Include="Editor\AssetPopup.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\AssetWidgets.h">
       <Filter>Source\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\AssetPopup.h">
+    <ClInclude Include="Editor\EntityBrowser.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EntityPopup.h">
       <Filter>Source\Windows</Filter>
     </ClInclude>
   </ItemGroup>
@@ -88,11 +100,11 @@
     <None Include="Editor\VariantWidgets.inl">
       <Filter>Source\Widgets</Filter>
     </None>
-    <None Include="Editor\ResourceWidgets.inl">
-      <Filter>Source\Widgets</Filter>
-    </None>
     <None Include="Editor\AssetPopup.inl">
       <Filter>Source\Windows</Filter>
+    </None>
+    <None Include="Editor\AssetWidgets.inl">
+      <Filter>Source\Widgets</Filter>
     </None>
   </ItemGroup>
 </Project>

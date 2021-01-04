@@ -6,24 +6,59 @@ str::Path::Path()
 {
 }
 
-str::Path::Path(const char* string)
+str::Path::Path(const char* value)
 {
-	m_Value = string;
+	m_Value = value;
 }
 
-str::Path::Path(const str::StringView& string)
+str::Path::Path(const str::String& value)
 {
-	m_Value = str::String(string);
+	m_Value = value;
 }
 
-void str::Path::operator=(const char* string)
+str::Path::Path(const str::StringView& value)
 {
-	m_Value = string;
+	m_Value = str::String(value);
 }
 
-void str::Path::operator=(const str::StringView& string)
+void str::Path::operator=(const char* rhs)
 {
-	m_Value = str::String(string);
+	m_Value = rhs;
+}
+
+void str::Path::operator=(const str::Path& rhs)
+{
+	m_Value = rhs.m_Value;
+}
+
+void str::Path::operator=(const str::String& rhs)
+{
+	m_Value = rhs;
+}
+
+void str::Path::operator=(const str::StringView& rhs)
+{
+	m_Value = str::String(rhs);
+}
+
+void str::Path::operator+=(const char* rhs)
+{
+	m_Value += rhs;
+}
+
+void str::Path::operator+=(const str::Path& rhs)
+{
+	m_Value += rhs.m_Value;
+}
+
+void str::Path::operator+=(const str::String& rhs)
+{
+	m_Value += rhs;
+}
+
+void str::Path::operator+=(const str::StringView& rhs)
+{
+	m_Value += str::String(rhs);
 }
 
 bool str::Path::HasFileExtension(const char* extension) const
@@ -46,10 +81,33 @@ str::StringView str::Path::GetFileExtension() const
 
 str::StringView str::Path::GetFileName() const
 {
-	return m_Value;
+	const auto find = m_Value.find_last_of("/\\", m_Value.size());
+	if (find != std::string::npos)
+		return { m_Value.c_str() + find, m_Value.size() - 1 };
+	return { };
 }
 
 str::StringView str::Path::GetFileNameNoExtension() const
 {
-	return m_Value;
+	const auto findDot = m_Value.find_last_of('.', m_Value.size());
+	const auto findSlash = m_Value.find_last_of("/\\", m_Value.size());
+
+	//	/Directory/Foo.bar
+	//			  |+++|
+	if (findDot != std::string::npos && findSlash != std::string::npos)
+		return str::StringView(m_Value.c_str() + findSlash + 1, findDot - findSlash - 1);
+
+	//	Foo.bar
+	//	+++|
+	if (findDot != std::string::npos && findSlash == std::string::npos)
+		return { m_Value.c_str(), findDot };
+	return { };
+}
+
+str::StringView str::Path::GetPathNoExtension() const
+{
+	const auto find = m_Value.find_last_of('.', m_Value.size());
+	if (find != std::string::npos)
+		return { m_Value.c_str(), find };
+	return { };
 }

@@ -81,12 +81,12 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 
 		if (ImGui::BeginMenu("Edit"))
 		{
-			ImGui::Text("History");
+			ImGui::MenuItem("History", nullptr, false, false);
 			ImGui::MenuItem("Undo\t", "Ctrl+Z");
 			ImGui::MenuItem("Redo\t", "Ctrl+Y");
 			ImGui::Separator();
 
-			ImGui::Text("Edit");
+			ImGui::MenuItem("Edit", nullptr, false, false);
 			ImGui::MenuItem("Cut\t", "Ctrl+X");
 			ImGui::MenuItem("Copy\t", "Ctrl+C");
 			ImGui::MenuItem("Paste\t", "Ctrl+V");
@@ -94,7 +94,7 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			ImGui::MenuItem("Delete\t", "Delete");
 			ImGui::Separator();
 
-			ImGui::Text("Configuration");
+			ImGui::MenuItem("Configuration", nullptr, false, false);
 			ImGui::MenuItem("Settings");
 
 			ImGui::EndMenu();
@@ -102,19 +102,22 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 
 		if (ImGui::BeginMenu("Window"))
 		{
-			ImGui::Text("General");
+			ImGui::MenuItem("General", nullptr, false, false);
 
-			if (ImGui::MenuItem("Asset Browser"))
-				m_AssetBrowser.SetVisible(true);
-			if (ImGui::MenuItem("History"))
-				m_History.SetVisible(true);
-			if (ImGui::MenuItem("Inspector"))
-				m_Inspector.SetVisible(true);
+			bool assetBrowser = m_AssetBrowser.IsVisible();
+			if (ImGui::MenuItem("Asset Browser", nullptr, &assetBrowser))
+				m_AssetBrowser.SetVisible(assetBrowser);
+			bool history = m_History.IsVisible();
+			if (ImGui::MenuItem("History", nullptr, &history))
+				m_History.SetVisible(history);
+			bool inspector = m_Inspector.IsVisible();
+			if (ImGui::MenuItem("Inspector", nullptr, &inspector))
+				m_Inspector.SetVisible(inspector);
 
 			ImGui::Separator();
 
-			ImGui::Text("Debug");
-			ImGui::MenuItem("Entt Debugger");
+			ImGui::MenuItem("Debug", nullptr, false, false);
+			ImGui::MenuItem("Entity Debugger");
 
 			ImGui::EndMenu();
 		}

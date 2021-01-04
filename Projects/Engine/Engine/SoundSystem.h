@@ -10,7 +10,7 @@
 
 namespace core
 {
-	class ResourceManager;
+	class AssetManager;
 }
 
 namespace sf
@@ -33,7 +33,7 @@ namespace audio
 	class SoundSystem final : public core::System
 	{
 	public:
-		SoundSystem(core::ResourceManager& resourceManager);
+		SoundSystem(core::AssetManager& assetManager);
 		~SoundSystem();
 
 		void Initialize(entt::registry& registry) override;
@@ -44,7 +44,7 @@ namespace audio
 		void PlaySound(const str::Name& name);
 
 	private:
-		core::ResourceManager& m_ResourceManager;
+		core::AssetManager& m_AssetManager;
 
 		std::vector<audio::Request> m_Requests;
 		ObjectPool<sf::Sound, 128> m_SoundPool;

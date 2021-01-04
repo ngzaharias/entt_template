@@ -25,7 +25,7 @@ namespace sf
 
 namespace core
 {
-	class ResourceManager;
+	class AssetManager;
 	class System;
 
 	struct ComponentEntry
@@ -72,7 +72,7 @@ namespace core
 	protected:
 		// managers
 		physics::PhysicsManager* m_PhysicsManager = nullptr;
-		core::ResourceManager* m_ResourceManager = nullptr;
+		core::AssetManager* m_AssetManager = nullptr;
 
 		// components
 		std::vector<ComponentEntry> m_ComponentEntries;

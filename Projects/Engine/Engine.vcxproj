@@ -12,11 +12,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application.h" />
+    <ClInclude Include="Engine\Asset.h" />
+    <ClInclude Include="Engine\AssetCache.h" />
+    <ClInclude Include="Engine\AssetHandle.h" />
+    <ClInclude Include="Engine\AssetHelpers.h" />
+    <ClInclude Include="Engine\AssetLoader.h" />
+    <ClInclude Include="Engine\AssetManager.h" />
+    <ClInclude Include="Engine\AssetPtr.h" />
+    <ClInclude Include="Engine\AssetTypes.h" />
     <ClInclude Include="Engine\AttributeHelpers.h" />
     <ClInclude Include="Engine\CameraComponent.h" />
     <ClInclude Include="Engine\CircularBuffer.h" />
     <ClInclude Include="Engine\CollisionChannels.h" />
     <ClInclude Include="Engine\EnginePCH.h" />
+    <ClInclude Include="Engine\EntityTemplateAsset.h" />
     <ClInclude Include="Engine\EnttDebugger.h" />
     <ClInclude Include="Engine\FieldAttributes.h" />
     <ClInclude Include="Engine\FileHelpers.h" />
@@ -31,18 +40,15 @@
     <ClInclude Include="Engine\ObjectPool.h" />
     <ClInclude Include="Engine\Path.h" />
     <ClInclude Include="Engine\PhysicsManager.h" />
-    <ClInclude Include="Engine\PhysicsMaterialResource.h" />
+    <ClInclude Include="Engine\PhysicsMaterialAsset.h" />
     <ClInclude Include="Engine\PhysicsSystem.h" />
     <ClInclude Include="Engine\Random.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
-    <ClInclude Include="Engine\Resource.h" />
-    <ClInclude Include="Engine\ResourceManager.h" />
-    <ClInclude Include="Engine\ResourceTypes.h" />
     <ClInclude Include="Engine\RigidDynamicComponent.h" />
     <ClInclude Include="Engine\RigidStaticComponent.h" />
     <ClInclude Include="Engine\Screen.h" />
+    <ClInclude Include="Engine\SoundAsset.h" />
     <ClInclude Include="Engine\SoundComponent.h" />
-    <ClInclude Include="Engine\SoundResource.h" />
     <ClInclude Include="Engine\SoundSystem.h" />
     <ClInclude Include="Engine\SpriteComponent.h" />
     <ClInclude Include="Engine\String.h" />
@@ -50,7 +56,7 @@
     <ClInclude Include="Engine\StringTable.h" />
     <ClInclude Include="Engine\StringView.h" />
     <ClInclude Include="Engine\System.h" />
-    <ClInclude Include="Engine\TextureResource.h" />
+    <ClInclude Include="Engine\TextureAsset.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\TypeHelpers.h" />
     <ClInclude Include="Engine\TypeList.h" />
@@ -62,19 +68,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl" />
+    <None Include="Engine\AssetHelpers.inl" />
+    <None Include="Engine\AssetManager.inl" />
     <None Include="Engine\AttributeHelpers.inl" />
     <None Include="Engine\CircularBuffer.inl" />
     <None Include="Engine\EnttDebugger.inl" />
     <None Include="Engine\JsonHelpers.inl" />
     <None Include="Engine\ObjectPool.inl" />
     <None Include="Engine\Random.inl" />
-    <None Include="Engine\ResourceManager.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Application.cpp" />
+    <ClCompile Include="Engine\AssetHelpers.cpp" />
+    <ClCompile Include="Engine\AssetManager.cpp" />
     <ClCompile Include="Engine\EnginePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Engine\EntityTemplateAsset.cpp" />
     <ClCompile Include="Engine\EnttDebugger.cpp" />
     <ClCompile Include="Engine\FileHelpers.cpp" />
     <ClCompile Include="Engine\JsonHelpers.cpp" />
@@ -83,16 +93,14 @@
     <ClCompile Include="Engine\NameTable.cpp" />
     <ClCompile Include="Engine\Path.cpp" />
     <ClCompile Include="Engine\PhysicsManager.cpp" />
-    <ClCompile Include="Engine\PhysicsMaterialResource.cpp" />
+    <ClCompile Include="Engine\PhysicsMaterialAsset.cpp" />
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
-    <ClCompile Include="Engine\ResourceManager.cpp" />
-    <ClCompile Include="Engine\ResourceTypes.cpp" />
     <ClCompile Include="Engine\Screen.cpp" />
-    <ClCompile Include="Engine\SoundResource.cpp" />
+    <ClCompile Include="Engine\SoundAsset.cpp" />
     <ClCompile Include="Engine\SoundSystem.cpp" />
     <ClCompile Include="Engine\StringHelpers.cpp" />
-    <ClCompile Include="Engine\TextureResource.cpp" />
+    <ClCompile Include="Engine\TextureAsset.cpp" />
     <ClCompile Include="Engine\VectorHelpers.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

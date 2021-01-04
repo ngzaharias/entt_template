@@ -18,6 +18,7 @@ namespace editor
 		void Update(entt::registry& registry, const sf::Time& time) override;
 		void Render(entt::registry& registry);
 
+		bool IsVisible() { return m_IsVisible; }
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:

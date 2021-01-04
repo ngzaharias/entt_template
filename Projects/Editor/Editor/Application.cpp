@@ -8,8 +8,8 @@
 #include "Editor/InspectorExamples.h"
 #include "Editor/MainMenuBar.h"
 
-#include <Engine/ResourceManager.h>
-#include <Engine/TextureResource.h>
+#include <Engine/AssetManager.h>
+#include <Engine/TextureAsset.h>
 #include <Engine/TransformComponent.h>
 
 namespace
@@ -33,7 +33,7 @@ void editor::Application::Register()
 
 	RegisterComponent<example::Component>();
 
-	RegisterSystem<editor::AssetBrowser>(*m_ResourceManager);
+	RegisterSystem<editor::AssetBrowser>(*m_AssetManager);
 	RegisterSystem<editor::History>();
 	RegisterSystem<editor::Inspector>();
 	RegisterSystem<editor::MainMenuBar>
@@ -52,9 +52,9 @@ bool editor::Application::Initialise()
 	m_Registry.emplace<core::TransformComponent>(entity);
 	auto& component = m_Registry.emplace<example::Component>(entity);
 
-	//component.m_PhysicsMaterial = m_ResourceManager->LoadResource<physics::MaterialResource>(strDefaultMaterial);
-	//component.m_Sound = m_ResourceManager->LoadResource<audio::SoundResource>(strDefaultSound);
-	//component.m_Texture = m_ResourceManager->LoadResource<render::TextureResource>(strDefaultTexture);
+	component.m_PhysicsMaterial = m_AssetManager->LoadAsset<physics::MaterialAsset>(strDefaultMaterial);
+	component.m_Sound = m_AssetManager->LoadAsset<audio::SoundAsset>(strDefaultSound);
+	component.m_Texture = m_AssetManager->LoadAsset<render::TextureAsset>(strDefaultTexture);
 
 	editor::Inspector& inspector = GetSystem<editor::Inspector>();
 	inspector.SetEntity(entity);

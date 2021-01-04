@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/SoundResource.h>
+#include <Engine/SoundAsset.h>
 
 #include <SFML/Audio/Sound.hpp>
 
@@ -8,7 +8,7 @@ namespace audio
 {
 	struct SoundComponent
 	{
-		audio::SoundPtr m_Handle;
+		audio::SoundHandle m_Handle;
 		sf::Sound* m_Sound;
 	};
 }

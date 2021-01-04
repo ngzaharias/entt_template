@@ -24,7 +24,7 @@ namespace sf
 
 namespace core
 {
-	class ResourceManager;
+	class AssetManager;
 
 	class LevelSystem final : public core::System
 	{
@@ -32,7 +32,7 @@ namespace core
 		LevelSystem
 		(
 			physics::PhysicsManager& physicsManager
-			, core::ResourceManager& resourceManager
+			, core::AssetManager& assetManager
 		);
 		~LevelSystem();
 
@@ -49,6 +49,6 @@ namespace core
 
 	private:
 		physics::PhysicsManager& m_PhysicsManager;
-		core::ResourceManager& m_ResourceManager;
+		core::AssetManager& m_AssetManager;
 	};
 };
