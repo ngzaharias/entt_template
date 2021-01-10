@@ -141,8 +141,8 @@ void str::TrimRight(str::String& string, const str::StringView& substring)
 
 void str::TrimWhitespace(str::String& string)
 {
-	const auto begin = string.find_first_not_of(s_Whitespace, 0);
-	const auto end = string.find_last_not_of(s_Whitespace) + 1;
+	const auto begin = string.find_first_not_of(strWhitespace, 0);
+	const auto end = string.find_last_not_of(strWhitespace) + 1;
 	if (begin != std::string::npos && end != std::string::npos)
 	{
 		string = string.substr(begin, end - begin);
@@ -153,14 +153,12 @@ void str::TrimWhitespace(str::String& string)
 	}
 }
 
-str::String str::ToLower(str::String string)
+void str::ToLower(str::String& string)
 {
 	std::transform(string.begin(), string.end(), string.begin(), std::tolower);
-	return string;
 }
 
-str::String str::ToUpper(str::String string)
+void str::ToUpper(str::String& string)
 {
 	std::transform(string.begin(), string.end(), string.begin(), std::toupper);
-	return string;
 }

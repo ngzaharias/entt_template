@@ -3,7 +3,7 @@
 #include <Engine/AssetHandle.h>
 #include <Engine/AssetTypes.h>
 #include <Engine/EntityTemplateAsset.h>
-#include <Engine/Name.h>
+#include <Engine/FlipbookAsset.h>
 #include <Engine/PhysicsMaterialAsset.h>
 #include <Engine/SoundAsset.h>
 #include <Engine/TextureAsset.h>
@@ -42,6 +42,8 @@ namespace core
 		template<class Type>
 		void CreateAsset(const str::Path& filepath);
 		template<>
+		void CreateAsset<render::FlipbookAsset>(const str::Path& filepath);
+		template<>
 		void CreateAsset<physics::MaterialAsset>(const str::Path& filepath);
 
 		template<class Type>
@@ -55,6 +57,8 @@ namespace core
 		core::AssetHandle<Type> LoadAsset(const str::Name& guid);
 		template<>
 		core::EntityTemplateHandle LoadAsset<core::EntityTemplateAsset>(const str::Name& guid);
+		template<>
+		render::FlipbookHandle LoadAsset<render::FlipbookAsset>(const str::Name& guid);
 		template<>
 		physics::MaterialHandle LoadAsset<physics::MaterialAsset>(const str::Name& guid);
 		template<>
@@ -72,6 +76,7 @@ namespace core
 		core::AssetEntryMap m_AssetEntryMap;
 
 		core::EntityTemplateCache m_EntityTemplateCache;
+		render::FlipbookCache m_FlipbookCache;
 		physics::MaterialCache m_PhysicsMaterialCache;
 		audio::SoundCache m_SoundCache;
 		render::TextureCache m_TextureCache;

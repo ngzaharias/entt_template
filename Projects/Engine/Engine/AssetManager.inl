@@ -25,12 +25,25 @@ void core::AssetManager::CreateAsset(const str::Path& filepath)
 }
 
 template<>
+void core::AssetManager::CreateAsset<render::FlipbookAsset>(const str::Path& folderPath)
+{
+	core::AssetEntry entry = GenerateEntry(core::EAssetType::Flipbook, folderPath);
+
+	render::FlipbookLoader loader;
+	if (loader.create(entry))
+	{
+		m_AssetEntryMap[entry.m_Guid] = entry;
+	}
+}
+
+
+template<>
 void core::AssetManager::CreateAsset<physics::MaterialAsset>(const str::Path& folderPath)
 {
 	core::AssetEntry entry = GenerateEntry(core::EAssetType::PhysicsMaterial, folderPath);
 
 	physics::MaterialLoader loader;
-	if (loader.save(entry))
+	if (loader.create(entry))
 	{
 		m_AssetEntryMap[entry.m_Guid] = entry;
 	}

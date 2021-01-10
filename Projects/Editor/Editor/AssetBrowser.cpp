@@ -1,8 +1,8 @@
 #include "Editor/EditorPCH.h"
 #include "Editor/AssetBrowser.h"
 
-#include <Engine/FileHelpers.h>
 #include <Engine/AssetManager.h>
+#include <Engine/FileHelpers.h>
 
 #include <imgui/imgui.h>
 #include <imgui/misc/cpp/imgui_stdlib.h>
@@ -75,11 +75,17 @@ void editor::AssetBrowser::Render_MenuBar()
 	{
 		if (ImGui::BeginMenu("Create"))
 		{
+			// #todo: folder path and unique filename
 			if (ImGui::BeginMenu("Physics\t"))
 			{
-				// #todo: folder path and unique filename
 				if (ImGui::MenuItem("Material"))
-					m_AssetManager.CreateAsset<physics::MaterialAsset>("Assets\\Temp\\Example.asset");
+					m_AssetManager.CreateAsset<physics::MaterialAsset>("Assets\\Example.asset");
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("Render\t"))
+			{
+				if (ImGui::MenuItem("Flipbook"))
+					m_AssetManager.CreateAsset<render::FlipbookAsset>("Assets\\Example.asset");
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenu();

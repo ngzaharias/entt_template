@@ -2,6 +2,7 @@
 #include "Engine/LevelSystem.h"
 
 #include "Engine/CameraComponent.h"
+#include "Engine/FlipbookComponent.h"
 #include "Engine/JsonHelpers.h"
 #include "Engine/LevelComponent.h"
 #include "Engine/MathHelpers.h"
@@ -132,6 +133,21 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 		camera.m_Size.y = static_cast<float>(json::ParseInt(itr_camera->value, "height", 600));
 	}
 
+	// flipbook
+	if (auto itr_flipbook = document.FindMember("flipbook"); itr_flipbook != document.MemberEnd())
+	{
+		render::FlipbookComponent& flipbook = registry.emplace<render::FlipbookComponent>(entity);
+
+		if (auto itr_texture = itr_flipbook->value.FindMember("texture_guid"); itr_texture != itr_flipbook->value.MemberEnd())
+		{
+			const str::Name name = str::Name::Create(itr_texture->value.GetString());
+			const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
+
+			flipbook.m_Sprite.setTexture(handle->m_Texture);
+			flipbook.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
+		}
+	}
+
 	// physics
 	if (auto itr_physics = document.FindMember("physics"); itr_physics != document.MemberEnd())
 	{
@@ -239,7 +255,6 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 			const str::Name name = str::Name::Create(itr_texture->value.GetString());
 			const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
 
-			sprite.m_Handle = handle;
 			sprite.m_Sprite.setTexture(handle->m_Texture);
 			sprite.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
 		}

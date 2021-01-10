@@ -8,6 +8,8 @@ core::EAssetType core::ToAssetType(const str::StringView& string)
 {
 	if (str::Equals(string, "entity_template"))
 		return core::EAssetType::EntityTemplate;
+	if (str::Equals(string, "flipbook"))
+		return core::EAssetType::Flipbook;
 	if (str::Equals(string, "physics_material"))
 		return core::EAssetType::PhysicsMaterial;
 	if (str::Equals(string, "sound"))
@@ -25,6 +27,8 @@ const char* core::ToAssetType(core::EAssetType type)
 	{
 	case core::EAssetType::EntityTemplate:
 		return "entity_template";
+	case core::EAssetType::Flipbook:
+		return "flipbook";
 	case core::EAssetType::PhysicsMaterial:
 		return "physics_material";
 	case core::EAssetType::Sound:

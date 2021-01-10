@@ -163,6 +163,12 @@
     <ClInclude Include="Engine\AssetLoader.h">
       <Filter>Source\Assets</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\FlipbookAsset.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FlipbookComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -258,6 +264,9 @@
       <Filter>Source\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\EntityTemplateAsset.cpp">
+      <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FlipbookAsset.cpp">
       <Filter>Source\Assets</Filter>
     </ClCompile>
   </ItemGroup>

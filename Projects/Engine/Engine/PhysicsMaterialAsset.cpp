@@ -9,7 +9,7 @@
 #include <PhysX/PxMaterial.h>
 #include <PhysX/PxPhysics.h>
 
-bool physics::MaterialLoader::save(const core::AssetEntry& entry) const
+bool physics::MaterialLoader::create(const core::AssetEntry& entry) const
 {
 	static const char* s_AssetType = core::ToAssetType(core::EAssetType::PhysicsMaterial);
 

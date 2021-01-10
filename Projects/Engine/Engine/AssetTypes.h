@@ -15,6 +15,7 @@ namespace physics
 
 namespace render
 {
+	struct FlipbookAsset;
 	struct TextureAsset;
 }
 
@@ -27,6 +28,7 @@ namespace core
 		Unknown,
 
 		EntityTemplate		= entt::type_info<core::EntityTemplateAsset>::id(),
+		Flipbook			= entt::type_info<render::FlipbookAsset>::id(),
 		PhysicsMaterial		= entt::type_info<physics::MaterialAsset>::id(),
 		Sound				= entt::type_info<audio::SoundAsset>::id(),
 		Texture				= entt::type_info<render::TextureAsset>::id(),
