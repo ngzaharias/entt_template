@@ -14,6 +14,8 @@ core::EAssetType core::ToAssetType(const str::StringView& string)
 		return core::EAssetType::PhysicsMaterial;
 	if (str::Equals(string, "sound"))
 		return core::EAssetType::Sound;
+	if (str::Equals(string, "sprite"))
+		return core::EAssetType::Sprite;
 	if (str::Equals(string, "texture"))
 		return core::EAssetType::Texture;
 
@@ -33,6 +35,8 @@ const char* core::ToAssetType(core::EAssetType type)
 		return "physics_material";
 	case core::EAssetType::Sound:
 		return "sound";
+	case core::EAssetType::Sprite:
+		return "sprite";
 	case core::EAssetType::Texture:
 		return "texture";
 	}

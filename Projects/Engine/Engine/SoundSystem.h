@@ -39,7 +39,7 @@ namespace audio
 		void Initialize(entt::registry& registry) override;
 		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time) override;
+		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 
 		void PlaySound(const str::Name& name);
 

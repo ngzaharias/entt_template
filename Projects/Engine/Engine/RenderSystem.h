@@ -4,6 +4,11 @@
 
 #include <entt/fwd.hpp>
 
+namespace core
+{
+	class AssetManager;
+}
+
 namespace sf
 {
 	class RenderWindow;
@@ -17,7 +22,7 @@ namespace render
 		RenderSystem(sf::RenderWindow& window);
 		~RenderSystem();
 
-		void Update(entt::registry& registry, const sf::Time& time) override;
+		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 
 	private:
 		sf::RenderWindow& m_Window;

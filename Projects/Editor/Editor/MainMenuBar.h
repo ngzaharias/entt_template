@@ -24,7 +24,7 @@ namespace editor
 		void Initialize(entt::registry& registry) override;
 		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time) override;
+		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 		void Render(entt::registry& registry);
 
 	private:

@@ -21,83 +21,109 @@ render::RenderSystem::~RenderSystem()
 {
 }
 
-void render::RenderSystem::Update(entt::registry& registry, const sf::Time& time)
+void render::RenderSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	const auto cameraView = registry.view<core::CameraComponent, core::TransformComponent>();
 	for (const entt::entity& cameraEntity : cameraView)
 	{
-		// create the view from the camera
+		// camera
 		{
-			auto& camera = cameraView.get<core::CameraComponent>(cameraEntity);
-			auto& transform = cameraView.get<core::TransformComponent>(cameraEntity);
+			auto& cameraComponent = cameraView.get<core::CameraComponent>(cameraEntity);
+			auto& transformComponent = cameraView.get<core::TransformComponent>(cameraEntity);
 
-			sf::Vector2f size = Multiply(camera.m_Size, { 1.f, -1.f });
+			sf::Vector2f size = Multiply(cameraComponent.m_Size, { 1.f, -1.f });
 
 			sf::View view;
-			view.setCenter(transform.m_Translate.x, transform.m_Translate.y);
-			view.setRotation(transform.m_Rotate.z);
+			view.setCenter(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
+			view.setRotation(transformComponent.m_Rotate.z);
 			view.setSize(size);
 			m_Window.setView(view);
 		}
 
+		// sprite
 		{
 			const auto spriteView = registry.view<render::SpriteComponent, core::TransformComponent>();
 			for (const entt::entity& renderEntity : spriteView)
 			{
-				auto& sprite = spriteView.get<render::SpriteComponent>(renderEntity);
-				auto& transform = spriteView.get<core::TransformComponent>(renderEntity);
+				auto& spriteComponent = spriteView.get<render::SpriteComponent>(renderEntity);
+				auto& transformComponent = spriteView.get<core::TransformComponent>(renderEntity);
+				
+				if (!spriteComponent.m_Sprite)
+					continue;
 
-				const sf::Texture* texture = sprite.m_Sprite.getTexture();
-				const sf::Vector2f size = sf::Vector2f(texture->getSize());
+				const render::SpriteAsset& spriteAsset = spriteComponent.m_Sprite.get();
+				if (!spriteAsset.m_Texture)
+					continue;
 
-				const float scaleX = sprite.m_Size.x / size.x;
-				const float scaleY = sprite.m_Size.y / size.y;
+				const render::TextureAsset& textureAsset = spriteAsset.m_Texture.get();
 
-				sprite.m_Sprite.setPosition(transform.m_Translate.x, transform.m_Translate.y);
-				sprite.m_Sprite.setRotation(transform.m_Rotate.z);
-				sprite.m_Sprite.setScale(transform.m_Scale.x * scaleX, transform.m_Scale.y * scaleY);
+				const sf::Texture& texture = textureAsset.m_Texture;
+				const sf::Vector2f size = sf::Vector2f(texture.getSize());
 
-				m_Window.draw(sprite.m_Sprite);
+				const float scaleX = spriteComponent.m_Size.x / size.x;
+				const float scaleY = spriteComponent.m_Size.y / size.y;
+
+				sf::Sprite sprite;
+				sprite.setPosition(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
+				sprite.setRotation(transformComponent.m_Rotate.z);
+				sprite.setScale(transformComponent.m_Scale.x * scaleX, transformComponent.m_Scale.y * scaleY);
+				sprite.setTexture(texture);
+				sprite.setTextureRect(sf::IntRect
+				(
+					spriteAsset.m_Position.x
+					, spriteAsset.m_Position.y
+					, spriteAsset.m_Size.x
+					, spriteAsset.m_Size.y
+				));
+
+				m_Window.draw(sprite);
 			}
 		}
 
+		// flipbook
 		{
 			const auto flipbookView = registry.view<render::FlipbookComponent, core::TransformComponent>();
 			for (const entt::entity& renderEntity : flipbookView)
 			{
-				auto& flipbook = flipbookView.get<render::FlipbookComponent>(renderEntity);
-				auto& transform = flipbookView.get<core::TransformComponent>(renderEntity);
+				auto& flipbookComponent = flipbookView.get<render::FlipbookComponent>(renderEntity);
+				auto& transformComponent = flipbookView.get<core::TransformComponent>(renderEntity);
 
-				const sf::Texture* texture = flipbook.m_Sprite.getTexture();
+				const render::FlipbookAsset& flipbookAsset = flipbookComponent.m_Flipbook.get();
+				if (flipbookAsset.m_Frames.empty())
+					continue;
 
-				flipbook.m_Time += time.asSeconds();
-				flipbook.m_Index = static_cast<uint32>(flipbook.m_Time * flipbook.m_FPS);
-				flipbook.m_Index %= flipbook.m_SubSprite.m_Count;
+				flipbookComponent.m_Time += gameTime.asSeconds();
+				flipbookComponent.m_Index = static_cast<uint32>(flipbookComponent.m_Time * flipbookAsset.m_FPS);
+				flipbookComponent.m_Index %= flipbookAsset.m_Frames.size();
 
-				const Vector2u textureSize = texture->getSize();
-				const Vector2u dimensions =
-				{
-					textureSize.x / flipbook.m_SubSprite.m_Size.x,
-					textureSize.y / flipbook.m_SubSprite.m_Size.y,
-				};
 
-				const Vector2i subSize = Vector2i(flipbook.m_SubSprite.m_Size);
-				const Vector2i subPosition =
-				{
-					static_cast<int32>(flipbook.m_Index % dimensions.x) * subSize.x,
-					static_cast<int32>(flipbook.m_Index / dimensions.y) * subSize.y,
-				};
+				const render::FlipbookFrame& flipbookFrame = flipbookAsset.m_Frames[flipbookComponent.m_Index];
+				if (!flipbookFrame.m_Sprite)
+					continue;
 
-				const float scaleX = flipbook.m_Size.x / subSize.x;
-				const float scaleY = flipbook.m_Size.y / subSize.y;
+				const render::SpriteAsset& spriteAsset = flipbookFrame.m_Sprite.get();
+				if (!spriteAsset.m_Texture)
+					continue;
 
-				flipbook.m_Sprite.setTextureRect({ subPosition, subSize });
-				flipbook.m_Sprite.setPosition(transform.m_Translate.x, transform.m_Translate.y);
-				flipbook.m_Sprite.setRotation(transform.m_Rotate.z);
-				flipbook.m_Sprite.setScale(transform.m_Scale.x * scaleX, transform.m_Scale.y * scaleY);
+				const render::TextureAsset& textureAsset = spriteAsset.m_Texture.get();
 
-				m_Window.draw(flipbook.m_Sprite);
+				const sf::Texture& texture = textureAsset.m_Texture;
 
+				sf::Sprite sprite;
+				//sprite.setOrigin(size * 0.5f);
+				sprite.setPosition(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
+				sprite.setRotation(transformComponent.m_Rotate.z);
+				//sprite.setScale(transformComponent.m_Scale.x * scaleX, transformComponent.m_Scale.y * scaleY);
+				sprite.setTexture(texture);
+				sprite.setTextureRect(sf::IntRect
+				(
+					spriteAsset.m_Position.x
+					, spriteAsset.m_Position.y
+					, spriteAsset.m_Size.x
+					, spriteAsset.m_Size.y
+				));
+
+				m_Window.draw(sprite);
 			}
 		}
 	}

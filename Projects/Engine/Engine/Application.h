@@ -66,7 +66,7 @@ namespace core
 	protected:
 		virtual void Register();
 		virtual bool Initialise();
-		virtual bool Update(const sf::Time& time);
+		virtual bool Update(const core::GameTime& gameTime);
 		virtual void Destroy();
 
 	protected:

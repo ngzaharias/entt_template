@@ -9,7 +9,7 @@
 #include <PhysX/PxMaterial.h>
 #include <PhysX/PxPhysics.h>
 
-bool physics::MaterialLoader::create(const core::AssetEntry& entry) const
+bool physics::MaterialLoader::save(const MaterialAsset& asset, const core::AssetEntry& entry) const
 {
 	static const char* s_AssetType = core::ToAssetType(core::EAssetType::PhysicsMaterial);
 
@@ -33,7 +33,7 @@ bool physics::MaterialLoader::create(const core::AssetEntry& entry) const
 	document.AddMember("dynamic_friction", dynamic_friction, document.GetAllocator());
 	document.AddMember("restituation", restituation, document.GetAllocator());
 
-	return json::SaveDocument(entry.m_Filepath.ToChar(), document);
+	return json::SaveDocument(entry.m_Filepath, document);
 }
 
 core::AssetPtr<physics::MaterialAsset> physics::MaterialLoader::load(const core::AssetEntry& entry, const physics::PhysicsManager& physicsManager) const
@@ -41,15 +41,15 @@ core::AssetPtr<physics::MaterialAsset> physics::MaterialLoader::load(const core:
 	physx::PxPhysics& physics = physicsManager.GetPhysics();
 
 	rapidjson::Document document;
-	json::LoadDocument(entry.m_Filepath.ToChar(), document);
+	json::LoadDocument(entry.m_Filepath, document);
 
 	const float static_friction = json::ParseFloat(document, "static_friction", 0.f);
 	const float dynamic_friction = json::ParseFloat(document, "dynamic_friction", 0.f);
 	const float restituation = json::ParseFloat(document, "restituation", 0.f);
 
-	physics::MaterialAsset* Asset = new physics::MaterialAsset();
-	Asset->m_Guid = entry.m_Guid;
-	Asset->m_Filepath = entry.m_Filepath;
-	Asset->m_Material = physics.createMaterial(static_friction, dynamic_friction, restituation);
-	return core::AssetPtr<physics::MaterialAsset>(Asset);
+	physics::MaterialAsset* asset = new physics::MaterialAsset();
+	asset->m_Guid = entry.m_Guid;
+	asset->m_Filepath = entry.m_Filepath;
+	asset->m_Material = physics.createMaterial(static_friction, dynamic_friction, restituation);
+	return core::AssetPtr<physics::MaterialAsset>(asset);
 }

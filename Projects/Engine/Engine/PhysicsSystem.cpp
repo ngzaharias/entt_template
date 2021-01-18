@@ -14,7 +14,6 @@
 #include <entt/entt.hpp>
 #include <PhysX/PxRigidDynamic.h>
 #include <PhysX/PxScene.h>
-#include <SFML/System/Time.hpp>
 
 namespace
 {
@@ -51,9 +50,9 @@ void physics::PhysicsSystem::Destroy(entt::registry& registry)
 	registry.on_destroy<physics::RigidDynamicComponent>().disconnect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
 }
 
-void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& time)
+void physics::PhysicsSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
-	m_DeltaTimeAccumulated += time.asSeconds();
+	m_DeltaTimeAccumulated += gameTime.asSeconds();
 
 	for (; m_DeltaTimeAccumulated >= s_SimulationTimestep; m_DeltaTimeAccumulated -= s_SimulationTimestep)
 	{

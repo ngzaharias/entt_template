@@ -6,6 +6,7 @@
 #include <Engine/FlipbookAsset.h>
 #include <Engine/PhysicsMaterialAsset.h>
 #include <Engine/SoundAsset.h>
+#include <Engine/SpriteAsset.h>
 #include <Engine/TextureAsset.h>
 
 #include <map>
@@ -40,11 +41,10 @@ namespace core
 		const AssetEntryMap& GetEntries() const { return m_AssetEntryMap; }
 
 		template<class Type>
-		void CreateAsset(const str::Path& filepath);
-		template<>
-		void CreateAsset<render::FlipbookAsset>(const str::Path& filepath);
-		template<>
-		void CreateAsset<physics::MaterialAsset>(const str::Path& filepath);
+		void CreateAsset(const Type& asset, const str::Path& filepath);
+		void CreateAsset(const render::FlipbookAsset& asset, const str::Path& filepath);
+		void CreateAsset(const physics::MaterialAsset& asset, const str::Path& filepath);
+		void CreateAsset(const render::SpriteAsset& asset, const str::Path& filepath);
 
 		template<class Type>
 		void ImportAsset(const str::Path& inputPath, const str::Path& outputPath);
@@ -52,6 +52,11 @@ namespace core
 		void ImportAsset<audio::SoundAsset>(const str::Path& inputPath, const str::Path& outputPath);
 		template<>
 		void ImportAsset<render::TextureAsset>(const str::Path& inputPath, const str::Path& outputPath);
+
+		template<class Type>
+		void SaveAsset(const Type& asset);
+		void SaveAsset(const render::FlipbookAsset& asset);
+		void SaveAsset(const render::SpriteAsset& asset);
 
 		template<class Type>
 		core::AssetHandle<Type> LoadAsset(const str::Name& guid);
@@ -64,11 +69,12 @@ namespace core
 		template<>
 		audio::SoundHandle LoadAsset<audio::SoundAsset>(const str::Name& guid);
 		template<>
+		render::SpriteHandle LoadAsset<render::SpriteAsset>(const str::Name& guid);
+		template<>
 		render::TextureHandle LoadAsset<render::TextureAsset>(const str::Name& guid);
 
 	private:
-		void LoadDirectory(const char* directory, const bool isSearchingSubdirectories);
-		void LoadFile(const char* filepath);
+		void LoadFilepath(const str::Path& filepath, const bool isSearchingSubdirectories);
 
 	private:
 		physics::PhysicsManager& m_PhysicsManager;
@@ -79,6 +85,7 @@ namespace core
 		render::FlipbookCache m_FlipbookCache;
 		physics::MaterialCache m_PhysicsMaterialCache;
 		audio::SoundCache m_SoundCache;
+		render::SpriteCache m_SpriteCache;
 		render::TextureCache m_TextureCache;
 	};
 }

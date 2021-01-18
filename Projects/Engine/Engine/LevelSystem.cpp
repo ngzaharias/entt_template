@@ -55,17 +55,14 @@ void core::LevelSystem::Destroy(entt::registry& registry)
 {
 }
 
-void core::LevelSystem::Update(entt::registry& registry, const sf::Time& time)
+void core::LevelSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 }
 
-bool core::LevelSystem::Load(entt::registry& registry, const str::Path& directory)
+bool core::LevelSystem::Load(entt::registry& registry, const str::Path& filepath)
 {
-	for (const auto& entry : std::filesystem::directory_iterator(directory.ToChar()))
-	{
-		const str::Path filepath = entry.path().string();
-		const entt::entity entity = CreateEntity(registry, filepath);
-	}
+	for (const auto& entry : std::filesystem::directory_iterator(filepath))
+		const entt::entity entity = CreateEntity(registry, entry.path());
 
 	return true;
 }
@@ -77,7 +74,7 @@ void core::LevelSystem::Unload(entt::registry& registry)
 entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str::Path& filepath)
 {
 	rapidjson::Document document;
-	if (!json::LoadDocument(filepath.ToChar(), document))
+	if (!json::LoadDocument(filepath, document))
 		return entt::null;
 
 	const entt::entity entity = registry.create();
@@ -85,8 +82,8 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 	// level
 	{
 		core::LevelComponent& levelComponent = registry.emplace<core::LevelComponent>(entity);
-		levelComponent.m_Name = filepath.ToChar();
-		levelComponent.m_Path = filepath.ToChar();
+		levelComponent.m_Name = filepath.stem().string();
+		levelComponent.m_Path = filepath.string();
 	}
 
 	// name
@@ -133,20 +130,20 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 		camera.m_Size.y = static_cast<float>(json::ParseInt(itr_camera->value, "height", 600));
 	}
 
-	// flipbook
-	if (auto itr_flipbook = document.FindMember("flipbook"); itr_flipbook != document.MemberEnd())
-	{
-		render::FlipbookComponent& flipbook = registry.emplace<render::FlipbookComponent>(entity);
+	//// flipbook
+	//if (auto itr_flipbook = document.FindMember("flipbook"); itr_flipbook != document.MemberEnd())
+	//{
+	//	render::FlipbookComponent& flipbook = registry.emplace<render::FlipbookComponent>(entity);
 
-		if (auto itr_texture = itr_flipbook->value.FindMember("texture_guid"); itr_texture != itr_flipbook->value.MemberEnd())
-		{
-			const str::Name name = str::Name::Create(itr_texture->value.GetString());
-			const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
+	//	if (auto itr_texture = itr_flipbook->value.FindMember("texture_guid"); itr_texture != itr_flipbook->value.MemberEnd())
+	//	{
+	//		const str::Name name = str::Name::Create(itr_texture->value.GetString());
+	//		const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
 
-			flipbook.m_Sprite.setTexture(handle->m_Texture);
-			flipbook.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
-		}
-	}
+	//		flipbook.m_Sprite.setTexture(handle->m_Texture);
+	//		flipbook.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
+	//	}
+	//}
 
 	// physics
 	if (auto itr_physics = document.FindMember("physics"); itr_physics != document.MemberEnd())
@@ -243,21 +240,21 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 	{
 		render::SpriteComponent& sprite = registry.emplace<render::SpriteComponent>(entity);
 
-		if (auto itr_size = itr_sprite->value.FindMember("size"); itr_size != itr_sprite->value.MemberEnd())
-		{
-			const float width = json::ParseFloat(itr_size->value, "width", 32.f);
-			const float height = json::ParseFloat(itr_size->value, "height", 32.f);
-			sprite.m_Size = { width, height };
-		}
+		//if (auto itr_size = itr_sprite->value.FindMember("size"); itr_size != itr_sprite->value.MemberEnd())
+		//{
+		//	const float width = json::ParseFloat(itr_size->value, "width", 32.f);
+		//	const float height = json::ParseFloat(itr_size->value, "height", 32.f);
+		//	sprite.m_Size = { width, height };
+		//}
 
-		if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
-		{
-			const str::Name name = str::Name::Create(itr_texture->value.GetString());
-			const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
+		//if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
+		//{
+		//	const str::Name name = str::Name::Create(itr_texture->value.GetString());
+		//	const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
 
-			sprite.m_Sprite.setTexture(handle->m_Texture);
-			sprite.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
-		}
+		//	sprite.m_Sprite.setTexture(handle->m_Texture);
+		//	sprite.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
+		//}
 	}
 
 	return entity;

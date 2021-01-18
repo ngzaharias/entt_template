@@ -2,20 +2,19 @@
 
 namespace widget
 {
-	template<typename Type>
-	void TypeAsIs(Type& value);
-
-	template<>
 	void TypeAsIs(bool& value);
 
-	template<>
-	void TypeAsIs(int& value);
+	void TypeAsIs(int32& value);
+	void TypeAsIs(uint32& value);
 
-	template<>
 	void TypeAsIs(float& value);
 
-	template<>
-	void TypeAsIs(Vector3f& value);
-}
+	void TypeAsIs(str::String& value);
 
-#include "TrivialWidgets.inl"
+	void TypeAsIs(Vector2f& value);
+	void TypeAsIs(Vector2i& value);
+	void TypeAsIs(Vector2u& value);
+
+	void TypeAsIs(Vector3f& value);
+	void TypeAsIs(Vector3i& value);
+}

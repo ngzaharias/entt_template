@@ -139,12 +139,12 @@ bool core::Application::Initialise()
 	return true;
 }
 
-bool core::Application::Update(const sf::Time& time)
+bool core::Application::Update(const core::GameTime& gameTime)
 {
 	// systems
 	for (core::SystemEntry& entry : m_SystemEntries)
 	{
-		entry.m_System->Update(m_Registry, time);
+		entry.m_System->Update(m_Registry, gameTime);
 	}
 
 	return true;

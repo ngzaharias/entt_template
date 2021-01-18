@@ -1,0 +1,23 @@
+{
+    "asset_guid": "9cf3dbdc-769e-a09a-6e4a-a0390e246666",
+    "asset_type": "flipbook",
+    "fps": 15.0,
+    "frames": [
+        {
+            "frame_count": 1,
+            "sprite_guid": "24a6999f-c4a1-4acd-5c5e-162ad1de9141"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "dfc82c6a-d75a-bab5-b59f-e4f59076a8c3"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "ee113a4a-f780-87a3-85ed-4b8ebca0b08d"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "b820bcac-05ce-10ff-0cca-c08112316efe"
+        }
+    ]
+}

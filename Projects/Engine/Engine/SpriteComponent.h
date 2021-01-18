@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Engine/TextureAsset.h>
-
-#include <SFML/Graphics/Sprite.hpp>
+#include <Engine/SpriteAsset.h>
 
 namespace render
 {
 	struct SpriteComponent
 	{
-		Vector2f m_Size = Vector2f(1.f, 1.f);
-		sf::Sprite m_Sprite = sf::Sprite();
+		Vector2u m_Size = { 0, 0 };
+		SpriteHandle m_Sprite = { };
 	};
 }

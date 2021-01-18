@@ -9,8 +9,8 @@
 
 namespace
 {
-	constexpr char* s_AssetExtension = ".asset";
-	constexpr char* s_AssetsDirectory = "Assets\\";
+	constexpr wchar_t* s_AssetExtension = L".asset";
+	constexpr wchar_t* s_AssetsDirectory = L"Assets\\";
 
 	core::AssetManager* s_Instance = nullptr;
 }
@@ -33,7 +33,7 @@ core::AssetManager::~AssetManager()
 
 void core::AssetManager::Initialize()
 {
-	LoadDirectory(s_AssetsDirectory, true);
+	LoadFilepath(s_AssetsDirectory, true);
 }
 
 void core::AssetManager::Destroy()
@@ -43,35 +43,80 @@ void core::AssetManager::Destroy()
 	m_TextureCache.clear();
 }
 
-void core::AssetManager::LoadDirectory(const char* directory, const bool isSearchingSubdirectories)
+void core::AssetManager::CreateAsset(const render::FlipbookAsset& asset, const str::Path& folderPath)
 {
-	for (const auto& entry : std::filesystem::directory_iterator(directory))
+	core::AssetEntry entry = GenerateEntry(core::EAssetType::Flipbook, folderPath);
+
+	render::FlipbookLoader loader;
+	if (loader.save(asset, entry))
 	{
-		const std::filesystem::path& path = entry.path();
-		if (entry.is_directory() && isSearchingSubdirectories)
-		{
-			LoadDirectory(path.string().c_str(), true);
-		}
-		else
-		{
-			const str::Path filepath = entry.path().string();
-			if (filepath.HasFileExtension(s_AssetExtension))
-			{
-				LoadFile(filepath.ToChar());
-			}
-		}
+		m_AssetEntryMap[entry.m_Guid] = entry;
 	}
 }
 
-void core::AssetManager::LoadFile(const char* filepath)
+void core::AssetManager::CreateAsset(const physics::MaterialAsset& asset, const str::Path& folderPath)
 {
-	rapidjson::Document document;
-	json::LoadDocument(filepath, document);
+	core::AssetEntry entry = GenerateEntry(core::EAssetType::PhysicsMaterial, folderPath);
 
-	const char* guidString = json::ParseString(document, "asset_guid", nullptr);
-	const char* typeString = json::ParseString(document, "asset_type", nullptr);
+	physics::MaterialLoader loader;
+	if (loader.save(asset, entry))
+	{
+		m_AssetEntryMap[entry.m_Guid] = entry;
+	}
+}
 
-	const str::Name guid = str::Name::Create(guidString);
-	const core::EAssetType type = core::ToAssetType(typeString);
-	m_AssetEntryMap.insert({ guid, AssetEntry{ type, guid, filepath } });
+void core::AssetManager::CreateAsset(const render::SpriteAsset& asset, const str::Path& folderPath)
+{
+	core::AssetEntry entry = GenerateEntry(core::EAssetType::Sprite, folderPath);
+
+	render::SpriteLoader loader;
+	if (loader.save(asset, entry))
+	{
+		m_AssetEntryMap[entry.m_Guid] = entry;
+	}
+}
+
+void core::AssetManager::SaveAsset(const render::FlipbookAsset& asset)
+{
+	const core::AssetEntry& entry = m_AssetEntryMap[asset.m_Guid];
+
+	render::FlipbookLoader loader;
+	loader.save(asset, entry);
+}
+
+void core::AssetManager::SaveAsset(const render::SpriteAsset& asset)
+{
+	const core::AssetEntry& entry = m_AssetEntryMap[asset.m_Guid];
+
+	render::SpriteLoader loader;
+	loader.save(asset, entry);
+}
+
+void core::AssetManager::LoadFilepath(const str::Path& filepath, const bool isSearchingSubdirectories)
+{
+	auto type = filepath.c_str();
+
+	if (filepath.has_filename() && filepath.has_extension())
+	{
+		if (filepath.extension() == s_AssetExtension)
+		{
+			rapidjson::Document document;
+			json::LoadDocument(filepath, document);
+
+			const char* guidString = json::ParseString(document, "asset_guid", nullptr);
+			const char* typeString = json::ParseString(document, "asset_type", nullptr);
+
+			const str::Name guid = str::Name::Create(guidString);
+			const core::EAssetType type = core::ToAssetType(typeString);
+			m_AssetEntryMap.insert({ guid, AssetEntry{ type, guid, filepath } });
+		}
+	}
+	else
+	{
+		for (const auto& entry : std::filesystem::directory_iterator(filepath))
+		{
+			const str::Path& subpath = entry.path();
+			LoadFilepath(subpath, isSearchingSubdirectories);
+		}
+	}
 }

@@ -17,7 +17,7 @@ void editor::History::Destroy(entt::registry& registry)
 {
 }
 
-void editor::History::Update(entt::registry& registry, const sf::Time& time)
+void editor::History::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	Render(registry);
 }

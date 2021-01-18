@@ -1,9 +1,7 @@
 #include "Engine/EnginePCH.h"
 #include "Engine/StringHelpers.h"
 
-#include <algorithm>
 #include <random>
-#include <type_traits>
 
 namespace
 {
@@ -155,10 +153,10 @@ void str::TrimWhitespace(str::String& string)
 
 void str::ToLower(str::String& string)
 {
-	std::transform(string.begin(), string.end(), string.begin(), std::tolower);
+	std::transform(string.begin(), string.end(), string.begin(), ::tolower);
 }
 
 void str::ToUpper(str::String& string)
 {
-	std::transform(string.begin(), string.end(), string.begin(), std::toupper);
+	std::transform(string.begin(), string.end(), string.begin(), ::toupper);
 }

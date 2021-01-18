@@ -38,9 +38,9 @@ bool game::Application::Initialise()
 	return true;
 }
 
-bool game::Application::Update(const sf::Time& time)
+bool game::Application::Update(const core::GameTime& gameTime)
 {
-	if (!core::Application::Update(time))
+	if (!core::Application::Update(gameTime))
 		return false;
 
 	return true;

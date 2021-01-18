@@ -1,8 +1,5 @@
 #pragma once
 
-#include <Engine/String.h>
-#include <Engine/StringView.h>
-
 #include <vector>
 
 namespace str

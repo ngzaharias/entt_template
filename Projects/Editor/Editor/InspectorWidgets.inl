@@ -20,24 +20,77 @@
 // - Field ? stack of field id?
 // - Value ? std::any?
 
+namespace
+{
+	template <typename T>
+	using overload = decltype(widget::TypeAsIs(std::declval<T&>()));
+
+	template <typename T, typename = void>
+	struct is_overloaded : std::false_type {};
+
+	template <typename T>
+	struct is_overloaded<T, std::void_t<decltype(widget::TypeAsIs(std::declval<T&>()))>> : std::true_type {};
+}
+
 template<typename Type>
-void editor::Field(const char* text, Type& value)
+void editor::InspectType(Type& value)
+{
+	constexpr bool isClass = std::is_class<Type>::value;
+	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
+	constexpr bool isOverloaded = is_overloaded<Type>();
+	if constexpr (isClass && isReflectable)
+	{
+		for_each(refl::reflect<Type>().members, [&](auto field)
+		{
+			constexpr const char* name = reflect::GetFieldName(field);
+			editor::InspectField(name, field(value));
+		});
+	}
+	else if constexpr (isOverloaded)
+	{
+		imgui::SetColumnIndex(1);
+		widget::TypeAsIs(value);
+	}
+	else
+	{
+		ImGui::Text("Unsupported Type!");
+	}
+}
+
+template<typename Type>
+void editor::InspectField(const char* text, Type& value)
 {
 	ImGui::PushID(text);
-	if constexpr (std::is_class<Type>::value && refl::trait::is_reflectable<Type>::value)
+
+	constexpr bool isClass = std::is_class<Type>::value;
+	constexpr bool isContainer = refl::trait::is_container<Type>::value;
+	constexpr bool isOverloaded = is_overloaded<Type>();
+	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
+	constexpr bool isVariant = core::IsVariant<Type>::value;
+
+	if constexpr (isOverloaded)
+	{
+		imgui::SetColumnIndex(0);
+		imgui::Bullet();
+		ImGui::Text(text);
+
+		imgui::SetColumnIndex(1);
+		widget::TypeAsIs(value);
+	}
+	else if constexpr (isClass && isReflectable)
 	{
 		editor::FieldAsClass(text, value);
 	}
-	else if constexpr (core::IsVariant<Type>::value)
+	else if constexpr (isVariant)
 	{
 		std::visit([&](auto& subValue)
 		{
 			widget::FieldAsVariant(text, value, subValue);
 		}, value);
 	}
-	else if constexpr (refl::trait::is_container<Type>::value)
+	else if constexpr (isContainer)
 	{
-		// #note: containers aren't reflectable, so they will need to check internally
+		// #note: we only reflect the container content type which is done internally
 		widget::FieldAsContainer(text, value);
 	}
 	else
@@ -47,12 +100,13 @@ void editor::Field(const char* text, Type& value)
 		ImGui::Text(text);
 
 		imgui::SetColumnIndex(1);
-		widget::TypeAsIs(value);
+		ImGui::Text("Unsupported Type!");
 	}
+
 	ImGui::PopID();
 }
 
-// variations:
+// Variations
 //
 // v Element X	: X Members
 // |   m_Member : Value
@@ -76,7 +130,7 @@ void editor::FieldAsClass(const char* text, Type& value)
 		imgui::SetColumnIndex(0);
 		ImGui::Indent();
 
-		widget::TypeAsIs(value);
+		editor::InspectType(value);
 
 		imgui::SetColumnIndex(0);
 		ImGui::Unindent();

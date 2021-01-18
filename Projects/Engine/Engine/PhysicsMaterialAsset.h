@@ -28,7 +28,7 @@ namespace physics
 	class MaterialLoader : public core::AssetLoader<MaterialLoader, MaterialAsset>
 	{
 	public:
-		bool create(const core::AssetEntry& entry) const;
+		bool save(const MaterialAsset& asset, const core::AssetEntry& entry) const;
 		core::AssetPtr<MaterialAsset> load(const core::AssetEntry& entry, const physics::PhysicsManager& physicsManager) const;
 	};
 

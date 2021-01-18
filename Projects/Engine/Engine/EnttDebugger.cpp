@@ -11,7 +11,6 @@
 #include <iostream>
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>
-#include <SFML/System/Time.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
 namespace ImGui
@@ -115,7 +114,7 @@ void debug::EnttDebugger::Destroy(entt::registry& registry)
 {
 }
 
-void debug::EnttDebugger::Update(entt::registry& registry, const sf::Time& time)
+void debug::EnttDebugger::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F11))
 		m_IsWindowVisible = !m_IsWindowVisible;

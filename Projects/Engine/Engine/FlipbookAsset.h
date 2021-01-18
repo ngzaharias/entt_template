@@ -5,6 +5,7 @@
 #include <Engine/AssetHandle.h>
 #include <Engine/AssetLoader.h>
 #include <Engine/AssetPtr.h>
+#include <Engine/SpriteAsset.h>
 
 #include <SFML/Graphics/Texture.hpp>
 
@@ -15,20 +16,39 @@ namespace core
 
 namespace render
 {
+	struct FlipbookFrame
+	{
+		uint32 m_FrameCount = 1;
+		SpriteHandle m_Sprite = { };
+	};
+
 	struct FlipbookAsset : public core::Asset
 	{
-		str::Name m_TextureGuid;
-		int32 m_SpriteCount = 0;
-		Vector2i m_SpriteSize = { 0, 0 };
+		float m_FPS = 0.f;
+		std::vector<FlipbookFrame> m_Frames = { };
 	};
 
 	class FlipbookLoader : public core::AssetLoader<FlipbookLoader, FlipbookAsset>
 	{
 	public:
-		bool create(const core::AssetEntry& entry) const;
+		bool save(const FlipbookAsset& asset, const core::AssetEntry& entry) const;
 		core::AssetPtr<FlipbookAsset> load(const core::AssetEntry& entry) const;
 	};
 
 	using FlipbookCache = core::AssetCache<FlipbookAsset>;
 	using FlipbookHandle = core::AssetHandle<FlipbookAsset>;
 }
+
+REFL_AUTO
+(
+	type(render::FlipbookFrame)
+	, field(m_FrameCount)
+	, field(m_Sprite)
+)
+
+REFL_AUTO
+(
+	type(render::FlipbookAsset)
+	, field(m_FPS)
+	, field(m_Frames)
+)

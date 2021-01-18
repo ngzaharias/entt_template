@@ -28,7 +28,7 @@ void audio::SoundSystem::Destroy(entt::registry& registry)
 {
 }
 
-void audio::SoundSystem::Update(entt::registry& registry, const sf::Time& time)
+void audio::SoundSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	for (const audio::Request& request : m_Requests)
 	{

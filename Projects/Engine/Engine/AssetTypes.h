@@ -16,6 +16,7 @@ namespace physics
 namespace render
 {
 	struct FlipbookAsset;
+	struct SpriteAsset;
 	struct TextureAsset;
 }
 
@@ -31,6 +32,7 @@ namespace core
 		Flipbook			= entt::type_info<render::FlipbookAsset>::id(),
 		PhysicsMaterial		= entt::type_info<physics::MaterialAsset>::id(),
 		Sound				= entt::type_info<audio::SoundAsset>::id(),
+		Sprite				= entt::type_info<render::SpriteAsset>::id(),
 		Texture				= entt::type_info<render::TextureAsset>::id(),
 	};
 

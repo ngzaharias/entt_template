@@ -27,37 +27,37 @@
 // - rename keys
 // - maintain key order after rename
 
-namespace imgui
-{
-	int32 DragDrop(const char* text, int32 index)
-	{
-		int32 source = -1;
-
-		ImGui::PushID(index);
-		imgui::SetColumnIndex(0);
-		ImGui::Unindent();
-		ImGui::Button("::");
-		ImGui::Indent();
-		ImGui::SameLine();
-		if (ImGui::BeginDragDropSource())
-		{
-			ImGui::SetDragDropPayload("DRAG", &index, sizeof(int32));
-			ImGui::Text(text);
-			ImGui::EndDragDropSource();
-		}
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG"))
-			{
-				source = *(int32*)payload->Data;
-			}
-			ImGui::EndDragDropTarget();
-		}
-		ImGui::PopID();
-
-		return source;
-	}
-}
+//namespace imgui
+//{
+//	int32 DragDrop(const char* text, int32 index)
+//	{
+//		int32 source = -1;
+//
+//		ImGui::PushID(index);
+//		imgui::SetColumnIndex(0);
+//		ImGui::Unindent();
+//		ImGui::Button("::");
+//		ImGui::Indent();
+//		ImGui::SameLine();
+//		if (ImGui::BeginDragDropSource())
+//		{
+//			ImGui::SetDragDropPayload("DRAG", &index, sizeof(int32));
+//			ImGui::Text(text);
+//			ImGui::EndDragDropSource();
+//		}
+//		if (ImGui::BeginDragDropTarget())
+//		{
+//			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG"))
+//			{
+//				source = *(int32*)payload->Data;
+//			}
+//			ImGui::EndDragDropTarget();
+//		}
+//		ImGui::PopID();
+//
+//		return source;
+//	}
+//}
 
 template<class Container>
 void widget::FieldAsContainer(const char* text, Container& container)
@@ -115,14 +115,14 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 				imgui::SetColumnIndex(0);
 				imgui::Bullet();
 				ImGui::SetNextItemWidth(-1);
-				widget::TypeAsIs(key);
+				editor::InspectType(key);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::Field("Key", key);
+				editor::InspectField("Key", key);
 			if (!isKeyInlined && isValInlined)
-				editor::Field("Key", key);
+				editor::InspectField("Key", key);
 			if (!isKeyInlined && !isValInlined)
-				editor::Field("Key", key);
+				editor::InspectField("Key", key);
 			ImGui::PopID();
 
 			// value
@@ -130,14 +130,14 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 			if (isKeyInlined && isValInlined)
 			{
 				imgui::SetColumnIndex(1);
-				widget::TypeAsIs(value);
+				editor::InspectType(value);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::Field("Value", value);
+				editor::InspectField("Value", value);
 			if (!isKeyInlined && isValInlined)
-				editor::Field("Value", value);
+				editor::InspectField("Value", value);
 			if (!isKeyInlined && !isValInlined)
-				editor::Field("Value", value);
+				editor::InspectField("Value", value);
 			ImGui::PopID();
 
 			if (key != itr->first && ImGui::IsItemDeactivatedAfterEdit())
@@ -206,13 +206,13 @@ void widget::FieldAsContainer(const char* text, std::vector<Type>& container)
 			Type& value = *itr;
 			str::String label = std::to_string(i);
 
-			int32 source = imgui::DragDrop(label.c_str(), i);
-			if (source != -1)
-			{
-				command = DragDrop{ source, i };
-			}
+			//int32 source = imgui::DragDrop(label.c_str(), i);
+			//if (source != -1)
+			//{
+			//	command = DragDrop{ source, i };
+			//}
 
-			editor::Field(label.c_str(), value);
+			editor::InspectField(label.c_str(), value);
 		}
 
 		imgui::SetColumnIndex(0);

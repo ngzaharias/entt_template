@@ -1,56 +1,58 @@
 #pragma once
 
-#include <string>
+#include <filesystem>
 
 namespace str
 {
-	class Path final
-	{
+	using Path = std::filesystem::path;
 
-	public:
-		Path();
-		Path(const char* value);
-		Path(const str::String& value);
-		Path(const str::StringView& value);
+	//class Path final
+	//{
 
-		void operator=(const char* rhs);
-		void operator=(const str::Path& rhs);
-		void operator=(const str::String& rhs);
-		void operator=(const str::StringView& rhs);
+	//public:
+	//	Path();
+	//	Path(const char* value);
+	//	Path(const str::String& value);
+	//	Path(const str::StringView& value);
 
-		void operator+=(const char* rhs);
-		void operator+=(const str::Path& rhs);
-		void operator+=(const str::String& rhs);
-		void operator+=(const str::StringView& rhs);
+	//	void operator=(const char* rhs);
+	//	void operator=(const str::Path& rhs);
+	//	void operator=(const str::String& rhs);
+	//	void operator=(const str::StringView& rhs);
 
-		bool HasFileExtension(const char* extension) const;
-		bool IsDirectory() const;
-		bool IsEmpty() const { return m_Value == ""; }
-		bool IsFile() const;
+	//	void operator+=(const char* rhs);
+	//	void operator+=(const str::Path& rhs);
+	//	void operator+=(const str::String& rhs);
+	//	void operator+=(const str::StringView& rhs);
 
-		const char* ToChar() const { return m_Value.c_str(); }
+	//	bool HasFileExtension(const char* extension) const;
+	//	bool IsDirectory() const;
+	//	bool IsEmpty() const { return m_Value == ""; }
+	//	bool IsFile() const;
 
-		///		/My/Example/Directory/Foo.bar
-		///		++++++++++++++++++++++
-		str::StringView GetDirectory() const;
+	//	const char* ToChar() const { return m_Value.c_str(); }
 
-		///		/My/Example/Directory/Foo.bar
-		///								 ++++
-		str::StringView GetFileExtension() const;
+	//	///		/My/Example/Directory/Foo.bar
+	//	///		++++++++++++++++++++++
+	//	str::StringView GetDirectory() const;
 
-		///		/My/Example/Directory/Foo.bar
-		///							  +++++++
-		str::StringView GetFileName() const;
+	//	///		/My/Example/Directory/Foo.bar
+	//	///								 ++++
+	//	str::StringView GetFileExtension() const;
 
-		///		/My/Example/Directory/Foo.bar
-		///							  +++
-		str::StringView GetFileNameNoExtension() const;
+	//	///		/My/Example/Directory/Foo.bar
+	//	///							  +++++++
+	//	str::StringView GetFileName() const;
 
-		///		/My/Example/Directory/Foo.bar
-		///		+++++++++++++++++++++++++
-		str::StringView GetPathNoExtension() const;
+	//	///		/My/Example/Directory/Foo.bar
+	//	///							  +++
+	//	str::StringView GetFileNameNoExtension() const;
 
-	private:
-		str::String m_Value;
-	};
+	//	///		/My/Example/Directory/Foo.bar
+	//	///		+++++++++++++++++++++++++
+	//	str::StringView GetPathNoExtension() const;
+
+	//private:
+	//	str::String m_Value;
+	//};
 }

@@ -10,7 +10,7 @@ bool core::LoadFileAsBinary(const str::Path& filepath, str::String& out_String)
 {
 	std::ifstream is;
 	std::ostringstream stream;
-	is.open(filepath.ToChar(), std::ios::binary);
+	is.open(filepath, std::ios::binary);
 	if (!is.is_open())
 		return false;
 

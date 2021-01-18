@@ -9,7 +9,6 @@
 
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>
-#include <SFML/System/Time.hpp>
 
 namespace
 {
@@ -48,7 +47,7 @@ namespace
 				ImGui::Columns(2, "Columns");
 				ImGui::SetColumnOffset(1, s_DividerOffset);
 
-				widget::TypeAsIs(*component);
+				editor::InspectType(*component);
 
 				ImGui::Columns(1);
 				s_DividerOffset = imgui::GetColumnOffset("Columns", 2, 1);
@@ -84,7 +83,7 @@ void editor::Inspector::Destroy(entt::registry& registry)
 {
 }
 
-void editor::Inspector::Update(entt::registry& registry, const sf::Time& time)
+void editor::Inspector::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	Render(registry);
 }
@@ -125,6 +124,6 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 
 			ImGui::PopID();
 		}
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
 }

@@ -1,6 +1,8 @@
 #include "Editor/EditorPCH.h"
 #include "Editor/AssetPopup.h"
 
+#include "Editor/TrivialWidgets.h"
+
 #include <Engine/AssetHelpers.h>
 #include <Engine/AssetManager.h>
 
@@ -18,7 +20,7 @@ void editor::AssetPopup::SelectOne(core::AssetHandle<Type>& handle)
 	if (handle)
 	{
 		const core::Asset& asset = handle.get();
-		assetName = asset.m_Filepath.GetFileNameNoExtension();
+		assetName = asset.m_Filepath.stem().string();
 	}
 
 	if (imgui::FakeCombo("", assetName.c_str()))
@@ -28,14 +30,22 @@ void editor::AssetPopup::SelectOne(core::AssetHandle<Type>& handle)
 
 	if (ImGui::BeginPopup("AssetPopup"))
 	{
+		static str::String filter = { };
+
+		widget::TypeAsIs(filter);
+		const auto substrings = str::Split(filter);
+
 		for (auto&& [guid, entry] : assetEntries)
 		{
 			// #todo: highlight if current asset
 			if (entry.m_Type != assetType)
 				continue;
 
-			assetName = entry.m_Filepath.GetPathNoExtension();
-			if (ImGui::Button(assetName.c_str()))
+			assetName = entry.m_Filepath.string();
+			if (!filter.empty() && !str::ContainsAll(assetName, substrings))
+				continue;
+
+			if (ImGui::MenuItem(assetName.c_str()))
 			{
 				handle = assetManager.LoadAsset<Type>(entry.m_Guid);
 				ImGui::CloseCurrentPopup();

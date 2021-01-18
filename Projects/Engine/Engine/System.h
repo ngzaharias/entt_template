@@ -1,11 +1,8 @@
 #pragma once
 
-#include <entt/fwd.hpp>
+#include <Engine/GameTime.h>
 
-namespace sf
-{
-	class Time;
-}
+#include <entt/fwd.hpp>
 
 namespace core
 {
@@ -15,6 +12,6 @@ namespace core
 		virtual void Initialize(entt::registry& registry) { }
 		virtual void Destroy(entt::registry& registry) { }
 
-		virtual void Update(entt::registry& registry, const sf::Time& time) { }
+		virtual void Update(entt::registry& registry, const core::GameTime& gameTime) { }
 	};
 }

@@ -13,7 +13,7 @@ namespace game
 	private:
 		void Register() override;
 		bool Initialise() override;
-		bool Update(const sf::Time& time) override;
+		bool Update(const core::GameTime& gameTime) override;
 		void Destroy() override;
 
 		void PlaySound();

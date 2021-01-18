@@ -39,6 +39,21 @@
     <ClCompile Include="Editor\EntityPopup.cpp">
       <Filter>Source\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\TrivialWidgets.cpp">
+      <Filter>Source\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\AssetWidgets.cpp">
+      <Filter>Source\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\SpriteExtractor.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\SpriteEditor.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\FlipbookEditor.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h">
@@ -86,15 +101,21 @@
     <ClInclude Include="Editor\EntityPopup.h">
       <Filter>Source\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\SpriteExtractor.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\SpriteEditor.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\FlipbookEditor.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\InspectorWidgets.inl">
       <Filter>Source\Widgets</Filter>
     </None>
     <None Include="Editor\ContainerWidgets.inl">
-      <Filter>Source\Widgets</Filter>
-    </None>
-    <None Include="Editor\TrivialWidgets.inl">
       <Filter>Source\Widgets</Filter>
     </None>
     <None Include="Editor\VariantWidgets.inl">

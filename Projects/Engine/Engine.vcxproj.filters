@@ -169,6 +169,15 @@
     <ClInclude Include="Engine\FlipbookComponent.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\SpriteAsset.h">
+      <Filter>Source\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SortHelpers.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameTime.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -268,6 +277,12 @@
     </ClCompile>
     <ClCompile Include="Engine\FlipbookAsset.cpp">
       <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SpriteAsset.cpp">
+      <Filter>Source\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SortHelpers.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

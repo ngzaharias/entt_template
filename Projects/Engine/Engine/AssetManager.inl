@@ -18,41 +18,23 @@ namespace
 }
 
 template<class Type>
-void core::AssetManager::CreateAsset(const str::Path& filepath)
+void core::AssetManager::CreateAsset(const Type& asset, const str::Path& filepath)
 {
-	static_assert(false, "Asset Type doesn't exist!");
+	static_assert(false, "Can't Create an asset of Type!");
 	return nullptr;
 }
 
-template<>
-void core::AssetManager::CreateAsset<render::FlipbookAsset>(const str::Path& folderPath)
+template<class Type>
+void core::AssetManager::SaveAsset(const Type& asset)
 {
-	core::AssetEntry entry = GenerateEntry(core::EAssetType::Flipbook, folderPath);
-
-	render::FlipbookLoader loader;
-	if (loader.create(entry))
-	{
-		m_AssetEntryMap[entry.m_Guid] = entry;
-	}
-}
-
-
-template<>
-void core::AssetManager::CreateAsset<physics::MaterialAsset>(const str::Path& folderPath)
-{
-	core::AssetEntry entry = GenerateEntry(core::EAssetType::PhysicsMaterial, folderPath);
-
-	physics::MaterialLoader loader;
-	if (loader.create(entry))
-	{
-		m_AssetEntryMap[entry.m_Guid] = entry;
-	}
+	static_assert(false, "Can't Save an asset of Type!");
+	return nullptr;
 }
 
 template<class Type>
 void core::AssetManager::ImportAsset(const str::Path& inputPath, const str::Path& outputPath)
 {
-	static_assert(false, "Asset Type doesn't exist!");
+	static_assert(false, "Can't Import an asset of Type!");
 	return nullptr;
 }
 
@@ -73,7 +55,7 @@ void core::AssetManager::ImportAsset<render::TextureAsset>(const str::Path& inpu
 template<class Type>
 core::AssetHandle<Type> core::AssetManager::LoadAsset(const str::Name& guid)
 {
-	static_assert(false, "Asset Type doesn't exist!");
+	static_assert(false, "Can't Load an asset of Type!");
 	return nullptr;
 }
 
@@ -86,6 +68,17 @@ core::EntityTemplateHandle core::AssetManager::LoadAsset<core::EntityTemplateAss
 
 	const core::AssetEntry& assetEntry = find->second;
 	return m_EntityTemplateCache.load<core::EntityTemplateLoader>(guid.ToHash(), assetEntry);
+}
+
+template<>
+render::FlipbookHandle core::AssetManager::LoadAsset<render::FlipbookAsset>(const str::Name& guid)
+{
+	const auto find = m_AssetEntryMap.find(guid);
+	if (find == m_AssetEntryMap.end())
+		return { };
+
+	const core::AssetEntry& assetEntry = find->second;
+	return m_FlipbookCache.load<render::FlipbookLoader>(guid.ToHash(), assetEntry);
 }
 
 template<>
@@ -108,6 +101,17 @@ audio::SoundHandle core::AssetManager::LoadAsset<audio::SoundAsset>(const str::N
 
 	const core::AssetEntry& assetEntry = find->second;
 	return m_SoundCache.load<audio::SoundLoader>(guid.ToHash(), assetEntry);
+}
+
+template<>
+render::SpriteHandle core::AssetManager::LoadAsset<render::SpriteAsset>(const str::Name& guid)
+{
+	const auto find = m_AssetEntryMap.find(guid);
+	if (find == m_AssetEntryMap.end())
+		return { };
+
+	const core::AssetEntry& assetEntry = find->second;
+	return m_SpriteCache.load<render::SpriteLoader>(guid.ToHash(), assetEntry);
 }
 
 template<>

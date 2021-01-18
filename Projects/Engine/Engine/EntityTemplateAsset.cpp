@@ -7,7 +7,7 @@
 core::AssetPtr<core::EntityTemplateAsset> core::EntityTemplateLoader::load(const core::AssetEntry& entry) const
 {
 	rapidjson::Document document;
-	json::LoadDocument(entry.m_Filepath.ToChar(), document);
+	json::LoadDocument(entry.m_Filepath, document);
 
 	str::Path sourceFile = json::ParseString(document, "source_file", "");
 	json::Binary binaryData = json::ParseBinary(document, "binary_data", json::Binary());

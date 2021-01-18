@@ -3,14 +3,18 @@
 
 #include "Editor/AssetBrowser.h"
 #include "Editor/AssetPopup.h"
+#include "Editor/FlipbookEditor.h"
 #include "Editor/History.h"
 #include "Editor/Inspector.h"
 #include "Editor/InspectorExamples.h"
 #include "Editor/MainMenuBar.h"
+#include "Editor/SpriteEditor.h"
+#include "Editor/SpriteExtractor.h"
 
 #include <Engine/AssetManager.h>
 #include <Engine/CameraComponent.h>
 #include <Engine/TextureAsset.h>
+#include <Engine/FlipbookAsset.h>
 #include <Engine/FlipbookComponent.h>
 #include <Engine/SpriteComponent.h>
 #include <Engine/TransformComponent.h>
@@ -36,7 +40,16 @@ void editor::Application::Register()
 
 	RegisterComponent<example::Component>();
 
-	RegisterSystem<editor::AssetBrowser>(*m_AssetManager);
+	RegisterSystem<editor::FlipbookEditor>();
+	RegisterSystem<editor::SpriteEditor>();
+	RegisterSystem<editor::SpriteExtractor>();
+	RegisterSystem<editor::AssetBrowser>
+		(
+			*m_AssetManager
+			, GetSystem<editor::FlipbookEditor>()
+			, GetSystem<editor::SpriteEditor>()
+			, GetSystem<editor::SpriteExtractor>()
+		);
 	RegisterSystem<editor::History>();
 	RegisterSystem<editor::Inspector>();
 	RegisterSystem<editor::MainMenuBar>
@@ -73,37 +86,25 @@ bool editor::Application::Initialise()
 		inspector.SetEntity(entity);
 	}
 
-	auto CreateFlipbook = [&](const char* texture, const uint32 count)
+	auto CreateFlipbook = [&](const str::Name& guid)
 	{
-		const str::Name guid = str::Name::Create(texture);
-		const render::TextureHandle handle = m_AssetManager->LoadAsset<render::TextureAsset>(guid);
-
 		entt::entity entity = m_Registry.create();
 		auto& transform = m_Registry.emplace<core::TransformComponent>(entity);
 		auto& flipbook = m_Registry.emplace<render::FlipbookComponent>(entity);
-		flipbook.m_FPS = 60.f;
 		flipbook.m_Time = 0.f;
 		flipbook.m_Index = 0;
-		flipbook.m_SubSprite.m_Count = count;
-		flipbook.m_SubSprite.m_Size = { 100, 100 };
-		flipbook.m_Size = { 200.f, 200.f };
-		flipbook.m_Sprite.setTexture(handle->m_Texture);
-		flipbook.m_Sprite.setOrigin(sf::Vector2f(50.f, 50.f));
+		flipbook.m_Size = { 200, 200 };
+		flipbook.m_Flipbook = m_AssetManager->LoadAsset<render::FlipbookAsset>(guid);
 	};
 
-	//CreateFlipbook("4bf7466a-f63d-6445-61c9-8b46e3958584", 61);	// MagicBubbles
-	//CreateFlipbook("1e1881f1-c698-54ba-4ba1-395d6a539526", 61);	// ProtectionCircle
-	CreateFlipbook("91ffda2b-d755-ce42-35c3-7010aaf5ec5a", 61);	// Midnight
-	//CreateFlipbook("82111b6f-3b77-9230-d2a1-7c55abf95df3", 46);	// FlameLash
-	//CreateFlipbook("5461128c-1405-12b0-1b0f-33023aa39208", 121);	// Loading
-	//CreateFlipbook("f9dcfdd6-014a-c528-12e2-1e73f232b7f9", 61);		// Magic8
+	CreateFlipbook(str::Name::Create("9cf3dbdc-769e-a09a-6e4a-a0390e246666"));	// Midnight
 
 	return true;
 }
 
-bool editor::Application::Update(const sf::Time& time)
+bool editor::Application::Update(const core::GameTime& gameTime)
 {
-	if (!core::Application::Update(time))
+	if (!core::Application::Update(gameTime))
 		return false;
 
 	return true;

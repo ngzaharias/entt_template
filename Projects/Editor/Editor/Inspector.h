@@ -16,8 +16,7 @@ namespace editor
 		void Initialize(entt::registry& registry) override;
 		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time) override;
-		void Render(entt::registry& registry);
+		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 
 		bool IsVisible() { return m_IsVisible; }
 
@@ -25,6 +24,7 @@ namespace editor
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:
+		void Render(entt::registry& registry);
 		void Render_MenuBar(entt::registry& registry);
 		void Render_Selected(entt::registry& registry);
 

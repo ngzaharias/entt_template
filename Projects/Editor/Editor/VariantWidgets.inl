@@ -58,7 +58,7 @@ void widget::FieldAsVariant(const char* text, std::variant<Types...>& variant, T
 				imgui::SetColumnIndex(0);
 				ImGui::Indent();
 
-				widget::TypeAsIs(value);
+				editor::InspectType(value);
 
 				imgui::SetColumnIndex(0);
 				ImGui::Unindent();
@@ -73,7 +73,7 @@ void widget::FieldAsVariant(const char* text, std::variant<Types...>& variant, T
 				variant = Builder::variants[index];
 
 			imgui::SetColumnIndex(1);
-			widget::TypeAsIs(value);
+			editor::InspectType(value);
 		}
 
 		imgui::SetColumnIndex(0);

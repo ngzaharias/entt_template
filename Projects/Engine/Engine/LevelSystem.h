@@ -39,7 +39,7 @@ namespace core
 		void Initialize(entt::registry& registry) override;
 		void Destroy(entt::registry& registry) override;
 
-		void Update(entt::registry& registry, const sf::Time& time) override;
+		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 
 		bool Load(entt::registry& registry, const str::Path& directory);
 		void Unload(entt::registry& registry);

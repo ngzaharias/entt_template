@@ -3,7 +3,10 @@
 namespace editor
 {
 	template<typename Type>
-	void Field(const char* text, Type& value);
+	void InspectType(Type& value);
+
+	template<typename Type>
+	void InspectField(const char* text, Type& value);
 
 	template<typename Type>
 	void FieldAsClass(const char* text, Type& value);

@@ -6,7 +6,6 @@
 #include "Editor/Inspector.h"
 
 #include <imgui/imgui.h>
-#include <SFML/System/Time.hpp>
 
 namespace
 {
@@ -59,7 +58,7 @@ void editor::MainMenuBar::Destroy(entt::registry& registry)
 {
 }
 
-void editor::MainMenuBar::Update(entt::registry& registry, const sf::Time& time)
+void editor::MainMenuBar::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	Render(registry);
 }

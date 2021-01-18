@@ -31,6 +31,7 @@
     <ClInclude Include="Engine\FileHelpers.h" />
     <ClInclude Include="Engine\FlipbookAsset.h" />
     <ClInclude Include="Engine\FlipbookComponent.h" />
+    <ClInclude Include="Engine\GameTime.h" />
     <ClInclude Include="Engine\Hash.h" />
     <ClInclude Include="Engine\JsonHelpers.h" />
     <ClInclude Include="Engine\LevelComponent.h" />
@@ -49,9 +50,11 @@
     <ClInclude Include="Engine\RigidDynamicComponent.h" />
     <ClInclude Include="Engine\RigidStaticComponent.h" />
     <ClInclude Include="Engine\Screen.h" />
+    <ClInclude Include="Engine\SortHelpers.h" />
     <ClInclude Include="Engine\SoundAsset.h" />
     <ClInclude Include="Engine\SoundComponent.h" />
     <ClInclude Include="Engine\SoundSystem.h" />
+    <ClInclude Include="Engine\SpriteAsset.h" />
     <ClInclude Include="Engine\SpriteComponent.h" />
     <ClInclude Include="Engine\String.h" />
     <ClInclude Include="Engine\StringHelpers.h" />
@@ -100,8 +103,10 @@
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\Screen.cpp" />
+    <ClCompile Include="Engine\SortHelpers.cpp" />
     <ClCompile Include="Engine\SoundAsset.cpp" />
     <ClCompile Include="Engine\SoundSystem.cpp" />
+    <ClCompile Include="Engine\SpriteAsset.cpp" />
     <ClCompile Include="Engine\StringHelpers.cpp" />
     <ClCompile Include="Engine\TextureAsset.cpp" />
     <ClCompile Include="Engine\VectorHelpers.cpp" />
