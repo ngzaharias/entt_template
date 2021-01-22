@@ -4,22 +4,14 @@
 
 #include <entt/fwd.hpp>
 
-namespace sf
-{
-	class RenderWindow;
-}
-
 namespace render
 {
-	class RenderSystem : public core::System
+	class FlipbookSystem : public core::System
 	{
 	public:
-		RenderSystem(sf::RenderWindow& window);
-		~RenderSystem();
+		FlipbookSystem();
+		~FlipbookSystem();
 
 		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
-
-	private:
-		sf::RenderWindow& m_Window;
 	};
 };

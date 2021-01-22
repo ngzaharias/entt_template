@@ -109,9 +109,9 @@ void editor::AssetBrowser::Initialize(entt::registry& registry)
 	iconFile = new sf::Texture();
 	iconFolder = new sf::Texture();
 
-	iconBack->loadFromFile("D:\\Projects\\C++\\entt_template\\Projects\\Editor\\Icons\\arrow_left.png");
-	iconFile->loadFromFile("D:\\Projects\\C++\\entt_template\\Projects\\Editor\\Icons\\file.png");
-	iconFolder->loadFromFile("D:\\Projects\\C++\\entt_template\\Projects\\Editor\\Icons\\folder.png");
+	iconBack->loadFromFile("Projects\\Editor\\Icons\\arrow_left.png");
+	iconFile->loadFromFile("Projects\\Editor\\Icons\\file.png");
+	iconFolder->loadFromFile("Projects\\Editor\\Icons\\folder.png");
 }
 
 void editor::AssetBrowser::Destroy(entt::registry& registry)
@@ -126,16 +126,34 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 		if (!entry.is_directory() && entry.path().extension() != L".asset")
 			return;
 
-		DirectoryEntry directoryEntry = 
-		{ 
-			entry.path().stem().u8string()
+		DirectoryEntry directoryEntry =
+		{
+			str::strNullGuid
 			, entry.path()
+			, entry.path().stem().u8string()
+			, core::EAssetType::Unknown
 			, entry.is_directory() 
 		};
 		m_Entries.emplace(std::move(directoryEntry));
 	}
 
 	Render(registry);
+}
+
+void editor::AssetBrowser::ContextMenu(const DirectoryEntry& entry)
+{
+	Select(entry);
+	if (!m_Selected)
+		return;
+
+	ImGui::OpenPopup("ContextMenu");
+}
+
+void editor::AssetBrowser::ContextMenu_Texture(const str::Name& guid)
+{
+	ImGui::TextDisabled("Texture Actions");
+	if (ImGui::MenuItem("Extract Sprites..."))
+		m_SpriteExtractor.OpenDialog(guid);
 }
 
 void editor::AssetBrowser::Import()
@@ -177,29 +195,41 @@ void editor::AssetBrowser::Import()
 
 void editor::AssetBrowser::Open(const DirectoryEntry& entry)
 {
-	if (entry.m_IsDirectory)
+	Select(entry);
+	if (!m_Selected)
+		return;
+
+	if (m_Selected->m_IsDirectory)
 	{
 		m_Directory = entry.m_Filepath;
 	}
 	else
+	{
+		switch (m_Selected->m_Type)
+		{
+		case core::EAssetType::Flipbook:
+			m_FlipbookEditor.OpenEditor(m_Selected->m_Guid);
+			break;
+		case core::EAssetType::Sprite:
+			m_SpriteEditor.OpenEditor(m_Selected->m_Guid);
+			break;
+		}
+	}
+}
+
+void editor::AssetBrowser::Select(const DirectoryEntry& entry)
+{
+	m_Selected = entry;
+
+	if (!entry.m_IsDirectory)
 	{
 		rapidjson::Document document;
 		json::LoadDocument(entry.m_Filepath, document);
 
 		const char* asset_guid = json::ParseString(document, "asset_guid", nullptr);
 		const char* asset_type = json::ParseString(document, "asset_type", nullptr);
-		const str::Name assetGuid = str::Name::Create(asset_guid);
-		const core::EAssetType assetType = core::ToAssetType(asset_type);
-
-		switch (assetType)
-		{
-		case core::EAssetType::Flipbook:
-			m_FlipbookEditor.OpenEditor(assetGuid);
-			break;
-		case core::EAssetType::Sprite:
-			m_SpriteEditor.OpenEditor(assetGuid);
-			break;
-		}
+		m_Selected->m_Guid = str::Name::Create(asset_guid);
+		m_Selected->m_Type = core::ToAssetType(asset_type);
 	}
 }
 
@@ -231,9 +261,47 @@ void editor::AssetBrowser::Render(entt::registry& registry)
 			ImGui::NextColumn();
 		}
 
+		Render_ContextMenu();
+
 		ImGui::Columns(1);
 	}
 	ImGui::End();
+}
+
+void editor::AssetBrowser::Render_ContextMenu()
+{
+	if (ImGui::BeginPopup("ContextMenu"))
+	{
+		if (m_Selected->m_IsDirectory)
+		{
+			ImGui::TextDisabled("Directory Actions");
+		}
+		else
+		{
+			switch (m_Selected->m_Type)
+			{
+			case core::EAssetType::EntityTemplate:
+				ImGui::TextDisabled("Template Actions");
+				break;
+			case core::EAssetType::Flipbook:
+				ImGui::TextDisabled("Flipbook Actions");
+				break;
+			case core::EAssetType::PhysicsMaterial:
+				ImGui::TextDisabled("Physics Material Actions");
+				break;
+			case core::EAssetType::Sound:
+				ImGui::TextDisabled("Sound Actions");
+				break;
+			case core::EAssetType::Sprite:
+				ImGui::TextDisabled("Sprite Actions");
+				break;
+			case core::EAssetType::Texture:
+				ContextMenu_Texture(m_Selected->m_Guid);
+				break;
+			}
+		}
+		ImGui::EndPopup();
+	}
 }
 
 void editor::AssetBrowser::Render_Entry(const editor::DirectoryEntry& entry)
@@ -287,6 +355,7 @@ void editor::AssetBrowser::Render_Entry(const editor::DirectoryEntry& entry)
 		Open(entry);
 		break;
 	case EResult::RightClick:
+		ContextMenu(entry);
 		break;
 	}
 }

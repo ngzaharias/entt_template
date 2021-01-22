@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/FlipbookAsset.h>
+#include <Engine/FlipbookComponent.h>
 #include <Engine/System.h>
 
 namespace editor
@@ -21,8 +22,12 @@ namespace editor
 
 	private:
 		void Render();
+		void Render_Playback();
+		void Render_Preview();
 
 	private:
-		render::FlipbookHandle m_Flipbook = { };
+		std::optional<render::FlipbookComponent> m_Component;
+		bool m_IsLooping = true;
+		bool m_IsPlaying = true;
 	};
 }

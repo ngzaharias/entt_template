@@ -178,6 +178,9 @@
     <ClInclude Include="Engine\GameTime.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\FlipbookSystem.h">
+      <Filter>Source\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="Engine\SortHelpers.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FlipbookSystem.cpp">
+      <Filter>Source\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

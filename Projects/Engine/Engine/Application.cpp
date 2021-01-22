@@ -1,16 +1,17 @@
 #include "Engine/EnginePCH.h"
 #include "Engine/Application.h"
 
+#include "Engine/AssetManager.h"
 #include "Engine/CameraComponent.h"
 #include "Engine/EnttDebugger.h"
 #include "Engine/FileHelpers.h"
+#include "Engine/FlipbookSystem.h"
 #include "Engine/LevelComponent.h"
 #include "Engine/LevelSystem.h"
 #include "Engine/NameComponent.h"
 #include "Engine/PhysicsManager.h"
 #include "Engine/PhysicsSystem.h"
 #include "Engine/RenderSystem.h"
-#include "Engine/AssetManager.h"
 #include "Engine/RigidDynamicComponent.h"
 #include "Engine/RigidStaticComponent.h"
 #include "Engine/Screen.h"
@@ -113,6 +114,7 @@ void core::Application::Register()
 	RegisterComponent<core::TransformComponent>();
 
 	// systems
+	RegisterSystem<render::FlipbookSystem>();
 	RegisterSystem<render::RenderSystem>(*m_Window);
 	RegisterSystem<physics::PhysicsSystem>(*m_PhysicsManager);
 	RegisterSystem<audio::SoundSystem>(*m_AssetManager);

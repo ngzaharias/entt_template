@@ -18,13 +18,14 @@ namespace render
 {
 	struct FlipbookFrame
 	{
-		uint32 m_FrameCount = 1;
+		int32 m_FrameCount = 0;
 		SpriteHandle m_Sprite = { };
 	};
 
 	struct FlipbookAsset : public core::Asset
 	{
 		float m_FPS = 0.f;
+		bool m_IsLooping = true;
 		std::vector<FlipbookFrame> m_Frames = { };
 	};
 

@@ -21,7 +21,7 @@ render::RenderSystem::~RenderSystem()
 {
 }
 
-void render::RenderSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
+void render::RenderSystem::Update(entt::registry& registry, const core::GameTime& /*gameTime*/)
 {
 	const auto cameraView = registry.view<core::CameraComponent, core::TransformComponent>();
 	for (const entt::entity& cameraEntity : cameraView)
@@ -31,7 +31,8 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 			auto& cameraComponent = cameraView.get<core::CameraComponent>(cameraEntity);
 			auto& transformComponent = cameraView.get<core::TransformComponent>(cameraEntity);
 
-			sf::Vector2f size = Multiply(cameraComponent.m_Size, { 1.f, -1.f });
+			// #note: invert the size so that the coordinates of SFML match Engine
+			const sf::Vector2f size = math::Multiply(cameraComponent.m_Size, { 1.f, -1.f });
 
 			sf::View view;
 			view.setCenter(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
@@ -91,11 +92,6 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 				const render::FlipbookAsset& flipbookAsset = flipbookComponent.m_Flipbook.get();
 				if (flipbookAsset.m_Frames.empty())
 					continue;
-
-				flipbookComponent.m_Time += gameTime.asSeconds();
-				flipbookComponent.m_Index = static_cast<uint32>(flipbookComponent.m_Time * flipbookAsset.m_FPS);
-				flipbookComponent.m_Index %= flipbookAsset.m_Frames.size();
-
 
 				const render::FlipbookFrame& flipbookFrame = flipbookAsset.m_Frames[flipbookComponent.m_Index];
 				if (!flipbookFrame.m_Sprite)

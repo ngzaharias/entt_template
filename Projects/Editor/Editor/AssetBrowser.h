@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Engine/AssetTypes.h>
 #include <Engine/System.h>
 
 #include <filesystem>
@@ -21,8 +22,10 @@ namespace editor
 	{
 		bool operator<(const DirectoryEntry& rhs) const;
 
-		str::String m_Name;
+		str::Name m_Guid;
 		str::Path m_Filepath;
+		str::String m_Name;
+		core::EAssetType m_Type;
 		bool m_IsDirectory;
 	};
 
@@ -47,10 +50,14 @@ namespace editor
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:
+		void ContextMenu(const DirectoryEntry& entry);
+		void ContextMenu_Texture(const str::Name& guid);
 		void Import();
 		void Open(const DirectoryEntry& entry);
+		void Select(const DirectoryEntry& entry);
 
 		void Render(entt::registry& registry);
+		void Render_ContextMenu();
 		void Render_Entry(const DirectoryEntry& entry);
 		void Render_MenuBar();
 
@@ -59,6 +66,9 @@ namespace editor
 		editor::FlipbookEditor& m_FlipbookEditor;
 		editor::SpriteEditor& m_SpriteEditor;
 		editor::SpriteExtractor& m_SpriteExtractor;
+
+		// actions
+		std::optional<DirectoryEntry> m_Selected = { };
 
 		str::Path m_Directory = "Assets";
 
