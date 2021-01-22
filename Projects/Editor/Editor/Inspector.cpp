@@ -44,13 +44,14 @@ namespace
 
 			if (ImGui::CollapsingHeader(name, ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				ImGui::Columns(2, "Columns");
-				ImGui::SetColumnOffset(1, s_DividerOffset);
+				ImGui::BeginTable("Columns", 2, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_Resizable);
+				ImGui::TableSetupColumn("Field", ImGuiTableColumnFlags_WidthStretch);
+				ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
+				ImGui::TableNextRow();
 
 				editor::InspectType(*component);
 
-				ImGui::Columns(1);
-				s_DividerOffset = imgui::GetColumnOffset("Columns", 2, 1);
+				ImGui::EndTable();
 			}
 		}
 	}
@@ -111,7 +112,7 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 
 void editor::Inspector::Render_Selected(entt::registry& registry)
 {
-	using ComponentsList = core::TypeList<example::Component, core::TransformComponent>;
+	using ComponentsList = core::TypeList</*example::Component, */core::TransformComponent>;
 	ComponentsList components;
 
 	if (ImGui::BeginChild("entity"))

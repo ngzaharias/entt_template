@@ -7,6 +7,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="imgui\Custom.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\Helpers.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Include\imgui\imgui.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -16,19 +22,13 @@
     <ClCompile Include="..\..\Include\imgui\imgui_draw.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Include\imgui\imgui_tables.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Include\imgui\imgui_widgets.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\imgui-sfml\imgui-SFML.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\Custom.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\Helpers.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,7 +39,13 @@
     <ClInclude Include="imgui\Helpers.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\imgui\misc\cpp\imgui_stdlib.h">
+    <ClInclude Include="..\..\Include\imgui\imgui_internal.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\imgui\imgui.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\imgui-sfml\imgui-SFML.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

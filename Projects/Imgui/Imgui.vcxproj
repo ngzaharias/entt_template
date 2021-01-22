@@ -83,13 +83,15 @@
     <ClCompile Include="..\..\Include\imgui\imgui.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="..\..\Include\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="imgui\Custom.cpp" />
     <ClCompile Include="imgui\Helpers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Include\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="..\..\Include\imgui-sfml\imgui-SFML.h" />
+    <ClInclude Include="..\..\Include\imgui\imgui.h" />
+    <ClInclude Include="..\..\Include\imgui\imgui_internal.h" />
     <ClInclude Include="imgui\Custom.h" />
     <ClInclude Include="imgui\Helpers.h" />
   </ItemGroup>

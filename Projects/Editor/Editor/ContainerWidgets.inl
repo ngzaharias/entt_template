@@ -34,7 +34,7 @@
 //		int32 source = -1;
 //
 //		ImGui::PushID(index);
-//		imgui::SetColumnIndex(0);
+//		ImGui::TableSetColumnIndex(0);
 //		ImGui::Unindent();
 //		ImGui::Button("::");
 //		ImGui::Indent();
@@ -81,10 +81,10 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 
 	Command command = None();
 
-	imgui::SetColumnIndex(0);
+	ImGui::TableSetColumnIndex(0);
 	bool isExpanded = imgui::FieldHeader(text);
 
-	imgui::SetColumnIndex(1);
+	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Elements", container.size());
 	ImGui::SameLine(ImGui::GetColumnWidth() - 50.f);
 	if (ImGui::Button("+"))
@@ -95,7 +95,9 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 
 	if (isExpanded)
 	{
-		imgui::SetColumnIndex(0);
+		ImGui::TableNextRow();
+
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Indent();
 
 		constexpr bool isKeyInlined = !std::is_class<Key>::value;
@@ -112,24 +114,33 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 			ImGui::PushID(++id);
 			if (isKeyInlined && isValInlined)
 			{
-				imgui::SetColumnIndex(0);
+				ImGui::TableSetColumnIndex(0);
 				imgui::Bullet();
 				ImGui::SetNextItemWidth(-1);
 				editor::InspectType(key);
 			}
 			if (isKeyInlined && !isValInlined)
+			{
 				editor::InspectField("Key", key);
+				ImGui::TableNextRow();
+			}
 			if (!isKeyInlined && isValInlined)
+			{
 				editor::InspectField("Key", key);
+				ImGui::TableNextRow();
+			}
 			if (!isKeyInlined && !isValInlined)
+			{
 				editor::InspectField("Key", key);
+				ImGui::TableNextRow();
+			}
 			ImGui::PopID();
 
 			// value
 			ImGui::PushID(++id);
 			if (isKeyInlined && isValInlined)
 			{
-				imgui::SetColumnIndex(1);
+				ImGui::TableSetColumnIndex(1);
 				editor::InspectType(value);
 			}
 			if (isKeyInlined && !isValInlined)
@@ -142,9 +153,11 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 
 			if (key != itr->first && ImGui::IsItemDeactivatedAfterEdit())
 				command = Rename{ i, key };
+
+			ImGui::TableNextRow();
 		}
 
-		imgui::SetColumnIndex(0);
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Unindent();
 	}
 
@@ -182,10 +195,10 @@ void widget::FieldAsContainer(const char* text, std::vector<Type>& container)
 
 	Command command = None();
 
-	imgui::SetColumnIndex(0);
+	ImGui::TableSetColumnIndex(0);
 	bool isExpanded = imgui::FieldHeader(text);
 
-	imgui::SetColumnIndex(1);
+	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Elements", container.size());
 	ImGui::SameLine(ImGui::GetColumnWidth() - 50.f);
 	if (ImGui::Button("+"))
@@ -196,7 +209,8 @@ void widget::FieldAsContainer(const char* text, std::vector<Type>& container)
 
 	if (isExpanded)
 	{
-		imgui::SetColumnIndex(0);
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Indent();
 
 		Iterator itr = container.begin();
@@ -213,9 +227,10 @@ void widget::FieldAsContainer(const char* text, std::vector<Type>& container)
 			//}
 
 			editor::InspectField(label.c_str(), value);
+			ImGui::TableNextRow();
 		}
 
-		imgui::SetColumnIndex(0);
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Unindent();
 	}
 

@@ -18,11 +18,14 @@ namespace
 	template<typename Type>
 	void Inspect(Type& value)
 	{
-		ImGui::Columns(2, "Columns");
+		ImGui::BeginTable("Columns", 2, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_Resizable);
+		ImGui::TableSetupColumn("Field", ImGuiTableColumnFlags_WidthStretch);
+		ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
+		ImGui::TableNextRow();
 
 		editor::InspectType(value);
 
-		ImGui::Columns(1);
+		ImGui::EndTable();
 	}
 
 	void ForEachSprite(const editor::GridSettings& settings, std::function<bool(const Vector2u&)> callback)

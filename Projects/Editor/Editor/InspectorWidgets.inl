@@ -44,11 +44,11 @@ void editor::InspectType(Type& value)
 		{
 			constexpr const char* name = reflect::GetFieldName(field);
 			editor::InspectField(name, field(value));
+			ImGui::TableNextRow();
 		});
 	}
 	else if constexpr (isOverloaded)
 	{
-		imgui::SetColumnIndex(1);
 		widget::TypeAsIs(value);
 	}
 	else
@@ -70,11 +70,11 @@ void editor::InspectField(const char* text, Type& value)
 
 	if constexpr (isOverloaded)
 	{
-		imgui::SetColumnIndex(0);
+		ImGui::TableSetColumnIndex(0);
 		imgui::Bullet();
 		ImGui::Text(text);
 
-		imgui::SetColumnIndex(1);
+		ImGui::TableSetColumnIndex(1);
 		widget::TypeAsIs(value);
 	}
 	else if constexpr (isClass && isReflectable)
@@ -95,11 +95,11 @@ void editor::InspectField(const char* text, Type& value)
 	}
 	else
 	{
-		imgui::SetColumnIndex(0);
+		ImGui::TableSetColumnIndex(0);
 		imgui::Bullet();
 		ImGui::Text(text);
 
-		imgui::SetColumnIndex(1);
+		ImGui::TableSetColumnIndex(1);
 		ImGui::Text("Unsupported Type!");
 	}
 
@@ -119,20 +119,21 @@ void editor::FieldAsClass(const char* text, Type& value)
 	using TypeDescriptor = refl::type_descriptor<Type>;
 	constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
 
-	imgui::SetColumnIndex(0);
+	ImGui::TableSetColumnIndex(0);
 	bool isExpanded = imgui::FieldHeader(text);
 
-	imgui::SetColumnIndex(1);
+	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Members", typeDescriptor.members.size);
 
 	if (isExpanded)
 	{
-		imgui::SetColumnIndex(0);
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Indent();
 
 		editor::InspectType(value);
 
-		imgui::SetColumnIndex(0);
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Unindent();
 	}
 }

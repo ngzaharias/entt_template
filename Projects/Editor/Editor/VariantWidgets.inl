@@ -29,54 +29,56 @@ void widget::FieldAsVariant(const char* text, std::variant<Types...>& variant, T
 	int index = static_cast<int>(variant.index());
 	int size = static_cast<int>(sizeof...(Types));
 
-	imgui::SetColumnIndex(0);
+	ImGui::TableSetColumnIndex(0);
 	bool isExpanded = imgui::FieldHeader(text);
 
-	imgui::SetColumnIndex(1);
+	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("");
 
 	if (isExpanded)
 	{
-		imgui::SetColumnIndex(0);
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Indent();
 
 		// #todo: can this be done compile time?
 		if (std::is_class<Type>::value)
 		{
-			imgui::SetColumnIndex(0);
+			ImGui::TableSetColumnIndex(0);
 			bool isClassExpanded = imgui::ArrowButton("##button");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(-1);
 			if (ImGui::Combo("##combo", &index, &names[0], size))
 				variant = Builder::variants[index];
 
-			imgui::SetColumnIndex(1);
+			ImGui::TableSetColumnIndex(1);
 			ImGui::Text("%d Members", typeDescriptor.members.size);
 
 			if (isClassExpanded)
 			{
-				imgui::SetColumnIndex(0);
+				ImGui::TableNextRow();
+				ImGui::TableSetColumnIndex(0);
 				ImGui::Indent();
 
 				editor::InspectType(value);
 
-				imgui::SetColumnIndex(0);
+				ImGui::TableSetColumnIndex(0);
 				ImGui::Unindent();
 			}
 		}
 		else
 		{
-			imgui::SetColumnIndex(0);
+			ImGui::TableSetColumnIndex(0);
 			imgui::Bullet();
 			ImGui::SetNextItemWidth(-1);
 			if (ImGui::Combo("##combo", &index, &names[0], size))
 				variant = Builder::variants[index];
 
-			imgui::SetColumnIndex(1);
+			ImGui::TableSetColumnIndex(1);
 			editor::InspectType(value);
 		}
 
-		imgui::SetColumnIndex(0);
+		ImGui::TableSetColumnIndex(0);
 		ImGui::Unindent();
 	}
 }
