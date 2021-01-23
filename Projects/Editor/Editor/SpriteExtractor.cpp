@@ -18,14 +18,9 @@ namespace
 	template<typename Type>
 	void Inspect(Type& value)
 	{
-		ImGui::BeginTable("Columns", 2, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_Resizable);
-		ImGui::TableSetupColumn("Field", ImGuiTableColumnFlags_WidthStretch);
-		ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
-		ImGui::TableNextRow();
-
+		imgui::InspectorBegin();
 		editor::InspectType(value);
-
-		ImGui::EndTable();
+		imgui::InspectorEnd();
 	}
 
 	void ForEachSprite(const editor::GridSettings& settings, std::function<bool(const Vector2u&)> callback)
@@ -105,7 +100,7 @@ void editor::SpriteExtractor::Render(entt::registry& registry)
 
 	if (ImGui::BeginPopupModal(s_Label))
 	{
-		if (ImGui::BeginChild("texture", { ImGui::GetWindowWidth() - s_SettingsWidth, 0 }, false))
+		if (ImGui::BeginChild("texture", { ImGui::GetContentRegionAvail().x - s_SettingsWidth, 0 }, false))
 		{
 			ImGui::Text(textureAsset.m_Filepath.string().c_str());
 
@@ -115,12 +110,8 @@ void editor::SpriteExtractor::Render(entt::registry& registry)
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
 			ForEachSprite(m_GridSettings, [&](const Vector2u& position)
 			{
-				const ImVec2 min =
-				{ cursorPos.x + position.x
-				, cursorPos.y + position.y };
-				const ImVec2 max =
-				{ min.x + m_GridSettings.m_Size.x
-				, min.y + m_GridSettings.m_Size.y };
+				const ImVec2 min = { cursorPos.x + position.x, cursorPos.y + position.y };
+				const ImVec2 max = { min.x + m_GridSettings.m_Size.x, min.y + m_GridSettings.m_Size.y };
 				const ImU32 col = ImColor(ImVec4(1.0f, 1.0f, 0.4f, 1.0f));
 				drawList->AddRect(min, max, col, 0.0f, ImDrawCornerFlags_All, 1.f);
 				return true;
@@ -130,17 +121,17 @@ void editor::SpriteExtractor::Render(entt::registry& registry)
 
 		ImGui::SameLine();
 
-		if (ImGui::BeginChild("settings", { s_SettingsWidth, 0 }, false))
+		if (ImGui::BeginChild("settings", { ImGui::GetContentRegionAvail().x, 0 }, false))
 		{
 			const float topWidth = s_SettingsWidth;
 			const float topHeight = ImGui::GetWindowHeight() - s_SettingsBotHeight;
 			if (ImGui::BeginChild("settings_top", { topWidth, topHeight }, false))
 			{
 				if (ImGui::CollapsingHeader("Naming", ImGuiTreeNodeFlags_DefaultOpen))
-					::Inspect(m_NamingSettings);
+					Inspect(m_NamingSettings);
 
 				if (ImGui::CollapsingHeader("Grid", ImGuiTreeNodeFlags_DefaultOpen))
-					::Inspect(m_GridSettings);
+					Inspect(m_GridSettings);
 			}
 			ImGui::EndChild();
 

@@ -64,20 +64,10 @@ bool editor::Application::Initialise()
 {
 	core::Application::Initialise();
 
-	// camera
-	{
-		entt::entity entity = m_Registry.create();
-		auto& transform = m_Registry.emplace<core::TransformComponent>(entity);
-		auto& camera = m_Registry.emplace<core::CameraComponent>(entity);
-		camera.m_Size = { 1280, 720 };
-	}
-
 	// test entity
 	{
 		entt::entity entity = m_Registry.create();
-		m_Registry.emplace<core::TransformComponent>(entity);
 		auto& component = m_Registry.emplace<example::Component>(entity);
-
 		component.m_PhysicsMaterial = m_AssetManager->LoadAsset<physics::MaterialAsset>(strDefaultMaterial);
 		component.m_Sound = m_AssetManager->LoadAsset<audio::SoundAsset>(strDefaultSound);
 		component.m_Texture = m_AssetManager->LoadAsset<render::TextureAsset>(strDefaultTexture);
@@ -85,19 +75,6 @@ bool editor::Application::Initialise()
 		editor::Inspector& inspector = GetSystem<editor::Inspector>();
 		inspector.SetEntity(entity);
 	}
-
-	auto CreateFlipbook = [&](const str::Name& guid)
-	{
-		entt::entity entity = m_Registry.create();
-		auto& transform = m_Registry.emplace<core::TransformComponent>(entity);
-		auto& flipbook = m_Registry.emplace<render::FlipbookComponent>(entity);
-		flipbook.m_Time = 0.f;
-		flipbook.m_Index = 0;
-		flipbook.m_Size = { 200, 200 };
-		flipbook.m_Flipbook = m_AssetManager->LoadAsset<render::FlipbookAsset>(guid);
-	};
-
-	CreateFlipbook(str::Name::Create("9cf3dbdc-769e-a09a-6e4a-a0390e246666"));	// Midnight
 
 	return true;
 }

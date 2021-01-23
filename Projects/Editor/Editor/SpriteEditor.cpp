@@ -13,14 +13,9 @@ namespace
 	template<typename Type>
 	void Inspect(Type& value)
 	{
-		ImGui::BeginTable("Columns", 2, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_Resizable);
-		ImGui::TableSetupColumn("Field", ImGuiTableColumnFlags_WidthStretch);
-		ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
-		ImGui::TableNextRow();
-
+		imgui::InspectorBegin();
 		editor::InspectType(value);
-
-		ImGui::EndTable();
+		imgui::InspectorEnd();
 	}
 }
 

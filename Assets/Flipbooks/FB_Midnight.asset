@@ -18,6 +18,26 @@
         {
             "frame_count": 1,
             "sprite_guid": "b820bcac-05ce-10ff-0cca-c08112316efe"
+        },
+        {
+            "frame_count": 0,
+            "sprite_guid": "fc2a80ab-b96c-9229-b811-65d9171f3601"
+        },
+        {
+            "frame_count": 0,
+            "sprite_guid": "d48a8b87-8169-1a9c-1af4-90cde878e30b"
+        },
+        {
+            "frame_count": 0,
+            "sprite_guid": "ce181eac-2373-4ce7-e6ea-25f5bf65dd37"
+        },
+        {
+            "frame_count": 0,
+            "sprite_guid": "24cc626b-e42e-d733-23b7-dde8fbee51a5"
+        },
+        {
+            "frame_count": 0,
+            "sprite_guid": "5ab41ba7-8203-5eba-bb04-7a8a796ce053"
         }
     ]
 }
