@@ -5,7 +5,7 @@
 
 #include <imgui-sfml/imgui-SFML.h>
 
-void widget::TypeAsIs(render::TextureHandle& handle)
+void widget::TypeOverload(render::TextureHandle& handle, const Properties properties /*= {}*/)
 {
 	editor::AssetPopup::SelectOne(handle);
 

@@ -2,13 +2,13 @@
 
 #include <variant>
 
-namespace widget
+namespace editor
 {
-	template<typename Type, typename Variant>
-	void FieldAsVariant(const char* text, Variant& variant, Type& value);
+	template<typename Descriptor, typename Type, typename Variant>
+	void InspectVariant(const char* text, Descriptor descriptor, Variant& variant, Type& value);
 
-	template<typename Type, typename ...Types>
-	void FieldAsVariant(const char* text, std::variant<Types...>& variant, Type& value);
+	template<typename Descriptor, typename Type, typename ...Types>
+	void InspectVariant(const char* text, Descriptor descriptor, std::variant<Types...>& variant, Type& value);
 }
 
 #include "VariantWidgets.inl"

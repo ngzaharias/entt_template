@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Editor/ContainerWidgets.h"
 #include "Editor/InspectorWidgets.h"
+
+#include "Editor/ContainerWidgets.h"
 #include "Editor/AssetWidgets.h"
 #include "Editor/TrivialWidgets.h"
 #include "Editor/VariantWidgets.h"
@@ -22,14 +23,24 @@
 
 namespace
 {
-	template <typename T>
-	using overload = decltype(widget::TypeAsIs(std::declval<T&>()));
+	// #note: must be declared after the function
+	template <typename A, typename B, typename = void>
+	struct HasOverload : std::false_type {};
+	template <typename A, typename B>
+	struct HasOverload<A, B, std::void_t<decltype(widget::TypeOverload(std::declval<A>(), std::declval<B>()))>> : std::true_type {};
 
-	template <typename T, typename = void>
-	struct is_overloaded : std::false_type {};
+	template <typename Descriptor>
+	widget::Properties GetProperties(Descriptor descriptor)
+	{
+		using namespace refl::descriptor;
 
-	template <typename T>
-	struct is_overloaded<T, std::void_t<decltype(widget::TypeAsIs(std::declval<T&>()))>> : std::true_type {};
+		widget::Properties properties;
+		if constexpr (has_attribute<prop::Name>(descriptor))
+			properties.m_Name = get_attribute<prop::Name>(descriptor);
+		if constexpr (has_attribute<prop::Range>(descriptor))
+			properties.m_Range = get_attribute<prop::Range>(descriptor);
+		return properties;
+	}
 }
 
 template<typename Type>
@@ -37,19 +48,19 @@ void editor::InspectType(Type& value)
 {
 	constexpr bool isClass = std::is_class<Type>::value;
 	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
-	constexpr bool isOverloaded = is_overloaded<Type>();
-	if constexpr (isClass && isReflectable)
+	constexpr bool isOverloaded = HasOverload<Type&, widget::Properties>();
+	if constexpr (isOverloaded)
+	{
+		widget::TypeOverload(value);
+	}
+	else if constexpr (isClass && isReflectable)
 	{
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
 			constexpr const char* name = reflect::GetFieldName(field);
-			editor::InspectField(name, field(value));
+			editor::InspectMember(name, field, field(value));
 			ImGui::TableNextRow();
 		});
-	}
-	else if constexpr (isOverloaded)
-	{
-		widget::TypeAsIs(value);
 	}
 	else
 	{
@@ -57,14 +68,14 @@ void editor::InspectType(Type& value)
 	}
 }
 
-template<typename Type>
-void editor::InspectField(const char* text, Type& value)
+template<typename Descriptor, typename Type>
+void editor::InspectMember(const char* text, Descriptor descriptor, Type& value)
 {
 	ImGui::PushID(text);
 
 	constexpr bool isClass = std::is_class<Type>::value;
 	constexpr bool isContainer = refl::trait::is_container<Type>::value;
-	constexpr bool isOverloaded = is_overloaded<Type>();
+	constexpr bool isOverloaded = HasOverload<Type&, widget::Properties>();
 	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
 	constexpr bool isVariant = core::IsVariant<Type>::value;
 
@@ -75,23 +86,23 @@ void editor::InspectField(const char* text, Type& value)
 		ImGui::Text(text);
 
 		ImGui::TableSetColumnIndex(1);
-		widget::TypeAsIs(value);
+		widget::TypeOverload(value, GetProperties(descriptor));
 	}
 	else if constexpr (isClass && isReflectable)
 	{
-		editor::FieldAsClass(text, value);
+		editor::InspectClass(text, value);
 	}
 	else if constexpr (isVariant)
 	{
 		std::visit([&](auto& subValue)
 		{
-			widget::FieldAsVariant(text, value, subValue);
+			editor::InspectVariant(text, descriptor, value, subValue);
 		}, value);
 	}
 	else if constexpr (isContainer)
 	{
 		// #note: we only reflect the container content type which is done internally
-		widget::FieldAsContainer(text, value);
+		editor::InspectContainer(text, descriptor, value);
 	}
 	else
 	{
@@ -114,7 +125,7 @@ void editor::InspectField(const char* text, Type& value)
 // v FieldName	: X Members
 // |   m_Member : Value
 template<typename Type>
-void editor::FieldAsClass(const char* text, Type& value)
+void editor::InspectClass(const char* text, Type& value)
 {
 	using TypeDescriptor = refl::type_descriptor<Type>;
 	constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();

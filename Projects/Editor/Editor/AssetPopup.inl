@@ -9,6 +9,19 @@
 #include <imgui/Custom.h>
 #include <imgui/imgui.h>
 
+namespace
+{
+	void InputText(str::String& value)
+	{
+		const size_t size = 256;
+		char* buffer = new char[size];
+		strncpy_s(buffer, size, value.c_str(), size);
+
+		ImGui::InputText("", buffer, size);
+		value = buffer;
+	}
+}
+
 template<typename Type>
 void editor::AssetPopup::SelectOne(core::AssetHandle<Type>& handle)
 {
@@ -32,7 +45,7 @@ void editor::AssetPopup::SelectOne(core::AssetHandle<Type>& handle)
 	{
 		static str::String filter = { };
 
-		widget::TypeAsIs(filter);
+		InputText(filter);
 		const auto substrings = str::Split(filter);
 
 		for (auto&& [guid, entry] : assetEntries)

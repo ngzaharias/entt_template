@@ -76,6 +76,13 @@ bool editor::Application::Initialise()
 		inspector.SetEntity(entity);
 	}
 
+	//refl::descriptor::type_descriptor reflected = refl::reflect<MyStruct>();
+	//refl::descriptor::member_list<MyStruct> members = reflected.members;
+	//for_each(refl::reflect<MyStruct>().members, [&](auto member)
+	//{
+	//	refl::descriptor::field_descriptor<MyStruct, 0>& field = member;
+	//});
+
 	return true;
 }
 

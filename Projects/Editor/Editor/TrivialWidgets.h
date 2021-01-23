@@ -1,20 +1,22 @@
 #pragma once
 
+#include <Engine/PropertyTypes.h>
+
 namespace widget
 {
-	void TypeAsIs(bool& value);
+	void TypeOverload(bool& value, const Properties properties = {});
 
-	void TypeAsIs(int32& value);
-	void TypeAsIs(uint32& value);
+	void TypeOverload(int32& value, const Properties properties = {});
+	void TypeOverload(uint32& value, const Properties properties = {});
 
-	void TypeAsIs(float& value);
+	void TypeOverload(float& value, const Properties properties = {});
 
-	void TypeAsIs(str::String& value);
+	void TypeOverload(str::String& value, const Properties properties = {});
 
-	void TypeAsIs(Vector2f& value);
-	void TypeAsIs(Vector2i& value);
-	void TypeAsIs(Vector2u& value);
+	void TypeOverload(Vector2f& value, const Properties properties = {});
+	void TypeOverload(Vector2i& value, const Properties properties = {});
+	void TypeOverload(Vector2u& value, const Properties properties = {});
 
-	void TypeAsIs(Vector3f& value);
-	void TypeAsIs(Vector3i& value);
+	void TypeOverload(Vector3f& value, const Properties properties = {});
+	void TypeOverload(Vector3i& value, const Properties properties = {});
 }

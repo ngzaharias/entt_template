@@ -106,9 +106,6 @@
     <ClInclude Include="Engine\AttributeHelpers.h">
       <Filter>Source\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\FieldAttributes.h">
-      <Filter>Source\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Vector3.h">
       <Filter>Source\Vector</Filter>
     </ClInclude>
@@ -180,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="Engine\FlipbookSystem.h">
       <Filter>Source\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PropertyTypes.h">
+      <Filter>Source\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

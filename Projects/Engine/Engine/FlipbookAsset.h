@@ -5,6 +5,7 @@
 #include <Engine/AssetHandle.h>
 #include <Engine/AssetLoader.h>
 #include <Engine/AssetPtr.h>
+#include <Engine/PropertyTypes.h>
 #include <Engine/SpriteAsset.h>
 
 #include <SFML/Graphics/Texture.hpp>
@@ -50,6 +51,6 @@ REFL_AUTO
 REFL_AUTO
 (
 	type(render::FlipbookAsset)
-	, field(m_FPS)
+	, field(m_FPS, prop::Range(0, 100))
 	, field(m_Frames)
 )

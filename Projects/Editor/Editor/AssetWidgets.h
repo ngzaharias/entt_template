@@ -1,16 +1,15 @@
 #pragma once
 
-#include <Editor/TrivialWidgets.h>
-
 #include <Engine/AssetHandle.h>
+#include <Engine/PropertyTypes.h>
 #include <Engine/TextureAsset.h>
 
 namespace widget
 {
 	template<typename Type>
-	void TypeAsIs(core::AssetHandle<Type>& handle);
+	void TypeOverload(core::AssetHandle<Type>& handle, const Properties properties = {});
 
-	void TypeAsIs(render::TextureHandle& handle);
+	void TypeOverload(render::TextureHandle& handle, const Properties properties = {});
 }
 
 #include "AssetWidgets.inl"

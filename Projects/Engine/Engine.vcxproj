@@ -27,7 +27,6 @@
     <ClInclude Include="Engine\EnginePCH.h" />
     <ClInclude Include="Engine\EntityTemplateAsset.h" />
     <ClInclude Include="Engine\EnttDebugger.h" />
-    <ClInclude Include="Engine\FieldAttributes.h" />
     <ClInclude Include="Engine\FileHelpers.h" />
     <ClInclude Include="Engine\FlipbookAsset.h" />
     <ClInclude Include="Engine\FlipbookComponent.h" />
@@ -46,6 +45,7 @@
     <ClInclude Include="Engine\PhysicsManager.h" />
     <ClInclude Include="Engine\PhysicsMaterialAsset.h" />
     <ClInclude Include="Engine\PhysicsSystem.h" />
+    <ClInclude Include="Engine\PropertyTypes.h" />
     <ClInclude Include="Engine\Random.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\RigidDynamicComponent.h" />

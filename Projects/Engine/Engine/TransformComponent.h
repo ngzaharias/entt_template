@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Engine/FieldAttributes.h>
-
 namespace core
 {
 	struct TransformComponent
@@ -15,7 +13,7 @@ namespace core
 REFL_AUTO
 (
 	type(core::TransformComponent)
-	, field(m_Translate, field::Name("Translate"))
-	, field(m_Rotate, field::Name("Rotate"))
-	, field(m_Scale, field::Name("Scale"))
+	, field(m_Translate)
+	, field(m_Rotate)
+	, field(m_Scale)
 )

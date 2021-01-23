@@ -101,7 +101,7 @@ REFL_AUTO
 	type(example::Component)
 	, field(m_Bool)
 	, field(m_Int)
-	, field(m_Float)
+	, field(m_Float, prop::Range(0, 100))
 	, field(m_YesReflect)
 	, field(m_NoReflect)
 	, field(m_PhysicsMaterial)

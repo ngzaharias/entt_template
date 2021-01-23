@@ -26,6 +26,7 @@
 // - element options: insert, delete
 // - rename keys
 // - maintain key order after rename
+// - display error on conflicting keys
 
 //namespace imgui
 //{
@@ -59,14 +60,14 @@
 //	}
 //}
 
-template<class Container>
-void widget::FieldAsContainer(const char* text, Container& container)
+template<typename Descriptor, class Container>
+void editor::InspectContainer(const char* text, Descriptor descriptor, Container& container)
 {
 	ImGui::Text("Unsupported Container Type!");
 }
 
-template<class Key, class Value>
-void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
+template<typename Descriptor, class Key, class Value>
+void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<Key, Value>& container)
 {
 	struct None { };
 	struct Insert { Key key; };
@@ -121,17 +122,17 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 			}
 			if (isKeyInlined && !isValInlined)
 			{
-				editor::InspectField("Key", key);
+				editor::InspectMember("Key", descriptor, key);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && isValInlined)
 			{
-				editor::InspectField("Key", key);
+				editor::InspectMember("Key", descriptor, key);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && !isValInlined)
 			{
-				editor::InspectField("Key", key);
+				editor::InspectMember("Key", descriptor, key);
 				ImGui::TableNextRow();
 			}
 			ImGui::PopID();
@@ -144,11 +145,11 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 				editor::InspectType(value);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::InspectField("Value", value);
+				editor::InspectMember("Value", descriptor, value);
 			if (!isKeyInlined && isValInlined)
-				editor::InspectField("Value", value);
+				editor::InspectMember("Value", descriptor, value);
 			if (!isKeyInlined && !isValInlined)
-				editor::InspectField("Value", value);
+				editor::InspectMember("Value", descriptor, value);
 			ImGui::PopID();
 
 			if (key != itr->first && ImGui::IsItemDeactivatedAfterEdit())
@@ -162,25 +163,25 @@ void widget::FieldAsContainer(const char* text, std::map<Key, Value>& container)
 	}
 
 	std::visit(core::VariantOverload
-	{ 
-		[&](const None& arg)		{},
-		[&](const Insert& arg)		{ container.try_emplace(arg.key); },
-		[&](const RemoveAll& arg)	{ container.clear(); },
-		[&](const Rename& arg)
 		{
-			if (container.count(arg.key) == 0)
+			[&](const None& arg) {},
+			[&](const Insert& arg) { container.try_emplace(arg.key); },
+			[&](const RemoveAll& arg) { container.clear(); },
+			[&](const Rename& arg)
 			{
-				Iterator itr = std::next(container.begin(), arg.index);
-				auto node = container.extract(itr);
-				node.key() = arg.key;
-				container.insert(std::move(node));
+				if (container.count(arg.key) == 0)
+				{
+					Iterator itr = std::next(container.begin(), arg.index);
+					auto node = container.extract(itr);
+					node.key() = arg.key;
+					container.insert(std::move(node));
+				}
 			}
-		}
-	}, command);
+		}, command);
 }
 
-template<typename Type>
-void widget::FieldAsContainer(const char* text, std::vector<Type>& container)
+template<typename Descriptor, typename Type>
+void editor::InspectContainer(const char* text, Descriptor descriptor, std::vector<Type>& container)
 {
 	struct None { };
 	struct DragDrop { int32 source, target; };
@@ -226,7 +227,7 @@ void widget::FieldAsContainer(const char* text, std::vector<Type>& container)
 			//	command = DragDrop{ source, i };
 			//}
 
-			editor::InspectField(label.c_str(), value);
+			editor::InspectMember(label.c_str(), descriptor, value);
 			ImGui::TableNextRow();
 		}
 

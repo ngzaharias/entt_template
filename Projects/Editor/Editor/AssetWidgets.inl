@@ -6,7 +6,7 @@
 // #todo: copy and highlight for name and guid
 
 template<typename Type>
-void widget::TypeAsIs(core::AssetHandle<Type>& handle)
+void widget::TypeOverload(core::AssetHandle<Type>& handle, const Properties properties /*= {}*/)
 {
 	editor::AssetPopup::SelectOne(handle);
 }

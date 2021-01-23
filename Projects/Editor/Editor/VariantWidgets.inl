@@ -9,14 +9,14 @@
 #include <imgui/Custom.h>
 #include <imgui/imgui.h>
 
-template<typename Type, typename Variant>
-void widget::FieldAsVariant(const char* text, Variant& variant, Type& value)
+template<typename Descriptor, typename Type, typename Variant>
+void editor::InspectVariant(const char* text, Descriptor descriptor, Variant& variant, Type& value)
 {
 	ImGui::Text("Unsupported type of Variant!");
 }
 
-template<typename Type, typename ...Types>
-void widget::FieldAsVariant(const char* text, std::variant<Types...>& variant, Type& value)
+template<typename Descriptor, typename Type, typename ...Types>
+void editor::InspectVariant(const char* text, Descriptor descriptor, std::variant<Types...>& variant, Type& value)
 {
 	using Variant = std::variant<Types...>;
 	using Builder = typename core::VariantBuilder<Variant>::type;
