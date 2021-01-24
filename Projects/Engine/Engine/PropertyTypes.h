@@ -18,7 +18,7 @@ namespace prop
 			: m_Min(0.f), m_Max(0.f) { }
 		constexpr Range(const float min, const float max)
 			: m_Min(min), m_Max(max) { }
-		constexpr Range(const int32 min, const int32 max) 
+		constexpr Range(const int32 min, const int32 max)
 			: m_Min(static_cast<float>(min)), m_Max(static_cast<float>(max)) { }
 		float m_Min = 0.f;
 		float m_Max = 0.f;

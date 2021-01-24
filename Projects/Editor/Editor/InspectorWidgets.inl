@@ -58,7 +58,7 @@ void editor::InspectType(Type& value)
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
 			constexpr const char* name = reflect::GetFieldName(field);
-			editor::InspectMember(name, field, field(value));
+			editor::InspectMember(name, field(value), field);
 			ImGui::TableNextRow();
 		});
 	}
@@ -68,8 +68,8 @@ void editor::InspectType(Type& value)
 	}
 }
 
-template<typename Descriptor, typename Type>
-void editor::InspectMember(const char* text, Descriptor descriptor, Type& value)
+template<typename Type, typename Descriptor>
+void editor::InspectMember(const char* text, Type& value, Descriptor descriptor)
 {
 	ImGui::PushID(text);
 
@@ -90,7 +90,7 @@ void editor::InspectMember(const char* text, Descriptor descriptor, Type& value)
 	}
 	else if constexpr (isClass && isReflectable)
 	{
-		editor::InspectClass(text, value);
+		editor::InspectClass(text, value, descriptor);
 	}
 	else if constexpr (isVariant)
 	{
@@ -124,17 +124,14 @@ void editor::InspectMember(const char* text, Descriptor descriptor, Type& value)
 //
 // v FieldName	: X Members
 // |   m_Member : Value
-template<typename Type>
-void editor::InspectClass(const char* text, Type& value)
+template<typename Type, typename Descriptor>
+void editor::InspectClass(const char* text, Type& value, Descriptor descriptor)
 {
-	using TypeDescriptor = refl::type_descriptor<Type>;
-	constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
-
 	ImGui::TableSetColumnIndex(0);
-	bool isExpanded = imgui::FieldHeader(text);
+	const bool isExpanded = imgui::InspectHeader(text);
 
 	ImGui::TableSetColumnIndex(1);
-	ImGui::Text("%d Members", typeDescriptor.members.size);
+	ImGui::Text("%d Members", refl::reflect<Type>().members.size);
 
 	if (isExpanded)
 	{

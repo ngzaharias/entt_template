@@ -10,7 +10,7 @@ static ImVector<ImRect> s_GroupPanelLabelStack;
 
 namespace
 {
-	bool FieldHeaderEx(const char* label, ImGuiID id, ImGuiTreeNodeFlags flags)
+	bool InspectHeaderEx(const char* label, ImGuiID id, ImGuiTreeNodeFlags flags)
 	{
 		using namespace ImGui;
 
@@ -322,7 +322,7 @@ bool imgui::FakeCombo(const char* label, const char* text)
 	return pressed;
 }
 
-bool imgui::FieldHeader(const char* fmt, ...)
+bool imgui::InspectHeader(const char* fmt, ...)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
@@ -338,7 +338,7 @@ bool imgui::FieldHeader(const char* fmt, ...)
 	ImGuiID id = window->GetID(g.TempBuffer);
 	ImGuiTreeNodeFlags flags = 0;
 
-	return FieldHeaderEx(g.TempBuffer, id, flags);
+	return InspectHeaderEx(g.TempBuffer, id, flags);
 }
 
 void imgui::GroupPanel_Begin(const char* name, const ImVec2& size)

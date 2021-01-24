@@ -30,7 +30,7 @@ void editor::InspectVariant(const char* text, Descriptor descriptor, std::varian
 	int size = static_cast<int>(sizeof...(Types));
 
 	ImGui::TableSetColumnIndex(0);
-	bool isExpanded = imgui::FieldHeader(text);
+	const bool isExpanded = imgui::InspectHeader(text);
 
 	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("");

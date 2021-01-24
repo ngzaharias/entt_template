@@ -12,7 +12,7 @@ namespace imgui
 
 	bool FakeCombo(const char* label, const char* text);
 
-	bool FieldHeader(const char* fmt, ...);
+	bool InspectHeader(const char* fmt, ...);
 
 	void GroupPanel_Begin(const char* name, const ImVec2& size);
 	void GroupPanel_End();

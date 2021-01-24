@@ -51,6 +51,6 @@ REFL_AUTO
 REFL_AUTO
 (
 	type(render::FlipbookAsset)
-	, field(m_FPS, prop::Range(0, 100))
+	, field(m_FPS, prop::Range(1, 100))
 	, field(m_Frames)
 )

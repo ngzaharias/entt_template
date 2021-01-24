@@ -49,31 +49,32 @@ namespace example
 
 	struct Component
 	{
-		// trivials
+		// trivial
 		bool m_Bool = true;
 		int m_Int = 1337;
 		float m_Float = 0.666f;
+		sf::Vector2f m_Vector2f = { 1.f, 2.f };
+		sf::Vector2i m_Vector2i = { 1, 2 };
+		sf::Vector2u m_Vector2u = { 1, 2 };
+		sf::Vector3f m_Vector3f = { 1.f, 2.f, 3.f };
+		sf::Vector3i m_Vector3i = { 1, 2, 3 };
 
 		// struct
 		YesReflect m_YesReflect = YesReflect();
 		NoReflect m_NoReflect = NoReflect();
 
-		// customised
-		sf::Vector3f m_Vector3 = { 1.f, 2.f, 3.f };
-
-		// Assets
-		// #todo: should these be handles or should it be the guid?
+		// asset
 		physics::MaterialHandle m_PhysicsMaterial;
 		audio::SoundHandle m_Sound;
 		render::TextureHandle m_Texture;
 
-		// maps
+		// map
 		std::map<int, int> m_MapA = { {1, 10}, {2, 10}, {3, 10} };
 		std::map<int, YesReflect> m_MapB = { { 1, YesReflect()}, { 2, YesReflect()} };
 		std::map<YesReflect, int> m_MapC = { { YesReflect(), 10} };
 		std::map<YesReflect, YesReflect> m_MapD = { {YesReflect(), YesReflect()} };
 
-		// vectors
+		// vector
 		std::vector<int> m_VectorA = { 1, 2, 3, 4, 5 };
 		std::vector<YesReflect> m_VectorB = { YesReflect(), YesReflect(), YesReflect() };
 
@@ -100,14 +101,18 @@ REFL_AUTO
 (
 	type(example::Component)
 	, field(m_Bool)
-	, field(m_Int)
+	, field(m_Int, prop::Range(0, 100))
 	, field(m_Float, prop::Range(0, 100))
+	, field(m_Vector2f, prop::Range(0, 100))
+	, field(m_Vector2i, prop::Range(0, 100))
+	, field(m_Vector2u, prop::Range(0, 100))
+	, field(m_Vector3f, prop::Range(0, 100))
+	, field(m_Vector3i, prop::Range(0, 100))
 	, field(m_YesReflect)
 	, field(m_NoReflect)
 	, field(m_PhysicsMaterial)
 	, field(m_Sound)
 	, field(m_Texture)
-	, field(m_Vector3)
 	, field(m_MapA)
 	, field(m_MapB)
 	, field(m_MapC)

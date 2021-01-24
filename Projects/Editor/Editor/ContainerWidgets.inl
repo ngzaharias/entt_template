@@ -83,7 +83,7 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 	Command command = None();
 
 	ImGui::TableSetColumnIndex(0);
-	bool isExpanded = imgui::FieldHeader(text);
+	const bool isExpanded = imgui::InspectHeader(text);
 
 	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Elements", container.size());
@@ -122,17 +122,17 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 			}
 			if (isKeyInlined && !isValInlined)
 			{
-				editor::InspectMember("Key", descriptor, key);
+				editor::InspectMember("Key", key, descriptor);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && isValInlined)
 			{
-				editor::InspectMember("Key", descriptor, key);
+				editor::InspectMember("Key", key, descriptor);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && !isValInlined)
 			{
-				editor::InspectMember("Key", descriptor, key);
+				editor::InspectMember("Key", key, descriptor);
 				ImGui::TableNextRow();
 			}
 			ImGui::PopID();
@@ -145,11 +145,11 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 				editor::InspectType(value);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::InspectMember("Value", descriptor, value);
+				editor::InspectMember("Value", value, descriptor);
 			if (!isKeyInlined && isValInlined)
-				editor::InspectMember("Value", descriptor, value);
+				editor::InspectMember("Value", value, descriptor);
 			if (!isKeyInlined && !isValInlined)
-				editor::InspectMember("Value", descriptor, value);
+				editor::InspectMember("Value", value, descriptor);
 			ImGui::PopID();
 
 			if (key != itr->first && ImGui::IsItemDeactivatedAfterEdit())
@@ -197,7 +197,7 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::vect
 	Command command = None();
 
 	ImGui::TableSetColumnIndex(0);
-	bool isExpanded = imgui::FieldHeader(text);
+	const bool isExpanded = imgui::InspectHeader(text);
 
 	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Elements", container.size());
@@ -227,7 +227,7 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::vect
 			//	command = DragDrop{ source, i };
 			//}
 
-			editor::InspectMember(label.c_str(), descriptor, value);
+			editor::InspectMember(label.c_str(), value, descriptor);
 			ImGui::TableNextRow();
 		}
 
