@@ -19,15 +19,15 @@ namespace render
 {
 	struct FlipbookFrame
 	{
-		int32 m_FrameCount = 0;
 		SpriteHandle m_Sprite = { };
+		int32 m_FrameCount = 1;
 	};
 
 	struct FlipbookAsset : public core::Asset
 	{
-		float m_FPS = 0.f;
-		bool m_IsLooping = true;
 		std::vector<FlipbookFrame> m_Frames = { };
+		float m_FPS = 30.f;
+		bool m_IsLooping = true;
 	};
 
 	class FlipbookLoader : public core::AssetLoader<FlipbookLoader, FlipbookAsset>
@@ -53,4 +53,5 @@ REFL_AUTO
 	type(render::FlipbookAsset)
 	, field(m_FPS, attr::Range(1, 100))
 	, field(m_Frames)
+	, field(m_IsLooping)
 )

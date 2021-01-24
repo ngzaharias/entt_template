@@ -35,7 +35,7 @@ core::Application::Application()
 	const unsigned int height = static_cast<unsigned int>(Screen::height);
 
 	const sf::VideoMode videoMode = sf::VideoMode(width, height);
-	m_Window = new sf::RenderWindow(videoMode, "Breakout");
+	m_Window = new sf::RenderWindow(videoMode, "...");
 	Screen::SetWindow(m_Window);
 
 	m_Clock = new sf::Clock();

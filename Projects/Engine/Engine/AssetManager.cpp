@@ -43,7 +43,7 @@ void core::AssetManager::Destroy()
 	m_TextureCache.clear();
 }
 
-void core::AssetManager::CreateAsset(const render::FlipbookAsset& asset, const str::Path& folderPath)
+str::Name core::AssetManager::CreateAsset(const render::FlipbookAsset& asset, const str::Path& folderPath)
 {
 	core::AssetEntry entry = GenerateEntry(core::EAssetType::Flipbook, folderPath);
 
@@ -51,10 +51,12 @@ void core::AssetManager::CreateAsset(const render::FlipbookAsset& asset, const s
 	if (loader.save(asset, entry))
 	{
 		m_AssetEntryMap[entry.m_Guid] = entry;
+		return entry.m_Guid;
 	}
+	return str::strNullGuid;
 }
 
-void core::AssetManager::CreateAsset(const physics::MaterialAsset& asset, const str::Path& folderPath)
+str::Name core::AssetManager::CreateAsset(const physics::MaterialAsset& asset, const str::Path& folderPath)
 {
 	core::AssetEntry entry = GenerateEntry(core::EAssetType::PhysicsMaterial, folderPath);
 
@@ -62,10 +64,12 @@ void core::AssetManager::CreateAsset(const physics::MaterialAsset& asset, const 
 	if (loader.save(asset, entry))
 	{
 		m_AssetEntryMap[entry.m_Guid] = entry;
+		return entry.m_Guid;
 	}
+	return str::strNullGuid;
 }
 
-void core::AssetManager::CreateAsset(const render::SpriteAsset& asset, const str::Path& folderPath)
+str::Name core::AssetManager::CreateAsset(const render::SpriteAsset& asset, const str::Path& folderPath)
 {
 	core::AssetEntry entry = GenerateEntry(core::EAssetType::Sprite, folderPath);
 
@@ -73,7 +77,9 @@ void core::AssetManager::CreateAsset(const render::SpriteAsset& asset, const str
 	if (loader.save(asset, entry))
 	{
 		m_AssetEntryMap[entry.m_Guid] = entry;
+		return entry.m_Guid;
 	}
+	return str::strNullGuid;
 }
 
 void core::AssetManager::SaveAsset(const render::FlipbookAsset& asset)

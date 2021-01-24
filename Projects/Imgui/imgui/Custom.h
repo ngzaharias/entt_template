@@ -13,7 +13,4 @@ namespace imgui
 	bool FakeCombo(const char* label, const char* text);
 
 	bool InspectHeader(const char* fmt, ...);
-
-	void GroupPanel_Begin(const char* name, const ImVec2& size);
-	void GroupPanel_End();
 }

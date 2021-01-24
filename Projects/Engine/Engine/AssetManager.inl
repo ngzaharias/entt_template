@@ -18,10 +18,10 @@ namespace
 }
 
 template<class Type>
-void core::AssetManager::CreateAsset(const Type& asset, const str::Path& filepath)
+str::Name core::AssetManager::CreateAsset(const Type& asset, const str::Path& filepath)
 {
 	static_assert(false, "Can't Create an asset of Type!");
-	return nullptr;
+	return str::strNullGuid;
 }
 
 template<class Type>

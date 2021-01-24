@@ -4,6 +4,13 @@
 #include <Engine/FlipbookComponent.h>
 #include <Engine/System.h>
 
+#include <entt/entity/entity.hpp>
+
+namespace render
+{
+	struct FlipbookComponent;
+}
+
 namespace editor
 {
 	class FlipbookEditor final : public core::System
@@ -21,13 +28,12 @@ namespace editor
 		void CloseEditor();
 
 	private:
-		void Render();
-		void Render_Playback();
-		void Render_Preview();
+		void Render(render::FlipbookComponent& component);
+		void Render_Playback(render::FlipbookComponent& component);
+		void Render_Preview(render::FlipbookComponent& component);
 
 	private:
-		std::optional<render::FlipbookComponent> m_Component;
-		bool m_IsLooping = true;
-		bool m_IsPlaying = true;
+		entt::entity m_Entity = entt::null;
+		std::optional<str::Name> m_Guid = { };
 	};
 }

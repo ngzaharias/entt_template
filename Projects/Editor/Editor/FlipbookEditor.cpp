@@ -4,14 +4,17 @@
 #include "Editor/InspectorWidgets.h"
 
 #include <Engine/AssetManager.h>
+#include <Engine/FlipbookComponent.h>
 
+#include <entt/entity/registry.hpp>
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 namespace
 {
-	constexpr float s_TimeMaxEpsilon = 0.0000001f;
+	constexpr float s_TimeMaxEpsilon = 0.000001f;
 
 	sf::Texture* iconBack = nullptr;
 	sf::Texture* iconFile = nullptr;
@@ -44,69 +47,53 @@ void editor::FlipbookEditor::Destroy(entt::registry& registry)
 
 void editor::FlipbookEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
-	if (m_Component && m_Component->m_Flipbook)
+	if (m_Guid && m_Entity == entt::null)
 	{
-		const render::FlipbookAsset& flipbookAsset = m_Component->m_Flipbook.get();
-		const int32 indexCount = static_cast<int32>(flipbookAsset.m_Frames.size());
-
-		const float timeMax = indexCount / flipbookAsset.m_FPS;
-
-		if (m_IsPlaying)
-		{
-			const float timeOld = m_Component->m_Time;
-			const float timeNew = m_Component->m_Time + gameTime.asSeconds();
-
-			if (timeNew < timeMax)
-			{
-				m_Component->m_Time = timeNew;
-			}
-			else if (m_IsLooping)
-			{
-				m_Component->m_Time = timeNew - timeMax;
-			}
-			else
-			{
-				m_Component->m_Time = timeMax;
-			}
-		}
-
-		// #note: we subtract the epsilon because otherwise it will wrap back to 0 when time == timeMax
-		m_Component->m_Time = std::clamp(m_Component->m_Time, 0.f, timeMax - s_TimeMaxEpsilon);
-		m_Component->m_Index = static_cast<int32>(m_Component->m_Time * flipbookAsset.m_FPS);
-		m_Component->m_Index %= indexCount;
+		m_Entity = registry.create();
+		registry.emplace<render::FlipbookComponent>(m_Entity);
+	}
+	else if (!m_Guid && m_Entity != entt::null)
+	{
+		registry.destroy(m_Entity);
+		m_Entity = entt::null;
 	}
 
-	Render();
+	if (m_Entity != entt::null)
+	{
+		core::AssetManager& assetManager = core::AssetManager::Instance();
+		render::FlipbookHandle flipbookHandle = assetManager.LoadAsset<render::FlipbookAsset>(*m_Guid);
+		render::FlipbookAsset& flipbookAsset = flipbookHandle.get();
+
+		auto& component = registry.get<render::FlipbookComponent>(m_Entity);
+		component.m_Flipbook = flipbookHandle;
+		component.m_FPS = flipbookAsset.m_FPS;
+
+		// #todo: only trigger once per press/release
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			component.m_IsPlaying = !component.m_IsPlaying;
+
+		Render(component);
+	}
 }
 
 void editor::FlipbookEditor::OpenEditor(const str::Name& guid)
 {
-	core::AssetManager& assetManager = core::AssetManager::Instance();
-
-	m_Component = render::FlipbookComponent();
-	m_Component->m_Time = 0.f;
-	m_Component->m_Index = 0;
-	m_Component->m_Flipbook = assetManager.LoadAsset<render::FlipbookAsset>(guid);
+	m_Guid = guid;
 }
 
 void editor::FlipbookEditor::CloseEditor()
 {
-	m_Component = { };
+	m_Guid = { };
 	ImGui::CloseCurrentPopup();
 }
 
-void editor::FlipbookEditor::Render()
+void editor::FlipbookEditor::Render(render::FlipbookComponent& component)
 {
 	constexpr float s_PlaybackHeight = 100.f;
 	constexpr float s_SettingsWidth = 400.f;
 	const Vector2f s_FramePadding = { 8.f, 8.f };
 
-	core::AssetManager& assetManager = core::AssetManager::Instance();
-
-	if (!m_Component)
-		return;
-
-	render::FlipbookAsset& flipbookAsset = m_Component->m_Flipbook.get();
+	render::FlipbookAsset& flipbookAsset = component.m_Flipbook.get();
 
 	const ImVec2 position = { ImGui::GetIO().DisplaySize.x * 0.5f, ImGui::GetIO().DisplaySize.y * 0.5f };
 	ImGui::SetNextWindowPos(position, ImGuiCond_Once, ImVec2(0.5f, 0.5f));
@@ -119,8 +106,9 @@ void editor::FlipbookEditor::Render()
 			if (ImGui::BeginMenu("File"))
 			{
 				if (ImGui::MenuItem("Save"))
-					assetManager.SaveAsset(flipbookAsset);
+					core::AssetManager::Instance().SaveAsset(flipbookAsset);
 
+				// #todo
 				ImGui::MenuItem("Save As...");
 				ImGui::EndMenu();
 			}
@@ -134,7 +122,7 @@ void editor::FlipbookEditor::Render()
 			ImGui::Text(flipbookAsset.m_Filepath.string().c_str());
 			ImGui::Separator();
 
-			Render_Preview();
+			Render_Preview(component);
 		}
 		ImGui::EndChild();
 
@@ -143,13 +131,19 @@ void editor::FlipbookEditor::Render()
 		if (ImGui::BeginChild("settings", { s_SettingsWidth, s_PreviewHeight }, true))
 		{
 			if (ImGui::CollapsingHeader("Flipbook", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				const bool wasLooping = flipbookAsset.m_IsLooping;
 				Inspect(flipbookAsset);
+
+				if (wasLooping != flipbookAsset.m_IsLooping)
+					component.m_IsLooping = flipbookAsset.m_IsLooping;
+			}
 		}
 		ImGui::EndChild();
 
 		if (ImGui::BeginChild("playback", { 0, s_PlaybackHeight - 8.f }, true))
 		{
-			Render_Playback();
+			Render_Playback(component);
 		}
 		ImGui::EndChild();
 	}
@@ -159,12 +153,12 @@ void editor::FlipbookEditor::Render()
 		CloseEditor();
 }
 
-void editor::FlipbookEditor::Render_Playback()
+void editor::FlipbookEditor::Render_Playback(render::FlipbookComponent& component)
 {
-	if (!m_Component || !m_Component->m_Flipbook)
+	if (!component.m_Flipbook)
 		return;
 
-	const render::FlipbookAsset& flipbookAsset = m_Component->m_Flipbook.get();
+	const render::FlipbookAsset& flipbookAsset = component.m_Flipbook.get();
 
 	const int32 indexCount = static_cast<int32>(flipbookAsset.m_Frames.size());
 	const int32 indexMax = std::max(0, indexCount - 1);
@@ -175,10 +169,10 @@ void editor::FlipbookEditor::Render_Playback()
 	std::optional<int32> indexNew = { };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() - 16.f);
-	if (ImGui::SliderInt("##index", &m_Component->m_Index, 0, indexMax))
-		indexNew = m_Component->m_Index;
-	if (ImGui::SliderFloat("##time", &m_Component->m_Time, 0.f, timeMax))
-		timeNew = m_Component->m_Time;
+	if (ImGui::SliderInt("##index", &component.m_Index, 0, indexMax))
+		indexNew = component.m_Index;
+	if (ImGui::SliderFloat("##time", &component.m_Time, 0.f, timeMax))
+		timeNew = component.m_Time;
 	ImGui::PopItemWidth();
 
 	if (ImGui::Button("Frame First"))
@@ -188,25 +182,25 @@ void editor::FlipbookEditor::Render_Playback()
 
 	if (ImGui::Button("Frame Previous"))
 	{
-		m_IsPlaying = false;
-		indexNew = std::max(0, m_Component->m_Index - 1);
+		component.m_IsPlaying = false;
+		indexNew = std::max(0, component.m_Index - 1);
 	}
 
 	ImGui::SameLine();
 
 	{
-		if (m_IsPlaying && ImGui::Button("Pause"))
-			m_IsPlaying = false;
-		if (!m_IsPlaying && ImGui::Button("Play"))
-			m_IsPlaying = true;
+		if (component.m_IsPlaying && ImGui::Button("Pause"))
+			component.m_IsPlaying = false;
+		if (!component.m_IsPlaying && ImGui::Button("Play"))
+			component.m_IsPlaying = true;
 	}
 
 	ImGui::SameLine();
 
 	if (ImGui::Button("Frame Next"))
 	{
-		m_IsPlaying = false;
-		indexNew = std::min(indexMax, m_Component->m_Index + 1);
+		component.m_IsPlaying = false;
+		indexNew = std::min(indexMax, component.m_Index + 1);
 	}
 
 	ImGui::SameLine();
@@ -217,28 +211,25 @@ void editor::FlipbookEditor::Render_Playback()
 	ImGui::SameLine();
 
 	{
-		if (m_IsLooping && ImGui::Button("Unloop"))
-			m_IsLooping = false;
-		if (!m_IsLooping && ImGui::Button("Loop"))
-			m_IsLooping = true;
+		if (component.m_IsLooping && ImGui::Button("Unloop"))
+			component.m_IsLooping = false;
+		if (!component.m_IsLooping && ImGui::Button("Loop"))
+			component.m_IsLooping = true;
 	}
 
 	if (timeNew)
-		m_Component->m_Time = std::clamp(timeNew.value(), 0.f, timeMax);
+		component.m_Time = std::clamp(timeNew.value(), 0.f, timeMax);
 	if (indexNew)
-		m_Component->m_Time = indexNew.value() * timeFrame;
+		component.m_Time = indexNew.value() * timeFrame;
 }
 
-void editor::FlipbookEditor::Render_Preview()
+void editor::FlipbookEditor::Render_Preview(render::FlipbookComponent& component)
 {
-	if (!m_Component)
-		return;
-
-	render::FlipbookAsset& flipbookAsset = m_Component->m_Flipbook.get();
+	render::FlipbookAsset& flipbookAsset = component.m_Flipbook.get();
 	if (flipbookAsset.m_Frames.empty())
 		return;
 
-	const render::FlipbookFrame& flipbookFrame = flipbookAsset.m_Frames[m_Component->m_Index];
+	const render::FlipbookFrame& flipbookFrame = flipbookAsset.m_Frames[component.m_Index];
 	if (!flipbookFrame.m_Sprite)
 		return;
 

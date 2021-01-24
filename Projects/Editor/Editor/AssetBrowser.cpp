@@ -14,6 +14,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #include <imgui-sfml/imgui-SFML.h>
+#include <SFML/Window/Keyboard.hpp>
 
 // #todo: preview icons
 // #todo: select assets
@@ -22,6 +23,7 @@
 // #todo: renaming of files
 // #todo: ensure unique filename
 //		- create/rename/import
+// #todo: fill guid into directory entry
 
 namespace
 {
@@ -77,6 +79,11 @@ namespace
 	}
 }
 
+bool editor::DirectoryEntry::operator==(const DirectoryEntry& rhs) const
+{
+	return m_Name == rhs.m_Name;
+}
+
 bool editor::DirectoryEntry::operator<(const DirectoryEntry& rhs) const
 {
 	if (m_IsDirectory != rhs.m_IsDirectory)
@@ -126,12 +133,27 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 		if (!entry.is_directory() && entry.path().extension() != L".asset")
 			return;
 
+		str::Name assetGuid = str::strNullGuid;
+		core::EAssetType assetType = core::EAssetType::Unknown;
+
+		if (!entry.is_directory())
+		{
+			rapidjson::Document document;
+			json::LoadDocument(entry.path(), document);
+
+			const char* asset_guid = json::ParseString(document, "asset_guid", nullptr);
+			const char* asset_type = json::ParseString(document, "asset_type", nullptr);
+
+			assetGuid = str::Name::Create(asset_guid);
+			assetType = core::ToAssetType(asset_type);
+		}
+
 		DirectoryEntry directoryEntry =
 		{
-			str::strNullGuid
+			assetGuid
 			, entry.path()
 			, entry.path().stem().u8string()
-			, core::EAssetType::Unknown
+			, assetType
 			, entry.is_directory() 
 		};
 		m_Entries.emplace(std::move(directoryEntry));
@@ -140,23 +162,12 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 	Render(registry);
 }
 
-void editor::AssetBrowser::ContextMenu(const DirectoryEntry& entry)
+void editor::AssetBrowser::Command_ContextMenu()
 {
-	Select(entry);
-	if (!m_Selected)
-		return;
-
 	ImGui::OpenPopup("ContextMenu");
 }
 
-void editor::AssetBrowser::ContextMenu_Texture(const str::Name& guid)
-{
-	ImGui::TextDisabled("Texture Actions");
-	if (ImGui::MenuItem("Extract Sprites..."))
-		m_SpriteExtractor.OpenDialog(guid);
-}
-
-void editor::AssetBrowser::Import()
+void editor::AssetBrowser::Command_Import()
 {
 	core::SelectFileSettings fileSettings;
 	fileSettings.m_Filters = s_AssetFilters;
@@ -193,43 +204,89 @@ void editor::AssetBrowser::Import()
 	}
 }
 
-void editor::AssetBrowser::Open(const DirectoryEntry& entry)
+void editor::AssetBrowser::Command_Open(const int32 index)
 {
-	Select(entry);
-	if (!m_Selected)
-		return;
+	Command_Select(index);
 
-	if (m_Selected->m_IsDirectory)
+	for (const auto& index : m_Selection)
 	{
-		m_Directory = entry.m_Filepath;
-	}
-	else
-	{
-		switch (m_Selected->m_Type)
+		auto entry = m_Entries.begin();
+		std::advance(entry, index);
+
+		if (entry->m_IsDirectory)
 		{
-		case core::EAssetType::Flipbook:
-			m_FlipbookEditor.OpenEditor(m_Selected->m_Guid);
-			break;
-		case core::EAssetType::Sprite:
-			m_SpriteEditor.OpenEditor(m_Selected->m_Guid);
-			break;
+			m_Directory = entry->m_Filepath;
+		}
+		else
+		{
+			switch (entry->m_Type)
+			{
+			case core::EAssetType::Flipbook:
+				m_FlipbookEditor.OpenEditor(entry->m_Guid);
+				break;
+			case core::EAssetType::Sprite:
+				m_SpriteEditor.OpenEditor(entry->m_Guid);
+				break;
+			}
 		}
 	}
 }
 
-void editor::AssetBrowser::Select(const DirectoryEntry& entry)
+void editor::AssetBrowser::Command_Select(const int32 index)
 {
-	m_Selected = entry;
-
-	if (!entry.m_IsDirectory)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !m_Selection.empty())
 	{
-		rapidjson::Document document;
-		json::LoadDocument(entry.m_Filepath, document);
+		const int32 first = std::min(index, m_Selection.back());
+		const int32 last = std::max(index, m_Selection.back());
 
-		const char* asset_guid = json::ParseString(document, "asset_guid", nullptr);
-		const char* asset_type = json::ParseString(document, "asset_type", nullptr);
-		m_Selected->m_Guid = str::Name::Create(asset_guid);
-		m_Selected->m_Type = core::ToAssetType(asset_type);
+		m_Selection.pop_back();
+		for (int32 i = first; i <= last; ++i)
+			m_Selection.push_back(i);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+	{
+		m_Selection.push_back(index);
+	}
+	else
+	{
+		m_Selection.clear();
+		m_Selection.push_back(index);
+	}
+}
+
+void editor::AssetBrowser::ContextMenu_Common(const Selection& selection)
+{
+	ImGui::TextDisabled("Common Actions");
+}
+
+void editor::AssetBrowser::ContextMenu_Sprite(const Selection& selection)
+{
+	ImGui::TextDisabled("Sprite Actions");
+	if (ImGui::MenuItem("Create Flipbook..."))
+	{
+		const str::Name flipbookGuid = m_AssetManager.CreateAsset(render::FlipbookAsset{}, "Assets\\Example.asset");
+		if (flipbookGuid != str::strNullGuid)
+		{
+			render::FlipbookHandle flipbookHandle = m_AssetManager.LoadAsset<render::FlipbookAsset>(flipbookGuid);
+			render::FlipbookAsset& flipbookAsset = flipbookHandle.get();
+			for (const int32& index : selection)
+			{
+				auto entry = m_Entries.begin();
+				std::advance(entry, index);
+
+				render::SpriteHandle spriteHandle = m_AssetManager.LoadAsset<render::SpriteAsset>(entry->m_Guid);
+				flipbookAsset.m_Frames.push_back({ spriteHandle, 1 });
+			}
+		}
+	}
+}
+
+void editor::AssetBrowser::ContextMenu_Texture(const Selection& selection)
+{
+	ImGui::TextDisabled("Texture Actions");
+	if (ImGui::MenuItem("Extract Sprites..."))
+	{
+		//m_SpriteExtractor.OpenDialog(guid);
 	}
 }
 
@@ -253,17 +310,19 @@ void editor::AssetBrowser::Render(entt::registry& registry)
 
 		ImGui::Separator();
 
-		ImGui::Columns(m_Columns, "columns", false);
+		ImGui::BeginTable("Table", m_Columns);
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
 
-		for (const DirectoryEntry& entry : m_Entries)
+		for (int32 index = 0; index < m_Entries.size(); ++index)
 		{
-			Render_Entry(entry);
-			ImGui::NextColumn();
+			Render_Entry(index);
+			ImGui::TableNextColumn();
 		}
 
 		Render_ContextMenu();
 
-		ImGui::Columns(1);
+		ImGui::EndTable();
 	}
 	ImGui::End();
 }
@@ -272,13 +331,28 @@ void editor::AssetBrowser::Render_ContextMenu()
 {
 	if (ImGui::BeginPopup("ContextMenu"))
 	{
-		if (m_Selected->m_IsDirectory)
+		bool isDirectory = false;
+		core::EAssetType assetType = core::EAssetType::Unknown;
+		for (const auto& index : m_Selection)
+		{
+			auto entry = m_Entries.begin();
+			std::advance(entry, index);
+
+			if (assetType != core::EAssetType::Unknown && entry->m_Type != assetType)
+			{
+				assetType = core::EAssetType::Unknown;
+				break;
+			}
+			assetType = entry->m_Type;
+		}
+
+		if (isDirectory)
 		{
 			ImGui::TextDisabled("Directory Actions");
 		}
 		else
 		{
-			switch (m_Selected->m_Type)
+			switch (assetType)
 			{
 			case core::EAssetType::EntityTemplate:
 				ImGui::TextDisabled("Template Actions");
@@ -293,29 +367,37 @@ void editor::AssetBrowser::Render_ContextMenu()
 				ImGui::TextDisabled("Sound Actions");
 				break;
 			case core::EAssetType::Sprite:
-				ImGui::TextDisabled("Sprite Actions");
+				ContextMenu_Sprite(m_Selection);
 				break;
 			case core::EAssetType::Texture:
-				ContextMenu_Texture(m_Selected->m_Guid);
+				ContextMenu_Texture(m_Selection);
 				break;
 			}
+
+			ContextMenu_Common(m_Selection);
 		}
 		ImGui::EndPopup();
 	}
 }
 
-void editor::AssetBrowser::Render_Entry(const editor::DirectoryEntry& entry)
+void editor::AssetBrowser::Render_Entry(const int32 index)
 {
+	auto entry = m_Entries.begin();
+	std::advance(entry, index);
+
 	const ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 	const ImVec2 itemSize = { ImGui::GetColumnWidth(), 40.f };
 	const float framePadding = 4.f;
-	const sf::Texture& texture = entry.m_IsDirectory ? *iconFolder : *iconFile;
+	const sf::Texture& texture = entry->m_IsDirectory ? *iconFolder : *iconFile;
 
 	EResult result = EResult::None;
-	if (ImGui::BeginChild(entry.m_Name.c_str(), itemSize, false, flags))
+	if (ImGui::BeginChild(entry->m_Name.c_str(), itemSize, false, flags))
 	{
+		const bool isSelected = std::find_if(m_Selection.begin(), m_Selection.end(),
+			[&](const auto& selected) -> bool { return selected == index; }) != m_Selection.end();
+
 		const ImVec2 cursorBefore = ImGui::GetCursorPos();
-		ImGui::Selectable("", false, 0, itemSize);
+		ImGui::Selectable("", isSelected, 0, itemSize);
 		const ImVec2 cursorAfter = ImGui::GetCursorPos();
 
 		if (ImGui::IsItemHovered())
@@ -340,7 +422,7 @@ void editor::AssetBrowser::Render_Entry(const editor::DirectoryEntry& entry)
 			const float fontHeight = ImGui::GetFontSize();
 			ImGui::SameLine();
 			ImGui::SetCursorPosY(cursorBefore.y + (itemSize.y * 0.5f) - (fontHeight * 0.5f));
-			ImGui::Text(entry.m_Name.c_str());
+			ImGui::Text(entry->m_Name.c_str());
 		}
 
 		ImGui::SetCursorPos(cursorAfter);
@@ -350,12 +432,13 @@ void editor::AssetBrowser::Render_Entry(const editor::DirectoryEntry& entry)
 	switch (result)
 	{
 	case EResult::LeftClick:
+		Command_Select(index);
 		break;
 	case EResult::LeftClick_x2:
-		Open(entry);
+		Command_Open(index);
 		break;
 	case EResult::RightClick:
-		ContextMenu(entry);
+		Command_ContextMenu();
 		break;
 	}
 }
@@ -370,7 +453,7 @@ void editor::AssetBrowser::Render_MenuBar()
 			ImGui::OpenPopup("Create");
 
 		if (MenuBarItem("Import...", *iconFolder))
-			Import();
+			Command_Import();
 
 		if (ImGui::BeginPopup("Create"))
 		{

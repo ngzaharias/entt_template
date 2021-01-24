@@ -20,6 +20,7 @@ namespace editor
 
 	struct DirectoryEntry
 	{
+		bool operator==(const DirectoryEntry& rhs) const;
 		bool operator<(const DirectoryEntry& rhs) const;
 
 		str::Name m_Guid;
@@ -31,6 +32,9 @@ namespace editor
 
 	class AssetBrowser final : public core::System
 	{
+		using EntrySet = std::set<DirectoryEntry>;
+		using Selection = std::vector<int32>;
+
 	public:
 		AssetBrowser
 		(
@@ -50,15 +54,18 @@ namespace editor
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:
-		void ContextMenu(const DirectoryEntry& entry);
-		void ContextMenu_Texture(const str::Name& guid);
-		void Import();
-		void Open(const DirectoryEntry& entry);
-		void Select(const DirectoryEntry& entry);
+		void Command_ContextMenu();
+		void Command_Import();
+		void Command_Open(const int32 index);
+		void Command_Select(const int32 index);
+
+		void ContextMenu_Common(const Selection& selection);
+		void ContextMenu_Sprite(const Selection& selection);
+		void ContextMenu_Texture(const Selection& selection);
 
 		void Render(entt::registry& registry);
 		void Render_ContextMenu();
-		void Render_Entry(const DirectoryEntry& entry);
+		void Render_Entry(const int32 index);
 		void Render_MenuBar();
 
 	private:
@@ -67,12 +74,10 @@ namespace editor
 		editor::SpriteEditor& m_SpriteEditor;
 		editor::SpriteExtractor& m_SpriteExtractor;
 
-		// actions
-		std::optional<DirectoryEntry> m_Selected = { };
-
 		str::Path m_Directory = "Assets";
 
-		std::set<DirectoryEntry> m_Entries;
+		EntrySet m_Entries = { };
+		Selection m_Selection = { };
 
 		int32 m_Columns = 3;
 		bool m_IsVisible = true;

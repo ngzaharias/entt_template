@@ -7,7 +7,7 @@
 
 namespace
 {
-	constexpr float s_TimeMaxEpsilon = 0.0000001f;
+	constexpr float s_TimeMaxEpsilon = 0.000001f;
 }
 
 render::FlipbookSystem::FlipbookSystem()
@@ -24,22 +24,25 @@ void render::FlipbookSystem::Update(entt::registry& registry, const core::GameTi
 	for (const entt::entity& renderEntity : view)
 	{
 		auto& flipbookComponent = view.get<render::FlipbookComponent>(renderEntity);
+		if (!flipbookComponent.m_IsPlaying)
+			continue;
 
 		const render::FlipbookAsset& flipbookAsset = flipbookComponent.m_Flipbook.get();
 		if (flipbookAsset.m_Frames.empty())
 			continue;
 
 		const int32 indexCount = static_cast<int32>(flipbookAsset.m_Frames.size());
+		const int32 indexMax = indexCount - 1;
 
 		const float timeOld = flipbookComponent.m_Time;
 		const float timeNew = flipbookComponent.m_Time + gameTime.asSeconds();
-		const float timeMax = indexCount / flipbookAsset.m_FPS;
+		const float timeMax = indexMax / flipbookComponent.m_FPS;
 
 		if (timeNew < timeMax)
 		{
 			flipbookComponent.m_Time = timeNew;
 		}
-		else if (flipbookAsset.m_IsLooping)
+		else if (flipbookComponent.m_IsLooping)
 		{
 			flipbookComponent.m_Time = timeNew - timeMax;
 		}
@@ -50,7 +53,7 @@ void render::FlipbookSystem::Update(entt::registry& registry, const core::GameTi
 
 		// #note: we subtract the epsilon because otherwise it will wrap back to 0 when time == timeMax
 		flipbookComponent.m_Time = std::clamp(flipbookComponent.m_Time, 0.f, timeMax - s_TimeMaxEpsilon);
-		flipbookComponent.m_Index = static_cast<int32>(flipbookComponent.m_Time * flipbookAsset.m_FPS);
-		flipbookComponent.m_Index %= indexCount;
+		flipbookComponent.m_Index = static_cast<int32>(flipbookComponent.m_Time * flipbookComponent.m_FPS);
+		flipbookComponent.m_Index %= indexMax;
 	}
 }

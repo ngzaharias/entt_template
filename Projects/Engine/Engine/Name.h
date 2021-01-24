@@ -15,6 +15,8 @@ namespace str
 
 		Name() : m_Hash(Unassigned) { }
 
+		bool operator==(const str::Name& rhs) const { return m_Hash == rhs.m_Hash; }
+		bool operator!=(const str::Name& rhs) const { return m_Hash != rhs.m_Hash; }
 		bool operator<(const str::Name& rhs) const { return m_Hash < rhs.m_Hash; }
 
 		const bool IsEmpty() const;

@@ -1,0 +1,251 @@
+{
+    "asset_guid": "a4638d43-f97c-d4e8-5558-e1408342e857",
+    "asset_type": "flipbook",
+    "fps": 30.0,
+    "frames": [
+        {
+            "frame_count": 1,
+            "sprite_guid": "95a4d1d7-e102-fed3-6ade-4befb8b1989d"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "24a6999f-c4a1-4acd-5c5e-162ad1de9141"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "dfc82c6a-d75a-bab5-b59f-e4f59076a8c3"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "ee113a4a-f780-87a3-85ed-4b8ebca0b08d"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "b820bcac-05ce-10ff-0cca-c08112316efe"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "fc2a80ab-b96c-9229-b811-65d9171f3601"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "d48a8b87-8169-1a9c-1af4-90cde878e30b"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "ce181eac-2373-4ce7-e6ea-25f5bf65dd37"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "24cc626b-e42e-d733-23b7-dde8fbee51a5"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "5ab41ba7-8203-5eba-bb04-7a8a796ce053"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "3ee1ff44-953d-5cd6-7c0d-f3660db10528"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "7b872306-7722-c046-1737-3db39a146a74"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "3357f49b-92d5-9ec3-4af7-e5a6cb8777be"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "4a52e5e7-21b8-0099-838e-08877c2c2132"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "8b9daf43-e8f4-270d-7231-5dd7ee6a3ba5"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "d3a1337c-ca25-eb40-1988-cc45421d8ea0"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "0303cd7d-3af4-3f6e-0828-bbe3147fdc2d"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "c8186727-5bd1-20f1-282d-22898f43c25a"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "7dc8af72-052a-1bdc-0aca-db13a055b457"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "ec3e4434-6236-5b9c-a04a-777af8f6ddeb"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "629d0c6f-dd48-d5b4-961b-c8fedf56c2b1"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "1983297a-e149-1d04-448c-71a9b8ec3e05"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "401d4a18-544f-b9e8-f40a-d69e586caa39"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "fbd5bb67-5025-5bab-e0c0-d92fd9b62fcc"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "00c16f01-21df-143c-a603-e6a29ac16145"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "7661886c-8673-8d73-02cd-358748c1b541"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "9bcbd91e-777d-e640-ebfb-dd2507fa67b0"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "ae9e72a3-c5ec-4009-5d72-5a0374f5fb03"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "b422e7c1-d08c-08b4-4a44-b7336633a552"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "675d7237-b2d8-1fed-cbdc-702d765bdd43"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "df1a964a-3118-90be-f31c-44f7e742175d"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "e2e9d853-b5b2-da3f-70b9-57cd5fac5084"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "7f6c2ecb-e727-746a-4b8f-571ea1d5039a"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "6c73c8f9-d8b9-6b26-0b4c-a25123731c8d"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "3bfb91c1-6cd7-a9aa-cec9-6df74c3cf1e6"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "c2e26b69-d293-601a-da8f-7496ac763e23"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "8a3a989c-42a0-b04b-1987-3dc8611e5d77"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "b820e569-7e68-68ad-7df6-5c9e4cb5b198"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "1974e580-54f5-5361-f6db-e38b2b4a8ed8"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "45e9ceef-9711-6def-e6ff-894988b41bd0"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "5470b2de-ef94-1a41-50fd-4bc0866ba714"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "d5349952-6ffa-d0d3-73d0-6342d98f6810"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "b4127bd5-aac2-ba65-d157-e111cbe9a3aa"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "47cc8839-1819-3782-3ad4-2315223a26ff"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "4c007b80-3d89-1613-97a5-d1a2d431ed65"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "c4ee5aed-b903-90a7-fdb8-43107e8ff36c"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "8d726651-790e-71d8-3097-910e332b5fb5"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "5fee47fa-44f8-2345-0a71-87a8efed20ee"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "261dd86f-3161-737d-b0f8-284c24474199"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "5bb6f25b-40bc-82f2-593e-ce5f7336c829"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "8e6a06ea-d82d-d9bb-d424-a43c96ca7f0c"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "b5ebb49e-2165-25e2-427b-b7edbb1730a8"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "655a3f42-5854-4fa6-5968-0edc1c1886a2"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "be11986d-faac-1e39-e81f-1c9d0a4a11ee"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "ad908d99-f69b-f012-01e6-117a6da93797"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "312dcb68-64a7-efde-8f86-bd712465770c"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "5a879b4a-1c24-ab72-1140-178a34f9c6ce"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "436f8f00-9308-f7f0-1dfb-e7170197aee5"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "8440d205-1b1e-550e-92fd-0d0e10c9e29e"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "6e762500-c9d7-11c1-f857-83fc3de791f9"
+        },
+        {
+            "frame_count": 1,
+            "sprite_guid": "e1e72522-63de-48a3-a966-1623d349a5db"
+        }
+    ]
+}
