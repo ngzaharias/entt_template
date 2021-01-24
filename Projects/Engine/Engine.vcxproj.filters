@@ -178,7 +178,7 @@
     <ClInclude Include="Engine\FlipbookSystem.h">
       <Filter>Source\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PropertyTypes.h">
+    <ClInclude Include="Engine\AttributeTypes.h">
       <Filter>Source\Reflection</Filter>
     </ClInclude>
   </ItemGroup>

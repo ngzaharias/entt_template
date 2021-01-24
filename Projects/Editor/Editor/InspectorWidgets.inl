@@ -28,18 +28,18 @@ namespace
 	struct HasOverload : std::false_type {};
 	template <typename A, typename B>
 	struct HasOverload<A, B, std::void_t<decltype(widget::TypeOverload(std::declval<A>(), std::declval<B>()))>> : std::true_type {};
-
+	
 	template <typename Descriptor>
-	widget::Properties GetProperties(Descriptor descriptor)
+	widget::Attributes GetAttributes(Descriptor descriptor)
 	{
 		using namespace refl::descriptor;
 
-		widget::Properties properties;
-		if constexpr (has_attribute<prop::Name>(descriptor))
-			properties.m_Name = get_attribute<prop::Name>(descriptor);
-		if constexpr (has_attribute<prop::Range>(descriptor))
-			properties.m_Range = get_attribute<prop::Range>(descriptor);
-		return properties;
+		widget::Attributes attributes;
+		if constexpr (has_attribute<attr::Name>(descriptor))
+			attributes.m_Name = get_attribute<attr::Name>(descriptor);
+		if constexpr (has_attribute<attr::Range>(descriptor))
+			attributes.m_Range = get_attribute<attr::Range>(descriptor);
+		return attributes;
 	}
 }
 
@@ -48,7 +48,7 @@ void editor::InspectType(Type& value)
 {
 	constexpr bool isClass = std::is_class<Type>::value;
 	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
-	constexpr bool isOverloaded = HasOverload<Type&, widget::Properties>();
+	constexpr bool isOverloaded = HasOverload<Type&, widget::Attributes>();
 	if constexpr (isOverloaded)
 	{
 		widget::TypeOverload(value);
@@ -58,7 +58,7 @@ void editor::InspectType(Type& value)
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
 			constexpr const char* name = reflect::GetFieldName(field);
-			editor::InspectMember(name, field(value), field);
+			editor::InspectProperty(name, field(value), field);
 			ImGui::TableNextRow();
 		});
 	}
@@ -69,13 +69,13 @@ void editor::InspectType(Type& value)
 }
 
 template<typename Type, typename Descriptor>
-void editor::InspectMember(const char* text, Type& value, Descriptor descriptor)
+void editor::InspectProperty(const char* text, Type& value, Descriptor descriptor)
 {
 	ImGui::PushID(text);
 
 	constexpr bool isClass = std::is_class<Type>::value;
 	constexpr bool isContainer = refl::trait::is_container<Type>::value;
-	constexpr bool isOverloaded = HasOverload<Type&, widget::Properties>();
+	constexpr bool isOverloaded = HasOverload<Type&, widget::Attributes>();
 	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
 	constexpr bool isVariant = core::IsVariant<Type>::value;
 
@@ -86,7 +86,7 @@ void editor::InspectMember(const char* text, Type& value, Descriptor descriptor)
 		ImGui::Text(text);
 
 		ImGui::TableSetColumnIndex(1);
-		widget::TypeOverload(value, GetProperties(descriptor));
+		widget::TypeOverload(value, GetAttributes(descriptor));
 	}
 	else if constexpr (isClass && isReflectable)
 	{

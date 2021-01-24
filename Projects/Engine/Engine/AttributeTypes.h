@@ -3,7 +3,7 @@
 #include <optional>
 #include <refl/refl.hpp>
 
-namespace prop
+namespace attr
 {
 	struct Name : refl::attr::usage::field
 	{
@@ -28,9 +28,9 @@ namespace prop
 
 namespace widget
 {
-	struct Properties
+	struct Attributes
 	{
-		std::optional<prop::Name> m_Name = { };
-		std::optional<prop::Range> m_Range = { };
+		std::optional<attr::Name> m_Name = { };
+		std::optional<attr::Range> m_Range = { };
 	};
 }

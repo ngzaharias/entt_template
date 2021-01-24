@@ -122,17 +122,17 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 			}
 			if (isKeyInlined && !isValInlined)
 			{
-				editor::InspectMember("Key", key, descriptor);
+				editor::InspectProperty("Key", key, descriptor);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && isValInlined)
 			{
-				editor::InspectMember("Key", key, descriptor);
+				editor::InspectProperty("Key", key, descriptor);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && !isValInlined)
 			{
-				editor::InspectMember("Key", key, descriptor);
+				editor::InspectProperty("Key", key, descriptor);
 				ImGui::TableNextRow();
 			}
 			ImGui::PopID();
@@ -145,11 +145,11 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 				editor::InspectType(value);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::InspectMember("Value", value, descriptor);
+				editor::InspectProperty("Value", value, descriptor);
 			if (!isKeyInlined && isValInlined)
-				editor::InspectMember("Value", value, descriptor);
+				editor::InspectProperty("Value", value, descriptor);
 			if (!isKeyInlined && !isValInlined)
-				editor::InspectMember("Value", value, descriptor);
+				editor::InspectProperty("Value", value, descriptor);
 			ImGui::PopID();
 
 			if (key != itr->first && ImGui::IsItemDeactivatedAfterEdit())
@@ -227,7 +227,7 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::vect
 			//	command = DragDrop{ source, i };
 			//}
 
-			editor::InspectMember(label.c_str(), value, descriptor);
+			editor::InspectProperty(label.c_str(), value, descriptor);
 			ImGui::TableNextRow();
 		}
 

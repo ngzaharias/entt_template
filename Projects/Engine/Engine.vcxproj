@@ -21,6 +21,7 @@
     <ClInclude Include="Engine\AssetPtr.h" />
     <ClInclude Include="Engine\AssetTypes.h" />
     <ClInclude Include="Engine\AttributeHelpers.h" />
+    <ClInclude Include="Engine\AttributeTypes.h" />
     <ClInclude Include="Engine\CameraComponent.h" />
     <ClInclude Include="Engine\CircularBuffer.h" />
     <ClInclude Include="Engine\CollisionChannels.h" />
@@ -45,7 +46,6 @@
     <ClInclude Include="Engine\PhysicsManager.h" />
     <ClInclude Include="Engine\PhysicsMaterialAsset.h" />
     <ClInclude Include="Engine\PhysicsSystem.h" />
-    <ClInclude Include="Engine\PropertyTypes.h" />
     <ClInclude Include="Engine\Random.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\RigidDynamicComponent.h" />

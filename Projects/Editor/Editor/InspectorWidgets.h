@@ -6,7 +6,7 @@ namespace editor
 	void InspectType(Type& value);
 
 	template<typename Type, typename Descriptor>
-	void InspectMember(const char* text, Type& value, Descriptor descriptor);
+	void InspectProperty(const char* text, Type& value, Descriptor descriptor);
 
 	template<typename Type, typename Descriptor>
 	void InspectClass(const char* text, Type& value, Descriptor descriptor);

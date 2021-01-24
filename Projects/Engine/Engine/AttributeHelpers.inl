@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Engine/PropertyTypes.h"
+#include "Engine/AttributeTypes.h"
 
 template<class Type, size_t N>
 constexpr const char* reflect::GetFieldName(refl::field_descriptor<Type, N> descriptor)
 {
-	if constexpr (refl::descriptor::has_attribute<prop::Name>(descriptor))
+	if constexpr (refl::descriptor::has_attribute<attr::Name>(descriptor))
 	{
-		prop::Name prettyName = refl::descriptor::get_attribute<prop::Name>(descriptor);
+		attr::Name prettyName = refl::descriptor::get_attribute<attr::Name>(descriptor);
 		return prettyName.m_Value;
 	}
 	return descriptor.name.c_str();
