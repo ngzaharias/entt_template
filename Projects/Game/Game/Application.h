@@ -2,6 +2,11 @@
 
 #include <Engine/Application.h>
 
+namespace sf
+{
+	class RenderWindow;
+}
+
 namespace game
 {
 	class Application final : public core::Application

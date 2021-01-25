@@ -2,6 +2,11 @@
 
 #include <Engine/Application.h>
 
+namespace sf
+{
+	class RenderTexture;
+}
+
 namespace editor
 {
 	class Application final : public core::Application
@@ -17,5 +22,6 @@ namespace editor
 		void Destroy() override;
 
 	private:
+		sf::RenderTexture* m_RenderTexture = nullptr;
 	};
 }

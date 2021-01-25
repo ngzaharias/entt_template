@@ -4,6 +4,7 @@
 #include "Editor/InspectorExamples.h"
 #include "Editor/InspectorWidgets.h"
 
+#include <Engine/FlipbookComponent.h>
 #include <Engine/TypeList.h>
 #include <Engine/TransformComponent.h>
 
@@ -107,7 +108,7 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 
 void editor::Inspector::Render_Selected(entt::registry& registry)
 {
-	using ComponentsList = core::TypeList<example::Component, core::TransformComponent>;
+	using ComponentsList = core::TypeList<example::Component, render::FlipbookComponent, core::TransformComponent>;
 	ComponentsList components;
 
 	if (ImGui::BeginChild("entity"))

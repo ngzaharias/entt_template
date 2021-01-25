@@ -24,21 +24,26 @@
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System.hpp>
-#include <SFML/Window.hpp>
 
 #include <fstream>
 
 core::Application::Application() 
 { 
-	const unsigned int width = static_cast<unsigned int>(Screen::width);
-	const unsigned int height = static_cast<unsigned int>(Screen::height);
+	m_Clock = new sf::Clock();
+
+	const uint32 width = static_cast<unsigned int>(Screen::width);
+	const uint32 height = static_cast<unsigned int>(Screen::height);
 
 	const sf::VideoMode videoMode = sf::VideoMode(width, height);
-	m_Window = new sf::RenderWindow(videoMode, "...");
-	Screen::SetWindow(m_Window);
+	const sf::Uint32 style = sf::Style::Default;
+	sf::ContextSettings settings;
+	settings.majorVersion = 0;
+	settings.minorVersion = 1;
 
-	m_Clock = new sf::Clock();
+	m_RenderWindow = new sf::RenderWindow(videoMode, "...", style, settings);
+	m_RenderTarget = m_RenderWindow;
 
 	srand((unsigned int)time(NULL));
 }
@@ -46,14 +51,15 @@ core::Application::Application()
 core::Application::~Application()
 { 
 	delete m_Clock;
-	delete m_Window;
-
-	Screen::SetWindow(nullptr);
+	delete m_RenderWindow;
 }
 
 void core::Application::Execute(int argc, char* argv[])
 {
-	ImGui::SFML::Init(*m_Window);
+	ImGui::SFML::Init(*m_RenderWindow);
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	Register();
 	if (!Initialise())
@@ -61,36 +67,40 @@ void core::Application::Execute(int argc, char* argv[])
 
 	while (true)
 	{
-		if (!m_Window->isOpen())
+		if (!m_RenderWindow->isOpen())
 			break;
 
 		sf::Time time = m_Clock->restart();
 
 		sf::Event event;
-		while (m_Window->pollEvent(event))
+		while (m_RenderWindow->pollEvent(event))
 		{
 			ImGui::SFML::ProcessEvent(event);
 
 			switch (event.type)
 			{
 			case sf::Event::Closed:
-				m_Window->close();
+				m_RenderWindow->close();
 				break;
 			};
 		}
 
 		// #todo: move into render system?
-		m_Window->clear();
+		m_RenderTarget->clear();
+		m_RenderWindow->clear();
 
-		ImGui::SFML::Update(*m_Window, time);
+		ImGui::SFML::Update(*m_RenderWindow, time);
 
 		if (!Update(time))
 			break;
 
 		// #todo: move into render system?
-		ImGui::ShowDemoWindow();
-		ImGui::SFML::Render(*m_Window);
-		m_Window->display();
+		//ImGui::ShowDemoWindow();
+
+		ImGui::SFML::Render(*m_RenderWindow);
+
+		m_RenderWindow->display();
+
 	}
 
 	Destroy();
@@ -115,7 +125,7 @@ void core::Application::Register()
 
 	// systems
 	RegisterSystem<render::FlipbookSystem>();
-	RegisterSystem<render::RenderSystem>(*m_Window);
+	RegisterSystem<render::RenderSystem>(*m_RenderTarget);
 	RegisterSystem<physics::PhysicsSystem>(*m_PhysicsManager);
 	RegisterSystem<audio::SoundSystem>(*m_AssetManager);
 	RegisterSystem<core::LevelSystem>

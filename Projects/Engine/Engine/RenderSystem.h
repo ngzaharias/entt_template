@@ -6,7 +6,7 @@
 
 namespace sf
 {
-	class RenderWindow;
+	class RenderTarget;
 }
 
 namespace render
@@ -14,12 +14,12 @@ namespace render
 	class RenderSystem : public core::System
 	{
 	public:
-		RenderSystem(sf::RenderWindow& window);
+		RenderSystem(sf::RenderTarget& renderTarget);
 		~RenderSystem();
 
 		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 
 	private:
-		sf::RenderWindow& m_Window;
+		sf::RenderTarget& m_RenderTarget;
 	};
 };

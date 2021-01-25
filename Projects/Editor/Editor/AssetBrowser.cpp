@@ -295,7 +295,7 @@ void editor::AssetBrowser::Render(entt::registry& registry)
 	if (!m_IsVisible)
 		return;
 
-	ImGui::Begin("Asset Browser", &m_IsVisible);
+	if (ImGui::Begin("Asset Browser", &m_IsVisible))
 	{
 		Render_MenuBar();
 
@@ -400,7 +400,7 @@ void editor::AssetBrowser::Render_Entry(const int32 index)
 		ImGui::Selectable("", isSelected, 0, itemSize);
 		const ImVec2 cursorAfter = ImGui::GetCursorPos();
 
-		if (ImGui::IsItemHovered())
+		//if (ImGui::IsItemHovered())
 		{
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				result = EResult::LeftClick;

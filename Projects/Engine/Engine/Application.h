@@ -20,6 +20,7 @@ namespace physics
 namespace sf
 {
 	class Clock;
+	class RenderTarget;
 	class RenderWindow;
 }
 
@@ -71,8 +72,8 @@ namespace core
 
 	protected:
 		// managers
-		physics::PhysicsManager* m_PhysicsManager = nullptr;
 		core::AssetManager* m_AssetManager = nullptr;
+		physics::PhysicsManager* m_PhysicsManager = nullptr;
 
 		// components
 		std::vector<ComponentEntry> m_ComponentEntries;
@@ -82,10 +83,10 @@ namespace core
 
 		entt::registry m_Registry;
 
-		sf::Clock* m_Clock;
-		sf::RenderWindow* m_Window;
+		sf::Clock* m_Clock = nullptr;
 
-		core::TypeList<> m_ComponentList;
+		sf::RenderTarget* m_RenderTarget = nullptr;
+		sf::RenderWindow* m_RenderWindow = nullptr;
 	};
 }
 

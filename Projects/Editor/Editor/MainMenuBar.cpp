@@ -120,6 +120,8 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 
 			ImGui::EndMenu();
 		}
+
+
 		ImGui::EndMainMenuBar();
 	}
 }

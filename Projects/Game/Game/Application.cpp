@@ -4,7 +4,11 @@
 #include "Engine/LevelSystem.h"
 #include "Engine/Name.h"
 #include "Engine/PhysicsSystem.h"
+#include "Engine/Screen.h"
 #include "Engine/SoundSystem.h"
+
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window.hpp>
 
 namespace
 {

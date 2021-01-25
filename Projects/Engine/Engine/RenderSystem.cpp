@@ -12,8 +12,8 @@
 
 // #todo: render a sprite and a flipbook based on their z-position
 
-render::RenderSystem::RenderSystem(sf::RenderWindow& window)
-	: m_Window(window)
+render::RenderSystem::RenderSystem(sf::RenderTarget& renderTarget)
+	: m_RenderTarget(renderTarget)
 {
 }
 
@@ -38,7 +38,7 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 			view.setCenter(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
 			view.setRotation(transformComponent.m_Rotate.z);
 			view.setSize(size);
-			m_Window.setView(view);
+			m_RenderTarget.setView(view);
 		}
 
 		// sprite
@@ -77,7 +77,7 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 					, spriteAsset.m_Size.y
 				));
 
-				m_Window.draw(sprite);
+				m_RenderTarget.draw(sprite);
 			}
 		}
 
@@ -119,7 +119,7 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 					, spriteAsset.m_Size.y
 				));
 
-				m_Window.draw(sprite);
+				m_RenderTarget.draw(sprite);
 			}
 		}
 	}

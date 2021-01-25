@@ -9,9 +9,21 @@ namespace render
 		FlipbookHandle m_Flipbook = { };
 		Vector2u m_Size = { 0, 0 };
 		int32 m_Index = 0;
-		float m_FPS = 0.f;
+		float m_FPS = 30.f;
 		float m_Time = 0.f;
 		bool m_IsLooping = true;
 		bool m_IsPlaying = true;
 	};
 }
+
+REFL_AUTO
+(
+	type(render::FlipbookComponent)
+	, field(m_Flipbook)
+	, field(m_Size)
+	, field(m_Index)
+	, field(m_FPS)
+	, field(m_Time)
+	, field(m_IsLooping)
+	, field(m_IsPlaying)
+)
