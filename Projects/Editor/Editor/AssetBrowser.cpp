@@ -216,6 +216,7 @@ void editor::AssetBrowser::Command_Open(const int32 index)
 		if (entry->m_IsDirectory)
 		{
 			m_Directory = entry->m_Filepath;
+			m_Selection.clear();
 		}
 		else
 		{
@@ -286,7 +287,11 @@ void editor::AssetBrowser::ContextMenu_Texture(const Selection& selection)
 	ImGui::TextDisabled("Texture Actions");
 	if (ImGui::MenuItem("Extract Sprites..."))
 	{
-		//m_SpriteExtractor.OpenDialog(guid);
+		int32 index = m_Selection[0];
+		auto entry = m_Entries.begin();
+		std::advance(entry, index);
+
+		m_SpriteExtractor.OpenDialog(entry->m_Guid);
 	}
 }
 
@@ -300,7 +305,10 @@ void editor::AssetBrowser::Render(entt::registry& registry)
 		Render_MenuBar();
 
 		if (ImGui::ImageButton(*iconBack, { 16.f, 16.f }) && !m_Directory.parent_path().empty())
+		{
 			m_Directory = m_Directory.parent_path();
+			m_Selection.clear();
+		}
 
 		ImGui::SameLine();
 
@@ -400,7 +408,7 @@ void editor::AssetBrowser::Render_Entry(const int32 index)
 		ImGui::Selectable("", isSelected, 0, itemSize);
 		const ImVec2 cursorAfter = ImGui::GetCursorPos();
 
-		//if (ImGui::IsItemHovered())
+		if (ImGui::IsItemHovered())
 		{
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				result = EResult::LeftClick;

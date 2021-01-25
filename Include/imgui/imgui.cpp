@@ -3187,7 +3187,7 @@ bool ImGui::IsItemHovered(ImGuiHoveredFlags flags)
 
     // Special handling for calling after Begin() which represent the title bar or tab.
     // When the window is collapsed (SkipItems==true) that last item will never be overwritten so we need to detect the case.
-    if ((window->DC.LastItemId == window->ID || window->DC.LastItemId == window->MoveId) && window->WriteAccessed)
+    if (window->DC.LastItemId == window->MoveId && window->WriteAccessed)
         return false;
     return true;
 }
