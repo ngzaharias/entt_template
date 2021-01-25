@@ -112,7 +112,7 @@ bool editor::Application::Initialise()
 
 bool editor::Application::Update(const core::GameTime& gameTime)
 {
-	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	if (!core::Application::Update(gameTime))
 		return false;
