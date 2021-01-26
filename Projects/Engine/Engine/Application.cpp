@@ -86,16 +86,14 @@ void core::Application::Execute(int argc, char* argv[])
 		}
 
 		// #todo: move into render system?
-		m_RenderTarget->clear();
+		if (m_RenderTarget != m_RenderWindow)
+			m_RenderTarget->clear(sf::Color(200, 0, 200));
 		m_RenderWindow->clear();
 
 		ImGui::SFML::Update(*m_RenderWindow, time);
 
 		if (!Update(time))
 			break;
-
-		// #todo: move into render system?
-		//ImGui::ShowDemoWindow();
 
 		ImGui::SFML::Render(*m_RenderWindow);
 
@@ -117,11 +115,11 @@ void core::Application::Register()
 	// components
 	RegisterComponent<core::CameraComponent>();
 	RegisterComponent<core::LevelComponent>();
-	RegisterComponent<debug::NameComponent>();
+	RegisterComponent<core::NameComponent>();
+	RegisterComponent<core::TransformComponent>();
 	RegisterComponent<physics::RigidDynamicComponent>();
 	RegisterComponent<physics::RigidStaticComponent>();
 	RegisterComponent<render::SpriteComponent>();
-	RegisterComponent<core::TransformComponent>();
 
 	// systems
 	RegisterSystem<render::FlipbookSystem>();

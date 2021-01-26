@@ -2,8 +2,11 @@
 #include "Editor/MainMenuBar.h"
 
 #include "Editor/AssetBrowser.h"
+#include "Editor/EntityBrowser.h"
 #include "Editor/History.h"
 #include "Editor/Inspector.h"
+
+#include <Engine/EnttDebugger.h>
 
 #include <imgui/imgui.h>
 
@@ -24,11 +27,15 @@ namespace
 
 editor::MainMenuBar::MainMenuBar
 (
-	editor::AssetBrowser& assetBrowser
+	debug::EnttDebugger& enttDebugger
+	, editor::AssetBrowser& assetBrowser
+	, editor::EntityBrowser& entityBrowser
 	, editor::History& history
 	, editor::Inspector& inspector
 )
-	: m_AssetBrowser(assetBrowser)
+	: m_EnttDebugger(enttDebugger)
+	, m_AssetBrowser(assetBrowser)
+	, m_EntityBrowser(entityBrowser)
 	, m_History(history)
 	, m_Inspector(inspector)
 {
@@ -106,6 +113,9 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			bool assetBrowser = m_AssetBrowser.IsVisible();
 			if (ImGui::MenuItem("Asset Browser", nullptr, &assetBrowser))
 				m_AssetBrowser.SetVisible(assetBrowser);
+			bool entityBrowser = m_EntityBrowser.IsVisible();
+			if (ImGui::MenuItem("Entity Browser", nullptr, &entityBrowser))
+				m_EntityBrowser.SetVisible(entityBrowser);
 			bool history = m_History.IsVisible();
 			if (ImGui::MenuItem("History", nullptr, &history))
 				m_History.SetVisible(history);
@@ -116,7 +126,9 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			ImGui::Separator();
 
 			ImGui::MenuItem("Debug", nullptr, false, false);
-			ImGui::MenuItem("Entity Debugger");
+			bool enttDebugger = m_EnttDebugger.IsVisible();
+			if (ImGui::MenuItem("Entity Debugger", nullptr, &enttDebugger))
+				m_EnttDebugger.SetVisible(enttDebugger);
 
 			ImGui::EndMenu();
 		}

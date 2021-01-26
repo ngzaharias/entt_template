@@ -35,7 +35,7 @@ namespace
 
 		if (registry.valid(entity))
 		{
-			if (const auto& component = registry.try_get<debug::NameComponent>(entity))
+			if (const auto& component = registry.try_get<core::NameComponent>(entity))
 				return component->m_Name.c_str();
 		}
 		return "<unknown> (unknown)";
@@ -49,14 +49,6 @@ namespace
 }
 
 debug::EnttDebugger::EnttDebugger()
-	: m_ComponentInfo()
-	, m_ComponentWidgets()
-	, m_ComponentSettings()
-	, m_EntitySettings()
-	, m_EntityInfo()
-	, m_EntityOrphans()
-	, m_Selection()
-	, m_IsWindowVisible(true)
 {
 	m_Selection.Undos.Push(entt::null);
 }
@@ -103,9 +95,9 @@ void debug::EnttDebugger::Initialize(entt::registry& registry)
 		ImGui::PopID();
 	});
 
-	RegisterWidget<debug::NameComponent>([](entt::registry& registry, entt::entity& entity)
+	RegisterWidget<core::NameComponent>([](entt::registry& registry, entt::entity& entity)
 	{
-		auto& component = registry.get<debug::NameComponent>(entity);
+		auto& component = registry.get<core::NameComponent>(entity);
 		ImGui::Text("%s", component.m_Name.c_str());
 	});
 }
@@ -117,7 +109,7 @@ void debug::EnttDebugger::Destroy(entt::registry& registry)
 void debug::EnttDebugger::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F11))
-		m_IsWindowVisible = !m_IsWindowVisible;
+		m_IsVisible = !m_IsVisible;
 
 	if (m_Selection.Request)
 	{
@@ -202,30 +194,32 @@ void debug::EnttDebugger::Update(entt::registry& registry, const core::GameTime&
 		});
 	}
 
-	//Render(registry);
+	Render(registry);
 }
 
 void debug::EnttDebugger::Render(entt::registry& registry)
 {
-	if (!m_IsWindowVisible)
+	if (!m_IsVisible)
 		return;
 
-	ImGui::Begin("Entt Debugger", &m_IsWindowVisible);
-	if (ImGui::BeginChild("left", { ImGui::GetWindowWidth() * 0.5f, 0 }, false))
+	if (ImGui::Begin("Entt Debugger", &m_IsVisible, ImGuiWindowFlags_NoCollapse))
 	{
-		RenderComponents(registry);
-		RenderEntities(registry);
-	}
-	ImGui::EndChild();
+		if (ImGui::BeginChild("left", { ImGui::GetWindowWidth() * 0.5f, 0 }, false))
+		{
+			RenderComponents(registry);
+			RenderEntities(registry);
+		}
+		ImGui::EndChild();
 
-	ImGui::SameLine();
+		ImGui::SameLine();
 
-	if (ImGui::BeginChild("right", { ImGui::GetWindowWidth() * 0.5f - 23.f, 0 }, false))
-	{
-		RenderUndoRedo(registry);
-		RenderSelected(registry);
+		if (ImGui::BeginChild("right", { ImGui::GetWindowWidth() * 0.5f - 23.f, 0 }, false))
+		{
+			RenderUndoRedo(registry);
+			RenderSelected(registry);
+		}
+		ImGui::EndChild();
 	}
-	ImGui::EndChild();
 	ImGui::End();
 }
 

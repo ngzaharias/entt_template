@@ -88,7 +88,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 
 	// name
 	{
-		debug::NameComponent& name = registry.emplace<debug::NameComponent>(entity);
+		core::NameComponent& name = registry.emplace<core::NameComponent>(entity);
 		name.m_Name = json::ParseString(document, "name", "<unknown>");
 	}
 

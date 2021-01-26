@@ -3,6 +3,7 @@
 
 #include "Editor/AssetBrowser.h"
 #include "Editor/AssetPopup.h"
+#include "Editor/EntityBrowser.h"
 #include "Editor/FlipbookEditor.h"
 #include "Editor/History.h"
 #include "Editor/Inspector.h"
@@ -13,11 +14,12 @@
 
 #include <Engine/AssetManager.h>
 #include <Engine/CameraComponent.h>
-#include <Engine/TextureAsset.h>
+#include <Engine/EnttDebugger.h>
 #include <Engine/FlipbookAsset.h>
 #include <Engine/FlipbookComponent.h>
 #include <Engine/Screen.h>
 #include <Engine/SpriteComponent.h>
+#include <Engine/TextureAsset.h>
 #include <Engine/TransformComponent.h>
 
 #include <imgui-sfml/imgui-SFML.h>
@@ -62,11 +64,17 @@ void editor::Application::Register()
 			, GetSystem<editor::SpriteEditor>()
 			, GetSystem<editor::SpriteExtractor>()
 		);
-	RegisterSystem<editor::History>();
 	RegisterSystem<editor::Inspector>();
+	RegisterSystem<editor::EntityBrowser>
+		(
+			GetSystem<editor::Inspector>()
+		);
+	RegisterSystem<editor::History>();
 	RegisterSystem<editor::MainMenuBar>
 		(
-			GetSystem<editor::AssetBrowser>()
+			GetSystem<debug::EnttDebugger>()
+			, GetSystem<editor::AssetBrowser>()
+			, GetSystem<editor::EntityBrowser>()
 			, GetSystem<editor::History>()
 			, GetSystem<editor::Inspector>()
 		);
@@ -114,6 +122,9 @@ bool editor::Application::Update(const core::GameTime& gameTime)
 {
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
+	// #todo: move into render system?
+	//ImGui::ShowDemoWindow();
+
 	if (!core::Application::Update(gameTime))
 		return false;
 
@@ -124,7 +135,10 @@ bool editor::Application::Update(const core::GameTime& gameTime)
 
 	if (ImGui::Begin("Game", nullptr, flags))
 	{
-		ImGui::Image(m_RenderTexture->getTexture());
+		const ImVec2 windowSize = ImGui::GetWindowSize();
+		const ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+
+		ImGui::Image(m_RenderTexture->getTexture(), { regionAvail.x, regionAvail.y });
 	}
 	ImGui::End();
 

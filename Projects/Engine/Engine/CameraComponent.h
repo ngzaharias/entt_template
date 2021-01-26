@@ -1,11 +1,15 @@
 #pragma once
 
-#include <SFML/System/Vector2.hpp>
-
 namespace core
 {
 	struct CameraComponent
 	{
-		sf::Vector2f m_Size;
+		Vector2f m_Size;
 	};
 }
+
+REFL_AUTO
+(
+	type(core::CameraComponent)
+	, field(m_Size)
+)
