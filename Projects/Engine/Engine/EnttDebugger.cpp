@@ -59,47 +59,6 @@ debug::EnttDebugger::~EnttDebugger()
 
 void debug::EnttDebugger::Initialize(entt::registry& registry)
 {
-	RegisterWidget<core::CameraComponent>([](entt::registry& registry, entt::entity& entity)
-	{
-		auto& component = registry.get<core::CameraComponent>(entity);
-		if (ImGui::CollapsingHeader("Size"))
-			ImGui::DragFloat2("", &component.m_Size.x);
-	});
-
-	RegisterWidget<core::LevelComponent>([](entt::registry& registry, entt::entity& entity)
-	{
-		auto& component = registry.get<core::LevelComponent>(entity);
-		if (ImGui::CollapsingHeader("Name"))
-			ImGui::Text("%s", component.m_Name.c_str());
-		if (ImGui::CollapsingHeader("Path"))
-			ImGui::Text("%s", component.m_Path.c_str());
-	});
-
-	RegisterWidget<core::TransformComponent>([](entt::registry& registry, entt::entity& entity)
-	{
-		auto& component = registry.get<core::TransformComponent>(entity);
-
-		ImGui::PushID("Translate");
-		if (ImGui::CollapsingHeader("Translate"))
-			ImGui::DragFloat3("", &component.m_Translate.x);
-		ImGui::PopID();
-
-		ImGui::PushID("Rotate");
-		if (ImGui::CollapsingHeader("Rotate"))
-			ImGui::DragFloat3("", &component.m_Rotate.x);
-		ImGui::PopID();
-
-		ImGui::PushID("Scale");
-		if (ImGui::CollapsingHeader("Scale"))
-			ImGui::DragFloat3("", &component.m_Scale.x);
-		ImGui::PopID();
-	});
-
-	RegisterWidget<core::NameComponent>([](entt::registry& registry, entt::entity& entity)
-	{
-		auto& component = registry.get<core::NameComponent>(entity);
-		ImGui::Text("%s", component.m_Name.c_str());
-	});
 }
 
 void debug::EnttDebugger::Destroy(entt::registry& registry)

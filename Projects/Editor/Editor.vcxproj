@@ -22,6 +22,7 @@
     <ClCompile Include="Editor\EntityBrowser.cpp" />
     <ClCompile Include="Editor\EntityPopup.cpp" />
     <ClCompile Include="Editor\FlipbookEditor.cpp" />
+    <ClCompile Include="Editor\GameWindow.cpp" />
     <ClCompile Include="Editor\History.cpp" />
     <ClCompile Include="Editor\Inspector.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Editor\EntityBrowser.h" />
     <ClInclude Include="Editor\EntityPopup.h" />
     <ClInclude Include="Editor\FlipbookEditor.h" />
+    <ClInclude Include="Editor\GameWindow.h" />
     <ClInclude Include="Editor\History.h" />
     <ClInclude Include="Editor\Inspector.h" />
     <ClInclude Include="Editor\InspectorExamples.h" />

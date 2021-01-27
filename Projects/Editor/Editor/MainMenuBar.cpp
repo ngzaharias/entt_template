@@ -3,6 +3,7 @@
 
 #include "Editor/AssetBrowser.h"
 #include "Editor/EntityBrowser.h"
+#include "Editor/GameWindow.h"
 #include "Editor/History.h"
 #include "Editor/Inspector.h"
 
@@ -30,12 +31,14 @@ editor::MainMenuBar::MainMenuBar
 	debug::EnttDebugger& enttDebugger
 	, editor::AssetBrowser& assetBrowser
 	, editor::EntityBrowser& entityBrowser
+	, editor::GameWindow& gameWindow
 	, editor::History& history
 	, editor::Inspector& inspector
 )
 	: m_EnttDebugger(enttDebugger)
 	, m_AssetBrowser(assetBrowser)
 	, m_EntityBrowser(entityBrowser)
+	, m_GameWindow(gameWindow)
 	, m_History(history)
 	, m_Inspector(inspector)
 {
@@ -116,6 +119,9 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			bool entityBrowser = m_EntityBrowser.IsVisible();
 			if (ImGui::MenuItem("Entity Browser", nullptr, &entityBrowser))
 				m_EntityBrowser.SetVisible(entityBrowser);
+			bool gameWindow = m_GameWindow.IsVisible();
+			if (ImGui::MenuItem("Game Window", nullptr, &gameWindow))
+				m_GameWindow.SetVisible(gameWindow);
 			bool history = m_History.IsVisible();
 			if (ImGui::MenuItem("History", nullptr, &history))
 				m_History.SetVisible(history);

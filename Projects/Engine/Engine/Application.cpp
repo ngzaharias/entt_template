@@ -87,7 +87,7 @@ void core::Application::Execute(int argc, char* argv[])
 
 		// #todo: move into render system?
 		if (m_RenderTarget != m_RenderWindow)
-			m_RenderTarget->clear(sf::Color(200, 0, 200));
+			m_RenderTarget->clear();
 		m_RenderWindow->clear();
 
 		ImGui::SFML::Update(*m_RenderWindow, time);
@@ -97,8 +97,9 @@ void core::Application::Execute(int argc, char* argv[])
 
 		ImGui::SFML::Render(*m_RenderWindow);
 
+		// #todo
+		//m_RenderTexture->display();
 		m_RenderWindow->display();
-
 	}
 
 	Destroy();

@@ -13,6 +13,7 @@ namespace editor
 {
 	class AssetBrowser;
 	class EntityBrowser;
+	class GameWindow;
 	class History;
 	class Inspector;
 
@@ -24,6 +25,7 @@ namespace editor
 			debug::EnttDebugger& enttDebugger
 			, editor::AssetBrowser& assetBrowser
 			, editor::EntityBrowser& entityBrowser
+			, editor::GameWindow& gameWindow
 			, editor::History& history
 			, editor::Inspector& inspector
 		);
@@ -39,6 +41,7 @@ namespace editor
 		debug::EnttDebugger& m_EnttDebugger;
 		editor::AssetBrowser& m_AssetBrowser;
 		editor::EntityBrowser& m_EntityBrowser;
+		editor::GameWindow& m_GameWindow;
 		editor::History& m_History;
 		editor::Inspector& m_Inspector;
 	};

@@ -97,11 +97,11 @@ void editor::Inspector::Render(entt::registry& registry)
 	if (!m_IsVisible)
 		return;
 
-	ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar);
-
-	Render_MenuBar(registry);
-	Render_Selected(registry);
-
+	if (ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar))
+	{
+		Render_MenuBar(registry);
+		Render_Selected(registry);
+	}
 	ImGui::End();
 }
 

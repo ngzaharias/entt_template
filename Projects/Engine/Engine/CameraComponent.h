@@ -4,12 +4,11 @@ namespace core
 {
 	struct CameraComponent
 	{
-		Vector2f m_Size;
+		bool m_Unused;
 	};
 }
 
 REFL_AUTO
 (
 	type(core::CameraComponent)
-	, field(m_Size)
 )

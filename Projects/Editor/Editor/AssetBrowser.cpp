@@ -287,7 +287,9 @@ void editor::AssetBrowser::ContextMenu_Texture(const Selection& selection)
 	ImGui::TextDisabled("Texture Actions");
 	if (ImGui::MenuItem("Extract Sprites..."))
 	{
-		//m_SpriteExtractor.OpenDialog(guid);
+		auto entry = m_Entries.begin();
+		std::advance(entry, m_Selection[0]);
+		m_SpriteExtractor.OpenDialog(entry->m_Guid);
 	}
 }
 
