@@ -59,7 +59,7 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 				const render::TextureAsset& textureAsset = spriteAsset.m_Texture.get();
 
 				const sf::Texture& texture = textureAsset.m_Texture;
-				const sf::Vector2f size = sf::Vector2f(texture.getSize());
+				const Vector2f size = Vector2f(spriteAsset.m_RectangleSize);
 
 				// #fixme: images render upside down
 				const float scaleX = spriteComponent.m_Size.x / size.x;

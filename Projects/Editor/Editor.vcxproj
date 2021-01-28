@@ -27,6 +27,7 @@
     <ClCompile Include="Editor\Inspector.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
     <ClCompile Include="Editor\MainMenuBar.cpp" />
+    <ClCompile Include="Editor\SceneWindow.cpp" />
     <ClCompile Include="Editor\SpriteEditor.cpp" />
     <ClCompile Include="Editor\SpriteExtractor.cpp" />
     <ClCompile Include="Editor\TrivialWidgets.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="Editor\InspectorExamples.h" />
     <ClInclude Include="Editor\InspectorWidgets.h" />
     <ClInclude Include="Editor\MainMenuBar.h" />
+    <ClInclude Include="Editor\SceneWindow.h" />
     <ClInclude Include="Editor\SpriteEditor.h" />
     <ClInclude Include="Editor\SpriteExtractor.h" />
     <ClInclude Include="Editor\TrivialWidgets.h" />

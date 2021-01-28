@@ -10,6 +10,7 @@
 #include "Editor/Inspector.h"
 #include "Editor/InspectorExamples.h"
 #include "Editor/MainMenuBar.h"
+#include "Editor/SceneWindow.h"
 #include "Editor/SpriteEditor.h"
 #include "Editor/SpriteExtractor.h"
 
@@ -25,6 +26,7 @@
 #include <Engine/TransformComponent.h>
 
 #include <imgui-sfml/imgui-SFML.h>
+#include <ImGuizmo/ImGuizmo.h>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
@@ -60,6 +62,7 @@ void editor::Application::Register()
 
 	RegisterSystem<editor::FlipbookEditor>();
 	RegisterSystem<editor::GameWindow>(*m_RenderTexture);
+	RegisterSystem<editor::SceneWindow>(*m_RenderTexture);
 	RegisterSystem<editor::SpriteEditor>();
 	RegisterSystem<editor::SpriteExtractor>();
 	RegisterSystem<editor::AssetBrowser>
@@ -144,6 +147,7 @@ bool editor::Application::Initialise()
 bool editor::Application::Update(const core::GameTime& gameTime)
 {
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	ImGuizmo::BeginFrame();
 
 	// #todo: move into render system?
 	//ImGui::ShowDemoWindow();

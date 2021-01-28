@@ -118,8 +118,13 @@ namespace natsort
 		{
 			// The strings compare the same.  Perhaps the caller
 			// will want to call strcmp to break the tie.
-			if (ai == a.size() && ai == bi)
+			if (ai == a.size() && bi == b.size())
 				return 0;
+
+			if (a.size() < b.size())
+				return -1;
+			if (a.size() > b.size())
+				return 1;
 
 			ca = a[ai]; cb = b[bi];
 
@@ -179,7 +184,7 @@ namespace natsort
 	}
 }
 
-bool sort::AlphaNumeric(const str::StringView& a, const str::StringView& b)
+int32 sort::AlphaNumeric(const str::StringView& a, const str::StringView& b)
 {
-	return natsort::Compare_NoCase(a, b) < 0;
+	return natsort::Compare_NoCase(a, b);
 }

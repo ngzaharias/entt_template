@@ -45,9 +45,6 @@ void editor::GameWindow::Render(entt::registry& registry)
 		if (ImGui::BeginMenuBar())
 		{
 			// #todo: dropdown select camera
-			static int cameraIndex = 0;
-			const char* items[] = { "Camera 1", "Camera 2" };
-			ImGui::Combo("", &cameraIndex, items, 2);
 
 			ImGui::EndMenuBar();
 		}

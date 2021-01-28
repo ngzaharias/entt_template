@@ -33,7 +33,10 @@ bool editor::EntityEntry::operator==(const EntityEntry& rhs) const
 
 bool editor::EntityEntry::operator<(const EntityEntry& rhs) const
 {
-	return sort::AlphaNumeric(m_Name, rhs.m_Name);
+	const int32 val = sort::AlphaNumeric(m_Name, rhs.m_Name);
+	if (val == 0)
+		return m_Entity < rhs.m_Entity;
+	return val < 0;
 }
 
 editor::EntityBrowser::EntityBrowser(editor::Inspector& inspector)
@@ -54,6 +57,7 @@ void editor::EntityBrowser::Destroy(entt::registry& registry)
 
 void editor::EntityBrowser::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	m_Entries.clear();
 	registry.each([&](const entt::entity& entity)
 	{
 		const uint32 value = static_cast<uint32>(entity);
@@ -111,11 +115,22 @@ void editor::EntityBrowser::Render(entt::registry& registry)
 
 		for (const auto& entry : m_Entries)
 		{
-			if (!str::Contains_NoCase(entry.m_Name, m_Filter))
+			if (!m_Filter.empty() && !str::Contains_NoCase(entry.m_Name, m_Filter))
 				continue;
+
+			ImGui::PushID(static_cast<int32>(entry.m_Entity));
 
 			if (ImGui::Selectable(entry.m_Name.c_str()))
 				m_Inspector.SetEntity(entry.m_Entity);
+
+			if (ImGui::BeginPopupContextItem(""))
+			{
+				if (ImGui::MenuItem("Delete"))
+					registry.destroy(entry.m_Entity);
+
+				ImGui::EndPopup();
+			}
+			ImGui::PopID();
 		}
 	}
 	ImGui::End();
@@ -131,7 +146,9 @@ void editor::EntityBrowser::Command_CreateCamera(entt::registry& registry)
 
 void editor::EntityBrowser::Command_CreateEmpty(entt::registry& registry)
 {
-	registry.create();
+	entt::entity entity = registry.create();
+	registry.emplace<core::NameComponent>(entity);
+	registry.emplace<core::TransformComponent>(entity);
 }
 
 void editor::EntityBrowser::Command_CreateFlipbook(entt::registry& registry)

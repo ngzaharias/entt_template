@@ -89,7 +89,7 @@ bool editor::DirectoryEntry::operator<(const DirectoryEntry& rhs) const
 	if (m_IsDirectory != rhs.m_IsDirectory)
 		return m_IsDirectory;
 
-	return sort::AlphaNumeric(m_Name, rhs.m_Name);
+	return sort::AlphaNumeric(m_Name, rhs.m_Name) < 0;
 }
 
 editor::AssetBrowser::AssetBrowser
@@ -131,7 +131,7 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 	for (const auto& entry : std::filesystem::directory_iterator(m_Directory))
 	{
 		if (!entry.is_directory() && entry.path().extension() != L".asset")
-			return;
+			break;
 
 		str::Name assetGuid = str::strNullGuid;
 		core::EAssetType assetType = core::EAssetType::Unknown;
