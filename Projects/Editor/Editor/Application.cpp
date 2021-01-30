@@ -20,7 +20,6 @@
 #include <Engine/SpriteComponent.h>
 #include <Engine/TransformComponent.h>
 
-#include <imgui/imgui.cpp>
 #include <imgui-sfml/imgui-SFML.h>
 #include <SFML/Graphics/RenderTexture.hpp>
 
@@ -113,7 +112,7 @@ bool editor::Application::Initialise()
 
 bool editor::Application::Update(const core::GameTime& gameTime)
 {
-	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	if (!core::Application::Update(gameTime))
 		return false;
