@@ -3,6 +3,7 @@
 
 #include "Engine/CameraComponent.h"
 #include "Engine/FlipbookComponent.h"
+#include "Engine/Screen.h"
 #include "Engine/SpriteComponent.h"
 #include "Engine/TransformComponent.h"
 #include "Engine/VectorHelpers.h"
@@ -31,8 +32,7 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 			auto& cameraComponent = cameraView.get<core::CameraComponent>(cameraEntity);
 			auto& transformComponent = cameraView.get<core::TransformComponent>(cameraEntity);
 
-			// #note: invert the size so that the coordinates of SFML match Engine
-			const sf::Vector2f size = math::Multiply(cameraComponent.m_Size, { 1.f, -1.f });
+			const Vector2f size = { Screen::width, Screen::height };
 
 			sf::View view;
 			view.setCenter(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
@@ -59,22 +59,24 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 				const render::TextureAsset& textureAsset = spriteAsset.m_Texture.get();
 
 				const sf::Texture& texture = textureAsset.m_Texture;
-				const sf::Vector2f size = sf::Vector2f(texture.getSize());
+				const Vector2f size = Vector2f(spriteAsset.m_RectangleSize);
 
+				// #fixme: images render upside down
 				const float scaleX = spriteComponent.m_Size.x / size.x;
-				const float scaleY = spriteComponent.m_Size.y / size.y;
+				const float scaleY = spriteComponent.m_Size.y / size.y * -1.f;
 
 				sf::Sprite sprite;
+				sprite.setOrigin(size * 0.5f);
 				sprite.setPosition(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
 				sprite.setRotation(transformComponent.m_Rotate.z);
 				sprite.setScale(transformComponent.m_Scale.x * scaleX, transformComponent.m_Scale.y * scaleY);
 				sprite.setTexture(texture);
 				sprite.setTextureRect(sf::IntRect
 				(
-					spriteAsset.m_Position.x
-					, spriteAsset.m_Position.y
-					, spriteAsset.m_Size.x
-					, spriteAsset.m_Size.y
+					spriteAsset.m_RectanglePos.x
+					, spriteAsset.m_RectanglePos.y
+					, spriteAsset.m_RectangleSize.x
+					, spriteAsset.m_RectangleSize.y
 				));
 
 				m_RenderTarget.draw(sprite);
@@ -93,7 +95,10 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 				if (flipbookAsset.m_Frames.empty())
 					continue;
 
-				const render::FlipbookFrame& flipbookFrame = flipbookAsset.m_Frames[flipbookComponent.m_Index];
+				const int32 frameMax = static_cast<int32>(flipbookAsset.m_Frames.size()) - 1;
+				const int32 frameIndex = std::clamp(flipbookComponent.m_Index, 0, frameMax);
+
+				const render::FlipbookFrame& flipbookFrame = flipbookAsset.m_Frames[frameIndex];
 				if (!flipbookFrame.m_Sprite)
 					continue;
 
@@ -104,19 +109,24 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 				const render::TextureAsset& textureAsset = spriteAsset.m_Texture.get();
 
 				const sf::Texture& texture = textureAsset.m_Texture;
+				const Vector2f size = Vector2f(spriteAsset.m_RectangleSize);
+
+				// #fixme: images render upside down
+				const float scaleX = flipbookComponent.m_Size.x / size.x;
+				const float scaleY = flipbookComponent.m_Size.y / size.y * -1.f;
 
 				sf::Sprite sprite;
-				//sprite.setOrigin(size * 0.5f);
+				sprite.setOrigin(size * 0.5f);
 				sprite.setPosition(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
 				sprite.setRotation(transformComponent.m_Rotate.z);
-				//sprite.setScale(transformComponent.m_Scale.x * scaleX, transformComponent.m_Scale.y * scaleY);
+				sprite.setScale(transformComponent.m_Scale.x * scaleX, transformComponent.m_Scale.y * scaleY);
 				sprite.setTexture(texture);
 				sprite.setTextureRect(sf::IntRect
 				(
-					spriteAsset.m_Position.x
-					, spriteAsset.m_Position.y
-					, spriteAsset.m_Size.x
-					, spriteAsset.m_Size.y
+					spriteAsset.m_RectanglePos.x
+					, spriteAsset.m_RectanglePos.y
+					, spriteAsset.m_RectangleSize.x
+					, spriteAsset.m_RectangleSize.y
 				));
 
 				m_RenderTarget.draw(sprite);

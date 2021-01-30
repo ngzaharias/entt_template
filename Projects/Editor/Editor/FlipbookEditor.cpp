@@ -244,10 +244,10 @@ void editor::FlipbookEditor::Render_Preview(render::FlipbookComponent& component
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect
 	(
-		spriteAsset.m_Position.x
-		, spriteAsset.m_Position.y
-		, spriteAsset.m_Size.x
-		, spriteAsset.m_Size.y
+		spriteAsset.m_RectanglePos.x
+		, spriteAsset.m_RectanglePos.y
+		, spriteAsset.m_RectangleSize.x
+		, spriteAsset.m_RectangleSize.y
 	));
 
 	const Vector2f size = Vector2f(texture.getSize());

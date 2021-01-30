@@ -4,9 +4,16 @@
 #include "Editor/InspectorExamples.h"
 #include "Editor/InspectorWidgets.h"
 
+#include <Engine/CameraComponent.h>
 #include <Engine/FlipbookComponent.h>
-#include <Engine/TypeList.h>
+#include <Engine/LevelComponent.h>
+#include <Engine/NameComponent.h>
+#include <Engine/RigidDynamicComponent.h>
+#include <Engine/RigidStaticComponent.h>
+#include <Engine/SoundComponent.h>
+#include <Engine/SpriteComponent.h>
 #include <Engine/TransformComponent.h>
+#include <Engine/TypeList.h>
 
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>
@@ -90,11 +97,11 @@ void editor::Inspector::Render(entt::registry& registry)
 	if (!m_IsVisible)
 		return;
 
-	ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar);
-
-	Render_MenuBar(registry);
-	Render_Selected(registry);
-
+	if (ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar))
+	{
+		Render_MenuBar(registry);
+		Render_Selected(registry);
+	}
 	ImGui::End();
 }
 
@@ -108,9 +115,22 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 
 void editor::Inspector::Render_Selected(entt::registry& registry)
 {
-	using ComponentsList = core::TypeList<example::Component, render::FlipbookComponent, core::TransformComponent>;
-	ComponentsList components;
+	using ComponentsList = core::TypeList
+		<
+		core::NameComponent
+		, core::TransformComponent
+		, example::Component
 
+		, audio::SoundComponent
+		, core::CameraComponent
+		, core::LevelComponent
+		, physics::RigidDynamicComponent
+		, physics::RigidStaticComponent
+		, render::FlipbookComponent
+		, render::SpriteComponent
+		>;
+
+	ComponentsList components;
 	if (ImGui::BeginChild("entity"))
 	{
 		if (registry.valid(m_Entity))

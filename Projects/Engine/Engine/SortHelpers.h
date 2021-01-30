@@ -2,5 +2,5 @@
 
 namespace sort
 {
-	bool AlphaNumeric(const str::StringView& a, const str::StringView& b);
+	int32 AlphaNumeric(const str::StringView& a, const str::StringView& b);
 }

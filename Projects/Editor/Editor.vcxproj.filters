@@ -54,6 +54,12 @@
     <ClCompile Include="Editor\FlipbookEditor.cpp">
       <Filter>Source\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\GameWindow.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\SceneWindow.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Application.h">
@@ -108,6 +114,12 @@
       <Filter>Source\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Editor\FlipbookEditor.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\GameWindow.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\SceneWindow.h">
       <Filter>Source\Windows</Filter>
     </ClInclude>
   </ItemGroup>

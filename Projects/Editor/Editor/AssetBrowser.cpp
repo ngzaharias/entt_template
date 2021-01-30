@@ -89,7 +89,7 @@ bool editor::DirectoryEntry::operator<(const DirectoryEntry& rhs) const
 	if (m_IsDirectory != rhs.m_IsDirectory)
 		return m_IsDirectory;
 
-	return sort::AlphaNumeric(m_Name, rhs.m_Name);
+	return sort::AlphaNumeric(m_Name, rhs.m_Name) < 0;
 }
 
 editor::AssetBrowser::AssetBrowser
@@ -131,7 +131,7 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 	for (const auto& entry : std::filesystem::directory_iterator(m_Directory))
 	{
 		if (!entry.is_directory() && entry.path().extension() != L".asset")
-			return;
+			break;
 
 		str::Name assetGuid = str::strNullGuid;
 		core::EAssetType assetType = core::EAssetType::Unknown;
@@ -287,10 +287,8 @@ void editor::AssetBrowser::ContextMenu_Texture(const Selection& selection)
 	ImGui::TextDisabled("Texture Actions");
 	if (ImGui::MenuItem("Extract Sprites..."))
 	{
-		int32 index = m_Selection[0];
 		auto entry = m_Entries.begin();
-		std::advance(entry, index);
-
+		std::advance(entry, m_Selection[0]);
 		m_SpriteExtractor.OpenDialog(entry->m_Guid);
 	}
 }
