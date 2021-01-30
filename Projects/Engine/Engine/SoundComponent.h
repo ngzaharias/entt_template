@@ -12,10 +12,3 @@ namespace audio
 		sf::Sound* m_Sound;
 	};
 }
-
-REFL_AUTO
-(
-	type(audio::SoundComponent)
-	, field(m_Handle)
-	, field(m_Sound)
-)

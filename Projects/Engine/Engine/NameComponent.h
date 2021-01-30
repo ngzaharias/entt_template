@@ -1,15 +1,11 @@
 #pragma once
 
-namespace core
+#include <string>
+
+namespace debug
 {
 	struct NameComponent
 	{
-		str::String m_Name;
+		std::string m_Name;
 	};
 }
-
-REFL_AUTO
-(
-	type(core::NameComponent)
-	, field(m_Name)
-)

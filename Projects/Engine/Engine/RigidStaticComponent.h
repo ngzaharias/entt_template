@@ -16,10 +16,3 @@ namespace physics
 		std::vector<physx::PxShape*> m_Shapes;
 	};
 }
-
-REFL_AUTO
-(
-	type(physics::RigidStaticComponent)
-	, field(m_Actor)
-	, field(m_Shapes)
-)

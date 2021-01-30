@@ -86,8 +86,7 @@ void core::Application::Execute(int argc, char* argv[])
 		}
 
 		// #todo: move into render system?
-		if (m_RenderTarget != m_RenderWindow)
-			m_RenderTarget->clear();
+		m_RenderTarget->clear();
 		m_RenderWindow->clear();
 
 		ImGui::SFML::Update(*m_RenderWindow, time);
@@ -95,11 +94,13 @@ void core::Application::Execute(int argc, char* argv[])
 		if (!Update(time))
 			break;
 
+		// #todo: move into render system?
+		//ImGui::ShowDemoWindow();
+
 		ImGui::SFML::Render(*m_RenderWindow);
 
-		// #todo
-		//m_RenderTexture->display();
 		m_RenderWindow->display();
+
 	}
 
 	Destroy();
@@ -116,11 +117,11 @@ void core::Application::Register()
 	// components
 	RegisterComponent<core::CameraComponent>();
 	RegisterComponent<core::LevelComponent>();
-	RegisterComponent<core::NameComponent>();
-	RegisterComponent<core::TransformComponent>();
+	RegisterComponent<debug::NameComponent>();
 	RegisterComponent<physics::RigidDynamicComponent>();
 	RegisterComponent<physics::RigidStaticComponent>();
 	RegisterComponent<render::SpriteComponent>();
+	RegisterComponent<core::TransformComponent>();
 
 	// systems
 	RegisterSystem<render::FlipbookSystem>();
@@ -146,50 +147,6 @@ bool core::Application::Initialise()
 	{
 		entry.m_System->Initialize(m_Registry);
 	}
-
-
-	auto& colors = ImGui::GetStyle().Colors;
-	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
-
-	// Headers
-	colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-	colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-	colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-	// Buttons
-	colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-	colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-	colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-	// Frame BG
-	colors[ImGuiCol_FrameBg] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-	colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-	colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-	// Tabs
-	colors[ImGuiCol_Tab] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TabHovered] = ImVec4{ 0.38f, 0.3805f, 0.381f, 1.0f };
-	colors[ImGuiCol_TabActive] = ImVec4{ 0.28f, 0.2805f, 0.281f, 1.0f };
-	colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-
-	// Title
-	colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-	//ImGuiStyle& style = ImGui::GetStyle();
-	//style.Colors[ImGuiCol_Header] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_HeaderActive] = s_PurpleSelected;
-	//style.Colors[ImGuiCol_HeaderHovered] = s_PurpleHovered;
-	//style.Colors[ImGuiCol_ModalWindowDimBg] = s_Gray;
-	//style.Colors[ImGuiCol_ResizeGrip] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_ResizeGripActive] = s_PurpleSelected;
-	//style.Colors[ImGuiCol_ResizeGripHovered] = s_PurpleHovered;
-	//style.Colors[ImGuiCol_Separator] = s_PurpleHovered;
-	//style.Colors[ImGuiCol_TitleBg] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_TitleBgActive] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_TitleBgCollapsed] = s_PurpleEnabled;
 
 	return true;
 }

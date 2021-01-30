@@ -80,10 +80,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\imgui-sfml\imgui-SFML.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImCurveEdit.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImGradient.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImGuizmo.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImSequencer.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\Include\imgui\imgui_draw.cpp" />
@@ -94,11 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\imgui-sfml\imgui-SFML.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImCurveEdit.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImGradient.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImGuizmo.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImSequencer.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImZoomSlider.h" />
     <ClInclude Include="..\..\Include\imgui\imgui.h" />
     <ClInclude Include="..\..\Include\imgui\imgui_internal.h" />
     <ClInclude Include="imgui\Custom.h" />

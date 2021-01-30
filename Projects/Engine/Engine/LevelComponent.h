@@ -10,10 +10,3 @@ namespace core
 		str::String m_Path = { };
 	};
 }
-
-REFL_AUTO
-(
-	type(core::LevelComponent)
-	, field(m_Name)
-	, field(m_Path)
-)

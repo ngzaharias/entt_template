@@ -13,13 +13,13 @@ namespace
 
 bool str::Contains(const str::StringView& string, const str::StringView& substring)
 {
-	const auto search = std::search(string.begin(), string.end(), substring.begin(), substring.end());
+	const auto search = std::search(string.begin(), string.end(), substring.begin(), substring.end(), [](char a, char b) { return tolower(a) == tolower(b); });
 	return search != string.end();
 }
 
 bool str::Contains_NoCase(const str::StringView& string, const str::StringView& substring)
 {
-	const auto search = std::search(string.begin(), string.end(), substring.begin(), substring.end(), [](char a, char b) { return tolower(a) == tolower(b); });
+	const auto search = std::search(string.begin(), string.end(), substring.begin(), substring.end());
 	return search != string.end();
 }
 

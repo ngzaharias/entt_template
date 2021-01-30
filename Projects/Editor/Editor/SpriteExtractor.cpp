@@ -175,8 +175,8 @@ void editor::SpriteExtractor::Extract()
 		outputFilepath += ".asset";
 
 		render::SpriteAsset asset;
-		asset.m_RectanglePos = position;
-		asset.m_RectangleSize = m_GridSettings.m_Size;
+		asset.m_Position = position;
+		asset.m_Size = m_GridSettings.m_Size;
 		asset.m_Texture = m_Texture;
 
 		assetManager.CreateAsset(asset, outputFilepath);

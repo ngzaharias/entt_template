@@ -2,12 +2,8 @@
 #include "Editor/MainMenuBar.h"
 
 #include "Editor/AssetBrowser.h"
-#include "Editor/EntityBrowser.h"
-#include "Editor/GameWindow.h"
 #include "Editor/History.h"
 #include "Editor/Inspector.h"
-
-#include <Engine/EnttDebugger.h>
 
 #include <imgui/imgui.h>
 
@@ -28,17 +24,11 @@ namespace
 
 editor::MainMenuBar::MainMenuBar
 (
-	debug::EnttDebugger& enttDebugger
-	, editor::AssetBrowser& assetBrowser
-	, editor::EntityBrowser& entityBrowser
-	, editor::GameWindow& gameWindow
+	editor::AssetBrowser& assetBrowser
 	, editor::History& history
 	, editor::Inspector& inspector
 )
-	: m_EnttDebugger(enttDebugger)
-	, m_AssetBrowser(assetBrowser)
-	, m_EntityBrowser(entityBrowser)
-	, m_GameWindow(gameWindow)
+	: m_AssetBrowser(assetBrowser)
 	, m_History(history)
 	, m_Inspector(inspector)
 {
@@ -50,6 +40,18 @@ editor::MainMenuBar::~MainMenuBar()
 
 void editor::MainMenuBar::Initialize(entt::registry& registry)
 {
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.Colors[ImGuiCol_Header] = s_PurpleEnabled;
+	style.Colors[ImGuiCol_HeaderActive] = s_PurpleSelected;
+	style.Colors[ImGuiCol_HeaderHovered] = s_PurpleHovered;
+	style.Colors[ImGuiCol_ModalWindowDimBg] = s_Gray;
+	style.Colors[ImGuiCol_ResizeGrip] = s_PurpleEnabled;
+	style.Colors[ImGuiCol_ResizeGripActive] = s_PurpleSelected;
+	style.Colors[ImGuiCol_ResizeGripHovered] = s_PurpleHovered;
+	style.Colors[ImGuiCol_Separator] = s_PurpleHovered;
+	style.Colors[ImGuiCol_TitleBg] = s_PurpleEnabled;
+	style.Colors[ImGuiCol_TitleBgActive] = s_PurpleEnabled;
+	style.Colors[ImGuiCol_TitleBgCollapsed] = s_PurpleEnabled;
 }
 
 void editor::MainMenuBar::Destroy(entt::registry& registry)
@@ -67,10 +69,10 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			ImGui::MenuItem("New Level...", "Ctrl+N", false, false);
-			ImGui::MenuItem("Open Level...", "Ctrl+O", false, false);
-			ImGui::MenuItem("Save Level", "Ctrl+S", false, false);
-			ImGui::MenuItem("Save Level As...", "Ctrl+Shift+S", false, false);
+			ImGui::MenuItem("New Level...", "Ctrl+N");
+			ImGui::MenuItem("Open Level...", "Ctrl+O");
+			ImGui::MenuItem("Save Level", "Ctrl+S");
+			ImGui::MenuItem("Save Level As...", "Ctrl+Shift+S");
 			ImGui::Separator();
 
 			ImGui::EndMenu();
@@ -78,21 +80,21 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 
 		if (ImGui::BeginMenu("Edit"))
 		{
-			ImGui::TextDisabled("History");
-			ImGui::MenuItem("Undo\t", "Ctrl+Z", false, false);
-			ImGui::MenuItem("Redo\t", "Ctrl+Y", false, false);
+			ImGui::MenuItem("History", nullptr, false, false);
+			ImGui::MenuItem("Undo\t", "Ctrl+Z");
+			ImGui::MenuItem("Redo\t", "Ctrl+Y");
 			ImGui::Separator();
 
-			ImGui::TextDisabled("Edit");
-			ImGui::MenuItem("Cut\t", "Ctrl+X", false, false);
-			ImGui::MenuItem("Copy\t", "Ctrl+C", false, false);
-			ImGui::MenuItem("Paste\t", "Ctrl+V", false, false);
-			ImGui::MenuItem("Duplicate\t", "Ctrl+D", false, false);
-			ImGui::MenuItem("Delete\t", "Delete", false, false);
+			ImGui::MenuItem("Edit", nullptr, false, false);
+			ImGui::MenuItem("Cut\t", "Ctrl+X");
+			ImGui::MenuItem("Copy\t", "Ctrl+C");
+			ImGui::MenuItem("Paste\t", "Ctrl+V");
+			ImGui::MenuItem("Duplicate\t", "Ctrl+D");
+			ImGui::MenuItem("Delete\t", "Delete");
 			ImGui::Separator();
 
-			ImGui::TextDisabled("Configuration");
-			ImGui::MenuItem("Settings", nullptr, false, false);
+			ImGui::MenuItem("Configuration", nullptr, false, false);
+			ImGui::MenuItem("Settings");
 
 			ImGui::EndMenu();
 		}
@@ -104,12 +106,6 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			bool assetBrowser = m_AssetBrowser.IsVisible();
 			if (ImGui::MenuItem("Asset Browser", nullptr, &assetBrowser))
 				m_AssetBrowser.SetVisible(assetBrowser);
-			bool entityBrowser = m_EntityBrowser.IsVisible();
-			if (ImGui::MenuItem("Entity Browser", nullptr, &entityBrowser))
-				m_EntityBrowser.SetVisible(entityBrowser);
-			bool gameWindow = m_GameWindow.IsVisible();
-			if (ImGui::MenuItem("Game Window", nullptr, &gameWindow))
-				m_GameWindow.SetVisible(gameWindow);
 			bool history = m_History.IsVisible();
 			if (ImGui::MenuItem("History", nullptr, &history))
 				m_History.SetVisible(history);
@@ -120,10 +116,7 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			ImGui::Separator();
 
 			ImGui::MenuItem("Debug", nullptr, false, false);
-
-			bool enttDebugger = m_EnttDebugger.IsVisible();
-			if (ImGui::MenuItem("Entity Debugger", nullptr, &enttDebugger))
-				m_EnttDebugger.SetVisible(enttDebugger);
+			ImGui::MenuItem("Entity Debugger");
 
 			ImGui::EndMenu();
 		}

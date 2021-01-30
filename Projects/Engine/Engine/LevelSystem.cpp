@@ -88,7 +88,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 
 	// name
 	{
-		core::NameComponent& name = registry.emplace<core::NameComponent>(entity);
+		debug::NameComponent& name = registry.emplace<debug::NameComponent>(entity);
 		name.m_Name = json::ParseString(document, "name", "<unknown>");
 	}
 
@@ -126,6 +126,8 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 	if (auto itr_camera = document.FindMember("camera"); itr_camera != document.MemberEnd())
 	{
 		core::CameraComponent& camera = registry.emplace<core::CameraComponent>(entity);
+		camera.m_Size.x = static_cast<float>(json::ParseInt(itr_camera->value, "width", 800));
+		camera.m_Size.y = static_cast<float>(json::ParseInt(itr_camera->value, "height", 600));
 	}
 
 	//// flipbook
@@ -238,18 +240,21 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 	{
 		render::SpriteComponent& sprite = registry.emplace<render::SpriteComponent>(entity);
 
-		if (auto itr_size = itr_sprite->value.FindMember("size"); itr_size != itr_sprite->value.MemberEnd())
-		{
-			const uint32 width = json::ParseUint(itr_size->value, "width", 100);
-			const uint32 height = json::ParseUint(itr_size->value, "height", 100);
-			sprite.m_Size = Vector2u(width, height);
-		}
+		//if (auto itr_size = itr_sprite->value.FindMember("size"); itr_size != itr_sprite->value.MemberEnd())
+		//{
+		//	const float width = json::ParseFloat(itr_size->value, "width", 32.f);
+		//	const float height = json::ParseFloat(itr_size->value, "height", 32.f);
+		//	sprite.m_Size = { width, height };
+		//}
 
-		if (auto itr_guid = itr_sprite->value.FindMember("guid"); itr_guid != itr_sprite->value.MemberEnd())
-		{
-			const str::Name guid = str::Name::Create(itr_guid->value.GetString());
-			sprite.m_Sprite = m_AssetManager.LoadAsset<render::SpriteAsset>(guid);
-		}
+		//if (auto itr_texture = itr_sprite->value.FindMember("texture"); itr_texture != itr_sprite->value.MemberEnd())
+		//{
+		//	const str::Name name = str::Name::Create(itr_texture->value.GetString());
+		//	const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
+
+		//	sprite.m_Sprite.setTexture(handle->m_Texture);
+		//	sprite.m_Sprite.setOrigin(sf::Vector2f(handle->m_Texture.getSize()) * 0.5f);
+		//}
 	}
 
 	return entity;

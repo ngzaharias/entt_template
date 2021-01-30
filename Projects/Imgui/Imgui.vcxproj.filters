@@ -5,15 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source\imgui">
-      <UniqueIdentifier>{f30948dd-c540-47af-bf74-aa03c5c539f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\SFML">
-      <UniqueIdentifier>{5871cdfb-363c-4402-a918-dcb2877fdff3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ImGuizmo">
-      <UniqueIdentifier>{ebcd93ac-e913-4e2c-9d18-464f2e5e9e08}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\Custom.cpp">
@@ -23,34 +14,22 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\imgui\imgui.cpp">
-      <Filter>Source\imgui</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\imgui\imgui_demo.cpp">
-      <Filter>Source\imgui</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\imgui\imgui_draw.cpp">
-      <Filter>Source\imgui</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\imgui\imgui_tables.cpp">
-      <Filter>Source\imgui</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\imgui\imgui_widgets.cpp">
-      <Filter>Source\imgui</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Include\imgui-sfml\imgui-SFML.cpp">
-      <Filter>Source\SFML</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGuizmo\ImCurveEdit.cpp">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGuizmo\ImGradient.cpp">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGuizmo\ImGuizmo.cpp">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Include\ImGuizmo\ImSequencer.cpp">
-      <Filter>Source\ImGuizmo</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,29 +39,14 @@
     <ClInclude Include="imgui\Helpers.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\imgui\imgui.h">
-      <Filter>Source\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Include\imgui\imgui_internal.h">
-      <Filter>Source\imgui</Filter>
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\imgui\imgui.h">
+      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\imgui-sfml\imgui-SFML.h">
-      <Filter>Source\SFML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGuizmo\ImCurveEdit.h">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGuizmo\ImGradient.h">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGuizmo\ImGuizmo.h">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGuizmo\ImSequencer.h">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ImGuizmo\ImZoomSlider.h">
-      <Filter>Source\ImGuizmo</Filter>
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

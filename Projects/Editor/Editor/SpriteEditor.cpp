@@ -96,13 +96,13 @@ void editor::SpriteEditor::Render()
 				ImDrawList* draw_list = ImGui::GetWindowDrawList();
 				const ImVec2 min =
 				{
-					cursorPos.x + spriteAsset.m_RectanglePos.x
-					, cursorPos.y + spriteAsset.m_RectanglePos.y
+					cursorPos.x + spriteAsset.m_Position.x
+					, cursorPos.y + spriteAsset.m_Position.y
 				};
 				const ImVec2 max =
 				{
-					min.x + spriteAsset.m_RectangleSize.x
-					, min.y + spriteAsset.m_RectangleSize.y
+					min.x + spriteAsset.m_Size.x
+					, min.y + spriteAsset.m_Size.y
 				};
 				const ImU32 col = ImColor(ImVec4(1.0f, 1.0f, 0.4f, 1.0f));
 				draw_list->AddRect(min, max, col, 0.0f, ImDrawCornerFlags_All, 1.f);

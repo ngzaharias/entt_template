@@ -30,10 +30,10 @@ bool render::SpriteLoader::save(const render::SpriteAsset& asset, const core::As
 	asset_guid.SetString(entry.m_Guid.ToChar(), document.GetAllocator());
 	asset_type.SetString(s_AssetType, document.GetAllocator());
 	texture_guid.SetString(textureGuid.ToChar(), document.GetAllocator());
-	rectangle_left.SetInt(asset.m_RectanglePos.x);
-	rectangle_top.SetInt(asset.m_RectanglePos.y);
-	rectangle_width.SetInt(asset.m_RectangleSize.x);
-	rectangle_height.SetInt(asset.m_RectangleSize.y);
+	rectangle_left.SetInt(asset.m_Position.x);
+	rectangle_top.SetInt(asset.m_Position.y);
+	rectangle_width.SetInt(asset.m_Size.x);
+	rectangle_height.SetInt(asset.m_Size.y);
 
 	document.AddMember("asset_guid", asset_guid, document.GetAllocator());
 	document.AddMember("asset_type", asset_type, document.GetAllocator());
@@ -57,12 +57,12 @@ core::AssetPtr<render::SpriteAsset> render::SpriteLoader::load(const core::Asset
 	render::SpriteAsset* asset = new render::SpriteAsset();
 	asset->m_Guid = entry.m_Guid;
 	asset->m_Filepath = entry.m_Filepath;
-	asset->m_RectanglePos =
+	asset->m_Position = 
 	{ 
 		json::ParseUint(document, "rectangle_left", 0)
 		, json::ParseUint(document, "rectangle_top", 0)
 	};
-	asset->m_RectangleSize =
+	asset->m_Size = 
 	{
 		json::ParseUint(document, "rectangle_width", 0)
 		, json::ParseUint(document, "rectangle_height", 0)

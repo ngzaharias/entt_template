@@ -75,9 +75,6 @@ namespace debug
 		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 		void Render(entt::registry& registry);
 
-		bool IsVisible() { return m_IsVisible; }
-		void SetVisible(const bool value) { m_IsVisible = value; }
-
 		void Select(const entt::entity& entity);
 		void Undo();
 		void Redo();
@@ -95,17 +92,17 @@ namespace debug
 		void RenderUndoRedo(entt::registry& registry);
 
 	private:
-		ComponentSettings m_ComponentSettings = { };
-		std::vector<ComponentInfo> m_ComponentInfo = { };
-		std::map<entt::id_type, WidgetCallback> m_ComponentWidgets = { };
+		ComponentSettings m_ComponentSettings;
+		std::vector<ComponentInfo> m_ComponentInfo;
+		std::map<entt::id_type, WidgetCallback> m_ComponentWidgets;
 
-		EntitySettings m_EntitySettings = { };
-		std::vector<EntityInfo> m_EntityInfo = { };
-		std::set<entt::entity> m_EntityOrphans = { };
+		EntitySettings m_EntitySettings;
+		std::vector<EntityInfo> m_EntityInfo;
+		std::set<entt::entity> m_EntityOrphans;
 
-		Selection m_Selection = { };
+		Selection m_Selection;
 
-		bool m_IsVisible = false;
+		bool m_IsWindowVisible;
 	};
 }
 

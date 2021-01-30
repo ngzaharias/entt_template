@@ -12,7 +12,7 @@
       </Command>
     </PostBuildEvent>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include\;$(SolutionDir)\Include\imgui\;$(SolutionDir)\Include\imgui-sfml\;$(SolutionDir)\Include\ImGuizmo\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include\;$(SolutionDir)\Include\imgui\;$(SolutionDir)\Include\imgui-sfml\</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
