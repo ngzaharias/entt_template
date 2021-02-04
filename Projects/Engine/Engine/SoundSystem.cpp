@@ -37,7 +37,7 @@ void audio::SoundSystem::Update(entt::registry& registry, const core::GameTime& 
 			continue;
 
 		entt::entity entity = registry.create();
-		auto& name = registry.emplace<debug::NameComponent>(entity);
+		auto& name = registry.emplace<core::NameComponent>(entity);
 		auto& sound = registry.emplace<audio::SoundComponent>(entity);
 		auto& transform = registry.emplace<core::TransformComponent>(entity);
 

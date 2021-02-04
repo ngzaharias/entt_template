@@ -10,3 +10,10 @@ namespace render
 		SpriteHandle m_Sprite = { };
 	};
 }
+
+REFL_AUTO
+(
+	type(render::SpriteComponent)
+	, field(m_Size)
+	, field(m_Sprite)
+)

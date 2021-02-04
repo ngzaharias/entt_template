@@ -18,8 +18,8 @@ namespace render
 {
 	struct SpriteAsset : public core::Asset
 	{
-		Vector2u m_Position = { 0, 0 };
-		Vector2u m_Size = { 0, 0 };
+		Vector2u m_RectanglePos = { 0, 0 };
+		Vector2u m_RectangleSize = { 0, 0 };
 		render::TextureHandle m_Texture = { };
 	};
 
@@ -37,7 +37,7 @@ namespace render
 REFL_AUTO
 (
 	type(render::SpriteAsset)
-	, field(m_Position)
-	, field(m_Size)
+	, field(m_RectanglePos)
+	, field(m_RectangleSize)
 	, field(m_Texture)
 )
