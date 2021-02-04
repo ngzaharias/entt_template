@@ -20,8 +20,10 @@
 
 namespace
 {
-	// #todo: support multiple inspectors
-	// #todo: support different types of inspectors
+	// #todo: multiple windows
+	// #todo: multi-edit
+	// #todo: inheritance 
+	// #todo: undo/redo
 
 	static float s_DividerOffset = 250.f;
 

@@ -138,6 +138,8 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 
 		if (!entry.is_directory())
 		{
+			// #todo: don't load documents every frame
+			// #fixme: loading texture assets is super slow
 			rapidjson::Document document;
 			json::LoadDocument(entry.path(), document);
 
@@ -286,7 +288,6 @@ void editor::AssetBrowser::ContextMenu_Texture(const Selection& selection)
 	ImGui::TextDisabled("Texture Actions");
 	if (ImGui::MenuItem("Extract Sprites..."))
 	{
-		//m_SpriteExtractor.OpenDialog(guid);
 		auto entry = m_Entries.begin();
 		std::advance(entry, m_Selection[0]);
 		m_SpriteExtractor.OpenDialog(entry->m_Guid);
@@ -403,7 +404,7 @@ void editor::AssetBrowser::Render_Entry(const int32 index)
 		ImGui::Selectable("", isSelected, 0, itemSize);
 		const ImVec2 cursorAfter = ImGui::GetCursorPos();
 
-		//if (ImGui::IsItemHovered())
+		if (ImGui::IsItemHovered())
 		{
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				result = EResult::LeftClick;

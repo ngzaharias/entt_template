@@ -32,6 +32,7 @@ void editor::AssetPopup::SelectOne(core::AssetHandle<Type>& handle)
 	{
 		static str::String filter = { };
 
+		ImGui::SetNextItemWidth(-1);
 		widget::TypeOverload(filter);
 		const auto substrings = str::Split(filter);
 

@@ -82,10 +82,16 @@ void editor::SpriteEditor::Render()
 			ImGui::EndMenuBar();
 		}
 
-		if (ImGui::BeginChild("texture", { ImGui::GetWindowWidth() - s_SettingsWidth, 0 }, false))
-		{
-			ImGui::Text(spriteAsset.m_Filepath.string().c_str());
+		ImGui::Text(spriteAsset.m_Filepath.string().c_str());
 
+		ImGuiWindowFlags flags = 0;
+		flags |= ImGuiWindowFlags_NoScrollbar;
+		flags |= ImGuiWindowFlags_NoScrollWithMouse;
+
+		const float s_TextureWidth = ImGui::GetContentRegionAvail().x - s_SettingsWidth;
+		const float s_TextureHeight = ImGui::GetContentRegionAvail().y;
+		if (ImGui::BeginChild("texture", { s_TextureWidth, s_TextureHeight }, true, flags))
+		{
 			if (spriteAsset.m_Texture)
 			{
 				const ImVec2 cursorPos = ImGui::GetCursorScreenPos();
@@ -112,10 +118,10 @@ void editor::SpriteEditor::Render()
 
 		ImGui::SameLine();
 
-		if (ImGui::BeginChild("settings", { s_SettingsWidth, 0 }, false))
+		if (ImGui::BeginChild("settings", { s_SettingsWidth, 0 }, true))
 		{
 			if (ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_DefaultOpen))
-				::Inspect(spriteAsset);
+				Inspect(spriteAsset);
 		}
 		ImGui::EndChild();
 	}

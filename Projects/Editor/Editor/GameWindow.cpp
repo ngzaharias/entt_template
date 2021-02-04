@@ -42,18 +42,8 @@ void editor::GameWindow::Render(entt::registry& registry)
 
 	if (ImGui::Begin("Game", &m_IsVisible, flags))
 	{
-		if (ImGui::BeginMenuBar())
-		{
-			// #todo: dropdown select camera
-
-			ImGui::EndMenuBar();
-		}
-
-		// #fixme: update the camera size
 		const Vector2f regionSize = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 		const Vector2f viewSize = m_RenderTexture.getView().getSize();
-		Screen::width = regionSize.x;
-		Screen::height = regionSize.y;
 
 		// #todo: get render texture from camera
 		ImGui::Image(m_RenderTexture.getTexture(), viewSize);

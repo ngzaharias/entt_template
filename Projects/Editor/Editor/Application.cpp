@@ -93,6 +93,7 @@ bool editor::Application::Initialise()
 {
 	core::Application::Initialise();
 
+	// camera entity
 	{
 		entt::entity entity = m_Registry.create();
 		auto& cameraComponent = m_Registry.emplace<core::CameraComponent>(entity);
@@ -134,21 +135,13 @@ bool editor::Application::Initialise()
 		nameComponent.m_Name = "Sprite";
 	}
 
-	//refl::descriptor::type_descriptor reflected = refl::reflect<MyStruct>();
-	//refl::descriptor::member_list<MyStruct> members = reflected.members;
-	//for_each(refl::reflect<MyStruct>().members, [&](auto member)
-	//{
-	//	refl::descriptor::field_descriptor<MyStruct, 0>& field = member;
-	//});
-
 	return true;
 }
 
 bool editor::Application::Update(const core::GameTime& gameTime)
 {
-	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-
-	//ImGui::ShowDemoWindow();
+	ImGuizmo::BeginFrame();
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	if (!core::Application::Update(gameTime))
 		return false;

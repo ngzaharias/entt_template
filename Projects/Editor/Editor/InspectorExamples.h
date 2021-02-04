@@ -121,3 +121,10 @@ REFL_AUTO
 	, field(m_VectorB)
 	, field(m_Variant)
 )
+
+//refl::descriptor::type_descriptor reflected = refl::reflect<MyStruct>();
+//refl::descriptor::member_list<MyStruct> members = reflected.members;
+//for_each(refl::reflect<MyStruct>().members, [&](auto member)
+//{
+//	refl::descriptor::field_descriptor<MyStruct, 0>& field = member;
+//});

@@ -115,8 +115,8 @@ void editor::FlipbookEditor::Render(render::FlipbookComponent& component)
 			ImGui::EndMenuBar();
 		}
 
-		const float s_PreviewHeight = ImGui::GetWindowHeight() - s_PlaybackHeight;
 		const float s_PreviewWidth = ImGui::GetColumnWidth() - s_SettingsWidth - s_FramePadding.x;
+		const float s_PreviewHeight = ImGui::GetContentRegionAvail().y - s_PlaybackHeight;
 		if (ImGui::BeginChild("preview", { s_PreviewWidth, s_PreviewHeight }, true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse))
 		{
 			ImGui::Text(flipbookAsset.m_Filepath.string().c_str());

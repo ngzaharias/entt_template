@@ -199,7 +199,7 @@ void debug::EnttDebugger::Redo()
 
 void debug::EnttDebugger::RenderComponents(entt::registry& /*registry*/)
 {
-	if (ImGui::BeginChild("components", { 0, ImGui::GetWindowHeight() * 0.5f }, true))
+	if (ImGui::BeginChild("components", { 0, ImGui::GetContentRegionAvail().y * 0.5f }, true))
 	{
 		if (ImGui::BeginChild("header", { 0, 60.f }))
 		{
@@ -258,7 +258,7 @@ void debug::EnttDebugger::RenderComponents(entt::registry& /*registry*/)
 
 void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 {
-	if (ImGui::BeginChild("entities", { 0, ImGui::GetWindowHeight() * 0.5f - 3.f }, true, ImGuiWindowFlags_HorizontalScrollbar))
+	if (ImGui::BeginChild("entities", { 0, ImGui::GetContentRegionAvail().y }, true, ImGuiWindowFlags_HorizontalScrollbar))
 	{
 		if (ImGui::BeginChild("header", { 0, 60.f }))
 		{
@@ -277,7 +277,6 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 			if (ImGui::Button("Clear"))
 				m_EntityInfo.clear();
 
-			//ImGui::SameLine();
 			ImGui::Checkbox("Show Orphans", &m_EntitySettings.IsShowingOrphans);
 		}
 		ImGui::EndChild();
@@ -323,7 +322,7 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 
 void debug::EnttDebugger::RenderSelected(entt::registry& registry)
 {
-	if (ImGui::BeginChild("selected", { 0, ImGui::GetWindowHeight() }, true))
+	if (ImGui::BeginChild("selected", { 0, ImGui::GetContentRegionAvail().y }, true))
 	{
 		if (registry.valid(m_Selection.Current))
 		{
@@ -379,7 +378,7 @@ void debug::EnttDebugger::RenderUndoRedo(entt::registry& registry)
 		}
 
 		int selected = 0;
-		ImGui::PushItemWidth(ImGui::GetWindowWidth() - 122.f);
+		ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x - 122.f);
 		if (ImGui::Combo("##history", &selected, items, Selection::Capacity))
 		{
 			const int index = count - 1 - selected;
