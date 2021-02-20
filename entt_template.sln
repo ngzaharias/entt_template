@@ -23,6 +23,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Projects\Editor\E
 		{2471547F-763A-49BA-9A17-6814171F1849} = {2471547F-763A-49BA-9A17-6814171F1849}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ut", "ut", "{BED3B372-A179-4204-811B-273C83F73438}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine_ut", "Projects\Engine_ut\Engine_ut.vcxproj", "{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -55,9 +59,18 @@ Global
 		{CC70E15A-7314-4036-9DDD-7A511E245908}.Release|x64.ActiveCfg = Release|x64
 		{CC70E15A-7314-4036-9DDD-7A511E245908}.Release|x64.Build.0 = Release|x64
 		{CC70E15A-7314-4036-9DDD-7A511E245908}.Release|x86.ActiveCfg = Release|x64
+		{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}.Debug|x64.ActiveCfg = Debug|x64
+		{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}.Debug|x64.Build.0 = Debug|x64
+		{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}.Debug|x86.ActiveCfg = Debug|x64
+		{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}.Release|x64.ActiveCfg = Release|x64
+		{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}.Release|x64.Build.0 = Release|x64
+		{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B} = {BED3B372-A179-4204-811B-273C83F73438}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB78DB33-A10A-4C46-B2E2-DF68039579BB}
