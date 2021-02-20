@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IntDir>$(SolutionDir)\Intermediate\$(ProjectName)\$(Configuration)_$(PlatformTarget)\</IntDir>
-    <OutDir>$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\</OutDir>
+    <OutDir>$(SolutionDir)\Build\$(ProjectName)\$(Configuration)_$(PlatformTarget)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
@@ -12,14 +12,12 @@
       </Command>
     </PostBuildEvent>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include\;$(SolutionDir)\Include\imgui\;$(SolutionDir)\Include\imgui-sfml\;$(SolutionDir)\Include\ImGuizmo\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\;$(SolutionDir)\3rdParty\imgui\;$(SolutionDir)\3rdParty\imgui-sfml\;$(SolutionDir)\3rdParty\ImGuizmo\;$(SolutionDir)\3rdParty\SFML\Include\</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>advapi32.lib;comdlg32.lib;freetype.lib;gdi32.lib;kernel32.lib;odbc32.lib;odbccp32.lib;ole32.lib;oleaut32.lib;opengl32.lib;shell32.lib;user32.lib;uuid.lib;winmm.lib;winspool.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
+    <Link />
+    <Link />
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

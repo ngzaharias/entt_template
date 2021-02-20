@@ -79,28 +79,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Include\imgui-sfml\imgui-SFML.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImCurveEdit.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImGradient.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImGuizmo.cpp" />
-    <ClCompile Include="..\..\Include\ImGuizmo\ImSequencer.cpp" />
-    <ClCompile Include="..\..\Include\imgui\imgui.cpp" />
-    <ClCompile Include="..\..\Include\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\..\Include\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\Include\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\..\Include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\..\3rdParty\imgui-sfml\imgui-SFML.cpp" />
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImSequencer.cpp" />
+    <ClCompile Include="..\..\3rdParty\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="imgui\Custom.cpp" />
     <ClCompile Include="imgui\Helpers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Include\imgui-sfml\imgui-SFML.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImCurveEdit.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImGradient.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImGuizmo.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImSequencer.h" />
-    <ClInclude Include="..\..\Include\ImGuizmo\ImZoomSlider.h" />
-    <ClInclude Include="..\..\Include\imgui\imgui.h" />
-    <ClInclude Include="..\..\Include\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\3rdParty\imgui-sfml\imconfig-SFML.h" />
+    <ClInclude Include="..\..\3rdParty\imgui-sfml\imgui-SFML.h" />
+    <ClInclude Include="..\..\3rdParty\imgui-sfml\imgui-SFML_export.h" />
+    <ClInclude Include="..\..\3rdParty\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="..\..\3rdParty\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="..\..\3rdParty\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="..\..\3rdParty\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="..\..\3rdParty\ImGuizmo\ImZoomSlider.h" />
+    <ClInclude Include="..\..\3rdParty\imgui\imconfig.h" />
+    <ClInclude Include="..\..\3rdParty\imgui\imgui.h" />
+    <ClInclude Include="..\..\3rdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\3rdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\3rdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="imgui\Custom.h" />
     <ClInclude Include="imgui\Helpers.h" />
   </ItemGroup>

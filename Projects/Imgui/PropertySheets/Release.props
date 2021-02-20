@@ -5,7 +5,6 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>sfml-main.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>

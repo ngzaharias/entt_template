@@ -1,9 +1,8 @@
-#include "Engine/EnginePCH.h"
+#include "EnginePCH.h"
 #include "Engine/Application.h"
 
 #include "Engine/AssetManager.h"
 #include "Engine/CameraComponent.h"
-#include "Engine/EnttDebugger.h"
 #include "Engine/FileHelpers.h"
 #include "Engine/FlipbookSystem.h"
 #include "Engine/LevelComponent.h"
@@ -19,7 +18,6 @@
 #include "Engine/SpriteComponent.h"
 #include "Engine/TransformComponent.h"
 
-#include <random>
 #include <time.h>
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
@@ -28,6 +26,7 @@
 #include <SFML/System.hpp>
 
 #include <fstream>
+#include <random>
 
 core::Application::Application() 
 { 
@@ -132,7 +131,6 @@ void core::Application::Register()
 			*m_PhysicsManager 
 			, *m_AssetManager
 		);
-	RegisterSystem<debug::EnttDebugger>();
 }
 
 bool core::Application::Initialise()

@@ -27,7 +27,6 @@
     <ClInclude Include="Engine\CollisionChannels.h" />
     <ClInclude Include="Engine\EnginePCH.h" />
     <ClInclude Include="Engine\EntityTemplateAsset.h" />
-    <ClInclude Include="Engine\EnttDebugger.h" />
     <ClInclude Include="Engine\FileHelpers.h" />
     <ClInclude Include="Engine\FlipbookAsset.h" />
     <ClInclude Include="Engine\FlipbookComponent.h" />
@@ -47,6 +46,7 @@
     <ClInclude Include="Engine\PhysicsMaterialAsset.h" />
     <ClInclude Include="Engine\PhysicsSystem.h" />
     <ClInclude Include="Engine\Random.h" />
+    <ClInclude Include="Engine\Reader.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\RigidDynamicComponent.h" />
     <ClInclude Include="Engine\RigidStaticComponent.h" />
@@ -71,6 +71,7 @@
     <ClInclude Include="Engine\Vector2.h" />
     <ClInclude Include="Engine\Vector3.h" />
     <ClInclude Include="Engine\VectorHelpers.h" />
+    <ClInclude Include="Engine\Writer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl" />
@@ -78,10 +79,11 @@
     <None Include="Engine\AssetManager.inl" />
     <None Include="Engine\AttributeHelpers.inl" />
     <None Include="Engine\CircularBuffer.inl" />
-    <None Include="Engine\EnttDebugger.inl" />
     <None Include="Engine\JsonHelpers.inl" />
     <None Include="Engine\ObjectPool.inl" />
     <None Include="Engine\Random.inl" />
+    <None Include="Engine\Reader.inl" />
+    <None Include="Engine\Writer.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Application.cpp" />
@@ -89,9 +91,9 @@
     <ClCompile Include="Engine\AssetManager.cpp" />
     <ClCompile Include="Engine\EnginePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Engine\EntityTemplateAsset.cpp" />
-    <ClCompile Include="Engine\EnttDebugger.cpp" />
     <ClCompile Include="Engine\FileHelpers.cpp" />
     <ClCompile Include="Engine\FlipbookAsset.cpp" />
     <ClCompile Include="Engine\FlipbookSystem.cpp" />
@@ -103,6 +105,7 @@
     <ClCompile Include="Engine\PhysicsManager.cpp" />
     <ClCompile Include="Engine\PhysicsMaterialAsset.cpp" />
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
+    <ClCompile Include="Engine\Reader.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\Screen.cpp" />
     <ClCompile Include="Engine\SortHelpers.cpp" />
@@ -112,6 +115,7 @@
     <ClCompile Include="Engine\StringHelpers.cpp" />
     <ClCompile Include="Engine\TextureAsset.cpp" />
     <ClCompile Include="Engine\VectorHelpers.cpp" />
+    <ClCompile Include="Engine\Writer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2471547F-763A-49BA-9A17-6814171F1849}</ProjectGuid>

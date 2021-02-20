@@ -67,9 +67,6 @@
     <ClInclude Include="Engine\TransformComponent.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\EnttDebugger.h">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\StringHelpers.h">
       <Filter>Source\Strings</Filter>
     </ClInclude>
@@ -181,6 +178,12 @@
     <ClInclude Include="Engine\AttributeTypes.h">
       <Filter>Source\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Reader.h">
+      <Filter>Source\Serialize</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Writer.h">
+      <Filter>Source\Serialize</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Application.inl">
@@ -195,9 +198,6 @@
     <None Include="Engine\ObjectPool.inl">
       <Filter>Source\Containers</Filter>
     </None>
-    <None Include="Engine\EnttDebugger.inl">
-      <Filter>Source\Systems</Filter>
-    </None>
     <None Include="Engine\JsonHelpers.inl">
       <Filter>Source\JSON</Filter>
     </None>
@@ -209,6 +209,12 @@
     </None>
     <None Include="Engine\AssetHelpers.inl">
       <Filter>Source\Assets</Filter>
+    </None>
+    <None Include="Engine\Reader.inl">
+      <Filter>Source\Serialize</Filter>
+    </None>
+    <None Include="Engine\Writer.inl">
+      <Filter>Source\Serialize</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -235,9 +241,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Path.cpp">
       <Filter>Source\Strings</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\EnttDebugger.cpp">
-      <Filter>Source\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Engine\StringHelpers.cpp">
       <Filter>Source\Strings</Filter>
@@ -290,6 +293,12 @@
     <ClCompile Include="Engine\FlipbookSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Reader.cpp">
+      <Filter>Source\Serialize</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Writer.cpp">
+      <Filter>Source\Serialize</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -321,6 +330,9 @@
     </Filter>
     <Filter Include="Source\Vector">
       <UniqueIdentifier>{e38af772-3958-4d82-93f7-0178b69a9bc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Serialize">
+      <UniqueIdentifier>{2e8d60b6-a53f-477a-b5d5-81763a38ea16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include "Editor/EditorPCH.h"
+#include "EditorPCH.h"
 #include "Editor/Inspector.h"
 
 #include "Editor/InspectorExamples.h"
@@ -121,11 +121,11 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 		<
 		core::NameComponent
 		, core::TransformComponent
-		, example::Component
 
 		, audio::SoundComponent
 		, core::CameraComponent
 		, core::LevelComponent
+		, example::Component
 		, physics::RigidDynamicComponent
 		, physics::RigidStaticComponent
 		, render::FlipbookComponent

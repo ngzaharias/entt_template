@@ -1,4 +1,4 @@
-#include "Editor/EditorPCH.h"
+#include "EditorPCH.h"
 #include "Editor/Application.h"
 
 #include "Editor/AssetBrowser.h"
@@ -16,7 +16,6 @@
 
 #include <Engine/AssetManager.h>
 #include <Engine/CameraComponent.h>
-#include <Engine/EnttDebugger.h>
 #include <Engine/FlipbookAsset.h>
 #include <Engine/FlipbookComponent.h>
 #include <Engine/NameComponent.h>
@@ -80,8 +79,7 @@ void editor::Application::Register()
 	RegisterSystem<editor::History>();
 	RegisterSystem<editor::MainMenuBar>
 		(
-			GetSystem<debug::EnttDebugger>()
-			, GetSystem<editor::AssetBrowser>()
+			GetSystem<editor::AssetBrowser>()
 			, GetSystem<editor::EntityBrowser>()
 			, GetSystem<editor::GameWindow>()
 			, GetSystem<editor::History>()

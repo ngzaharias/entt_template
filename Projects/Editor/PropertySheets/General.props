@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IntDir>$(SolutionDir)\Intermediate\$(ProjectName)\$(Configuration)_$(PlatformTarget)\</IntDir>
-    <OutDir>$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\</OutDir>
+    <OutDir>$(SolutionDir)\Build\$(ProjectName)\$(Configuration)_$(PlatformTarget)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
@@ -12,17 +12,17 @@
       </Command>
     </PostBuildEvent>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Projects\Editor\;$(SolutionDir)\Projects\Engine\;$(SolutionDir)\Projects\Game\;$(SolutionDir)\Projects\imgui\;$(SolutionDir)\Include\;$(SolutionDir)\Include\imgui\;$(SolutionDir)\Include\imgui-sfml\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\;$(SolutionDir)\3rdParty\PhysX\Include\;$(SolutionDir)\3rdParty\SFML\Include\;$(SolutionDir)\Projects\Editor\;$(SolutionDir)\Projects\Engine\;$(SolutionDir)\Projects\Game\;$(SolutionDir)\Projects\Imgui\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Editor/EditorPCH.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>EditorPCH.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderFile>EditorPCH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\Intermediate\$(ProjectName)\$(Configuration)_$(PlatformTarget)\EditorPCH.pch</PrecompiledHeaderOutputFile>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Bin\PhysX\;$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Library\;$(SolutionDir)\Library\SFML\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>flac.lib;freetype.lib;gdi32.lib;ogg.lib;openal32.lib;opengl32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;winmm.lib;ws2_32.lib;Engine.lib;Imgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\3rdParty\;$(SolutionDir)\Build\Engine\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Build\Game\$(Configuration)_$(PlatformTarget)\;$(SolutionDir)\Build\Imgui\$(Configuration)_$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine.lib;Imgui.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;flac.lib;freetype.lib;gdi32.lib;ogg.lib;openal32.lib;opengl32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;winmm.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4098 /ignore:4217 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>

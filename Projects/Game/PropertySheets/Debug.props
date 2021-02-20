@@ -6,14 +6,15 @@
   <ItemDefinitionGroup>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>PhysX_64.lib;PhysXCommon_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-main-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Library\PhysX\debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\3rdParty\PhysX\Library\debug\;$(SolutionDir)\3rdParty\SFML\Library\debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile />
+    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(SolutionDir)\Bin\*.dll" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)\Bin\PhysX\debug\*.dll" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)\Bin\SFML\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy /y /d "$(SolutionDir)\3rdParty\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)\3rdParty\PhysX\Binary\debug\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)\3rdParty\SFML\Binary\debug\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />

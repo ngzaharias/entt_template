@@ -1,4 +1,4 @@
-#include "Editor/EditorPCH.h"
+#include "EditorPCH.h"
 #include "Editor/AssetBrowser.h"
 
 #include "Editor/FlipbookEditor.h"
@@ -236,24 +236,24 @@ void editor::AssetBrowser::Command_Open(const int32 index)
 
 void editor::AssetBrowser::Command_Select(const int32 index)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !m_Selection.empty())
-	{
-		const int32 first = std::min(index, m_Selection.back());
-		const int32 last = std::max(index, m_Selection.back());
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !m_Selection.empty())
+	//{
+	//	const int32 first = std::min(index, m_Selection.back());
+	//	const int32 last = std::max(index, m_Selection.back());
 
-		m_Selection.pop_back();
-		for (int32 i = first; i <= last; ++i)
-			m_Selection.push_back(i);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-	{
-		m_Selection.push_back(index);
-	}
-	else
-	{
-		m_Selection.clear();
-		m_Selection.push_back(index);
-	}
+	//	m_Selection.pop_back();
+	//	for (int32 i = first; i <= last; ++i)
+	//		m_Selection.push_back(i);
+	//}
+	//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+	//{
+	//	m_Selection.push_back(index);
+	//}
+	//else
+	//{
+	//	m_Selection.clear();
+	//	m_Selection.push_back(index);
+	//}
 }
 
 void editor::AssetBrowser::ContextMenu_Common(const Selection& selection)

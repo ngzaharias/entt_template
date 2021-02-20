@@ -7,11 +7,6 @@
 #include <entt/core/type_info.hpp>
 #include <entt/entity/registry.hpp>
 
-namespace debug
-{
-	class EnttDebugger;
-}
-
 namespace physics
 {
 	class PhysicsManager;

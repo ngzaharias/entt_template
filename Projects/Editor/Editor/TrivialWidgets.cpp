@@ -1,4 +1,4 @@
-#include "Editor/EditorPCH.h"
+#include "EditorPCH.h"
 #include "Editor/TrivialWidgets.h"
 
 #include <imgui/imgui.h>

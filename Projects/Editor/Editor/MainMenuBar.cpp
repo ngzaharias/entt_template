@@ -1,4 +1,4 @@
-#include "Editor/EditorPCH.h"
+#include "EditorPCH.h"
 #include "Editor/MainMenuBar.h"
 
 #include "Editor/AssetBrowser.h"
@@ -6,8 +6,6 @@
 #include "Editor/GameWindow.h"
 #include "Editor/History.h"
 #include "Editor/Inspector.h"
-
-#include <Engine/EnttDebugger.h>
 
 #include <imgui/imgui.h>
 
@@ -28,15 +26,13 @@ namespace
 
 editor::MainMenuBar::MainMenuBar
 (
-	debug::EnttDebugger& enttDebugger
-	, editor::AssetBrowser& assetBrowser
+	editor::AssetBrowser& assetBrowser
 	, editor::EntityBrowser& entityBrowser
 	, editor::GameWindow& gameWindow
 	, editor::History& history
 	, editor::Inspector& inspector
 )
-	: m_EnttDebugger(enttDebugger)
-	, m_AssetBrowser(assetBrowser)
+	: m_AssetBrowser(assetBrowser)
 	, m_EntityBrowser(entityBrowser)
 	, m_GameWindow(gameWindow)
 	, m_History(history)
@@ -120,10 +116,7 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			ImGui::Separator();
 
 			ImGui::MenuItem("Debug", nullptr, false, false);
-
-			bool enttDebugger = m_EnttDebugger.IsVisible();
-			if (ImGui::MenuItem("Entity Debugger", nullptr, &enttDebugger))
-				m_EnttDebugger.SetVisible(enttDebugger);
+			ImGui::Text("...");
 
 			ImGui::EndMenu();
 		}

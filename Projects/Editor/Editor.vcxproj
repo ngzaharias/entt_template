@@ -16,8 +16,7 @@
     <ClCompile Include="Editor\AssetWidgets.cpp" />
     <ClCompile Include="Editor\EditorPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Editor/EditorPCH.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EditorPCH.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Editor\EntityBrowser.cpp" />
     <ClCompile Include="Editor\EntityPopup.cpp" />
