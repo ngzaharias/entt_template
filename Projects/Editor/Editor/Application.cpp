@@ -31,11 +31,11 @@
 
 namespace
 {
-	const str::Name strDefaultFlipbook = str::Name::Create("9cf3dbdc-769e-a09a-6e4a-a0390e246666");
-	const str::Name strDefaultMaterial = str::Name::Create("a4835493-ae5a-40ba-8083-06deb381c801");
-	const str::Name strDefaultSprite = str::Name::Create("a55ac594-c274-372d-2f0b-733e79dfbabb");
-	const str::Name strDefaultSound = str::Name::Create("18fa78b3-6f37-4680-81b4-951747f76f3a");
-	const str::Name strDefaultTexture = str::Name::Create("5ed3b860-d64c-459a-a188-80dc7cc0e85f");
+	const str::Name strDefaultFlipbook = NAME("9cf3dbdc-769e-a09a-6e4a-a0390e246666");
+	const str::Name strDefaultMaterial = NAME("a4835493-ae5a-40ba-8083-06deb381c801");
+	const str::Name strDefaultSprite = NAME("a55ac594-c274-372d-2f0b-733e79dfbabb");
+	const str::Name strDefaultSound = NAME("18fa78b3-6f37-4680-81b4-951747f76f3a");
+	const str::Name strDefaultTexture = NAME("5ed3b860-d64c-459a-a188-80dc7cc0e85f");
 }
 
 editor::Application::Application()

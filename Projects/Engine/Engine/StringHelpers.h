@@ -8,7 +8,7 @@ namespace str
 
 	constexpr str::StringView strDelimiters = " .,:;'\"<>[]{}()\\|/";
 	constexpr str::StringView strWhitespace = " \t\f\v\n\r";
-	static const str::Name strNullGuid = str::Name::Create("00000000-0000-0000-0000-00000000");
+	static const str::Name strNullGuid = NAME("00000000-0000-0000-0000-00000000");
 
 	bool Contains(const str::StringView& string, const str::StringView& substring);
 	bool Contains_NoCase(const str::StringView& string, const str::StringView& substring);

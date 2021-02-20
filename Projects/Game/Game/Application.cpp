@@ -13,7 +13,7 @@
 namespace
 {
 	const str::Path strDefaultPath = str::Path("Assets/Levels/Default/");
-	const str::Name strExampleSound = str::Name::Create("18fa78b3-6f37-4680-81b4-951747f76f3a");
+	const str::Name strExampleSound = NAME("18fa78b3-6f37-4680-81b4-951747f76f3a");
 }
 
 game::Application::Application()

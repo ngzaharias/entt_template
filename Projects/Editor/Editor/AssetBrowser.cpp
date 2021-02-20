@@ -146,7 +146,7 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 			const char* asset_guid = json::ParseString(document, "asset_guid", nullptr);
 			const char* asset_type = json::ParseString(document, "asset_type", nullptr);
 
-			assetGuid = str::Name::Create(asset_guid);
+			assetGuid = NAME(asset_guid);
 			assetType = core::ToAssetType(asset_type);
 		}
 

@@ -4,6 +4,8 @@
 #include <Engine/System.h>
 
 #include <filesystem>
+#include <set>
+#include <vector>
 
 namespace core
 {

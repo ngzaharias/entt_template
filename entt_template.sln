@@ -26,6 +26,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ut", "ut", "{BED3B372-A179-4204-811B-273C83F73438}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine_ut", "Projects\Engine_ut\Engine_ut.vcxproj", "{DBAED792-E4F8-4437-AB2C-FABF1FC66B2B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2471547F-763A-49BA-9A17-6814171F1849} = {2471547F-763A-49BA-9A17-6814171F1849}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

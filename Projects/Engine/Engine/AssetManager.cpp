@@ -112,7 +112,7 @@ void core::AssetManager::LoadFilepath(const str::Path& filepath, const bool isSe
 			const char* guidString = json::ParseString(document, "asset_guid", nullptr);
 			const char* typeString = json::ParseString(document, "asset_type", nullptr);
 
-			const str::Name guid = str::Name::Create(guidString);
+			const str::Name guid = NAME(guidString);
 			const core::EAssetType type = core::ToAssetType(typeString);
 			m_AssetEntryMap.insert({ guid, AssetEntry{ type, guid, filepath } });
 		}

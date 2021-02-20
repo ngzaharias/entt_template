@@ -4,7 +4,7 @@
 #include <Engine/String.h>
 #include <Engine/StringView.h>
 
-#define NAME(str) str::Name::Create(str)
+#define NAME(string) str::Name::Create(string)
 
 namespace str
 {
@@ -33,3 +33,4 @@ namespace str
 		core::Hash m_Hash;
 	};
 }
+

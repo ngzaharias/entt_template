@@ -64,7 +64,7 @@ core::AssetPtr<render::FlipbookAsset> render::FlipbookLoader::load(const core::A
 	json::ParseArray(document, "frames", [&asset](const rapidjson::Value& child)
 	{
 		const char* sprite_guid = json::ParseString(child, "sprite_guid", str::strNullGuid.ToChar());
-		const str::Name spriteGuid = str::Name::Create(sprite_guid);
+		const str::Name spriteGuid = NAME(sprite_guid);
 
 		render::FlipbookFrame frame;
 		frame.m_FrameCount = json::ParseInt(child, "frame_count", 1);

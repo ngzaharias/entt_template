@@ -10,7 +10,7 @@ namespace
 	core::AssetEntry GenerateEntry(const core::EAssetType& type, const str::Path& folder)
 	{
 		core::AssetEntry entry;
-		entry.m_Guid = str::Name::Create(str::GenerateGUID());
+		entry.m_Guid = NAME(str::GenerateGUID());
 		entry.m_Filepath = folder;
 		entry.m_Type = type;
 		return entry;

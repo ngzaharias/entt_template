@@ -4,6 +4,8 @@
 
 #include <entt/entity/entity.hpp>
 
+#include <set>
+
 namespace editor
 {
 	class Inspector;

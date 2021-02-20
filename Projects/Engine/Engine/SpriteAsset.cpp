@@ -52,7 +52,7 @@ core::AssetPtr<render::SpriteAsset> render::SpriteLoader::load(const core::Asset
 	json::LoadDocument(entry.m_Filepath, document);
 
 	const char* texture_guid = json::ParseString(document, "texture_guid", str::strNullGuid.ToChar());
-	const str::Name textureGuid = str::Name::Create(texture_guid);
+	const str::Name textureGuid = NAME(texture_guid);
 
 	render::SpriteAsset* asset = new render::SpriteAsset();
 	asset->m_Guid = entry.m_Guid;
