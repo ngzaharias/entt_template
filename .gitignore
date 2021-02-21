@@ -29,6 +29,7 @@
 
 # Executables
 *.exe
+!premake5.exe
 *.out
 *.app
 
@@ -37,3 +38,8 @@
 *.opendb
 *.user
 imgui.ini
+
+# Project Files
+*.sln
+*.vcxproj
+*.vcxproj.filters
