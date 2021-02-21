@@ -41,5 +41,11 @@ workspace "ZEngine"
 	include "Code/Game/premake5.lua"
 	include "Code/Editor/premake5.lua"
 
-	group("ut")
+	group "ut"
 		include "Code/Engine_ut/premake5.lua"
+	group ""
+
+project "ZERO_CHECK"
+	kind "ConsoleApp"
+	language "C++"
+	location "%{wks.location}/Projects/ZERO_CHECK"

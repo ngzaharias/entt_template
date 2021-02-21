@@ -7,9 +7,9 @@ serialize::Writer::Writer()
 	m_Writer.StartArray();
 }
 
-serialize::Writer::Writer(bool isReplicating)
-	: m_Writer(m_Buffer)
-	, m_IsReplicating(isReplicating)
+serialize::Writer::Writer(Mode mode)
+	: m_Mode(mode)
+	, m_Writer(m_Buffer)
 {
 	m_Writer.StartArray();
 }

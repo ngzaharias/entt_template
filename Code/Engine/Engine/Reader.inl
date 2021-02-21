@@ -26,7 +26,7 @@ void serialize::Reader::Visit(Type& value)
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
 			constexpr bool isReplicated = refl::descriptor::has_attribute<attr::Replicated>(field);
-			if (!m_IsReplicating || isReplicated)
+			if (m_Mode != Mode::Replication || isReplicated)
 				Visit(field(value));
 		});
 	}

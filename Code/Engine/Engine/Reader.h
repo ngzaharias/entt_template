@@ -16,8 +16,14 @@ namespace serialize
 		using Document = rapidjson::Document;
 
 	public:
+		enum class Mode
+		{
+			None,
+			Replication,
+		};
+
 		explicit Reader(const char* data);
-		explicit Reader(const char* data, bool isReplicating);
+		explicit Reader(const char* data, Mode mode);
 
 		template<typename Type>
 		void Visit(Type& value);
@@ -50,11 +56,10 @@ namespace serialize
 		void Visit(Vector3i& value);
 
 	private:
-		// read
-		Document	m_Document = { };
-		int32		m_Index = 0;
+		const Mode m_Mode = Mode::None;
 
-		bool m_IsReplicating = false;
+		Document m_Document = { };
+		int32 m_Index = 0;
 	};
 }
 

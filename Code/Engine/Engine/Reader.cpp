@@ -6,8 +6,8 @@ serialize::Reader::Reader(const char* data)
 	m_Document.Parse(data);
 }
 
-serialize::Reader::Reader(const char* data, bool isReplicating)
-	: m_IsReplicating(isReplicating)
+serialize::Reader::Reader(const char* data, Mode mode)
+	: m_Mode(mode)
 {
 	m_Document.Parse(data);
 }

@@ -379,7 +379,7 @@ TEST_CASE("Replication")
 	{
 		Replication myStruct = { s_Int32, s_Int32 };
 
-		serialize::Writer writer(true);
+		serialize::Writer writer(serialize::Writer::Mode::Replication);
 		writer.Visit(myStruct);
 
 		writeString = writer.Conclude();
@@ -388,7 +388,7 @@ TEST_CASE("Replication")
 	{
 		Replication myStruct = { 0, 0 };
 
-		serialize::Reader reader(writeString.c_str(), true);
+		serialize::Reader reader(writeString.c_str(), serialize::Reader::Mode::Replication);
 		reader.Visit(myStruct);
 
 		REQUIRE(myStruct.yesReflect == s_Int32);
