@@ -116,6 +116,60 @@ TEST_CASE("Struct")
 	}
 }
 
+TEST_CASE("Map")
+{
+	str::String writeString;
+
+	{
+		std::map<int32, bool> myMap = { {3, true}, {2, false}, {1, true} };
+
+		serialize::Writer writer;
+		writer.Visit(myMap);
+
+		writeString = writer.Conclude();
+	}
+
+	{
+		std::map<int32, bool> myMap;
+
+		serialize::Reader reader(writeString.c_str());
+		reader.Visit(myMap);
+
+		REQUIRE(myMap.size() == 3);
+		REQUIRE(myMap.count(1) == 1);
+		REQUIRE(myMap.count(2) == 1);
+		REQUIRE(myMap.count(3) == 1);
+	}
+}
+
+TEST_CASE("Set")
+{
+	str::String writeString;
+
+	{
+		std::set<int32> mySet = { 5, 4, 3, 2, 1 };
+
+		serialize::Writer writer;
+		writer.Visit(mySet);
+
+		writeString = writer.Conclude();
+	}
+
+	{
+		std::vector<int32> mySet;
+
+		serialize::Reader reader(writeString.c_str());
+		reader.Visit(mySet);
+
+		REQUIRE(mySet.size() == 5);
+		REQUIRE(mySet[0] == 1);
+		REQUIRE(mySet[1] == 2);
+		REQUIRE(mySet[2] == 3);
+		REQUIRE(mySet[3] == 4);
+		REQUIRE(mySet[4] == 5);
+	}
+}
+
 TEST_CASE("Vector")
 {
 	str::String writeString;
@@ -136,7 +190,10 @@ TEST_CASE("Vector")
 		reader.Visit(myVector);
 
 		REQUIRE(myVector.size() == 5);
-		for (int32 i = 0; i < myVector.size(); ++i)
-			REQUIRE(myVector[i] == i + 1);
+		REQUIRE(myVector[0] == 1);
+		REQUIRE(myVector[1] == 2);
+		REQUIRE(myVector[2] == 3);
+		REQUIRE(myVector[3] == 4);
+		REQUIRE(myVector[4] == 5);
 	}
 }

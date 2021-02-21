@@ -20,12 +20,29 @@ void serialize::Writer::Visit(const Type& value)
 	}
 }
 
+template<typename Key, typename Val>
+void serialize::Writer::Visit(const std::map<Key, Val>& value)
+{
+	Visit(static_cast<uint32>(value.size()));
+	for (auto&& [key, val] : value)
+	{
+		Visit(key);
+		Visit(val);
+	}
+}
+
+template<typename Type>
+void serialize::Writer::Visit(const std::set<Type>& value)
+{
+	Visit(static_cast<uint32>(value.size()));
+	for (const Type& val : value)
+		Visit(val);
+}
+
 template<typename Type>
 void serialize::Writer::Visit(const std::vector<Type>& value)
 {
-	const uint32 size = static_cast<uint32>(value.size());
-	Visit(size);
-
-	for (uint32 i = 0; i < size; ++i)
-		Visit(value[i]);
+	Visit(static_cast<uint32>(value.size()));
+	for (auto&& val : value)
+		Visit(val);
 }

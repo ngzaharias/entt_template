@@ -3,6 +3,8 @@
 #include <rapidjson/prettywriter.h>
 #include <rapidjson/stringbuffer.h>
 
+#include <map>
+#include <set>
 #include <vector>
 
 namespace serialize
@@ -19,6 +21,10 @@ namespace serialize
 		template<typename Type>
 		void Visit(const Type& value);
 
+		template<typename Key, typename Val>
+		void Visit(const std::map<Key, Val>& value);
+		template<typename Type>
+		void Visit(const std::set<Type>& value);
 		template<typename Type>
 		void Visit(const std::vector<Type>& value);
 

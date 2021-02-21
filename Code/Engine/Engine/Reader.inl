@@ -20,6 +20,35 @@ void serialize::Reader::Visit(Type& value)
 	}
 }
 
+template<typename Key, typename Val>
+void serialize::Reader::Visit(std::map<Key, Val>& value)
+{
+	uint32 size;
+	Visit(size);
+
+	Key key; Val val;
+	for (uint32 i = 0; i < size; ++i)
+	{
+		Visit(key);
+		Visit(val);
+		value[key] = val;
+	}
+}
+
+template<typename Type>
+void serialize::Reader::Visit(std::set<Type>& value)
+{
+	uint32 size;
+	Visit(size);
+
+	Type val;
+	for (uint32 i = 0; i < size; ++i)
+	{
+		Visit(val);
+		value.push_back(val);
+	}
+}
+
 template<typename Type>
 void serialize::Reader::Visit(std::vector<Type>& value)
 {
@@ -27,10 +56,10 @@ void serialize::Reader::Visit(std::vector<Type>& value)
 	Visit(size);
 	value.reserve(size);
 
-	Type child;
+	Type val;
 	for (uint32 i = 0; i < size; ++i)
 	{
-		Visit(child);
-		value.push_back(child);
+		Visit(val);
+		value.push_back(val);
 	}
 }

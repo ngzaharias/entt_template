@@ -2,6 +2,10 @@
 
 #include <rapidjson/document.h>
 
+#include <map>
+#include <set>
+#include <vector>
+
 namespace serialize
 {
 	class Reader final
@@ -15,6 +19,10 @@ namespace serialize
 		template<typename Type>
 		void Visit(Type& value);
 
+		template<typename Key, typename Val>
+		void Visit(std::map<Key, Val>& value);
+		template<typename Type>
+		void Visit(std::set<Type>& value);
 		template<typename Type>
 		void Visit(std::vector<Type>& value);
 
