@@ -2,8 +2,10 @@
 
 #include <rapidjson/document.h>
 
+#include <array>
 #include <map>
 #include <set>
+#include <variant>
 #include <vector>
 
 namespace serialize
@@ -11,7 +13,6 @@ namespace serialize
 	class Reader final
 	{
 		using Document = rapidjson::Document;
-		using Value = rapidjson::Value;
 
 	public:
 		explicit Reader(const char* data);
@@ -19,12 +20,17 @@ namespace serialize
 		template<typename Type>
 		void Visit(Type& value);
 
+		template<typename Type, size_t Size>
+		void Visit(std::array<Type, Size>& value);
 		template<typename Key, typename Val>
 		void Visit(std::map<Key, Val>& value);
 		template<typename Type>
 		void Visit(std::set<Type>& value);
 		template<typename Type>
 		void Visit(std::vector<Type>& value);
+
+		template<typename ...Types>
+		void Visit(std::variant<Types...>& value);
 
 		void Visit(bool& value);
 		void Visit(int32& value);
@@ -42,7 +48,6 @@ namespace serialize
 	private:
 		// read
 		Document	m_Document = { };
-		Value		m_Data = { };
 		int32		m_Index = 0;
 	};
 }

@@ -2,6 +2,20 @@
 
 #include <refl/refl.hpp>
 
+namespace
+{
+	template <typename Type, typename Variant>
+	void VisitVariant(serialize::Reader& reader, Variant& value, uint32& i, const uint32 index)
+	{
+		if (i++ == index)
+		{
+			Type val;
+			reader.Visit(val);
+			value = val;
+		}
+	}
+}
+
 template<typename Type>
 void serialize::Reader::Visit(Type& value)
 {
@@ -17,6 +31,17 @@ void serialize::Reader::Visit(Type& value)
 	else
 	{
 		assert(false);
+	}
+}
+
+template<typename Type, size_t Size>
+void serialize::Reader::Visit(std::array<Type, Size>& value)
+{
+	Type val;
+	for (uint32 i = 0; i < Size; ++i)
+	{
+		Visit(val);
+		value[i] = val;
 	}
 }
 
@@ -62,4 +87,13 @@ void serialize::Reader::Visit(std::vector<Type>& value)
 		Visit(val);
 		value.push_back(val);
 	}
+}
+
+template<typename ...Types>
+void serialize::Reader::Visit(std::variant<Types...>& value)
+{
+	uint32 i = 0;
+	uint32 index;
+	Visit(index);
+	(VisitVariant<Types>(*this, value, i, index), ...);
 }

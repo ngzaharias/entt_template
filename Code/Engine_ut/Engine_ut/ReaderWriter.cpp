@@ -4,6 +4,7 @@
 #include <Engine/String.h>
 #include <Engine/StringView.h>
 #include <Engine/Types.h>
+#include <Engine/VariantHelpers.h>
 #include <Engine/Vector2.h>
 #include <Engine/Vector3.h>
 
@@ -12,24 +13,47 @@
 
 #include <refl/refl.hpp>
 
-TEST_CASE("Trivials")
+#include <array>
+#include <map>
+#include <set>
+#include <variant>
+#include <vector>
+
+namespace
+{
+	constexpr bool s_Bool = true;
+	constexpr int32 s_Int32 = -1337;
+	constexpr uint32 s_Uint32 = 666;
+	constexpr double s_Double = 1.11111;
+	constexpr float s_Float = 1.2345f;
+
+	const str::Name s_Name = NAME("Nicholas");
+	const str::String s_String = "Hello";
+	const Vector2f s_Vector2f = Vector2f(1.f, 2.f);
+	const Vector2i s_Vector2i = Vector2i(-1, -2);
+	const Vector2u s_Vector2u = Vector2u(1, 2);
+	const Vector3f s_Vector3f = Vector3f(1.f, 2.f, 3.f);
+	const Vector3i s_Vector3i = Vector3i(-1, -2, -3);
+}
+
+TEST_CASE("Trivial")
 {
 	str::String writeString;
 
 	{
 		serialize::Writer writer;
-		writer.Visit(true);
-		writer.Visit(-1337);
-		writer.Visit(666);
-		writer.Visit(1.111111111);
-		writer.Visit(1.23456789f);
-		writer.Visit(NAME("Nicholas"));
-		writer.Visit(str::String("HelloWorld"));
-		writer.Visit(Vector2f(1.f, 2.f));
-		writer.Visit(Vector2i(-1, -2));
-		writer.Visit(Vector2u(1, 2));
-		writer.Visit(Vector3f(1.f, 2.f, 3.f));
-		writer.Visit(Vector3i(-1, -2, -3));
+		writer.Visit(s_Bool);
+		writer.Visit(s_Int32);
+		writer.Visit(s_Uint32);
+		writer.Visit(s_Double);
+		writer.Visit(s_Float);
+		writer.Visit(s_Name);
+		writer.Visit(s_String);
+		writer.Visit(s_Vector2f);
+		writer.Visit(s_Vector2i);
+		writer.Visit(s_Vector2u);
+		writer.Visit(s_Vector3f);
+		writer.Visit(s_Vector3i);
 
 		writeString = writer.Conclude();
 	}
@@ -55,38 +79,52 @@ TEST_CASE("Trivials")
 		reader.Visit(myVector3f);
 		reader.Visit(myVector3i);
 
-		REQUIRE(myBool		== true);
-		REQUIRE(myInt		== -1337);
-		REQUIRE(myUint		== 666);
-		REQUIRE(myDouble	== 1.111111111);
-		REQUIRE(myFloat		== 1.23456789f);
-		REQUIRE(myName		== NAME("Nicholas"));
-		REQUIRE(myString	== "HelloWorld");
-		REQUIRE(myVector2f  == Vector2f(1.f, 2.f));
-		REQUIRE(myVector2i  == Vector2i(-1, -2));
-		REQUIRE(myVector2u  == Vector2u(1, 2));
-		REQUIRE(myVector3f  == Vector3f(1.f, 2.f, 3.f));
-		REQUIRE(myVector3i  == Vector3i(-1, -2, -3));
+		REQUIRE(myBool == s_Bool);
+		REQUIRE(myInt == s_Int32);
+		REQUIRE(myUint == s_Uint32);
+		REQUIRE(myDouble == s_Double);
+		REQUIRE(myFloat == s_Float);
+		REQUIRE(myName == s_Name);
+		REQUIRE(myString == s_String);
+		REQUIRE(myVector2f == s_Vector2f);
+		REQUIRE(myVector2i == s_Vector2i);
+		REQUIRE(myVector2u == s_Vector2u);
+		REQUIRE(myVector3f == s_Vector3f);
+		REQUIRE(myVector3i == s_Vector3i);
 	}
 }
 
 struct MyStruct
 {
 	bool myBool;
-	int32 myInt;
-	uint32 myUint;
+	int32 myInt32;
+	uint32 myUint32;
 	double myDouble;
 	float myFloat;
+	str::Name myName;
+	str::String myString;
+	Vector2f myVector2f;
+	Vector2i myVector2i;
+	Vector2u myVector2u;
+	Vector3f myVector3f;
+	Vector3i myVector3i;
 };
 
 REFL_AUTO
 (
 	type(MyStruct)
 	, field(myBool)
-	, field(myInt)
-	, field(myUint)
+	, field(myInt32)
+	, field(myUint32)
 	, field(myDouble)
 	, field(myFloat)
+	, field(myName)
+	, field(myString)
+	, field(myVector2f)
+	, field(myVector2i)
+	, field(myVector2u)
+	, field(myVector3f)
+	, field(myVector3i)
 )
 
 TEST_CASE("Struct")
@@ -94,7 +132,21 @@ TEST_CASE("Struct")
 	str::String writeString;
 
 	{
-		MyStruct myStruct = { true, -1337, 666, 1.111111111, 1.23456789f };
+		MyStruct myStruct = 
+		{ 
+			s_Bool
+			, s_Int32
+			, s_Uint32
+			, s_Double
+			, s_Float 
+			, s_Name
+			, s_String
+			, s_Vector2f
+			, s_Vector2i
+			, s_Vector2u
+			, s_Vector3f
+			, s_Vector3i
+		};
 
 		serialize::Writer writer;
 		writer.Visit(myStruct);
@@ -108,11 +160,45 @@ TEST_CASE("Struct")
 		serialize::Reader reader(writeString.c_str());
 		reader.Visit(myStruct);
 
-		REQUIRE(myStruct.myBool   == true);
-		REQUIRE(myStruct.myInt    == -1337);
-		REQUIRE(myStruct.myUint   == 666);
-		REQUIRE(myStruct.myDouble == 1.111111111);
-		REQUIRE(myStruct.myFloat  == 1.23456789f);
+		REQUIRE(myStruct.myBool == s_Bool);
+		REQUIRE(myStruct.myInt32 == s_Int32);
+		REQUIRE(myStruct.myUint32 == s_Uint32);
+		REQUIRE(myStruct.myDouble == s_Double);
+		REQUIRE(myStruct.myFloat == s_Float);
+		REQUIRE(myStruct.myName == s_Name);
+		REQUIRE(myStruct.myString == s_String);
+		REQUIRE(myStruct.myVector2f == s_Vector2f);
+		REQUIRE(myStruct.myVector2i == s_Vector2i);
+		REQUIRE(myStruct.myVector2u == s_Vector2u);
+		REQUIRE(myStruct.myVector3f == s_Vector3f);
+		REQUIRE(myStruct.myVector3i == s_Vector3i);
+	}
+}
+
+TEST_CASE("Array")
+{
+	str::String writeString;
+
+	{
+		std::array<int32, 5> myArray = { 1, 2, 3, 4, 5 };
+
+		serialize::Writer writer;
+		writer.Visit(myArray);
+
+		writeString = writer.Conclude();
+	}
+
+	{
+		std::array<int32, 5> myArray;
+
+		serialize::Reader reader(writeString.c_str());
+		reader.Visit(myArray);
+
+		REQUIRE(myArray[0] == 1);
+		REQUIRE(myArray[1] == 2);
+		REQUIRE(myArray[2] == 3);
+		REQUIRE(myArray[3] == 4);
+		REQUIRE(myArray[4] == 5);
 	}
 }
 
@@ -195,5 +281,51 @@ TEST_CASE("Vector")
 		REQUIRE(myVector[2] == 3);
 		REQUIRE(myVector[3] == 4);
 		REQUIRE(myVector[4] == 5);
+	}
+}
+
+TEST_CASE("Variant")
+{
+	using MyVariant = std::variant<bool, int32, float>;
+	str::String writeString;
+
+	{
+		MyVariant myVariantA = true;
+		MyVariant myVariantB = 32;
+		MyVariant myVariantC = 1337.f;
+
+		serialize::Writer writer;
+		writer.Visit(myVariantA);
+		writer.Visit(myVariantB);
+		writer.Visit(myVariantC);
+
+		writeString = writer.Conclude();
+	}
+
+	{
+		MyVariant myVariantA;
+		MyVariant myVariantB;
+		MyVariant myVariantC;
+
+		serialize::Reader reader(writeString.c_str());
+		reader.Visit(myVariantA);
+		reader.Visit(myVariantB);
+		reader.Visit(myVariantC);
+
+		std::visit(core::VariantOverload
+			{
+				[&](auto value) { FAIL("Variant with wrong type!"); },
+				[&](bool value) { REQUIRE(value == true); },
+			}, myVariantA);
+		std::visit(core::VariantOverload
+			{
+				[&](auto value) { FAIL("Variant with wrong type!"); },
+				[&](int32 value) { REQUIRE(value == 32); },
+			}, myVariantB);
+		std::visit(core::VariantOverload
+			{
+				[&](auto value) { FAIL("Variant with wrong type!"); },
+				[&](float value) { REQUIRE(value == 1337.f); },
+			}, myVariantC);
 	}
 }
