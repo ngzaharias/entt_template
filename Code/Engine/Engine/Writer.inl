@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/AttributeTypes.h>
+
 #include <refl/refl.hpp>
 
 template<typename Type>
@@ -11,7 +13,9 @@ void serialize::Writer::Visit(const Type& value)
 	{
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
-			Visit(field(value));
+			constexpr bool isReplicated = refl::descriptor::has_attribute<attr::Replicated>(field);
+			if (!m_IsReplicating || isReplicated)
+				Visit(field(value));
 		});
 	}
 	else
@@ -52,6 +56,16 @@ void serialize::Writer::Visit(const std::vector<Type>& value)
 	Visit(static_cast<uint32>(value.size()));
 	for (auto&& val : value)
 		Visit(val);
+}
+
+template<typename Type>
+void serialize::Writer::Visit(const std::optional<Type>& value)
+{
+	Visit(value.has_value());
+	if (value.has_value())
+	{
+		Visit(value.value());
+	}
 }
 
 template<typename ...Types>

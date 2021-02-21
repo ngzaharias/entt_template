@@ -284,15 +284,44 @@ TEST_CASE("Vector")
 	}
 }
 
+TEST_CASE("Optional")
+{
+	using Optional = std::optional<int32>;
+	str::String writeString;
+
+	{
+		Optional myOptionalA = s_Int32;
+		Optional myOptionalB = { };
+
+		serialize::Writer writer;
+		writer.Visit(myOptionalA);
+		writer.Visit(myOptionalB);
+
+		writeString = writer.Conclude();
+	}
+
+	{
+		Optional myOptionalA, myOptionalB;
+
+		serialize::Reader reader(writeString.c_str());
+		reader.Visit(myOptionalA);
+		reader.Visit(myOptionalB);
+
+		REQUIRE(myOptionalA.has_value());
+		REQUIRE(myOptionalA.value() == s_Int32);
+		REQUIRE(!myOptionalB.has_value());
+	}
+}
+
 TEST_CASE("Variant")
 {
 	using MyVariant = std::variant<bool, int32, float>;
 	str::String writeString;
 
 	{
-		MyVariant myVariantA = true;
-		MyVariant myVariantB = 32;
-		MyVariant myVariantC = 1337.f;
+		MyVariant myVariantA = s_Bool;
+		MyVariant myVariantB = s_Int32;
+		MyVariant myVariantC = s_Float;
 
 		serialize::Writer writer;
 		writer.Visit(myVariantA);
@@ -315,17 +344,54 @@ TEST_CASE("Variant")
 		std::visit(core::VariantOverload
 			{
 				[&](auto value) { FAIL("Variant with wrong type!"); },
-				[&](bool value) { REQUIRE(value == true); },
+				[&](bool value) { REQUIRE(value == s_Bool); },
 			}, myVariantA);
 		std::visit(core::VariantOverload
 			{
 				[&](auto value) { FAIL("Variant with wrong type!"); },
-				[&](int32 value) { REQUIRE(value == 32); },
+				[&](int32 value) { REQUIRE(value == s_Int32); },
 			}, myVariantB);
 		std::visit(core::VariantOverload
 			{
 				[&](auto value) { FAIL("Variant with wrong type!"); },
-				[&](float value) { REQUIRE(value == 1337.f); },
+				[&](float value) { REQUIRE(value == s_Float); },
 			}, myVariantC);
+	}
+}
+
+struct Replication
+{
+	int32 yesReflect;
+	int32 noReflect;
+};
+
+REFL_AUTO
+(
+	type(Replication)
+	, field(yesReflect, attr::Replicated())
+	, field(noReflect)
+)
+
+TEST_CASE("Replication")
+{
+	str::String writeString;
+
+	{
+		Replication myStruct = { s_Int32, s_Int32 };
+
+		serialize::Writer writer(true);
+		writer.Visit(myStruct);
+
+		writeString = writer.Conclude();
+	}
+
+	{
+		Replication myStruct = { 0, 0 };
+
+		serialize::Reader reader(writeString.c_str(), true);
+		reader.Visit(myStruct);
+
+		REQUIRE(myStruct.yesReflect == s_Int32);
+		REQUIRE(myStruct.noReflect == 0);
 	}
 }

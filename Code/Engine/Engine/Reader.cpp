@@ -6,6 +6,12 @@ serialize::Reader::Reader(const char* data)
 	m_Document.Parse(data);
 }
 
+serialize::Reader::Reader(const char* data, bool isReplicating)
+	: m_IsReplicating(isReplicating)
+{
+	m_Document.Parse(data);
+}
+
 void serialize::Reader::Visit(bool& value)
 {
 	value = m_Document[m_Index++].GetBool();

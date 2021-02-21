@@ -18,6 +18,8 @@ namespace serialize
 
 	public:
 		explicit Writer();
+		explicit Writer(bool isReplicating);
+
 		str::StringView Conclude();
 
 		template<typename Type>
@@ -32,6 +34,8 @@ namespace serialize
 		template<typename Type>
 		void Visit(const std::vector<Type>& value);
 
+		template<typename Type>
+		void Visit(const std::optional<Type>& value);
 		template<typename ...Types>
 		void Visit(const std::variant<Types...>& value);
 
@@ -51,6 +55,8 @@ namespace serialize
 	private:
 		PrettyWriter	m_Writer;
 		StringBuffer	m_Buffer = { };
+
+		bool m_IsReplicating = false;
 	};
 }
 

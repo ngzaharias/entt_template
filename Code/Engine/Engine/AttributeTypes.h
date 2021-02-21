@@ -23,6 +23,7 @@ namespace attr
 		Optionalf m_Max = { };
 	};
 
+	struct Replicated : refl::attr::usage::field { };
 }
 
 namespace widget

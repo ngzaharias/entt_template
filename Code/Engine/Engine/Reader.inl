@@ -25,7 +25,9 @@ void serialize::Reader::Visit(Type& value)
 	{
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
-			Visit(field(value));
+			constexpr bool isReplicated = refl::descriptor::has_attribute<attr::Replicated>(field);
+			if (!m_IsReplicating || isReplicated)
+				Visit(field(value));
 		});
 	}
 	else
@@ -86,6 +88,19 @@ void serialize::Reader::Visit(std::vector<Type>& value)
 	{
 		Visit(val);
 		value.push_back(val);
+	}
+}
+
+template<typename Type>
+void serialize::Reader::Visit(std::optional<Type>& value)
+{
+	bool hasValue;
+	Visit(hasValue);
+	if (hasValue)
+	{
+		Type val;
+		Visit(val);
+		value = val;
 	}
 }
 

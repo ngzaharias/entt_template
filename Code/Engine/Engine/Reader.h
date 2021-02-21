@@ -4,6 +4,7 @@
 
 #include <array>
 #include <map>
+#include <optional>
 #include <set>
 #include <variant>
 #include <vector>
@@ -16,6 +17,7 @@ namespace serialize
 
 	public:
 		explicit Reader(const char* data);
+		explicit Reader(const char* data, bool isReplicating);
 
 		template<typename Type>
 		void Visit(Type& value);
@@ -29,6 +31,8 @@ namespace serialize
 		template<typename Type>
 		void Visit(std::vector<Type>& value);
 
+		template<typename Type>
+		void Visit(std::optional<Type>& value);
 		template<typename ...Types>
 		void Visit(std::variant<Types...>& value);
 
@@ -49,6 +53,8 @@ namespace serialize
 		// read
 		Document	m_Document = { };
 		int32		m_Index = 0;
+
+		bool m_IsReplicating = false;
 	};
 }
 

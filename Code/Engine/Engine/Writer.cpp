@@ -7,6 +7,13 @@ serialize::Writer::Writer()
 	m_Writer.StartArray();
 }
 
+serialize::Writer::Writer(bool isReplicating)
+	: m_Writer(m_Buffer)
+	, m_IsReplicating(isReplicating)
+{
+	m_Writer.StartArray();
+}
+
 str::StringView serialize::Writer::Conclude()
 {
 	m_Writer.EndArray();
