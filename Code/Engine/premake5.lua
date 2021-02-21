@@ -3,6 +3,7 @@ project "Engine"
 	dependson { "Imgui" }
 	pchheader "EnginePCH.h"
 	pchsource "Engine/EnginePCH.cpp"
+	location "%{wks.location}/Projects/Engine"
 	
 	files 
 	{ 
@@ -16,6 +17,6 @@ project "Engine"
 		"%{wks.location}/3rdParty/",
 		"%{wks.location}/3rdParty/PhysX/Include/",
 		"%{wks.location}/3rdParty/SFML/Include/",
-		"%{wks.location}/Projects/Engine/",
-		"%{wks.location}/Projects/Imgui/",
+		"%{wks.location}/Code/Engine/",
+		"%{wks.location}/Code/Imgui/",
 	}

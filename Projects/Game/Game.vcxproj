@@ -59,7 +59,7 @@
       <PrecompiledHeaderFile>GamePCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\Engine;.;..\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\..\Code\Engine;..\..\Code\Game;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -83,7 +83,7 @@ IF EXIST $(SolutionDir)\3rdParty\SFML\Binary\Debug\*.dll\ (xcopy /Q /E /Y /I $(S
       <PrecompiledHeaderFile>GamePCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\Engine;.;..\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\..\Code\Engine;..\..\Code\Game;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -108,15 +108,15 @@ IF EXIST $(SolutionDir)\3rdParty\SFML\Binary\Release\*.dll\ (xcopy /Q /E /Y /I $
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Game\Application.h" />
-    <ClInclude Include="Game\GamePCH.h" />
+    <ClInclude Include="..\..\Code\Game\Game\Application.h" />
+    <ClInclude Include="..\..\Code\Game\Game\GamePCH.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game\Application.cpp" />
-    <ClCompile Include="Game\GamePCH.cpp">
+    <ClCompile Include="..\..\Code\Game\Game\Application.cpp" />
+    <ClCompile Include="..\..\Code\Game\Game\GamePCH.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Game\Main.cpp" />
+    <ClCompile Include="..\..\Code\Game\Game\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

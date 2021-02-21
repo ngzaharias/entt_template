@@ -38,9 +38,15 @@ void serialize::Writer::Visit(const float& value)
 	m_Writer.Double(value);
 }
 
+void serialize::Writer::Visit(const str::Name& value)
+{
+	Visit(value.ToString());
+}
+
 void serialize::Writer::Visit(const str::String& value)
 {
-	m_Writer.String(value.c_str());
+	const auto length = static_cast<rapidjson::SizeType>(value.length());
+	m_Writer.String(value.c_str(), length, true);
 }
 
 void serialize::Writer::Visit(const Vector2f& value)

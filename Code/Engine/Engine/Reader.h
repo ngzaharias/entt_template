@@ -12,11 +12,18 @@ namespace serialize
 	public:
 		explicit Reader(const char* data);
 
+		template<typename Type>
+		void Visit(Type& value);
+
+		template<typename Type>
+		void Visit(std::vector<Type>& value);
+
 		void Visit(bool& value);
 		void Visit(int32& value);
 		void Visit(uint32& value);
 		void Visit(double& value);
 		void Visit(float& value);
+		void Visit(str::Name& value);
 		void Visit(str::String& value);
 		void Visit(Vector2f& value);
 		void Visit(Vector2i& value);

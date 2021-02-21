@@ -59,7 +59,7 @@
       <PrecompiledHeaderFile>EditorPCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;.;..\Engine;..\Game;..\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\..\Code\Editor;..\..\Code\Engine;..\..\Code\Game;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -83,7 +83,7 @@ IF EXIST $(SolutionDir)\3rdParty\SFML\Binary\Debug\*.dll\ (xcopy /Q /E /Y /I $(S
       <PrecompiledHeaderFile>EditorPCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;.;..\Engine;..\Game;..\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\..\Code\Editor;..\..\Code\Engine;..\..\Code\Game;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -108,53 +108,53 @@ IF EXIST $(SolutionDir)\3rdParty\SFML\Binary\Release\*.dll\ (xcopy /Q /E /Y /I $
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Editor\Application.h" />
-    <ClInclude Include="Editor\AssetBrowser.h" />
-    <ClInclude Include="Editor\AssetPopup.h" />
-    <ClInclude Include="Editor\AssetPopup.inl" />
-    <ClInclude Include="Editor\AssetWidgets.h" />
-    <ClInclude Include="Editor\AssetWidgets.inl" />
-    <ClInclude Include="Editor\ContainerWidgets.h" />
-    <ClInclude Include="Editor\ContainerWidgets.inl" />
-    <ClInclude Include="Editor\EditorPCH.h" />
-    <ClInclude Include="Editor\EntityBrowser.h" />
-    <ClInclude Include="Editor\EntityPopup.h" />
-    <ClInclude Include="Editor\FlipbookEditor.h" />
-    <ClInclude Include="Editor\GameWindow.h" />
-    <ClInclude Include="Editor\History.h" />
-    <ClInclude Include="Editor\Inspector.h" />
-    <ClInclude Include="Editor\InspectorExamples.h" />
-    <ClInclude Include="Editor\InspectorWidgets.h" />
-    <ClInclude Include="Editor\InspectorWidgets.inl" />
-    <ClInclude Include="Editor\MainMenuBar.h" />
-    <ClInclude Include="Editor\SceneWindow.h" />
-    <ClInclude Include="Editor\SpriteEditor.h" />
-    <ClInclude Include="Editor\SpriteExtractor.h" />
-    <ClInclude Include="Editor\TrivialWidgets.h" />
-    <ClInclude Include="Editor\VariantWidgets.h" />
-    <ClInclude Include="Editor\VariantWidgets.inl" />
-    <ClInclude Include="Editor\examples\example_attributes.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\Application.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetBrowser.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetPopup.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetPopup.inl" />
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetWidgets.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetWidgets.inl" />
+    <ClInclude Include="..\..\Code\Editor\Editor\ContainerWidgets.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\ContainerWidgets.inl" />
+    <ClInclude Include="..\..\Code\Editor\Editor\EditorPCH.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\EntityBrowser.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\EntityPopup.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\FlipbookEditor.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\GameWindow.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\History.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\Inspector.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\InspectorExamples.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\InspectorWidgets.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\InspectorWidgets.inl" />
+    <ClInclude Include="..\..\Code\Editor\Editor\MainMenuBar.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\SceneWindow.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\SpriteEditor.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\SpriteExtractor.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\TrivialWidgets.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\VariantWidgets.h" />
+    <ClInclude Include="..\..\Code\Editor\Editor\VariantWidgets.inl" />
+    <ClInclude Include="..\..\Code\Editor\Editor\examples\example_attributes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Editor\Application.cpp" />
-    <ClCompile Include="Editor\AssetBrowser.cpp" />
-    <ClCompile Include="Editor\AssetWidgets.cpp" />
-    <ClCompile Include="Editor\EditorPCH.cpp">
+    <ClCompile Include="..\..\Code\Editor\Editor\Application.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\AssetBrowser.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\AssetWidgets.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\EditorPCH.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Editor\EntityBrowser.cpp" />
-    <ClCompile Include="Editor\EntityPopup.cpp" />
-    <ClCompile Include="Editor\FlipbookEditor.cpp" />
-    <ClCompile Include="Editor\GameWindow.cpp" />
-    <ClCompile Include="Editor\History.cpp" />
-    <ClCompile Include="Editor\Inspector.cpp" />
-    <ClCompile Include="Editor\Main.cpp" />
-    <ClCompile Include="Editor\MainMenuBar.cpp" />
-    <ClCompile Include="Editor\SceneWindow.cpp" />
-    <ClCompile Include="Editor\SpriteEditor.cpp" />
-    <ClCompile Include="Editor\SpriteExtractor.cpp" />
-    <ClCompile Include="Editor\TrivialWidgets.cpp" />
-    <ClCompile Include="Editor\examples\example_attributes.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\EntityBrowser.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\EntityPopup.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\FlipbookEditor.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\GameWindow.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\History.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\Inspector.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\Main.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\MainMenuBar.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\SceneWindow.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\SpriteEditor.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\SpriteExtractor.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\TrivialWidgets.cpp" />
+    <ClCompile Include="..\..\Code\Editor\Editor\examples\example_attributes.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

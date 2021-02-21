@@ -1,5 +1,6 @@
 project "Imgui"
 	kind "StaticLib"
+	location "%{wks.location}/Projects/Imgui"
 	
 	files 
 	{ 
@@ -24,5 +25,5 @@ project "Imgui"
 		"%{wks.location}/3rdParty/imgui-sfml/",
 		"%{wks.location}/3rdParty/ImGuizmo/",
 		"%{wks.location}/3rdParty/SFML/Include/",
-		"%{wks.location}/Projects/Imgui/",
+		"%{wks.location}/Code/Imgui/",
 	}

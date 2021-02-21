@@ -1,6 +1,7 @@
 project "Engine_ut"
 	kind "ConsoleApp"
 	dependson { "Engine" }
+	location "%{wks.location}/Projects/Engine_ut"
 
 	files 
 	{ 
@@ -13,7 +14,7 @@ project "Engine_ut"
 	{ 
 		"%{wks.location}/3rdParty/",
 		"%{wks.location}/3rdParty/SFML/Include/",
-		"%{wks.location}/Projects/Engine/",
+		"%{wks.location}/Code/Engine/",
 	}
 
 	libdirs 

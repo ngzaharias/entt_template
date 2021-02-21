@@ -31,6 +31,13 @@ void serialize::Reader::Visit(float& value)
 	value = static_cast<float>(m_Document[m_Index++].GetDouble());
 }
 
+void serialize::Reader::Visit(str::Name& value)
+{
+	str::String string;
+	Visit(string);
+	value = NAME(string);
+}
+
 void serialize::Reader::Visit(str::String& value)
 {
 	value = m_Document[m_Index++].GetString();

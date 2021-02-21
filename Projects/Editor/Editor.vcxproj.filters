@@ -1,59 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="examples">
-      <UniqueIdentifier>{84D830B1-70A5-8BBC-99BE-796485EAC04A}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{56EB95D1-428D-C0A7-2B48-D4FB178947F8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Editor\Application.h" />
-    <ClInclude Include="Editor\AssetBrowser.h" />
-    <ClInclude Include="Editor\AssetPopup.h" />
-    <ClInclude Include="Editor\AssetPopup.inl" />
-    <ClInclude Include="Editor\AssetWidgets.h" />
-    <ClInclude Include="Editor\AssetWidgets.inl" />
-    <ClInclude Include="Editor\ContainerWidgets.h" />
-    <ClInclude Include="Editor\ContainerWidgets.inl" />
-    <ClInclude Include="Editor\EditorPCH.h" />
-    <ClInclude Include="Editor\EntityBrowser.h" />
-    <ClInclude Include="Editor\EntityPopup.h" />
-    <ClInclude Include="Editor\FlipbookEditor.h" />
-    <ClInclude Include="Editor\GameWindow.h" />
-    <ClInclude Include="Editor\History.h" />
-    <ClInclude Include="Editor\Inspector.h" />
-    <ClInclude Include="Editor\InspectorExamples.h" />
-    <ClInclude Include="Editor\InspectorWidgets.h" />
-    <ClInclude Include="Editor\InspectorWidgets.inl" />
-    <ClInclude Include="Editor\MainMenuBar.h" />
-    <ClInclude Include="Editor\SceneWindow.h" />
-    <ClInclude Include="Editor\SpriteEditor.h" />
-    <ClInclude Include="Editor\SpriteExtractor.h" />
-    <ClInclude Include="Editor\TrivialWidgets.h" />
-    <ClInclude Include="Editor\VariantWidgets.h" />
-    <ClInclude Include="Editor\VariantWidgets.inl" />
-    <ClInclude Include="Editor\examples\example_attributes.h">
-      <Filter>examples</Filter>
+    <ClInclude Include="..\..\Code\Editor\Editor\Application.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetBrowser.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetPopup.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetPopup.inl">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetWidgets.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\AssetWidgets.inl">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\ContainerWidgets.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\ContainerWidgets.inl">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\EditorPCH.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\EntityBrowser.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\EntityPopup.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\FlipbookEditor.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\GameWindow.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\History.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\Inspector.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\InspectorExamples.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\InspectorWidgets.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\InspectorWidgets.inl">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\MainMenuBar.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\SceneWindow.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\SpriteEditor.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\SpriteExtractor.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\TrivialWidgets.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\VariantWidgets.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\VariantWidgets.inl">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Editor\Editor\examples\example_attributes.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Editor\Application.cpp" />
-    <ClCompile Include="Editor\AssetBrowser.cpp" />
-    <ClCompile Include="Editor\AssetWidgets.cpp" />
-    <ClCompile Include="Editor\EditorPCH.cpp" />
-    <ClCompile Include="Editor\EntityBrowser.cpp" />
-    <ClCompile Include="Editor\EntityPopup.cpp" />
-    <ClCompile Include="Editor\FlipbookEditor.cpp" />
-    <ClCompile Include="Editor\GameWindow.cpp" />
-    <ClCompile Include="Editor\History.cpp" />
-    <ClCompile Include="Editor\Inspector.cpp" />
-    <ClCompile Include="Editor\Main.cpp" />
-    <ClCompile Include="Editor\MainMenuBar.cpp" />
-    <ClCompile Include="Editor\SceneWindow.cpp" />
-    <ClCompile Include="Editor\SpriteEditor.cpp" />
-    <ClCompile Include="Editor\SpriteExtractor.cpp" />
-    <ClCompile Include="Editor\TrivialWidgets.cpp" />
-    <ClCompile Include="Editor\examples\example_attributes.cpp">
-      <Filter>examples</Filter>
+    <ClCompile Include="..\..\Code\Editor\Editor\Application.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\AssetBrowser.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\AssetWidgets.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\EditorPCH.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\EntityBrowser.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\EntityPopup.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\FlipbookEditor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\GameWindow.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\History.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\Inspector.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\MainMenuBar.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\SceneWindow.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\SpriteEditor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\SpriteExtractor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\TrivialWidgets.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Editor\Editor\examples\example_attributes.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

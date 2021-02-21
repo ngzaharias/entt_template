@@ -13,8 +13,8 @@
     <Filter Include="3rdParty\imgui-sfml">
       <UniqueIdentifier>{A75CF7EF-13BE-D4FD-9C2B-1BB0088C0BBD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{0098A80F-6CAC-D0C0-352E-7420A101CDF1}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{56EB95D1-428D-C0A7-2B48-D4FB178947F8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,11 +60,11 @@
     <ClInclude Include="..\..\3rdParty\imgui\imstb_truetype.h">
       <Filter>3rdParty\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\Custom.h">
-      <Filter>imgui</Filter>
+    <ClInclude Include="..\..\Code\Imgui\Imgui\Custom.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\Helpers.h">
-      <Filter>imgui</Filter>
+    <ClInclude Include="..\..\Code\Imgui\Imgui\Helpers.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,11 +98,11 @@
     <ClCompile Include="..\..\3rdParty\imgui\imgui_widgets.cpp">
       <Filter>3rdParty\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="imgui\Custom.cpp">
-      <Filter>imgui</Filter>
+    <ClCompile Include="..\..\Code\Imgui\Imgui\Custom.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="imgui\Helpers.cpp">
-      <Filter>imgui</Filter>
+    <ClCompile Include="..\..\Code\Imgui\Imgui\Helpers.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

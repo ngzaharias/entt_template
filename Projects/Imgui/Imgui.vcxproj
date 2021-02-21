@@ -56,7 +56,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\imgui;..\..\3rdParty\imgui-sfml;..\..\3rdParty\ImGuizmo;..\..\3rdParty\SFML\Include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\imgui;..\..\3rdParty\imgui-sfml;..\..\3rdParty\ImGuizmo;..\..\3rdParty\SFML\Include;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -72,7 +72,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\imgui;..\..\3rdParty\imgui-sfml;..\..\3rdParty\ImGuizmo;..\..\3rdParty\SFML\Include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\imgui;..\..\3rdParty\imgui-sfml;..\..\3rdParty\ImGuizmo;..\..\3rdParty\SFML\Include;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -104,8 +104,8 @@
     <ClInclude Include="..\..\3rdParty\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\..\3rdParty\imgui\imstb_truetype.h" />
-    <ClInclude Include="imgui\Custom.h" />
-    <ClInclude Include="imgui\Helpers.h" />
+    <ClInclude Include="..\..\Code\Imgui\Imgui\Custom.h" />
+    <ClInclude Include="..\..\Code\Imgui\Imgui\Helpers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\3rdParty\ImGuizmo\ImCurveEdit.cpp" />
@@ -118,8 +118,8 @@
     <ClCompile Include="..\..\3rdParty\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\3rdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\3rdParty\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="imgui\Custom.cpp" />
-    <ClCompile Include="imgui\Helpers.cpp" />
+    <ClCompile Include="..\..\Code\Imgui\Imgui\Custom.cpp" />
+    <ClCompile Include="..\..\Code\Imgui\Imgui\Helpers.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

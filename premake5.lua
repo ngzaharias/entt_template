@@ -23,11 +23,23 @@ workspace "ZEngine"
 		symbols "Off"
 	filter {} -- disable the filter
 
+	files 
+	{ 
+		"%{wks.location}/Code/%{prj.name}/%{prj.name}/**.h",
+		"%{wks.location}/Code/%{prj.name}/%{prj.name}/**.cpp",
+		"%{wks.location}/Code/%{prj.name}/%{prj.name}/**.inl",
+	}
+
+	vpaths 
+	{ 
+		["Source/"] = { "Code/**.h", "Code/**.cpp", "Code/**.inl" },
+	}
+
 	-- projects
-	include "Projects/Imgui/premake5.lua"
-	include "Projects/Engine/premake5.lua"
-	include "Projects/Game/premake5.lua"
-	include "Projects/Editor/premake5.lua"
+	include "Code/Imgui/premake5.lua"
+	include "Code/Engine/premake5.lua"
+	include "Code/Game/premake5.lua"
+	include "Code/Editor/premake5.lua"
 
 	group("ut")
-		include "Projects/Engine_ut/premake5.lua"
+		include "Code/Engine_ut/premake5.lua"

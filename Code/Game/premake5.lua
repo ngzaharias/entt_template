@@ -1,8 +1,9 @@
-project "Editor"
+project "Game"
 	kind "WindowedApp"
-	dependson { "Engine", "Game", "Imgui" }
-	pchheader "EditorPCH.h"
-	pchsource "Editor/EditorPCH.cpp"
+	dependson { "Engine", "Imgui" }
+	pchheader "GamePCH.h"
+	pchsource "Game/GamePCH.cpp"
+	location "%{wks.location}/Projects/Game"
 
 	files 
 	{ 
@@ -16,10 +17,9 @@ project "Editor"
 		"%{wks.location}/3rdParty/",
 		"%{wks.location}/3rdParty/PhysX/Include/",
 		"%{wks.location}/3rdParty/SFML/Include/",
-		"%{wks.location}/Projects/Editor/",
-		"%{wks.location}/Projects/Engine/",
-		"%{wks.location}/Projects/Game/",
-		"%{wks.location}/Projects/Imgui/",
+		"%{wks.location}/Code/Engine/",
+		"%{wks.location}/Code/Game/",
+		"%{wks.location}/Code/Imgui/",
 	}
 
 	libdirs 

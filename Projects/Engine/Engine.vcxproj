@@ -57,7 +57,7 @@
       <PrecompiledHeaderFile>EnginePCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;.;..\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\..\Code\Engine;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -74,7 +74,7 @@
       <PrecompiledHeaderFile>EnginePCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;.;..\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty;..\..\3rdParty\PhysX\Include;..\..\3rdParty\SFML\Include;..\..\Code\Engine;..\..\Code\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -92,108 +92,108 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Application.h" />
-    <ClInclude Include="Engine\Application.inl" />
-    <ClInclude Include="Engine\Asset.h" />
-    <ClInclude Include="Engine\AssetCache.h" />
-    <ClInclude Include="Engine\AssetHandle.h" />
-    <ClInclude Include="Engine\AssetHelpers.h" />
-    <ClInclude Include="Engine\AssetHelpers.inl" />
-    <ClInclude Include="Engine\AssetLoader.h" />
-    <ClInclude Include="Engine\AssetManager.h" />
-    <ClInclude Include="Engine\AssetManager.inl" />
-    <ClInclude Include="Engine\AssetPtr.h" />
-    <ClInclude Include="Engine\AssetTypes.h" />
-    <ClInclude Include="Engine\AttributeHelpers.h" />
-    <ClInclude Include="Engine\AttributeHelpers.inl" />
-    <ClInclude Include="Engine\AttributeTypes.h" />
-    <ClInclude Include="Engine\CameraComponent.h" />
-    <ClInclude Include="Engine\CircularBuffer.h" />
-    <ClInclude Include="Engine\CircularBuffer.inl" />
-    <ClInclude Include="Engine\CollisionChannels.h" />
-    <ClInclude Include="Engine\EnginePCH.h" />
-    <ClInclude Include="Engine\EntityTemplateAsset.h" />
-    <ClInclude Include="Engine\FileHelpers.h" />
-    <ClInclude Include="Engine\FlipbookAsset.h" />
-    <ClInclude Include="Engine\FlipbookComponent.h" />
-    <ClInclude Include="Engine\FlipbookSystem.h" />
-    <ClInclude Include="Engine\GameTime.h" />
-    <ClInclude Include="Engine\Hash.h" />
-    <ClInclude Include="Engine\JsonHelpers.h" />
-    <ClInclude Include="Engine\JsonHelpers.inl" />
-    <ClInclude Include="Engine\LevelComponent.h" />
-    <ClInclude Include="Engine\LevelSystem.h" />
-    <ClInclude Include="Engine\MathHelpers.h" />
-    <ClInclude Include="Engine\Name.h" />
-    <ClInclude Include="Engine\NameComponent.h" />
-    <ClInclude Include="Engine\NameTable.h" />
-    <ClInclude Include="Engine\ObjectPool.h" />
-    <ClInclude Include="Engine\ObjectPool.inl" />
-    <ClInclude Include="Engine\Path.h" />
-    <ClInclude Include="Engine\PhysicsManager.h" />
-    <ClInclude Include="Engine\PhysicsMaterialAsset.h" />
-    <ClInclude Include="Engine\PhysicsSystem.h" />
-    <ClInclude Include="Engine\Random.h" />
-    <ClInclude Include="Engine\Random.inl" />
-    <ClInclude Include="Engine\Reader.h" />
-    <ClInclude Include="Engine\Reader.inl" />
-    <ClInclude Include="Engine\RenderSystem.h" />
-    <ClInclude Include="Engine\RigidDynamicComponent.h" />
-    <ClInclude Include="Engine\RigidStaticComponent.h" />
-    <ClInclude Include="Engine\Screen.h" />
-    <ClInclude Include="Engine\SortHelpers.h" />
-    <ClInclude Include="Engine\SoundAsset.h" />
-    <ClInclude Include="Engine\SoundComponent.h" />
-    <ClInclude Include="Engine\SoundSystem.h" />
-    <ClInclude Include="Engine\SpriteAsset.h" />
-    <ClInclude Include="Engine\SpriteComponent.h" />
-    <ClInclude Include="Engine\String.h" />
-    <ClInclude Include="Engine\StringHelpers.h" />
-    <ClInclude Include="Engine\StringTable.h" />
-    <ClInclude Include="Engine\StringView.h" />
-    <ClInclude Include="Engine\System.h" />
-    <ClInclude Include="Engine\TextureAsset.h" />
-    <ClInclude Include="Engine\TransformComponent.h" />
-    <ClInclude Include="Engine\TypeHelpers.h" />
-    <ClInclude Include="Engine\TypeList.h" />
-    <ClInclude Include="Engine\Types.h" />
-    <ClInclude Include="Engine\VariantHelpers.h" />
-    <ClInclude Include="Engine\Vector2.h" />
-    <ClInclude Include="Engine\Vector3.h" />
-    <ClInclude Include="Engine\VectorHelpers.h" />
-    <ClInclude Include="Engine\Writer.h" />
-    <ClInclude Include="Engine\Writer.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Application.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Application.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Asset.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetCache.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetHandle.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetHelpers.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetLoader.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetManager.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetManager.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetPtr.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AssetTypes.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AttributeHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AttributeHelpers.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\AttributeTypes.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\CameraComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\CircularBuffer.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\CircularBuffer.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\CollisionChannels.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\EnginePCH.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\EntityTemplateAsset.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\FileHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\FlipbookAsset.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\FlipbookComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\FlipbookSystem.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\GameTime.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Hash.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\JsonHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\JsonHelpers.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\LevelComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\LevelSystem.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\MathHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Name.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\NameComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\NameTable.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\ObjectPool.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\ObjectPool.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Path.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\PhysicsManager.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\PhysicsMaterialAsset.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\PhysicsSystem.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Random.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Random.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Reader.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Reader.inl" />
+    <ClInclude Include="..\..\Code\Engine\Engine\RenderSystem.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\RigidDynamicComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\RigidStaticComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Screen.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\SortHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\SoundAsset.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\SoundComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\SoundSystem.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\SpriteAsset.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\SpriteComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\String.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\StringHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\StringTable.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\StringView.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\System.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\TextureAsset.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\TransformComponent.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\TypeHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\TypeList.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Types.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\VariantHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Vector2.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Vector3.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\VectorHelpers.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Writer.h" />
+    <ClInclude Include="..\..\Code\Engine\Engine\Writer.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Application.cpp" />
-    <ClCompile Include="Engine\AssetHelpers.cpp" />
-    <ClCompile Include="Engine\AssetManager.cpp" />
-    <ClCompile Include="Engine\EnginePCH.cpp">
+    <ClCompile Include="..\..\Code\Engine\Engine\Application.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\AssetHelpers.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\AssetManager.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\EnginePCH.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Engine\EntityTemplateAsset.cpp" />
-    <ClCompile Include="Engine\FileHelpers.cpp" />
-    <ClCompile Include="Engine\FlipbookAsset.cpp" />
-    <ClCompile Include="Engine\FlipbookSystem.cpp" />
-    <ClCompile Include="Engine\JsonHelpers.cpp" />
-    <ClCompile Include="Engine\LevelSystem.cpp" />
-    <ClCompile Include="Engine\Name.cpp" />
-    <ClCompile Include="Engine\NameTable.cpp" />
-    <ClCompile Include="Engine\Path.cpp" />
-    <ClCompile Include="Engine\PhysicsManager.cpp" />
-    <ClCompile Include="Engine\PhysicsMaterialAsset.cpp" />
-    <ClCompile Include="Engine\PhysicsSystem.cpp" />
-    <ClCompile Include="Engine\Reader.cpp" />
-    <ClCompile Include="Engine\RenderSystem.cpp" />
-    <ClCompile Include="Engine\Screen.cpp" />
-    <ClCompile Include="Engine\SortHelpers.cpp" />
-    <ClCompile Include="Engine\SoundAsset.cpp" />
-    <ClCompile Include="Engine\SoundSystem.cpp" />
-    <ClCompile Include="Engine\SpriteAsset.cpp" />
-    <ClCompile Include="Engine\StringHelpers.cpp" />
-    <ClCompile Include="Engine\TextureAsset.cpp" />
-    <ClCompile Include="Engine\VectorHelpers.cpp" />
-    <ClCompile Include="Engine\Writer.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\EntityTemplateAsset.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\FileHelpers.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\FlipbookAsset.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\FlipbookSystem.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\JsonHelpers.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\LevelSystem.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\Name.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\NameTable.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\Path.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\PhysicsManager.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\PhysicsMaterialAsset.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\PhysicsSystem.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\Reader.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\RenderSystem.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\Screen.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\SortHelpers.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\SoundAsset.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\SoundSystem.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\SpriteAsset.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\StringHelpers.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\TextureAsset.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\VectorHelpers.cpp" />
+    <ClCompile Include="..\..\Code\Engine\Engine\Writer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
