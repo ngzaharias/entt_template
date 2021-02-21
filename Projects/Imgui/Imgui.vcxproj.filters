@@ -1,106 +1,108 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{1E6D62C3-0A3A-BDCE-3353-AB761F7FF25C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\imgui">
-      <UniqueIdentifier>{f30948dd-c540-47af-bf74-aa03c5c539f6}</UniqueIdentifier>
+    <Filter Include="3rdParty\ImGuizmo">
+      <UniqueIdentifier>{3E81F3E0-AA97-F176-F30E-7D985F64C2FE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\ImGuizmo">
-      <UniqueIdentifier>{ebcd93ac-e913-4e2c-9d18-464f2e5e9e08}</UniqueIdentifier>
+    <Filter Include="3rdParty\imgui">
+      <UniqueIdentifier>{08595F4B-F426-5351-DDBA-C377C9272FB6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\imgui-sfml">
-      <UniqueIdentifier>{5871cdfb-363c-4402-a918-dcb2877fdff3}</UniqueIdentifier>
+    <Filter Include="3rdParty\imgui-sfml">
+      <UniqueIdentifier>{A75CF7EF-13BE-D4FD-9C2B-1BB0088C0BBD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{0098A80F-6CAC-D0C0-352E-7420A101CDF1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\3rdParty\imgui\imgui.cpp">
-      <Filter>Source\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\imgui\imgui_demo.cpp">
-      <Filter>Source\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\imgui\imgui_draw.cpp">
-      <Filter>Source\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\imgui\imgui_tables.cpp">
-      <Filter>Source\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\imgui\imgui_widgets.cpp">
-      <Filter>Source\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\imgui-sfml\imgui-SFML.cpp">
-      <Filter>Source\imgui-sfml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImCurveEdit.cpp">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImGradient.cpp">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImGuizmo.cpp">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImSequencer.cpp">
-      <Filter>Source\ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\Custom.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\Helpers.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\3rdParty\imgui\imconfig.h">
-      <Filter>Source\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui\imgui.h">
-      <Filter>Source\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui\imgui_internal.h">
-      <Filter>Source\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui\imstb_rectpack.h">
-      <Filter>Source\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui\imstb_textedit.h">
-      <Filter>Source\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui\imstb_truetype.h">
-      <Filter>Source\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui-sfml\imconfig-SFML.h">
-      <Filter>Source\imgui-sfml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui-sfml\imgui-SFML.h">
-      <Filter>Source\imgui-sfml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\3rdParty\imgui-sfml\imgui-SFML_export.h">
-      <Filter>Source\imgui-sfml</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\3rdParty\ImGuizmo\ImCurveEdit.h">
-      <Filter>Source\ImGuizmo</Filter>
+      <Filter>3rdParty\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="..\..\3rdParty\ImGuizmo\ImGradient.h">
-      <Filter>Source\ImGuizmo</Filter>
+      <Filter>3rdParty\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="..\..\3rdParty\ImGuizmo\ImGuizmo.h">
-      <Filter>Source\ImGuizmo</Filter>
+      <Filter>3rdParty\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="..\..\3rdParty\ImGuizmo\ImSequencer.h">
-      <Filter>Source\ImGuizmo</Filter>
+      <Filter>3rdParty\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="..\..\3rdParty\ImGuizmo\ImZoomSlider.h">
-      <Filter>Source\ImGuizmo</Filter>
+      <Filter>3rdParty\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui-sfml\imconfig-SFML.h">
+      <Filter>3rdParty\imgui-sfml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui-sfml\imgui-SFML.h">
+      <Filter>3rdParty\imgui-sfml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui-sfml\imgui-SFML_export.h">
+      <Filter>3rdParty\imgui-sfml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui\imconfig.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui\imgui.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui\imgui_internal.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui\imstb_rectpack.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui\imstb_textedit.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rdParty\imgui\imstb_truetype.h">
+      <Filter>3rdParty\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\Custom.h">
-      <Filter>Source</Filter>
+      <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\Helpers.h">
-      <Filter>Source</Filter>
+      <Filter>imgui</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImCurveEdit.cpp">
+      <Filter>3rdParty\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImGradient.cpp">
+      <Filter>3rdParty\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImGuizmo.cpp">
+      <Filter>3rdParty\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\ImGuizmo\ImSequencer.cpp">
+      <Filter>3rdParty\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\imgui-sfml\imgui-SFML.cpp">
+      <Filter>3rdParty\imgui-sfml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\imgui\imgui.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_demo.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_draw.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_tables.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rdParty\imgui\imgui_widgets.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\Custom.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\Helpers.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

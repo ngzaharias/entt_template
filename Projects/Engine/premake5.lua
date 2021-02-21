@@ -1,10 +1,9 @@
 project "Engine"
 	kind "StaticLib"
-	defines { "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING" }
+	dependson { "Imgui" }
 	pchheader "EnginePCH.h"
 	pchsource "Engine/EnginePCH.cpp"
-	dependson { "Imgui" }
-
+	
 	files 
 	{ 
 		"%{prj.location}/**.h",
@@ -20,8 +19,3 @@ project "Engine"
 		"%{wks.location}/Projects/Engine/",
 		"%{wks.location}/Projects/Imgui/",
 	}
-
-	filter "configurations:Debug"
-		defines { "_DEBUG" }
-	filter "configurations:Release"
-		defines { "NDEBUG" }

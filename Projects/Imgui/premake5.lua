@@ -1,5 +1,6 @@
 project "Imgui"
 	kind "StaticLib"
+	
 	files 
 	{ 
 		"%{prj.location}/**.h",
@@ -15,6 +16,7 @@ project "Imgui"
 		"%{wks.location}/3rdParty/ImGuizmo/*.cpp",
 		"%{wks.location}/3rdParty/ImGuizmo/*.inl",
 	}
+
 	includedirs 
 	{ 
 		"%{wks.location}/3rdParty/",
