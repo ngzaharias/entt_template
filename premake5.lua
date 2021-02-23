@@ -1,6 +1,7 @@
 workspace "ZEngine"
 	architecture "x86_64"
 	configurations { "Debug", "Release" }
+	dependson { "ZERO_CHECK" }
 	language "C++"
 	cppdialect "C++17"
 	platforms { "x64" }
@@ -28,11 +29,13 @@ workspace "ZEngine"
 		"%{wks.location}/Code/%{prj.name}/%{prj.name}/**.h",
 		"%{wks.location}/Code/%{prj.name}/%{prj.name}/**.cpp",
 		"%{wks.location}/Code/%{prj.name}/%{prj.name}/**.inl",
+		"%{wks.location}/Code/%{prj.name}/premake5.*",
 	}
 
 	vpaths 
 	{ 
 		["Source/"] = { "Code/**.h", "Code/**.cpp", "Code/**.inl" },
+		["/"] = { "**premake5.lua" },
 	}
 
 	-- projects
@@ -49,3 +52,9 @@ project "ZERO_CHECK"
 	kind "ConsoleApp"
 	language "C++"
 	location "%{wks.location}/Projects/ZERO_CHECK"
+	files { "%{wks.location}/premake5.lua" }
+
+	-- we must run change to the batch file directory to run it
+	buildcommands { "cd %{wks.location} & call generate.bat" }
+	-- by setting a build output that doesn't exist it will always run
+	buildoutputs { "unused.txt" }
