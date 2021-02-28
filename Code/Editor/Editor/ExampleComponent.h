@@ -1,58 +1,63 @@
 #pragma once
 
+#include <Engine/AttributeTypes.h>
 #include <Engine/PhysicsMaterialAsset.h>
 #include <Engine/SoundAsset.h>
 #include <Engine/TextureAsset.h>
+#include <Engine/Vector2.h>
+#include <Engine/Vector3.h>
 
 #include <map>
+#include <set>
 #include <variant>
 #include <vector>
 #include <refl/refl.hpp>
-#include <SFML/System/Vector3.hpp>
 
 namespace example
 {
-	struct AsBools { bool m_BoolA; bool m_BoolB; };
+	struct AsBools { bool m_BoolA; };
+	struct AsFloat { float m_FloatA; float m_FloatB; };
 	struct AsInts { int m_IntA; int m_IntB; int m_IntC; };
-	struct AsFloat { float m_FloatA; };
 	struct AsStruct { AsBools m_Bools; };
 
-	struct NoReflect { bool m_Bool; };
 	struct YesReflect
 	{
 		bool m_Bool = false;
-		int m_Int = 0;
 		float m_Float = 0.f;
+		int32 m_Int32 = 0;
 		AsFloat m_Struct = AsFloat();
 
 		bool operator==(const YesReflect& rhs) const
 		{
 			return m_Bool == rhs.m_Bool
-				&& m_Int == rhs.m_Int
-				&& m_Float == rhs.m_Float;
+				&& m_Float == rhs.m_Float
+				&& m_Int32 == rhs.m_Int32;
 		}
 
 		bool operator!=(const YesReflect& rhs) const
 		{
 			return m_Bool != rhs.m_Bool
-				|| m_Int != rhs.m_Int
-				|| m_Float != rhs.m_Float;
+				|| m_Float != rhs.m_Float
+				|| m_Int32 != rhs.m_Int32;
 		}
 
 		bool operator<(const YesReflect& rhs) const
 		{
 			return m_Bool < rhs.m_Bool
-				&& m_Int < rhs.m_Int
-				&& m_Float < rhs.m_Float;
+				&& m_Float < rhs.m_Float
+				&& m_Int32 < rhs.m_Int32;
 		}
 	};
 
-	struct Component
+	struct NoReflect { bool m_Bool; };
+
+	struct ExampleComponent
 	{
 		// trivial
 		bool m_Bool = true;
-		int m_Int = 1337;
 		float m_Float = 0.666f;
+		int32 m_Int32 = -1337;
+		uint32 m_Uint32 = 4444;
 		sf::Vector2f m_Vector2f = { 1.f, 2.f };
 		sf::Vector2i m_Vector2i = { 1, 2 };
 		sf::Vector2u m_Vector2u = { 1, 2 };
@@ -69,57 +74,61 @@ namespace example
 		render::TextureHandle m_Texture;
 
 		// map
-		std::map<int, int> m_MapA = { {1, 10}, {2, 10}, {3, 10} };
-		std::map<int, YesReflect> m_MapB = { { 1, YesReflect()}, { 2, YesReflect()} };
-		std::map<YesReflect, int> m_MapC = { { YesReflect(), 10} };
+		std::map<int32, int32> m_MapA = { {1, 10}, {2, 10}, {3, 10} };
+		std::map<int32, YesReflect> m_MapB = { { 1, YesReflect()}, { 2, YesReflect()} };
+		std::map<YesReflect, int32> m_MapC = { { YesReflect(), 10} };
 		std::map<YesReflect, YesReflect> m_MapD = { {YesReflect(), YesReflect()} };
 
+		// set
+		std::set<int32> m_SetA = { 1, 2, 3 };
+
 		// vector
-		std::vector<int> m_VectorA = { 1, 2, 3, 4, 5 };
-		std::vector<YesReflect> m_VectorB = { YesReflect(), YesReflect(), YesReflect() };
+		std::vector<int32> m_VectorA = { 1, 2, 3 };
+		std::vector<AsInts> m_VectorB = { AsInts(), AsInts(), AsInts() };
 
 		// variant
-		std::variant<bool, int, float, AsBools, AsInts, AsFloat, AsStruct> m_Variant = AsInts();
+		std::variant<bool, float, int32, AsBools, AsFloat, AsInts, AsStruct> m_Variant = AsInts();
 	};
 }
 
-REFL_AUTO(type(example::AsBools), field(m_BoolA), field(m_BoolB))
+REFL_AUTO(type(example::AsBools), field(m_BoolA))
+REFL_AUTO(type(example::AsFloat), field(m_FloatA), field(m_FloatB))
 REFL_AUTO(type(example::AsInts), field(m_IntA), field(m_IntB), field(m_IntC))
-REFL_AUTO(type(example::AsFloat), field(m_FloatA))
 REFL_AUTO(type(example::AsStruct), field(m_Bools))
 
 REFL_AUTO
 (
 	type(example::YesReflect)
 	, field(m_Bool)
-	, field(m_Int)
 	, field(m_Float)
+	, field(m_Int32)
 	, field(m_Struct)
 )
 
 REFL_AUTO
 (
-	type(example::Component)
-	, field(m_Bool)
-	, field(m_Int, attr::Range(0.f, 100.f))
-	, field(m_Float, attr::Range(0.f, 100.f))
-	, field(m_Vector2f, attr::Range(0.f, 100.f))
-	, field(m_Vector2i, attr::Range(0.f, 100.f))
-	, field(m_Vector2u, attr::Range(0.f, 100.f))
-	, field(m_Vector3f, attr::Range(0.f, 100.f))
-	, field(m_Vector3i, attr::Range(0.f, 100.f))
-	, field(m_YesReflect)
-	, field(m_NoReflect)
-	, field(m_PhysicsMaterial)
-	, field(m_Sound)
-	, field(m_Texture)
-	, field(m_MapA)
-	, field(m_MapB)
-	, field(m_MapC)
-	, field(m_MapD)
+	type(example::ExampleComponent)
+	//, field(m_Bool)
+	//, field(m_Float, attr::Range(0.f, 100.f))
+	//, field(m_Int32, attr::Range(0.f, 100.f))
+	//, field(m_Uint32)
+	//, field(m_Vector2f, attr::Range(0.f, 100.f))
+	//, field(m_Vector2i, attr::Range(0.f, 100.f))
+	//, field(m_Vector2u, attr::Range(0.f, 100.f))
+	//, field(m_Vector3f, attr::Range(0.f, 100.f))
+	//, field(m_Vector3i, attr::Range(0.f, 100.f))
+	//, field(m_YesReflect)
+	//, field(m_PhysicsMaterial)
+	//, field(m_Sound)
+	//, field(m_Texture)
+	//, field(m_MapA)
+	//, field(m_MapB)
+	//, field(m_MapC)
+	//, field(m_MapD)
+	//, field(m_SetA)
 	, field(m_VectorA)
 	, field(m_VectorB)
-	, field(m_Variant)
+	//, field(m_Variant)
 )
 
 //refl::descriptor::type_descriptor reflected = refl::reflect<MyStruct>();

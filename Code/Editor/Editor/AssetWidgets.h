@@ -1,10 +1,11 @@
 #pragma once
 
+#include <Editor/InspectorTypes.h>
+
 #include <Engine/AssetHandle.h>
-#include <Engine/AttributeTypes.h>
 #include <Engine/TextureAsset.h>
 
-namespace widget
+namespace editor
 {
 	template<typename Type>
 	void TypeOverload(core::AssetHandle<Type>& handle, const Attributes attributes = {});

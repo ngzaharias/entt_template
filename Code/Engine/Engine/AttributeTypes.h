@@ -25,12 +25,3 @@ namespace attr
 
 	struct Replicated : refl::attr::usage::field { };
 }
-
-namespace widget
-{
-	struct Attributes
-	{
-		std::optional<attr::Name> m_Name = { };
-		std::optional<attr::Range> m_Range = { };
-	};
-}

@@ -1,5 +1,10 @@
 #pragma once
 
+// #todo: m_ComponentEntries: convert to map
+// #todo: m_ComponentEntries: assert on duplicates
+// #todo: m_SystemEntries: convert to map
+// #todo: m_SystemEntries: assert on duplicates
+
 template<class TSystem>
 TSystem& core::Application::GetSystem() const
 {

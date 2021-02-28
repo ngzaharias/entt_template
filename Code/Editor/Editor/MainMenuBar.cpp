@@ -4,7 +4,7 @@
 #include "Editor/AssetBrowser.h"
 #include "Editor/EntityBrowser.h"
 #include "Editor/GameWindow.h"
-#include "Editor/History.h"
+#include "Editor/Historian.h"
 #include "Editor/Inspector.h"
 
 #include <imgui/imgui.h>
@@ -29,13 +29,13 @@ editor::MainMenuBar::MainMenuBar
 	editor::AssetBrowser& assetBrowser
 	, editor::EntityBrowser& entityBrowser
 	, editor::GameWindow& gameWindow
-	, editor::History& history
+	, editor::Historian& historian
 	, editor::Inspector& inspector
 )
 	: m_AssetBrowser(assetBrowser)
 	, m_EntityBrowser(entityBrowser)
 	, m_GameWindow(gameWindow)
-	, m_History(history)
+	, m_Historian(historian)
 	, m_Inspector(inspector)
 {
 }
@@ -106,9 +106,9 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			bool gameWindow = m_GameWindow.IsVisible();
 			if (ImGui::MenuItem("Game Window", nullptr, &gameWindow))
 				m_GameWindow.SetVisible(gameWindow);
-			bool history = m_History.IsVisible();
-			if (ImGui::MenuItem("History", nullptr, &history))
-				m_History.SetVisible(history);
+			bool historian = m_Historian.IsVisible();
+			if (ImGui::MenuItem("Historian", nullptr, &historian))
+				m_Historian.SetVisible(historian);
 			bool inspector = m_Inspector.IsVisible();
 			if (ImGui::MenuItem("Inspector", nullptr, &inspector))
 				m_Inspector.SetVisible(inspector);

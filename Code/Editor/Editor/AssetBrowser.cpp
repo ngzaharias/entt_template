@@ -116,9 +116,9 @@ void editor::AssetBrowser::Initialize(entt::registry& registry)
 	iconFile = new sf::Texture();
 	iconFolder = new sf::Texture();
 
-	iconBack->loadFromFile("Projects\\Editor\\Icons\\arrow_left.png");
-	iconFile->loadFromFile("Projects\\Editor\\Icons\\file.png");
-	iconFolder->loadFromFile("Projects\\Editor\\Icons\\folder.png");
+	iconBack->loadFromFile("Code\\Editor\\Icons\\arrow_left.png");
+	iconFile->loadFromFile("Code\\Editor\\Icons\\file.png");
+	iconFolder->loadFromFile("Code\\Editor\\Icons\\folder.png");
 }
 
 void editor::AssetBrowser::Destroy(entt::registry& registry)
@@ -236,24 +236,24 @@ void editor::AssetBrowser::Command_Open(const int32 index)
 
 void editor::AssetBrowser::Command_Select(const int32 index)
 {
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !m_Selection.empty())
-	//{
-	//	const int32 first = std::min(index, m_Selection.back());
-	//	const int32 last = std::max(index, m_Selection.back());
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !m_Selection.empty())
+	{
+		const int32 first = std::min(index, m_Selection.back());
+		const int32 last = std::max(index, m_Selection.back());
 
-	//	m_Selection.pop_back();
-	//	for (int32 i = first; i <= last; ++i)
-	//		m_Selection.push_back(i);
-	//}
-	//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-	//{
-	//	m_Selection.push_back(index);
-	//}
-	//else
-	//{
-	//	m_Selection.clear();
-	//	m_Selection.push_back(index);
-	//}
+		m_Selection.pop_back();
+		for (int32 i = first; i <= last; ++i)
+			m_Selection.push_back(i);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+	{
+		m_Selection.push_back(index);
+	}
+	else
+	{
+		m_Selection.clear();
+		m_Selection.push_back(index);
+	}
 }
 
 void editor::AssetBrowser::ContextMenu_Common(const Selection& selection)

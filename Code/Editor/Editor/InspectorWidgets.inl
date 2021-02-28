@@ -27,39 +27,30 @@ namespace
 	template <typename A, typename B, typename = void>
 	struct HasOverload : std::false_type {};
 	template <typename A, typename B>
-	struct HasOverload<A, B, std::void_t<decltype(widget::TypeOverload(std::declval<A>(), std::declval<B>()))>> : std::true_type {};
-	
-	template <typename Descriptor>
-	widget::Attributes GetAttributes(Descriptor descriptor)
-	{
-		using namespace refl::descriptor;
-
-		widget::Attributes attributes;
-		if constexpr (has_attribute<attr::Name>(descriptor))
-			attributes.m_Name = get_attribute<attr::Name>(descriptor);
-		if constexpr (has_attribute<attr::Range>(descriptor))
-			attributes.m_Range = get_attribute<attr::Range>(descriptor);
-		return attributes;
-	}
+	struct HasOverload<A, B, std::void_t<decltype(editor::TypeOverload(std::declval<A>(), std::declval<B>()))>> : std::true_type {};
 }
 
 template<typename Type>
-void editor::InspectType(Type& value)
+void editor::InspectType(Type& value, InspectorInfo& info)
 {
 	constexpr bool isClass = std::is_class<Type>::value;
 	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
-	constexpr bool isOverloaded = HasOverload<Type&, widget::Attributes>();
+	constexpr bool isOverloaded = HasOverload<Type&, editor::InspectorInfo>();
 	if constexpr (isOverloaded)
 	{
-		widget::TypeOverload(value);
+		editor::TypeOverload(value, info);
 	}
 	else if constexpr (isClass && isReflectable)
 	{
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
 			constexpr const char* name = reflect::GetFieldName(field);
-			editor::InspectProperty(name, field(value), field);
+			info.m_Address.Push(name);
+
+			editor::InspectProperty(field(value), info);
 			ImGui::TableNextRow();
+
+			info.m_Address.Pop();
 		});
 	}
 	else
@@ -68,14 +59,15 @@ void editor::InspectType(Type& value)
 	}
 }
 
-template<typename Type, typename Descriptor>
-void editor::InspectProperty(const char* text, Type& value, Descriptor descriptor)
+template<typename Type>
+void editor::InspectProperty(Type& value, InspectorInfo& info)
 {
-	ImGui::PushID(text);
+	const char* name = info.m_Address.GetLast();
+	ImGui::PushID(name);
 
 	constexpr bool isClass = std::is_class<Type>::value;
 	constexpr bool isContainer = refl::trait::is_container<Type>::value;
-	constexpr bool isOverloaded = HasOverload<Type&, widget::Attributes>();
+	constexpr bool isOverloaded = HasOverload<Type&, editor::InspectorInfo&>();
 	constexpr bool isReflectable = refl::trait::is_reflectable<Type>::value;
 	constexpr bool isVariant = core::IsVariant<Type>::value;
 
@@ -83,32 +75,32 @@ void editor::InspectProperty(const char* text, Type& value, Descriptor descripto
 	{
 		ImGui::TableSetColumnIndex(0);
 		imgui::Bullet();
-		ImGui::Text(text);
+		ImGui::Text(name);
 
 		ImGui::TableSetColumnIndex(1);
-		widget::TypeOverload(value, GetAttributes(descriptor));
+		editor::TypeOverload(value, info);
 	}
 	else if constexpr (isClass && isReflectable)
 	{
-		editor::InspectClass(text, value, descriptor);
+		editor::InspectClass(value, info);
 	}
 	else if constexpr (isVariant)
 	{
 		std::visit([&](auto& subValue)
 		{
-			editor::InspectVariant(text, descriptor, value, subValue);
+			editor::InspectVariant(value, subValue, info);
 		}, value);
 	}
 	else if constexpr (isContainer)
 	{
 		// #note: we only reflect the container content type which is done internally
-		editor::InspectContainer(text, descriptor, value);
+		editor::InspectContainer(value, info);
 	}
 	else
 	{
 		ImGui::TableSetColumnIndex(0);
 		imgui::Bullet();
-		ImGui::Text(text);
+		ImGui::Text(name);
 
 		ImGui::TableSetColumnIndex(1);
 		ImGui::Text("Unsupported Type!");
@@ -117,18 +109,13 @@ void editor::InspectProperty(const char* text, Type& value, Descriptor descripto
 	ImGui::PopID();
 }
 
-// Variations
-//
-// v Element X	: X Members
-// |   m_Member : Value
-//
-// v FieldName	: X Members
-// |   m_Member : Value
-template<typename Type, typename Descriptor>
-void editor::InspectClass(const char* text, Type& value, Descriptor descriptor)
+template<typename Type>
+void editor::InspectClass(Type& value, InspectorInfo& info)
 {
+	const char* name = info.m_Address.GetLast();
+
 	ImGui::TableSetColumnIndex(0);
-	const bool isExpanded = imgui::InspectHeader(text);
+	const bool isExpanded = imgui::InspectHeader(name);
 
 	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Members", refl::reflect<Type>().members.size);
@@ -139,33 +126,9 @@ void editor::InspectClass(const char* text, Type& value, Descriptor descriptor)
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Indent();
 
-		editor::InspectType(value);
+		editor::InspectType(value, info);
 
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Unindent();
 	}
 }
-
-/*
-MyComponent
-- m_Bool
-- m_Struct
-- m_Int
-v m_Other
- - m_Float
-v m_VectorA
- v Element 0
-  - m_Bool
-  - m_Int
- > Element 1
- > Element 2
-v m_VectorB
- - Element 0
- - Element 1
- - Element 2
-v m_MapA
- - [Key]	| [Value]
-v m_MapB
- - Key		| [Key]
- > Value
-*/

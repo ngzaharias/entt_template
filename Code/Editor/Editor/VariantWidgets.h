@@ -4,11 +4,11 @@
 
 namespace editor
 {
-	template<typename Descriptor, typename Type, typename Variant>
-	void InspectVariant(const char* text, Descriptor descriptor, Variant& variant, Type& value);
+	template<typename Type, typename Variant>
+	void InspectVariant(Variant& variant, Type& value, InspectorInfo& info);
 
-	template<typename Descriptor, typename Type, typename ...Types>
-	void InspectVariant(const char* text, Descriptor descriptor, std::variant<Types...>& variant, Type& value);
+	template<typename Type, typename ...Types>
+	void InspectVariant(std::variant<Types...>& variant, Type& value, InspectorInfo& info);
 }
 
 #include "VariantWidgets.inl"

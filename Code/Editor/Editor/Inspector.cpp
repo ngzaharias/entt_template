@@ -1,51 +1,40 @@
 #include "EditorPCH.h"
 #include "Editor/Inspector.h"
 
-#include "Editor/InspectorExamples.h"
+#include "Editor/ComponentList.h"
+#include "Editor/Historian.h"
+#include "Editor/InspectorTypes.h"
 #include "Editor/InspectorWidgets.h"
 
-#include <Engine/CameraComponent.h>
-#include <Engine/FlipbookComponent.h>
-#include <Engine/LevelComponent.h>
-#include <Engine/NameComponent.h>
-#include <Engine/RigidDynamicComponent.h>
-#include <Engine/RigidStaticComponent.h>
-#include <Engine/SoundComponent.h>
-#include <Engine/SpriteComponent.h>
-#include <Engine/TransformComponent.h>
 #include <Engine/TypeList.h>
 
+#include <iostream>
 #include <entt/entt.hpp>
 #include <imgui/imgui.h>
+#include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
 
-namespace
+namespace editor
 {
 	// #todo: multiple windows
 	// #todo: multi-edit
-	// #todo: inheritance 
+	// #todo: reset to default 
+	// #todo: reset to parent
 	// #todo: undo/redo
 
 	static float s_DividerOffset = 250.f;
 
-	template<typename Component>
-	void CloneComponent(entt::registry& oldRegistry, entt::entity oldEntity, entt::registry& newRegistry, entt::entity newEntity)
+	void PrintDocument(const rapidjson::Document& document)
 	{
-		if (!oldRegistry.has<Component>(oldEntity))
-			return;
-
-		Component& oldComponent = oldRegistry.get<Component>(oldEntity);
-		Component& newComponent = newRegistry.emplace<Component>(newEntity);
-		newComponent = oldComponent;
-	}
-
-	template <typename ...Types>
-	void CloneEntity(entt::registry& oldRegistry, entt::entity oldEntity, entt::registry& newRegistry, entt::entity newEntity, core::TypeList<Types...> typeList)
-	{
-		(CloneComponent<Types>(oldRegistry, oldEntity, newRegistry, newEntity), ...);
+		rapidjson::StringBuffer buffer;
+		rapidjson::PrettyWriter writer(buffer);
+		document.Accept(writer);
+		std::cout << buffer.GetString() << "\n";
+		std::cout << "=========================\n";
 	}
 
 	template<typename Component>
-	void InspectComponent(entt::registry& registry, entt::entity entity)
+	void InspectComponent(entt::registry& registry, entt::entity entity, InspectorInfo& info)
 	{
 		if (Component* component = registry.try_get<Component>(entity))
 		{
@@ -54,26 +43,31 @@ namespace
 
 			if (ImGui::CollapsingHeader(name, ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				info.m_Address.Push(name);
+				
 				imgui::InspectorBegin();
-				editor::InspectType(*component);
+				editor::InspectType(*component, info);
 				imgui::InspectorEnd();
+
+				info.m_Address.Pop();
 			}
 		}
 	}
 
 	template <typename ...Types>
-	void InspectComponents(entt::registry& registry, entt::entity entity, core::TypeList<Types...> typeList)
+	void InspectComponents(entt::registry& registry, entt::entity entity, InspectorInfo& info, core::TypeList<Types...> typeList)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 20.f);
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 8.f, 8.f });
 
-		(InspectComponent<Types>(registry, entity), ...);
+		(InspectComponent<Types>(registry, entity, info), ...);
 
 		ImGui::PopStyleVar(2);
 	}
 }
 
-editor::Inspector::Inspector()
+editor::Inspector::Inspector(editor::Historian& historian)
+	: m_Historian(historian)
 {
 }
 
@@ -91,12 +85,23 @@ void editor::Inspector::Destroy(entt::registry& registry)
 
 void editor::Inspector::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	if (m_HasChanged)
+	{
+		m_HasChanged = false;
+		m_Record.m_Entity = m_Entity;
+
+		if (registry.valid(m_Entity))
+		{
+			m_Historian.CopyToRecord(registry, m_Record, s_ComponentList);
+		}
+	}
+
 	Render(registry);
 }
 
 void editor::Inspector::Render(entt::registry& registry)
 {
-	if (!m_IsVisible)
+	if (!IsVisible())
 		return;
 
 	if (ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar))
@@ -117,29 +122,23 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 
 void editor::Inspector::Render_Selected(entt::registry& registry)
 {
-	using ComponentsList = core::TypeList
-		<
-		core::NameComponent
-		, core::TransformComponent
-
-		, audio::SoundComponent
-		, core::CameraComponent
-		, core::LevelComponent
-		, example::Component
-		, physics::RigidDynamicComponent
-		, physics::RigidStaticComponent
-		, render::FlipbookComponent
-		, render::SpriteComponent
-		>;
-
-	ComponentsList components;
 	if (ImGui::BeginChild("entity"))
 	{
 		if (registry.valid(m_Entity))
 		{
 			ImGui::PushID(static_cast<int>(m_Entity));
 
-			InspectComponents(registry, m_Entity, components);
+			InspectorInfo info;
+			InspectComponents(registry, m_Entity, info, s_ComponentList);
+
+			if (!info.m_Transactions.empty())
+			{
+				editor::Record recordOld = m_Record;
+				for (const auto& transaction : info.m_Transactions)
+					transaction.ApplyTo(m_Record.m_Document);
+
+				m_Historian.PushRecord(recordOld, m_Record);
+			}
 
 			ImGui::PopID();
 		}

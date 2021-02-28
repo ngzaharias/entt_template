@@ -1,5 +1,5 @@
 project "Editor"
-	kind "WindowedApp"
+	kind "ConsoleApp"
 	dependson { "Engine", "Game", "Imgui" }
 	pchheader "EditorPCH.h"
 	pchsource "Editor/EditorPCH.cpp"

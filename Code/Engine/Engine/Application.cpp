@@ -5,6 +5,7 @@
 #include "Engine/CameraComponent.h"
 #include "Engine/FileHelpers.h"
 #include "Engine/FlipbookSystem.h"
+#include "Engine/InputComponent.h"
 #include "Engine/LevelComponent.h"
 #include "Engine/LevelSystem.h"
 #include "Engine/NameComponent.h"
@@ -25,8 +26,9 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System.hpp>
 
-#include <fstream>
+#include <iostream>
 #include <random>
+#include <set>
 
 core::Application::Application() 
 { 
@@ -35,12 +37,12 @@ core::Application::Application()
 	const uint32 width = static_cast<unsigned int>(Screen::width);
 	const uint32 height = static_cast<unsigned int>(Screen::height);
 
-	const sf::VideoMode videoMode = sf::VideoMode(width, height);
-	const sf::Uint32 style = sf::Style::Default;
 	sf::ContextSettings settings;
 	settings.majorVersion = 0;
 	settings.minorVersion = 1;
 
+	const sf::Uint32 style = sf::Style::Default;
+	const sf::VideoMode videoMode = sf::VideoMode(width, height);
 	m_RenderWindow = new sf::RenderWindow(videoMode, "...", style, settings);
 	m_RenderTarget = m_RenderWindow;
 
@@ -71,17 +73,32 @@ void core::Application::Execute(int argc, char* argv[])
 
 		sf::Time time = m_Clock->restart();
 
-		sf::Event event;
-		while (m_RenderWindow->pollEvent(event))
+		sf::Event eventData;
+		while (m_RenderWindow->pollEvent(eventData))
 		{
-			ImGui::SFML::ProcessEvent(event);
+			ImGui::SFML::ProcessEvent(eventData);
 
-			switch (event.type)
+			switch (eventData.type)
 			{
 			case sf::Event::Closed:
 				m_RenderWindow->close();
 				break;
 			};
+		}
+
+		std::set<sf::Keyboard::Key> keysPressed;
+		for (int32 i = sf::Keyboard::Key::A; i < sf::Keyboard::Key::KeyCount; ++i)
+		{
+			const sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(i);
+			if (sf::Keyboard::isKeyPressed(key))
+				keysPressed.insert(key);
+		}
+
+		for (auto& entity : m_Registry.view<core::InputComponent>())
+		{
+			auto& component = m_Registry.get<core::InputComponent>(entity);
+			component.m_KeysPrevious = component.m_KeysCurrent;
+			component.m_KeysCurrent = keysPressed;
 		}
 
 		// #todo: move into render system?
@@ -114,6 +131,7 @@ void core::Application::Register()
 
 	// components
 	RegisterComponent<core::CameraComponent>();
+	RegisterComponent<core::InputComponent>();
 	RegisterComponent<core::LevelComponent>();
 	RegisterComponent<core::NameComponent>();
 	RegisterComponent<core::TransformComponent>();
@@ -135,6 +153,12 @@ void core::Application::Register()
 
 bool core::Application::Initialise()
 {
+	{
+		entt::entity entity = m_Registry.create();
+		m_Registry.emplace<core::InputComponent>(entity);
+		m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
+	}
+
 	// managers
 	m_PhysicsManager->Initialize();
 	m_AssetManager->Initialize();
@@ -144,7 +168,6 @@ bool core::Application::Initialise()
 	{
 		entry.m_System->Initialize(m_Registry);
 	}
-
 
 	auto& colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };

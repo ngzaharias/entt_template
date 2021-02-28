@@ -1,18 +1,20 @@
 #pragma once
 
+#include <Editor/InspectorTypes.h>
+
 #include <map>
 #include <vector>
 
 namespace editor
 {
-	template<typename Descriptor, class Container>
-	void InspectContainer(const char* text, Descriptor descriptor, Container& container);
+	template<class Container>
+	void InspectContainer(Container& container, InspectorInfo& info);
 
-	template<typename Descriptor, class Key, class Value>
-	void InspectContainer(const char* text, Descriptor descriptor, std::map<Key, Value>& container);
+	template<class Key, class Value>
+	void InspectContainer(std::map<Key, Value>& container, InspectorInfo& info);
 
-	template<typename Descriptor, typename Type>
-	void InspectContainer(const char* text, Descriptor descriptor, std::vector<Type>& container);
+	template<typename Type>
+	void InspectContainer(std::vector<Type>& container, InspectorInfo& info);
 }
 
 #include "ContainerWidgets.inl"

@@ -13,12 +13,6 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 
-// #todo: vector:
-// - re-orderable elements
-// - append new
-// - clear contents
-// - element options: insert, delete
-
 // #todo: map:
 // - customize isKeyInlined && !isValInlined
 // - append new
@@ -27,8 +21,15 @@
 // - rename keys
 // - maintain key order after rename
 // - display error on conflicting keys
+// - save key AND value to transaction
 
-//namespace imgui
+// #todo: vector:
+// - re-orderable elements
+// - append new
+// - clear contents
+// - element options: insert, delete
+
+//namespace
 //{
 //	int32 DragDrop(const char* text, int32 index)
 //	{
@@ -60,14 +61,21 @@
 //	}
 //}
 
-template<typename Descriptor, class Container>
-void editor::InspectContainer(const char* text, Descriptor descriptor, Container& container)
+template<class Container>
+void editor::InspectContainer(Container& container, InspectorInfo& info)
 {
+	const char* name = info.m_Address.GetLast();
+
+	ImGui::TableSetColumnIndex(0);
+	imgui::Bullet();
+	ImGui::Text(name);
+
+	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("Unsupported Container Type!");
 }
 
-template<typename Descriptor, class Key, class Value>
-void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<Key, Value>& container)
+template<class Key, class Value>
+void editor::InspectContainer(std::map<Key, Value>& container, InspectorInfo& info)
 {
 	struct None { };
 	struct Insert { Key key; };
@@ -83,7 +91,8 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 	Command command = None();
 
 	ImGui::TableSetColumnIndex(0);
-	const bool isExpanded = imgui::InspectHeader(text);
+	const char* name = info.m_Address.GetLast();
+	const bool isExpanded = imgui::InspectHeader(name);
 
 	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Elements", container.size());
@@ -113,43 +122,49 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 
 			// key
 			ImGui::PushID(++id);
+			info.m_Address.Push(std::to_string(i));
+			info.m_Address.Push("Key");
 			if (isKeyInlined && isValInlined)
 			{
 				ImGui::TableSetColumnIndex(0);
 				imgui::Bullet();
 				ImGui::SetNextItemWidth(-1);
-				editor::InspectType(key);
+				editor::InspectType(key, info);
 			}
 			if (isKeyInlined && !isValInlined)
 			{
-				editor::InspectProperty("Key", key, descriptor);
+				editor::InspectProperty(key, info);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && isValInlined)
 			{
-				editor::InspectProperty("Key", key, descriptor);
+				editor::InspectProperty(key, info);
 				ImGui::TableNextRow();
 			}
 			if (!isKeyInlined && !isValInlined)
 			{
-				editor::InspectProperty("Key", key, descriptor);
+				editor::InspectProperty(key, info);
 				ImGui::TableNextRow();
 			}
+			info.m_Address.Pop();
 			ImGui::PopID();
 
 			// value
 			ImGui::PushID(++id);
+			info.m_Address.Push("Value");
 			if (isKeyInlined && isValInlined)
 			{
 				ImGui::TableSetColumnIndex(1);
-				editor::InspectType(value);
+				editor::InspectType(value, info);
 			}
 			if (isKeyInlined && !isValInlined)
-				editor::InspectProperty("Value", value, descriptor);
+				editor::InspectProperty(value, info);
 			if (!isKeyInlined && isValInlined)
-				editor::InspectProperty("Value", value, descriptor);
+				editor::InspectProperty(value, info);
 			if (!isKeyInlined && !isValInlined)
-				editor::InspectProperty("Value", value, descriptor);
+				editor::InspectProperty(value, info);
+			info.m_Address.Pop();
+			info.m_Address.Pop();
 			ImGui::PopID();
 
 			if (key != itr->first && ImGui::IsItemDeactivatedAfterEdit())
@@ -180,8 +195,8 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::map<
 		}, command);
 }
 
-template<typename Descriptor, typename Type>
-void editor::InspectContainer(const char* text, Descriptor descriptor, std::vector<Type>& container)
+template<typename Type>
+void editor::InspectContainer(std::vector<Type>& container, InspectorInfo& info)
 {
 	struct None { };
 	struct DragDrop { int32 source, target; };
@@ -197,7 +212,8 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::vect
 	Command command = None();
 
 	ImGui::TableSetColumnIndex(0);
-	const bool isExpanded = imgui::InspectHeader(text);
+	const char* name = info.m_Address.GetLast();
+	const bool isExpanded = imgui::InspectHeader(name);
 
 	ImGui::TableSetColumnIndex(1);
 	ImGui::Text("%d Elements", container.size());
@@ -227,8 +243,12 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::vect
 			//	command = DragDrop{ source, i };
 			//}
 
-			editor::InspectProperty(label.c_str(), value, descriptor);
+			info.m_Address.Push(std::to_string(i));
+
+			editor::InspectProperty(value, info);
 			ImGui::TableNextRow();
+
+			info.m_Address.Pop();
 		}
 
 		ImGui::TableSetColumnIndex(0);
@@ -238,22 +258,32 @@ void editor::InspectContainer(const char* text, Descriptor descriptor, std::vect
 	std::visit(core::VariantOverload
 	{ 
 		[&](auto& arg) {},
-		[&](DragDrop& arg)
+		[&](DragDrop& args)
 		{
-			const bool isUnderneath = arg.source < arg.target;
-			Iterator source = std::next(container.begin(), arg.source);
-			Iterator target = std::next(container.begin(), isUnderneath ? arg.target + 1 : arg.target);
+			const bool isBefore = args.source < args.target;
+			Iterator source = std::next(container.begin(), args.source);
+			Iterator target = std::next(container.begin(), isBefore ? args.target + 1 : args.target);
 			container.insert(target, *source);
 
 			// iterators were invalidated
-			source = std::next(container.begin(), !isUnderneath ? arg.source + 1 : arg.source);
+			source = std::next(container.begin(), !isBefore ? args.source + 1 : args.source);
 			container.erase(source);
 		},
-		[&](Insert& arg)		
+		[&](Insert& args)		
 		{ 
-			Iterator itr = container.begin() + arg.index;
+			Iterator itr = container.begin() + args.index;
 			container.insert(itr, Type());
+
+			info.m_Address.Push(args.index);
+			rapidjson::Value object; /*object.SetObject();*/
+			info.m_Transactions.emplace_back(info.m_Address, object);
+			info.m_Address.Pop();
 		},
-		[&](RemoveAll& arg)	{ container.clear(); },
+		[&](RemoveAll& args)
+		{ 
+			container.clear(); 
+			rapidjson::Value object; object.SetArray();
+			info.m_Transactions.emplace_back(info.m_Address, object);
+		},
 	}, command);
 }

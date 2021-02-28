@@ -9,7 +9,7 @@ namespace editor
 	class AssetBrowser;
 	class EntityBrowser;
 	class GameWindow;
-	class History;
+	class Historian;
 	class Inspector;
 
 	class MainMenuBar final : public core::System
@@ -20,7 +20,7 @@ namespace editor
 			editor::AssetBrowser& assetBrowser
 			, editor::EntityBrowser& entityBrowser
 			, editor::GameWindow& gameWindow
-			, editor::History& history
+			, editor::Historian& historian
 			, editor::Inspector& inspector
 		);
 		~MainMenuBar();
@@ -35,7 +35,7 @@ namespace editor
 		editor::AssetBrowser& m_AssetBrowser;
 		editor::EntityBrowser& m_EntityBrowser;
 		editor::GameWindow& m_GameWindow;
-		editor::History& m_History;
+		editor::Historian& m_Historian;
 		editor::Inspector& m_Inspector;
 	};
 }

@@ -14,7 +14,7 @@ namespace
 	void Inspect(Type& value)
 	{
 		imgui::InspectorBegin();
-		editor::InspectType(value);
+		//editor::InspectType(value);
 		imgui::InspectorEnd();
 	}
 }

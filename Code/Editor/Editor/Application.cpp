@@ -4,11 +4,11 @@
 #include "Editor/AssetBrowser.h"
 #include "Editor/AssetPopup.h"
 #include "Editor/EntityBrowser.h"
+#include "Editor/ExampleComponent.h"
 #include "Editor/FlipbookEditor.h"
 #include "Editor/GameWindow.h"
-#include "Editor/History.h"
+#include "Editor/Historian.h"
 #include "Editor/Inspector.h"
-#include "Editor/InspectorExamples.h"
 #include "Editor/MainMenuBar.h"
 #include "Editor/SceneWindow.h"
 #include "Editor/SpriteEditor.h"
@@ -57,8 +57,9 @@ void editor::Application::Register()
 {
 	core::Application::Register();
 
-	RegisterComponent<example::Component>();
+	RegisterComponent<example::ExampleComponent>();
 
+	RegisterSystem<editor::Historian>();
 	RegisterSystem<editor::FlipbookEditor>();
 	RegisterSystem<editor::GameWindow>(*m_RenderTexture);
 	RegisterSystem<editor::SceneWindow>(*m_RenderTexture);
@@ -71,18 +72,20 @@ void editor::Application::Register()
 			, GetSystem<editor::SpriteEditor>()
 			, GetSystem<editor::SpriteExtractor>()
 		);
-	RegisterSystem<editor::Inspector>();
+	RegisterSystem<editor::Inspector>
+		(
+			GetSystem<editor::Historian>()
+		);
 	RegisterSystem<editor::EntityBrowser>
 		(
 			GetSystem<editor::Inspector>()
 		);
-	RegisterSystem<editor::History>();
 	RegisterSystem<editor::MainMenuBar>
 		(
 			GetSystem<editor::AssetBrowser>()
 			, GetSystem<editor::EntityBrowser>()
 			, GetSystem<editor::GameWindow>()
-			, GetSystem<editor::History>()
+			, GetSystem<editor::Historian>()
 			, GetSystem<editor::Inspector>()
 		);
 }
@@ -103,7 +106,7 @@ bool editor::Application::Initialise()
 	// example entity
 	{
 		entt::entity entity = m_Registry.create();
-		auto& exampleComponent = m_Registry.emplace<example::Component>(entity);
+		auto& exampleComponent = m_Registry.emplace<example::ExampleComponent>(entity);
 		exampleComponent.m_PhysicsMaterial = m_AssetManager->LoadAsset<physics::MaterialAsset>(strDefaultMaterial);
 		exampleComponent.m_Sound = m_AssetManager->LoadAsset<audio::SoundAsset>(strDefaultSound);
 		exampleComponent.m_Texture = m_AssetManager->LoadAsset<render::TextureAsset>(strDefaultTexture);
