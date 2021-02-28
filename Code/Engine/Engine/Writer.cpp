@@ -7,7 +7,7 @@ serialize::Writer::Writer()
 	m_Writer.StartArray();
 }
 
-serialize::Writer::Writer(Mode mode)
+serialize::Writer::Writer(EMode mode)
 	: m_Mode(mode)
 	, m_Writer(m_Buffer)
 {

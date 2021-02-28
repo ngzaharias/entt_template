@@ -6,21 +6,10 @@
 
 namespace editor
 {
-	enum class ETransactionType
-	{
-		Unknown,
-
-		Create,
-		Delete,
-		Edit,
-
-		Translate,
-		Rotate,
-		Scale,
-	};
-
 	struct Transaction
 	{
+		enum class EType { Added, Edited, Removed, };
+
 		template<typename Type>
 		Transaction(const editor::Address& address, const Type& value)
 			: Transaction(address.GetFull(), value)
@@ -48,8 +37,8 @@ namespace editor
 		void ApplyTo(json::Document& document) const;
 
 	public:
-		str::String		 m_Address = { };
-		json::Document	 m_Document = { };
-		ETransactionType m_Type = ETransactionType::Unknown;
+		str::String		m_Address = { };
+		json::Document	m_Document = { };
+		EType			m_Type = EType::Edited;
 	};
 }

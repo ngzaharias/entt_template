@@ -17,14 +17,14 @@ namespace serialize
 		using StringBuffer = rapidjson::StringBuffer;
 
 	public:
-		enum class Mode
+		enum class EMode
 		{
 			None,
 			Replication,
 		};
 
 		explicit Writer();
-		explicit Writer(Mode mode);
+		explicit Writer(EMode mode);
 
 		str::StringView Conclude();
 
@@ -59,7 +59,7 @@ namespace serialize
 		void Visit(const Vector3i& value);
 
 	private:
-		const Mode m_Mode = Mode::None;
+		const EMode m_Mode = EMode::None;
 
 		PrettyWriter m_Writer;
 		StringBuffer m_Buffer = { };

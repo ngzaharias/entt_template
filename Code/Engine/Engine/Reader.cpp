@@ -6,7 +6,7 @@ serialize::Reader::Reader(const char* data)
 	m_Document.Parse(data);
 }
 
-serialize::Reader::Reader(const char* data, Mode mode)
+serialize::Reader::Reader(const char* data, EMode mode)
 	: m_Mode(mode)
 {
 	m_Document.Parse(data);
