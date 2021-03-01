@@ -17,13 +17,12 @@
 #include <SFML/Window/Keyboard.hpp>
 
 // #todo: preview icons
-// #todo: select assets
-// #todo: multi-select actions
 // #todo: import via drag/drop -> inspector
 // #todo: renaming of files
 // #todo: ensure unique filename
 //		- create/rename/import
 // #todo: fill guid into directory entry
+// #todo: refresh entries only on directory change
 
 namespace
 {
@@ -49,6 +48,12 @@ namespace
 		"Sounds (" + strSounds + ")", strSounds,
 		"Textures (" + strTextures + ")", strTextures,
 	};
+
+	template<typename Type>
+	bool Contains(const std::vector<Type>& container, const Type& value)
+	{
+		return std::find(container.begin(), container.end(), value) != container.end();
+	}
 
 	bool MenuBarItem(const char* text, const sf::Texture& texture)
 	{
@@ -206,10 +211,8 @@ void editor::AssetBrowser::Command_Import()
 	}
 }
 
-void editor::AssetBrowser::Command_Open(const int32 index)
+void editor::AssetBrowser::Command_Open()
 {
-	Command_Select(index);
-
 	for (const auto& index : m_Selection)
 	{
 		auto entry = m_Entries.begin();
@@ -232,6 +235,7 @@ void editor::AssetBrowser::Command_Open(const int32 index)
 			}
 		}
 	}
+	m_Selection.clear();
 }
 
 void editor::AssetBrowser::Command_Select(const int32 index)
@@ -439,9 +443,13 @@ void editor::AssetBrowser::Render_Entry(const int32 index)
 		Command_Select(index);
 		break;
 	case EResult::LeftClick_x2:
-		Command_Open(index);
+		if (!Contains(m_Selection, index))
+			Command_Select(index);
+		Command_Open();
 		break;
 	case EResult::RightClick:
+		if (!Contains(m_Selection, index))
+			Command_Select(index);
 		Command_ContextMenu();
 		break;
 	}

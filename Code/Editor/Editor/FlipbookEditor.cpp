@@ -16,15 +16,14 @@ namespace
 {
 	constexpr float s_TimeMaxEpsilon = 0.000001f;
 
-	sf::Texture* iconBack = nullptr;
-	sf::Texture* iconFile = nullptr;
-	sf::Texture* iconFolder = nullptr;
-
 	template<typename Type>
 	void Inspect(Type& value)
 	{
 		imgui::InspectorBegin();
-		//editor::InspectType(value);
+
+		editor::InspectorInfo info;
+		editor::InspectType(value, info);
+
 		imgui::InspectorEnd();
 	}
 }

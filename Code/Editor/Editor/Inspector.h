@@ -27,6 +27,9 @@ namespace editor
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:
+		void OnRedoRecord() { m_HasChanged = true; }
+		void OnUndoRecord() { m_HasChanged = true; }
+
 		void Render(entt::registry& registry);
 		void Render_MenuBar(entt::registry& registry);
 		void Render_Selected(entt::registry& registry);

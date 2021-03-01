@@ -43,8 +43,8 @@ namespace editor
 		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 
 		void PushRecord(const Record& recordOld, const Record& recordNew);
-		void UndoRecord(entt::registry& registry);
 		void RedoRecord(entt::registry& registry);
+		void UndoRecord(entt::registry& registry);
 
 		template <typename ...Types>
 		void CopyToEntity(const editor::Record& record, entt::registry& registry, core::TypeList<Types...> types);
@@ -54,6 +54,10 @@ namespace editor
 		
 		bool IsVisible() { return m_IsVisible; }
 		void SetVisible(const bool value) { m_IsVisible = value; }
+
+	public:
+		entt::sigh<void()> m_OnRedoRecord = { };
+		entt::sigh<void()> m_OnUndoRecord = { };
 
 	private:
 		void Render(entt::registry& registry);

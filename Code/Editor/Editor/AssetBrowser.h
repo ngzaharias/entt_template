@@ -58,7 +58,7 @@ namespace editor
 	private:
 		void Command_ContextMenu();
 		void Command_Import();
-		void Command_Open(const int32 index);
+		void Command_Open();
 		void Command_Select(const int32 index);
 
 		void ContextMenu_Common(const Selection& selection);

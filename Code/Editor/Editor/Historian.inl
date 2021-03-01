@@ -144,6 +144,25 @@ namespace
 	{
 		if (object.IsNull())
 			return;
+
+		const auto& members = object.GetArray();
+		const size_t count = static_cast<size_t>(members.Size());
+
+		value.clear();
+		for (const json::Object& itrObject : members)
+		{
+			Key key = { };
+			const auto keyObject = itrObject.FindMember("Key");
+			if (keyObject != itrObject.MemberEnd())
+				CopyToType(keyObject->value, key);
+
+			Val val = { };
+			const auto valObject = itrObject.FindMember("Value");
+			if (valObject != itrObject.MemberEnd())
+				CopyToType(valObject->value, val);
+
+			value[key] = val;
+		}
 	}
 
 	template<typename Type>

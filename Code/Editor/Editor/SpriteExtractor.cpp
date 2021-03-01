@@ -19,7 +19,10 @@ namespace
 	void Inspect(Type& value)
 	{
 		imgui::InspectorBegin();
-		//editor::InspectType(value);
+
+		editor::InspectorInfo info;
+		editor::InspectType(value, info);
+
 		imgui::InspectorEnd();
 	}
 

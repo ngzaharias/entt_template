@@ -80,6 +80,26 @@ void editor::Historian::PushRecord(const Record& recordOld, const Record& record
 	m_RedoRecords.RemoveAll();
 }
 
+void editor::Historian::RedoRecord(entt::registry& registry)
+{
+	if (!m_RedoRecords.IsEmpty())
+	{
+		// push undo
+		editor::Record& recordNew = m_RedoRecords.GetLast();
+		editor::Record& recordOld = m_Pending[recordNew.m_Entity];
+		m_UndoRecords.Push(recordOld);
+
+		// apply changes
+		CopyToEntity(recordNew, registry, s_ComponentList);
+		m_Pending[recordNew.m_Entity] = recordNew;
+
+		// pop redo
+		m_RedoRecords.Pop();
+
+		m_OnRedoRecord.publish();
+	}
+}
+
 void editor::Historian::UndoRecord(entt::registry& registry)
 {
 	if (!m_UndoRecords.IsEmpty())
@@ -96,24 +116,8 @@ void editor::Historian::UndoRecord(entt::registry& registry)
 
 		// pop undo
 		m_UndoRecords.Pop();
-	}
-}
 
-void editor::Historian::RedoRecord(entt::registry& registry)
-{
-	if (!m_RedoRecords.IsEmpty())
-	{
-		// push undo
-		editor::Record& recordNew = m_RedoRecords.GetLast();
-		editor::Record& recordOld = m_Pending[recordNew.m_Entity];
-		m_UndoRecords.Push(recordOld);
-
-		// apply changes
-		CopyToEntity(recordNew, registry, s_ComponentList);
-		m_Pending[recordNew.m_Entity] = recordNew;
-
-		// pop redo
-		m_RedoRecords.Pop();
+		m_OnUndoRecord.publish();
 	}
 }
 

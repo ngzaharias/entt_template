@@ -180,7 +180,14 @@ void editor::InspectContainer(std::map<Key, Value>& container, InspectorInfo& in
 	std::visit(core::VariantOverload
 		{
 			[&](const None& arg) {},
-			[&](const Insert& arg) { container.try_emplace(arg.key); },
+			[&](const Insert& arg) 
+			{ 
+				container.try_emplace(arg.key); 
+
+				//info.m_Address.Push(args.index);
+				//info.m_Transactions.emplace_back(info.m_Address, json::Object());
+				//info.m_Address.Pop();
+			},
 			[&](const RemoveAll& arg) { container.clear(); },
 			[&](const Rename& arg)
 			{
@@ -234,18 +241,15 @@ void editor::InspectContainer(std::vector<Type>& container, InspectorInfo& info)
 		Iterator end = container.end();
 		for (int32 i = 0; itr != end; ++itr, ++i)
 		{
-			Type& value = *itr;
-			str::String label = std::to_string(i);
-
 			//int32 source = imgui::DragDrop(label.c_str(), i);
 			//if (source != -1)
 			//{
 			//	command = DragDrop{ source, i };
 			//}
 
-			info.m_Address.Push(std::to_string(i));
+			info.m_Address.Push(i);
 
-			editor::InspectProperty(value, info);
+			editor::InspectProperty(itr, info);
 			ImGui::TableNextRow();
 
 			info.m_Address.Pop();
@@ -275,14 +279,13 @@ void editor::InspectContainer(std::vector<Type>& container, InspectorInfo& info)
 			container.insert(itr, Type());
 
 			info.m_Address.Push(args.index);
-			rapidjson::Value object; /*object.SetObject();*/
-			info.m_Transactions.emplace_back(info.m_Address, object);
+			info.m_Transactions.emplace_back(info.m_Address, json::Object());
 			info.m_Address.Pop();
 		},
 		[&](RemoveAll& args)
 		{ 
 			container.clear(); 
-			rapidjson::Value object; object.SetArray();
+			json::Object object; object.SetArray();
 			info.m_Transactions.emplace_back(info.m_Address, object);
 		},
 	}, command);

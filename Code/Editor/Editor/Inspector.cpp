@@ -69,6 +69,8 @@ namespace editor
 editor::Inspector::Inspector(editor::Historian& historian)
 	: m_Historian(historian)
 {
+	entt::sink(m_Historian.m_OnRedoRecord).connect<&editor::Inspector::OnRedoRecord>(this);
+	entt::sink(m_Historian.m_OnUndoRecord).connect<&editor::Inspector::OnUndoRecord>(this);
 }
 
 editor::Inspector::~Inspector()
@@ -88,10 +90,9 @@ void editor::Inspector::Update(entt::registry& registry, const core::GameTime& g
 	if (m_HasChanged)
 	{
 		m_HasChanged = false;
-		m_Record.m_Entity = m_Entity;
-
 		if (registry.valid(m_Entity))
 		{
+			m_Record.m_Entity = m_Entity;
 			m_Historian.CopyToRecord(registry, m_Record, s_ComponentList);
 		}
 	}
@@ -137,6 +138,7 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 				for (const auto& transaction : info.m_Transactions)
 					transaction.ApplyTo(m_Record.m_Document);
 
+				PrintDocument(recordOld.m_Document);
 				m_Historian.PushRecord(recordOld, m_Record);
 			}
 
