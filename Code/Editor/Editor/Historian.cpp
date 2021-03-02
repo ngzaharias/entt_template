@@ -2,6 +2,7 @@
 #include "Editor/Historian.h"
 
 #include "Editor/ComponentList.h"
+#include "Editor/HistorianComponents.h"
 #include "Editor/Transaction.h"
 
 #include <Engine/InputComponent.h>
@@ -56,6 +57,11 @@ void editor::Historian::Destroy(entt::registry& registry)
 
 void editor::Historian::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	for (entt::entity entity : registry.view<editor::RedoEventComponent>())
+		registry.destroy(entity);
+	for (entt::entity entity : registry.view<editor::UndoEventComponent>())
+		registry.destroy(entity);
+
 	for (auto& entity : registry.view<core::InputComponent>())
 	{
 		const auto& component = registry.get<core::InputComponent>(entity);
@@ -96,7 +102,8 @@ void editor::Historian::RedoRecord(entt::registry& registry)
 		// pop redo
 		m_RedoRecords.Pop();
 
-		m_OnRedoRecord.publish();
+		entt::entity entity = registry.create();
+		registry.emplace<editor::RedoEventComponent>(entity);
 	}
 }
 
@@ -117,7 +124,8 @@ void editor::Historian::UndoRecord(entt::registry& registry)
 		// pop undo
 		m_UndoRecords.Pop();
 
-		m_OnUndoRecord.publish();
+		entt::entity entity = registry.create();
+		registry.emplace<editor::UndoEventComponent>(entity);
 	}
 }
 

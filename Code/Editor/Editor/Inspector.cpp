@@ -3,6 +3,7 @@
 
 #include "Editor/ComponentList.h"
 #include "Editor/Historian.h"
+#include "Editor/HistorianComponents.h"
 #include "Editor/InspectorTypes.h"
 #include "Editor/InspectorWidgets.h"
 
@@ -69,8 +70,6 @@ namespace editor
 editor::Inspector::Inspector(editor::Historian& historian)
 	: m_Historian(historian)
 {
-	entt::sink(m_Historian.m_OnRedoRecord).connect<&editor::Inspector::OnRedoRecord>(this);
-	entt::sink(m_Historian.m_OnUndoRecord).connect<&editor::Inspector::OnUndoRecord>(this);
 }
 
 editor::Inspector::~Inspector()
@@ -87,6 +86,9 @@ void editor::Inspector::Destroy(entt::registry& registry)
 
 void editor::Inspector::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	m_HasChanged |= !registry.view<editor::RedoEventComponent>().empty();
+	m_HasChanged |= !registry.view<editor::UndoEventComponent>().empty();
+
 	if (m_HasChanged)
 	{
 		m_HasChanged = false;
@@ -138,7 +140,6 @@ void editor::Inspector::Render_Selected(entt::registry& registry)
 				for (const auto& transaction : info.m_Transactions)
 					transaction.ApplyTo(m_Record.m_Document);
 
-				PrintDocument(recordOld.m_Document);
 				m_Historian.PushRecord(recordOld, m_Record);
 			}
 
