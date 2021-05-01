@@ -26,6 +26,9 @@
 
 namespace
 {
+	constexpr float s_IconSize = 10.f;
+	constexpr float s_RowHeight = 20.f;
+
 	const str::String strSounds = "*.ogg";
 	const str::String strTextures = "*.png";
 	const str::String strAll = strSounds + ";" + strTextures;
@@ -317,20 +320,32 @@ void editor::AssetBrowser::Render(entt::registry& registry)
 		ImGui::SetWindowFontScale(1.f);
 
 		ImGui::Separator();
+		ImGui::Separator();
 
-		ImGui::BeginTable("Table", m_Columns);
-		ImGui::TableNextRow();
-		ImGui::TableNextColumn();
-
-		for (int32 index = 0; index < m_Entries.size(); ++index)
+		if (ImGui::BeginChild("Entries"))
 		{
-			Render_Entry(index);
-			ImGui::TableNextColumn();
+			ImGui::BeginTable("Table", 1, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_Resizable);
+			ImGui::TableNextRow();
+			//ImGui::TableSetColumnIndex(1);
+			//ImGui::PushItemWidth(-FLT_MIN);
+
+			ImGui::TableSetColumnIndex(0);
+			ImGui::Text("Name");
+			ImGui::Separator();
+			ImGui::TableNextRow();
+
+			for (int32 index = 0; index < m_Entries.size(); ++index)
+			{
+				ImGui::TableSetColumnIndex(0);
+				Render_Entry(index);
+				ImGui::TableNextRow();
+			}
+
+			Render_ContextMenu();
+
+			ImGui::EndTable();
 		}
-
-		Render_ContextMenu();
-
-		ImGui::EndTable();
+		ImGui::EndChild();
 	}
 	ImGui::End();
 }
@@ -394,7 +409,7 @@ void editor::AssetBrowser::Render_Entry(const int32 index)
 	std::advance(entry, index);
 
 	const ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
-	const ImVec2 itemSize = { ImGui::GetColumnWidth(), 40.f };
+	const ImVec2 itemSize = { ImGui::GetColumnWidth(), s_RowHeight };
 	const float framePadding = 4.f;
 	const sf::Texture& texture = entry->m_IsDirectory ? *iconFolder : *iconFile;
 
@@ -420,9 +435,12 @@ void editor::AssetBrowser::Render_Entry(const int32 index)
 
 		// image
 		{
-			ImGui::SetCursorPosX(cursorBefore.x + framePadding);
-			ImGui::SetCursorPosY(cursorBefore.y + (itemSize.y * 0.5f) - (texture.getSize().y * 0.5f));
-			ImGui::Image(texture);
+			float positionX = cursorBefore.x + framePadding;
+			float positionY = cursorBefore.y + (itemSize.y * 0.5f) - (texture.getSize().y * 0.5f);
+			positionY += s_IconSize * 0.7f;
+			ImGui::SetCursorPosX(positionX);
+			ImGui::SetCursorPosY(positionY);
+			ImGui::Image(texture, { s_IconSize, s_IconSize });
 		}
 
 		// text

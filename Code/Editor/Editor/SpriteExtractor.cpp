@@ -14,6 +14,7 @@
 namespace
 {
 	constexpr const char* s_Label = "Sprite Extractor";
+	const str::Path strDefaultPath = str::Path("D:\\Projects\\C++\\ZEngine\\Assets\\Sprites");
 
 	template<typename Type>
 	void Inspect(Type& value)
@@ -144,8 +145,10 @@ void editor::SpriteExtractor::Render(entt::registry& registry)
 			{
 				if (ImGui::Button("Extract"))
 				{
-					Extract();
-					CloseDialog();
+					if (ExtractDialog())
+					{
+						CloseDialog();
+					}
 				}
 				ImGui::SameLine();
 				if (ImGui::Button("Cancel"))
@@ -159,12 +162,13 @@ void editor::SpriteExtractor::Render(entt::registry& registry)
 	}
 }
 
-void editor::SpriteExtractor::Extract()
+bool editor::SpriteExtractor::ExtractDialog()
 {
 	core::SelectFolderSettings folderSettings;
+	folderSettings.m_Directory = strDefaultPath.string();
 	str::Path outputFolder = core::SelectFolderDialog(folderSettings);
 	if (outputFolder.empty())
-		return;
+		return false;
 
 	int32 namingIndex = m_NamingSettings.m_StartIndex;
 
@@ -185,4 +189,5 @@ void editor::SpriteExtractor::Extract()
 		assetManager.CreateAsset(asset, outputFilepath);
 		return true;
 	});
+	return true;
 }

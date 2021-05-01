@@ -5,6 +5,10 @@ namespace math
 	float Dot(const Vector2f& a, const Vector2f& b);
 
 	float Length(const Vector2f& value);
+	float Length(const Vector3f& value);
+
+	float LengthSqr(const Vector2f& value);
+	float LengthSqr(const Vector3f& value);
 
 	[[nodiscard]]
 	Vector2f Normalized(const Vector2f& value);

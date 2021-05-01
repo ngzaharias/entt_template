@@ -81,7 +81,6 @@ namespace editor
 		EntrySet m_Entries = { };
 		Selection m_Selection = { };
 
-		int32 m_Columns = 3;
 		bool m_IsVisible = true;
 	};
 }

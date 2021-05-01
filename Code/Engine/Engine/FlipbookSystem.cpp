@@ -24,6 +24,9 @@ void render::FlipbookSystem::Update(entt::registry& registry, const core::GameTi
 	for (const entt::entity& renderEntity : view)
 	{
 		auto& flipbookComponent = view.get<render::FlipbookComponent>(renderEntity);
+		if (!flipbookComponent.m_Flipbook)
+			continue;
+
 		if (!flipbookComponent.m_IsPlaying)
 			continue;
 

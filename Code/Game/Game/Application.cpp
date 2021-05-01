@@ -7,13 +7,14 @@
 #include "Engine/Screen.h"
 #include "Engine/SoundSystem.h"
 
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window.hpp>
 
 namespace
 {
-	const str::Path strDefaultPath = str::Path("Assets/Levels/Default/");
-	const str::Name strExampleSound = NAME("18fa78b3-6f37-4680-81b4-951747f76f3a");
+	const str::Path strDefaultLevel = str::Path("Assets/Levels/Default/");
+	const str::Name strDefaultSound = NAME("18fa78b3-6f37-4680-81b4-951747f76f3a");
 }
 
 game::Application::Application()
@@ -37,7 +38,7 @@ bool game::Application::Initialise()
 	entt::sink(physicsSystem.m_OnCollideSignal).connect<&game::Application::PlaySound>(this);
 
 	core::LevelSystem& levelSystem = GetSystem<core::LevelSystem>();
-	levelSystem.Load(m_Registry, strDefaultPath);
+	levelSystem.Load(m_Registry, strDefaultLevel);
 
 	return true;
 }
@@ -57,5 +58,5 @@ void game::Application::Destroy()
 
 void game::Application::PlaySound()
 {
-	GetSystem<audio::SoundSystem>().PlaySound(strExampleSound);
+	GetSystem<audio::SoundSystem>().PlaySound(strDefaultSound);
 }

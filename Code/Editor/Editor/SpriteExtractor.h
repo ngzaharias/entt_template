@@ -36,7 +36,7 @@ namespace editor
 	private:
 		void Render(entt::registry& registry);
 
-		void Extract();
+		bool ExtractDialog();
 
 	private:
 		render::TextureHandle m_Texture = { };

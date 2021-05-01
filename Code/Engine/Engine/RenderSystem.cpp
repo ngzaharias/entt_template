@@ -11,7 +11,8 @@
 #include <entt/entt.hpp>
 #include <SFML/Graphics.hpp>
 
-// #todo: render a sprite and a flipbook based on their z-position
+// #fixme: y-positions are inversed in Game project
+// #todo: render sprites and flipbooks based on their z-position and not based on the order they were called
 
 render::RenderSystem::RenderSystem(sf::RenderTarget& renderTarget)
 	: m_RenderTarget(renderTarget)
@@ -90,6 +91,9 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 			{
 				auto& flipbookComponent = flipbookView.get<render::FlipbookComponent>(renderEntity);
 				auto& transformComponent = flipbookView.get<core::TransformComponent>(renderEntity);
+
+				if (!flipbookComponent.m_Flipbook)
+					continue;
 
 				const render::FlipbookAsset& flipbookAsset = flipbookComponent.m_Flipbook.get();
 				if (flipbookAsset.m_Frames.empty())

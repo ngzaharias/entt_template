@@ -18,12 +18,14 @@ TSystem& core::Application::GetSystem() const
 	});
 
 	assert(result != last);
-	return *static_cast<TSystem*>(result->m_System);
+	return *dynamic_cast<TSystem*>(result->m_System);
 }
 
 template<class TComponent>
 void core::Application::RegisterComponent()
 {
+	static_assert(std::is_assignable<TComponent, TComponent>::value, "Component Type isn't assignable!");
+
 	ComponentEntry entry =
 	{
 		entt::type_info<TComponent>::id()

@@ -13,6 +13,21 @@ float math::Length(const Vector2f& value)
 	return std::sqrt(value.x * value.x + value.y * value.y);
 }
 
+float math::Length(const Vector3f& value)
+{
+	return std::sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
+}
+
+float math::LengthSqr(const Vector2f& value)
+{
+	return value.x * value.x + value.y * value.y;
+}
+
+float math::LengthSqr(const Vector3f& value)
+{
+	return value.x * value.x + value.y * value.y + value.z * value.z;
+}
+
 Vector2f math::Normalized(const Vector2f& value)
 {
 	//#todo: handle (0,0) vector

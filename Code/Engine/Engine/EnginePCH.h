@@ -18,6 +18,7 @@
 #include "Engine/Vector2.h"
 #include "Engine/Vector3.h"
 #include "Engine/VectorHelpers.h"
+#include "Engine/TypeId.h"
 #include "Engine/Types.h"
 
 #include <refl/refl.hpp>
