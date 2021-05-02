@@ -1,7 +1,6 @@
 #include "EnginePCH.h"
 #include "Engine/Application.h"
 
-#include "Engine/AssetManager.h"
 #include "Engine/CameraComponent.h"
 #include "Engine/FileHelpers.h"
 #include "Engine/FlipbookSystem.h"
@@ -9,7 +8,6 @@
 #include "Engine/LevelComponent.h"
 #include "Engine/LevelSystem.h"
 #include "Engine/NameComponent.h"
-#include "Engine/PhysicsManager.h"
 #include "Engine/PhysicsSystem.h"
 #include "Engine/RenderSystem.h"
 #include "Engine/RigidDynamicComponent.h"
@@ -23,17 +21,16 @@
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System.hpp>
 
 #include <iostream>
 #include <random>
 #include <set>
 
-core::Application::Application() 
+core::Application::Application()
+	: m_AssetManager(m_PhysicsManager)
+	, m_PhysicsManager()
 { 
-	m_Clock = new sf::Clock();
-
 	const uint32 width = static_cast<unsigned int>(Screen::width);
 	const uint32 height = static_cast<unsigned int>(Screen::height);
 
@@ -43,45 +40,43 @@ core::Application::Application()
 
 	const sf::Uint32 style = sf::Style::Default;
 	const sf::VideoMode videoMode = sf::VideoMode(width, height);
-	m_RenderWindow = new sf::RenderWindow(videoMode, "...", style, settings);
-	m_RenderTarget = m_RenderWindow;
+	m_RenderTexture.create(width, height, settings);
+	m_RenderWindow.create(videoMode, "...", style, settings);
 
 	srand((unsigned int)time(NULL));
 }
 
 core::Application::~Application()
 { 
-	delete m_Clock;
-	delete m_RenderWindow;
 }
 
 void core::Application::Execute(int argc, char* argv[])
 {
-	ImGui::SFML::Init(*m_RenderWindow);
+	ImGui::SFML::Init(m_RenderWindow);
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	Register();
-	if (!Initialise())
-		return;
+	Initialise();
 
 	while (true)
 	{
-		if (!m_RenderWindow->isOpen())
+		m_RenderTexture.clear();
+		if (!m_RenderWindow.isOpen())
 			break;
 
-		sf::Time time = m_Clock->restart();
+		sf::Time time = m_Clock.restart();
 
 		sf::Event eventData;
-		while (m_RenderWindow->pollEvent(eventData))
+		while (m_RenderWindow.pollEvent(eventData))
 		{
 			ImGui::SFML::ProcessEvent(eventData);
 
 			switch (eventData.type)
 			{
 			case sf::Event::Closed:
-				m_RenderWindow->close();
+				m_RenderWindow.close();
 				break;
 			};
 		}
@@ -94,28 +89,29 @@ void core::Application::Execute(int argc, char* argv[])
 				keysPressed.insert(key);
 		}
 
-		for (auto& entity : m_Registry.view<core::InputComponent>())
+		for (auto& entity : m_Registry.view<input::InputComponent>())
 		{
-			auto& component = m_Registry.get<core::InputComponent>(entity);
+			auto& component = m_Registry.get<input::InputComponent>(entity);
 			component.m_KeysPrevious = component.m_KeysCurrent;
 			component.m_KeysCurrent = keysPressed;
 		}
 
-		// #todo: move into render system?
-		if (m_RenderTarget != m_RenderWindow)
-			m_RenderTarget->clear();
-		m_RenderWindow->clear();
+		ImGui::SFML::Update(m_RenderWindow, time);
+		Update(time);
 
-		ImGui::SFML::Update(*m_RenderWindow, time);
+		// render to window
+		{
+			const sf::Texture& texture = m_RenderTexture.getTexture();
+			const Vector2f size = Vector2f(texture.getSize());
 
-		if (!Update(time))
-			break;
-
-		ImGui::SFML::Render(*m_RenderWindow);
+			sf::Sprite sprite;
+			sprite.setTexture(texture);
+			m_RenderWindow.draw(sprite);
+		}
+		ImGui::SFML::Render(m_RenderWindow);
 
 		// #todo
-		//m_RenderTexture->display();
-		m_RenderWindow->display();
+		m_RenderWindow.display();
 	}
 
 	Destroy();
@@ -125,49 +121,43 @@ void core::Application::Execute(int argc, char* argv[])
 
 void core::Application::Register()
 {
-	// managers
-	m_PhysicsManager = new physics::PhysicsManager();
-	m_AssetManager = new core::AssetManager(*m_PhysicsManager);
-
 	// components
 	RegisterComponent<core::CameraComponent>();
-	RegisterComponent<core::InputComponent>();
 	RegisterComponent<core::LevelComponent>();
 	RegisterComponent<core::NameComponent>();
 	RegisterComponent<core::TransformComponent>();
+	RegisterComponent<input::InputComponent>();
 	RegisterComponent<physics::RigidDynamicComponent>();
 	RegisterComponent<physics::RigidStaticComponent>();
 	RegisterComponent<render::SpriteComponent>();
 
 	// systems
 	RegisterSystem<render::FlipbookSystem>();
-	RegisterSystem<render::RenderSystem>(*m_RenderTarget);
-	RegisterSystem<physics::PhysicsSystem>(*m_PhysicsManager);
-	RegisterSystem<audio::SoundSystem>(*m_AssetManager);
+	RegisterSystem<render::RenderSystem>(m_RenderTexture);
+	RegisterSystem<physics::PhysicsSystem>(m_PhysicsManager);
+	RegisterSystem<audio::SoundSystem>(m_AssetManager);
 	RegisterSystem<core::LevelSystem>
 		(
-			*m_PhysicsManager 
-			, *m_AssetManager
+			m_PhysicsManager 
+			, m_AssetManager
 		);
 }
 
-bool core::Application::Initialise()
+void core::Application::Initialise()
 {
 	{
 		entt::entity entity = m_Registry.create();
-		m_Registry.emplace<core::InputComponent>(entity);
 		m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
+		m_Registry.emplace<input::InputComponent>(entity);
 	}
 
 	// managers
-	m_PhysicsManager->Initialize();
-	m_AssetManager->Initialize();
+	m_AssetManager.Initialize();
+	m_PhysicsManager.Initialize();
 
 	// systems
 	for (core::SystemEntry& entry : m_SystemEntries)
-	{
 		entry.m_System->Initialize(m_Registry);
-	}
 
 	auto& colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
@@ -198,40 +188,21 @@ bool core::Application::Initialise()
 	colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-	//ImGuiStyle& style = ImGui::GetStyle();
-	//style.Colors[ImGuiCol_Header] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_HeaderActive] = s_PurpleSelected;
-	//style.Colors[ImGuiCol_HeaderHovered] = s_PurpleHovered;
-	//style.Colors[ImGuiCol_ModalWindowDimBg] = s_Gray;
-	//style.Colors[ImGuiCol_ResizeGrip] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_ResizeGripActive] = s_PurpleSelected;
-	//style.Colors[ImGuiCol_ResizeGripHovered] = s_PurpleHovered;
-	//style.Colors[ImGuiCol_Separator] = s_PurpleHovered;
-	//style.Colors[ImGuiCol_TitleBg] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_TitleBgActive] = s_PurpleEnabled;
-	//style.Colors[ImGuiCol_TitleBgCollapsed] = s_PurpleEnabled;
-
-	return true;
 }
 
-bool core::Application::Update(const core::GameTime& gameTime)
+void core::Application::Update(const core::GameTime& gameTime)
 {
 	// systems
 	for (core::SystemEntry& entry : m_SystemEntries)
 	{
 		entry.m_System->Update(m_Registry, gameTime);
 	}
-
-	return true;
 }
 
 void core::Application::Destroy()
 {
-	// components
+	// ecs
 	m_ComponentEntries.clear();
-
-	// systems
 	for (core::SystemEntry& entry : m_SystemEntries)
 	{
 		entry.m_System->Destroy(m_Registry);
@@ -240,8 +211,6 @@ void core::Application::Destroy()
 	m_SystemEntries.clear();
 
 	// managers
-	m_PhysicsManager->Destroy();
-	m_AssetManager->Destroy();
-	delete m_PhysicsManager;
-	delete m_AssetManager;
+	m_AssetManager.Destroy();
+	m_PhysicsManager.Destroy();
 }

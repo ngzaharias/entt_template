@@ -3,7 +3,7 @@
 #include <set>
 #include <SFML/Window/Keyboard.hpp>
 
-namespace core
+namespace input
 {
 	struct InputComponent
 	{
@@ -31,7 +31,7 @@ namespace core
 
 REFL_AUTO
 (
-	type(core::InputComponent)
+	type(input::InputComponent)
 	, field(m_KeysPrevious)
 	, field(m_KeysCurrent)
 )

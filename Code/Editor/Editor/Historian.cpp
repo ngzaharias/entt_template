@@ -62,9 +62,9 @@ void editor::Historian::Update(entt::registry& registry, const core::GameTime& g
 	for (entt::entity entity : registry.view<editor::UndoEventComponent>())
 		registry.destroy(entity);
 
-	for (auto& entity : registry.view<core::InputComponent>())
+	for (auto& entity : registry.view<input::InputComponent>())
 	{
-		const auto& component = registry.get<core::InputComponent>(entity);
+		const auto& component = registry.get<input::InputComponent>(entity);
 		if (component.IsKeyHeld(Key::LControl) && component.IsKeyPressed(Key::Z))
 		{
 			if (component.IsKeyHeld(Key::LShift))

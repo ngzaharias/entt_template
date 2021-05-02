@@ -1,27 +1,24 @@
 #pragma once
 
+#include <Engine/AssetManager.h>
+#include <Engine/PhysicsManager.h>
 #include <Engine/System.h>
 #include <Engine/TypeList.h>
 
 #include <entt/fwd.hpp>
 #include <entt/core/type_info.hpp>
 #include <entt/entity/registry.hpp>
-
-namespace physics
-{
-	class PhysicsManager;
-}
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
 
 namespace sf
 {
 	class Clock;
-	class RenderTarget;
-	class RenderWindow;
 }
 
 namespace core
 {
-	class AssetManager;
 	class System;
 
 	struct ComponentEntry
@@ -61,27 +58,25 @@ namespace core
 
 	protected:
 		virtual void Register();
-		virtual bool Initialise();
-		virtual bool Update(const core::GameTime& gameTime);
+		virtual void Initialise();
+		virtual void Update(const core::GameTime& gameTime);
 		virtual void Destroy();
 
 	protected:
 		// managers
-		core::AssetManager* m_AssetManager = nullptr;
-		physics::PhysicsManager* m_PhysicsManager = nullptr;
+		core::AssetManager m_AssetManager;
+		physics::PhysicsManager m_PhysicsManager;
 
+		// entities
+		entt::registry m_Registry;
 		// components
 		std::vector<ComponentEntry> m_ComponentEntries;
-
 		// systems
 		std::vector<SystemEntry> m_SystemEntries;
 
-		entt::registry m_Registry;
-
-		sf::Clock* m_Clock = nullptr;
-
-		sf::RenderTarget* m_RenderTarget = nullptr;
-		sf::RenderWindow* m_RenderWindow = nullptr;
+		sf::Clock m_Clock;
+		sf::RenderTexture m_RenderTexture;
+		sf::RenderWindow m_RenderWindow;
 	};
 }
 

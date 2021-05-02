@@ -12,6 +12,7 @@
 #include <Engine/SoundComponent.h>
 #include <Engine/SpriteComponent.h>
 #include <Engine/TransformComponent.h>
+#include <Engine/TypeList.h>
 
 namespace editor
 {
@@ -22,9 +23,9 @@ namespace editor
 
 		, audio::SoundComponent
 		, core::CameraComponent
-		, core::InputComponent
 		, core::LevelComponent
 		, example::ExampleComponent
+		, input::InputComponent
 		, physics::RigidDynamicComponent
 		, physics::RigidStaticComponent
 		, render::FlipbookComponent

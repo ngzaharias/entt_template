@@ -10,9 +10,10 @@
 
 #include <entt/entt.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
-// #fixme: y-positions are inversed in Game project
-// #todo: render sprites and flipbooks based on their z-position and not based on the order they were called
+// #todo: render sprites based on their z-position and not based on the order they were called
+// #todo: error if there is no camera
 
 render::RenderSystem::RenderSystem(sf::RenderTarget& renderTarget)
 	: m_RenderTarget(renderTarget)
@@ -33,12 +34,10 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 			auto& cameraComponent = cameraView.get<core::CameraComponent>(cameraEntity);
 			auto& transformComponent = cameraView.get<core::TransformComponent>(cameraEntity);
 
-			const Vector2f size = { Screen::width, Screen::height };
-
 			sf::View view;
 			view.setCenter(transformComponent.m_Translate.x, transformComponent.m_Translate.y);
 			view.setRotation(transformComponent.m_Rotate.z);
-			view.setSize(size);
+			view.setSize({ Screen::width, Screen::height });
 			m_RenderTarget.setView(view);
 		}
 
@@ -62,7 +61,7 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 				const sf::Texture& texture = textureAsset.m_Texture;
 				const Vector2f size = Vector2f(spriteAsset.m_RectangleSize);
 
-				// #fixme: images render upside down
+				// #note: inverse scale because of SFML
 				const float scaleX = spriteComponent.m_Size.x / size.x;
 				const float scaleY = spriteComponent.m_Size.y / size.y * -1.f;
 
@@ -115,7 +114,6 @@ void render::RenderSystem::Update(entt::registry& registry, const core::GameTime
 				const sf::Texture& texture = textureAsset.m_Texture;
 				const Vector2f size = Vector2f(spriteAsset.m_RectangleSize);
 
-				// #fixme: images render upside down
 				const float scaleX = flipbookComponent.m_Size.x / size.x;
 				const float scaleY = flipbookComponent.m_Size.y / size.y * -1.f;
 

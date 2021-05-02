@@ -1,5 +1,5 @@
 #include "EditorPCH.h"
-#include "Editor/SceneWindow.h"
+#include "Editor/SceneEditor.h"
 
 #include <Engine/Screen.h>
 
@@ -10,51 +10,34 @@
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/View.hpp>
 
+// #todo: editor camera
+// #todo: multiple cameras
 // #todo: multiple windows
 // #todo: dropdown select camera
 
-namespace
-{
-	void EditTransform(const sf::View& view, sf::Transform& transform)
-	{
-		constexpr ImGuizmo::OPERATION operation = ImGuizmo::TRANSLATE;
-		constexpr ImGuizmo::MODE mode = ImGuizmo::WORLD;
-		const ImGuiIO& io = ImGui::GetIO();
-
-		float matrixProj[16];
-		float* matrixView = const_cast<float*>(view.getTransform().getMatrix());
-		float* matrixTran = const_cast<float*>(transform.getMatrix());
-
-		ImGuizmo::Enable(true);
-		ImGuizmo::SetOrthographic(true);
-		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-		ImGuizmo::Manipulate(matrixView, matrixProj, operation, mode, matrixTran);
-	}
-}
-
-editor::SceneWindow::SceneWindow(sf::RenderTexture& renderTexture)
+editor::SceneEditor::SceneEditor(sf::RenderTexture& renderTexture)
 	: m_RenderTexture(renderTexture)
 {
 }
 
-editor::SceneWindow::~SceneWindow()
+editor::SceneEditor::~SceneEditor()
 {
 }
 
-void editor::SceneWindow::Initialize(entt::registry& registry)
+void editor::SceneEditor::Initialize(entt::registry& registry)
 {
 }
 
-void editor::SceneWindow::Destroy(entt::registry& registry)
+void editor::SceneEditor::Destroy(entt::registry& registry)
 {
 }
 
-void editor::SceneWindow::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::SceneEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
 	Render(registry);
 }
 
-void editor::SceneWindow::Render(entt::registry& registry)
+void editor::SceneEditor::Render(entt::registry& registry)
 {
 	if (!m_IsVisible)
 		return;
@@ -68,10 +51,7 @@ void editor::SceneWindow::Render(entt::registry& registry)
 	if (ImGui::Begin("Scene", &m_IsVisible, flags))
 	{
 		if (ImGui::BeginMenuBar())
-		{
-
 			ImGui::EndMenuBar();
-		}
 
 		// #fixme: update the camera size
 		const Vector2f regionSize = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
@@ -79,7 +59,6 @@ void editor::SceneWindow::Render(entt::registry& registry)
 		Screen::width = regionSize.x;
 		Screen::height = regionSize.y;
 
-		// #todo: get render texture from camera
 		ImGui::Image(m_RenderTexture.getTexture(), viewSize);
 	}
 	ImGui::End();

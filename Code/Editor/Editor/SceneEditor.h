@@ -9,11 +9,11 @@ namespace sf
 
 namespace editor
 {
-	class GameWindow final : public core::System
+	class SceneEditor final : public core::System
 	{
 	public:
-		GameWindow(sf::RenderTexture& renderTexture);
-		~GameWindow();
+		SceneEditor(sf::RenderTexture& renderTexture);
+		~SceneEditor();
 
 		void Initialize(entt::registry& registry) override;
 		void Destroy(entt::registry& registry) override;

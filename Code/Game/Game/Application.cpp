@@ -30,7 +30,7 @@ void game::Application::Register()
 	core::Application::Register();
 }
 
-bool game::Application::Initialise()
+void game::Application::Initialise()
 {
 	core::Application::Initialise();
 
@@ -39,16 +39,11 @@ bool game::Application::Initialise()
 
 	core::LevelSystem& levelSystem = GetSystem<core::LevelSystem>();
 	levelSystem.Load(m_Registry, strDefaultLevel);
-
-	return true;
 }
 
-bool game::Application::Update(const core::GameTime& gameTime)
+void game::Application::Update(const core::GameTime& gameTime)
 {
-	if (!core::Application::Update(gameTime))
-		return false;
-
-	return true;
+	core::Application::Update(gameTime);
 }
 
 void game::Application::Destroy()
