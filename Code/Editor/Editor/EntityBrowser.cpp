@@ -57,6 +57,8 @@ void editor::EntityBrowser::Destroy(entt::registry& registry)
 
 void editor::EntityBrowser::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	m_Entries.clear();
 	registry.each([&](const entt::entity& entity)
 	{

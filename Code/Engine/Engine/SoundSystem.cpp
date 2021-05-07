@@ -30,6 +30,8 @@ void audio::SoundSystem::Destroy(entt::registry& registry)
 
 void audio::SoundSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	for (const audio::Request& request : m_Requests)
 	{
 		const audio::SoundHandle handle = m_AssetManager.LoadAsset<audio::SoundAsset>(request.m_Name);

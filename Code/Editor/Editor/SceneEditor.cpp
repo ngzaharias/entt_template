@@ -34,6 +34,8 @@ void editor::SceneEditor::Destroy(entt::registry& registry)
 
 void editor::SceneEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	Render(registry);
 }
 

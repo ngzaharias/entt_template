@@ -57,6 +57,8 @@ void core::LevelSystem::Destroy(entt::registry& registry)
 
 void core::LevelSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 }
 
 bool core::LevelSystem::Load(entt::registry& registry, const str::Path& filepath)

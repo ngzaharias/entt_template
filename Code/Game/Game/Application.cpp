@@ -43,6 +43,8 @@ void game::Application::Initialise()
 
 void game::Application::Update(const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	core::Application::Update(gameTime);
 }
 

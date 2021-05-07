@@ -2,6 +2,7 @@
 #include "Engine/Application.h"
 
 #include "Engine/CameraComponent.h"
+#include "Engine/DebugSystem.h"
 #include "Engine/FileHelpers.h"
 #include "Engine/FlipbookSystem.h"
 #include "Engine/InputComponent.h"
@@ -62,6 +63,8 @@ void core::Application::Execute(int argc, char* argv[])
 
 	while (true)
 	{
+		PROFILE_TICK("MainThread");
+
 		m_RenderTexture.clear();
 		if (!m_RenderWindow.isOpen())
 			break;
@@ -141,6 +144,9 @@ void core::Application::Register()
 			m_PhysicsManager 
 			, m_AssetManager
 		);
+
+	// register last
+	RegisterSystem<debug::DebugSystem>(m_RenderTexture);
 }
 
 void core::Application::Initialise()
@@ -192,6 +198,8 @@ void core::Application::Initialise()
 
 void core::Application::Update(const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	// systems
 	for (core::SystemEntry& entry : m_SystemEntries)
 	{

@@ -3,7 +3,6 @@
 
 #include "Editor/AssetBrowser.h"
 #include "Editor/EntityBrowser.h"
-#include "Editor/GameWindow.h"
 #include "Editor/Historian.h"
 #include "Editor/Inspector.h"
 
@@ -28,13 +27,11 @@ editor::MainMenuBar::MainMenuBar
 (
 	editor::AssetBrowser& assetBrowser
 	, editor::EntityBrowser& entityBrowser
-	, editor::GameWindow& gameWindow
 	, editor::Historian& historian
 	, editor::Inspector& inspector
 )
 	: m_AssetBrowser(assetBrowser)
 	, m_EntityBrowser(entityBrowser)
-	, m_GameWindow(gameWindow)
 	, m_Historian(historian)
 	, m_Inspector(inspector)
 {
@@ -54,6 +51,8 @@ void editor::MainMenuBar::Destroy(entt::registry& registry)
 
 void editor::MainMenuBar::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	Render(registry);
 }
 
@@ -93,6 +92,17 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Debug"))
+		{
+			if (ImGui::MenuItem("Optick"))
+			{
+				// #todo: use relative path
+				system("start C:/Personal/ZEngine/3rdParty/optick/1.3.1/Optick.exe");
+			}
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Window"))
 		{
 			ImGui::MenuItem("General", nullptr, false, false);
@@ -103,20 +113,12 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 			bool entityBrowser = m_EntityBrowser.IsVisible();
 			if (ImGui::MenuItem("Entity Browser", nullptr, &entityBrowser))
 				m_EntityBrowser.SetVisible(entityBrowser);
-			bool gameWindow = m_GameWindow.IsVisible();
-			if (ImGui::MenuItem("Game Window", nullptr, &gameWindow))
-				m_GameWindow.SetVisible(gameWindow);
 			bool historian = m_Historian.IsVisible();
 			if (ImGui::MenuItem("Historian", nullptr, &historian))
 				m_Historian.SetVisible(historian);
 			bool inspector = m_Inspector.IsVisible();
 			if (ImGui::MenuItem("Inspector", nullptr, &inspector))
 				m_Inspector.SetVisible(inspector);
-
-			ImGui::Separator();
-
-			ImGui::MenuItem("Debug", nullptr, false, false);
-			ImGui::Text("...");
 
 			ImGui::EndMenu();
 		}

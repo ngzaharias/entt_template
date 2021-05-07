@@ -86,6 +86,8 @@ void editor::Inspector::Destroy(entt::registry& registry)
 
 void editor::Inspector::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	m_HasChanged |= !registry.view<editor::RedoEventComponent>().empty();
 	m_HasChanged |= !registry.view<editor::UndoEventComponent>().empty();
 

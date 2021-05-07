@@ -26,6 +26,8 @@ render::RenderSystem::~RenderSystem()
 
 void render::RenderSystem::Update(entt::registry& registry, const core::GameTime& /*gameTime*/)
 {
+	PROFILE_FUNCTION();
+
 	const auto cameraView = registry.view<core::CameraComponent, core::TransformComponent>();
 	for (const entt::entity& cameraEntity : cameraView)
 	{

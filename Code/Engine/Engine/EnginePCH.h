@@ -11,6 +11,7 @@
 // - quaternions
 #include "Engine/MathHelpers.h"
 #include "Engine/Name.h"
+#include "Engine/OptickProfiler.h"
 #include "Engine/Path.h"
 #include "Engine/String.h"
 #include "Engine/StringHelpers.h"

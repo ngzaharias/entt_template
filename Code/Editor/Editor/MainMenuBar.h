@@ -19,7 +19,6 @@ namespace editor
 		(
 			editor::AssetBrowser& assetBrowser
 			, editor::EntityBrowser& entityBrowser
-			, editor::GameWindow& gameWindow
 			, editor::Historian& historian
 			, editor::Inspector& inspector
 		);
@@ -34,7 +33,6 @@ namespace editor
 	private:
 		editor::AssetBrowser& m_AssetBrowser;
 		editor::EntityBrowser& m_EntityBrowser;
-		editor::GameWindow& m_GameWindow;
 		editor::Historian& m_Historian;
 		editor::Inspector& m_Inspector;
 	};

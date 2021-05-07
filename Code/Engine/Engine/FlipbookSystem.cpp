@@ -20,6 +20,8 @@ render::FlipbookSystem::~FlipbookSystem()
 
 void render::FlipbookSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	const auto view = registry.view<render::FlipbookComponent>();
 	for (const entt::entity& renderEntity : view)
 	{

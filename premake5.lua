@@ -13,7 +13,7 @@ workspace "ZEngine"
 	defines { "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING" }
 
 	filter "Debug"
-		defines { "_DEBUG" }
+		defines { "_DEBUG", "USE_OPTICK" }
 		optimize "Off"
 		runtime "Debug"
 		symbols "On"

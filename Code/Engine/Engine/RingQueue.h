@@ -3,18 +3,18 @@
 #include <assert.h>
 
 template<class Type, int32 t_Capacity>
-class CircularBuffer final
+class RingQueue final
 {
 	static_assert(t_Capacity > 0, "Invalid capacity.");
 
 public:
-	constexpr CircularBuffer() = default;
+	constexpr RingQueue() = default;
 
 	template <typename... Types>
-	constexpr CircularBuffer(Types&&... values);
+	constexpr RingQueue(Types&&... values);
 
-	constexpr auto operator[](const int index)->Type&;
-	constexpr auto operator[](const int index) const -> const Type&;
+	constexpr auto operator[](int32 index)->Type&;
+	constexpr auto operator[](int32 index) const -> const Type&;
 
 	constexpr auto IsEmpty() const -> bool;
 	constexpr auto IsFull() const -> bool;
@@ -22,8 +22,8 @@ public:
 	constexpr auto GetCapacity() const->int32;
 	constexpr auto GetCount() const->int32;
 
-	constexpr auto Get(const int index)->Type&;
-	constexpr auto Get(const int index) const -> const Type&;
+	constexpr auto Get(int32 index)->Type&;
+	constexpr auto Get(int32 index) const -> const Type&;
 
 	constexpr auto GetFirst()->Type&;
 	constexpr auto GetFirst() const -> const Type&;
@@ -42,4 +42,4 @@ private:
 	int32 m_Tail = -1;
 };
 
-#include "CircularBuffer.inl"
+#include "RingQueue.inl"

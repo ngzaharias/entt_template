@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/CircularBuffer.h>
+#include <Engine/RingQueue.h>
 #include <Engine/System.h>
 #include <Engine/TypeList.h>
 
@@ -30,7 +30,7 @@ namespace editor
 	class Historian final : public core::System
 	{
 		using Database = std::map<entt::entity, editor::Record>;
-		using Records = CircularBuffer<Record, 50>;
+		using Records = RingQueue<Record, 50>;
 		using Transactions = std::vector<Transaction>;
 
 	public:

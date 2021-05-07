@@ -78,7 +78,6 @@ void editor::Application::Register()
 		(
 			GetSystem<editor::AssetBrowser>()
 			, GetSystem<editor::EntityBrowser>()
-			, GetSystem<editor::GameWindow>()
 			, GetSystem<editor::Historian>()
 			, GetSystem<editor::Inspector>()
 		);
@@ -127,6 +126,8 @@ void editor::Application::Initialise()
 
 void editor::Application::Update(const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	ImGuizmo::BeginFrame();
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 

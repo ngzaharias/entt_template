@@ -8,6 +8,7 @@ project "Editor"
 	includedirs 
 	{ 
 		"%{wks.location}/3rdParty/",
+		"%{wks.location}/3rdParty/optick/1.3.1/include/",
 		"%{wks.location}/3rdParty/PhysX/Include/",
 		"%{wks.location}/3rdParty/SFML/Include/",
 		"%{wks.location}/Code/Editor/",
@@ -19,6 +20,7 @@ project "Editor"
 	libdirs 
 	{
 		"%{wks.location}/3rdParty/",
+		"%{wks.location}/3rdParty/optick/1.3.1/lib/x64/%{cfg.buildcfg}/",
 		"%{wks.location}/3rdParty/PhysX/Library/%{cfg.buildcfg}/",
 		"%{wks.location}/3rdParty/SFML/Library/%{cfg.buildcfg}/",
 		"%{wks.location}/Build/Engine/%{cfg.buildcfg}_%{cfg.platform}/",
@@ -29,6 +31,8 @@ project "Editor"
 	{ 
 		"Engine.lib",
 		"Imgui.lib",
+
+		"OptickCore.lib",
 
 		"PhysX_64.lib",
 		"PhysXCommon_64.lib",
@@ -75,6 +79,7 @@ project "Editor"
 	postbuildcommands 
 	{ 
 		"{COPY} %{wks.location}/3rdParty/*.dll $(OutDir)",
+		"{COPY} %{wks.location}/3rdParty/optick/1.3.1/lib/x64/%{cfg.buildcfg}/*.dll $(OutDir)",
 		"{COPY} %{wks.location}/3rdParty/PhysX/Binary/%{cfg.buildcfg}/*.dll $(OutDir)",
 		"{COPY} %{wks.location}/3rdParty/SFML/Binary/%{cfg.buildcfg}/*.dll $(OutDir)",
 	}

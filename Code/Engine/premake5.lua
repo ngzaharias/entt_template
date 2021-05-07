@@ -15,6 +15,7 @@ project "Engine"
 	includedirs 
 	{ 
 		"%{wks.location}/3rdParty/",
+		"%{wks.location}/3rdParty/optick/1.3.1/include/",
 		"%{wks.location}/3rdParty/PhysX/Include/",
 		"%{wks.location}/3rdParty/SFML/Include/",
 		"%{wks.location}/Code/Engine/",

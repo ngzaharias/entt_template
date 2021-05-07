@@ -52,6 +52,8 @@ void physics::PhysicsSystem::Destroy(entt::registry& registry)
 
 void physics::PhysicsSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	m_DeltaTimeAccumulated += gameTime.asSeconds();
 
 	for (; m_DeltaTimeAccumulated >= s_SimulationTimestep; m_DeltaTimeAccumulated -= s_SimulationTimestep)

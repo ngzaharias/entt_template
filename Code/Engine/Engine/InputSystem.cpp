@@ -7,6 +7,8 @@
 
 void input::InputSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	m_KeysPrevious = m_KeysCurrent;
 	for (int32 i = sf::Keyboard::Key::A; i < sf::Keyboard::Key::KeyCount; ++i)
 	{

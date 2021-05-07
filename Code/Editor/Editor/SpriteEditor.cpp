@@ -40,6 +40,8 @@ void editor::SpriteEditor::Destroy(entt::registry& registry)
 
 void editor::SpriteEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	Render();
 }
 

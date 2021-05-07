@@ -57,6 +57,8 @@ void editor::Historian::Destroy(entt::registry& registry)
 
 void editor::Historian::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	for (entt::entity entity : registry.view<editor::RedoEventComponent>())
 		registry.destroy(entity);
 	for (entt::entity entity : registry.view<editor::UndoEventComponent>())

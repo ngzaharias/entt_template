@@ -66,6 +66,8 @@ void editor::SpriteExtractor::Destroy(entt::registry& registry)
 
 void editor::SpriteExtractor::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	Render(registry);
 }
 

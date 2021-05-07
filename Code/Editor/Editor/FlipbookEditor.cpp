@@ -46,6 +46,8 @@ void editor::FlipbookEditor::Destroy(entt::registry& registry)
 
 void editor::FlipbookEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	if (m_Guid && m_Entity == entt::null)
 	{
 		m_Entity = registry.create();

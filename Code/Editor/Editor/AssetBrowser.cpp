@@ -135,6 +135,8 @@ void editor::AssetBrowser::Destroy(entt::registry& registry)
 
 void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime& gameTime)
 {
+	PROFILE_FUNCTION();
+
 	m_Entries.clear();
 	for (const auto& entry : std::filesystem::directory_iterator(m_Directory))
 	{
