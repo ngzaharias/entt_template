@@ -3,7 +3,6 @@
 #include <Engine/AttributeHelpers.h>
 #include <Engine/VariantHelpers.h>
 
-#include <variant>
 #include <rapidjson/allocators.h>
 #include <rapidjson/pointer.h>
 

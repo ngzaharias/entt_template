@@ -34,6 +34,6 @@ namespace editor
 
 	private:
 		entt::entity m_Entity = entt::null;
-		std::optional<str::Name> m_Guid = { };
+		Nullable<str::Name> m_Guid = { };
 	};
 }

@@ -3,9 +3,6 @@
 #include <rapidjson/prettywriter.h>
 #include <rapidjson/stringbuffer.h>
 
-#include <array>
-#include <variant>
-
 namespace serialize
 {
 	class Writer final
@@ -29,9 +26,9 @@ namespace serialize
 		void Visit(const Set<Type>& value);
 
 		template<typename Type>
-		void Visit(const std::optional<Type>& value);
+		void Visit(const Nullable<Type>& value);
 		template<typename ...Types>
-		void Visit(const std::variant<Types...>& value);
+		void Visit(const Variant<Types...>& value);
 
 		void Visit(const bool& value);
 		void Visit(const int32& value);

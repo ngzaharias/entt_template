@@ -166,8 +166,8 @@ void editor::FlipbookEditor::Render_Playback(render::FlipbookComponent& componen
 	const float timeFrame = 1.f / flipbookAsset.m_FPS;
 	const float timeMax = indexCount / flipbookAsset.m_FPS;
 
-	std::optional<float> timeNew = { };
-	std::optional<int32> indexNew = { };
+	Nullable<float> timeNew = { };
+	Nullable<int32> indexNew = { };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() - 16.f);
 	if (ImGui::SliderInt("##index", &component.m_Index, 0, indexMax))

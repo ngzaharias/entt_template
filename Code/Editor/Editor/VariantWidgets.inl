@@ -9,16 +9,16 @@
 #include <imgui/Custom.h>
 #include <imgui/imgui.h>
 
-template<typename Type, typename Variant>
-void editor::InspectVariant(Variant& variant, Type& value, InspectorInfo& info)
+template<typename Type, typename TVariant>
+void editor::InspectVariant(TVariant& variant, Type& value, InspectorInfo& info)
 {
 	ImGui::Text("Unsupported type of Variant!");
 }
 
 template<typename Type, typename ...Types>
-void editor::InspectVariant(std::variant<Types...>& variant, Type& value, InspectorInfo& info)
+void editor::InspectVariant(Variant<Types...>& variant, Type& value, InspectorInfo& info)
 {
-	using Variant = std::variant<Types...>;
+	using Variant = Variant<Types...>;
 	using Builder = typename core::VariantBuilder<Variant>::type;
 	using TypeDescriptor = refl::type_descriptor<Type>;
 	constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();

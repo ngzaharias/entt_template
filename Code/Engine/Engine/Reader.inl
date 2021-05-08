@@ -79,7 +79,7 @@ void serialize::Reader::Visit(Array<Type>& value)
 }
 
 template<typename Type>
-void serialize::Reader::Visit(std::optional<Type>& value)
+void serialize::Reader::Visit(Nullable<Type>& value)
 {
 	bool hasValue;
 	Visit(hasValue);
@@ -92,7 +92,7 @@ void serialize::Reader::Visit(std::optional<Type>& value)
 }
 
 template<typename ...Types>
-void serialize::Reader::Visit(std::variant<Types...>& value)
+void serialize::Reader::Visit(Variant<Types...>& value)
 {
 	uint32 i = 0;
 	uint32 index;

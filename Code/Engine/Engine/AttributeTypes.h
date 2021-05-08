@@ -14,7 +14,7 @@ namespace attr
 
 	struct Range : refl::attr::usage::field
 	{
-		using Optionalf = std::optional<float>;
+		using Optionalf = Nullable<float>;
 
 		constexpr Range() { }
 		constexpr Range(const Optionalf min, const Optionalf max)

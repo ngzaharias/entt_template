@@ -5,8 +5,6 @@
 #include <Engine/SoundAsset.h>
 #include <Engine/TextureAsset.h>
 
-#include <variant>
-
 namespace example
 {
 	struct AsBools { bool m_BoolA; };
@@ -81,7 +79,7 @@ namespace example
 		Array<AsInts> m_VectorB = { AsInts(), AsInts(), AsInts() };
 
 		// variant
-		std::variant<bool, float, int32, AsBools, AsFloat, AsInts, AsStruct> m_Variant = AsInts();
+		Variant<bool, float, int32, AsBools, AsFloat, AsInts, AsStruct> m_Variant = AsInts();
 	};
 }
 

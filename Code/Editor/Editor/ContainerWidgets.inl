@@ -83,7 +83,7 @@ void editor::InspectContainer(Map<Key, Value>& container, InspectorInfo& info)
 	struct Rename { int32 index; Key key; };
 
 	using Iterator = typename Map<Key, Value>::iterator;
-	using Command = std::variant<None, Insert, RemoveAll, Rename>;
+	using Command = Variant<None, Insert, RemoveAll, Rename>;
 
 	if constexpr (!refl::trait::is_reflectable<Key>::value || !refl::trait::is_reflectable<Value>::value)
 		return;
@@ -177,7 +177,7 @@ void editor::InspectContainer(Map<Key, Value>& container, InspectorInfo& info)
 		ImGui::Unindent();
 	}
 
-	std::visit(core::VariantOverload
+	std::visit(core::Overload
 		{
 			[&](const None& arg) {},
 			[&](const Insert& arg) 
@@ -210,7 +210,7 @@ void editor::InspectContainer(Array<Type>& container, InspectorInfo& info)
 	struct Insert { int32 index; };
 	struct RemoveAll { };
 
-	using Command = std::variant<None, DragDrop, Insert, RemoveAll>;
+	using Command = Variant<None, DragDrop, Insert, RemoveAll>;
 	using Iterator = typename Array<Type>::iterator;
 
 	if constexpr (!refl::trait::is_reflectable<Type>::value)
@@ -259,7 +259,7 @@ void editor::InspectContainer(Array<Type>& container, InspectorInfo& info)
 		ImGui::Unindent();
 	}
 
-	std::visit(core::VariantOverload
+	std::visit(core::Overload
 	{ 
 		[&](auto& arg) {},
 		[&](DragDrop& args)

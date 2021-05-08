@@ -3,20 +3,22 @@
 #include <Engine/Array.h>
 #include <Engine/Map.h>
 #include <Engine/Name.h>
+#include <Engine/Nullable.h>
 #include <Engine/Set.h>
 #include <Engine/String.h>
 #include <Engine/StringView.h>
 #include <Engine/Types.h>
+#include <Engine/Variant.h>
 #include <Engine/VariantHelpers.h>
 #include <Engine/Vector2.h>
 #include <Engine/Vector3.h>
 
-#include <variant>
 #include <refl/refl.hpp>
 
 // include last
 #include <Engine/Reader.h>
 #include <Engine/Writer.h>
+
 namespace
 {
 	constexpr bool s_Bool = true;
@@ -255,38 +257,38 @@ TEST_CASE("Set")
 	}
 }
 
-TEST_CASE("Optional")
+TEST_CASE("Nullable")
 {
-	using Optional = std::optional<int32>;
+	using Nullable = Nullable<int32>;
 	str::String writeString;
 
 	{
-		Optional myOptionalA = s_Int32;
-		Optional myOptionalB = { };
+		Nullable myNullableA = s_Int32;
+		Nullable myNullableB = { };
 
 		serialize::Writer writer;
-		writer.Visit(myOptionalA);
-		writer.Visit(myOptionalB);
+		writer.Visit(myNullableA);
+		writer.Visit(myNullableB);
 
 		writeString = writer.Conclude();
 	}
 
 	{
-		Optional myOptionalA, myOptionalB;
+		Nullable myNullableA, myNullableB;
 
 		serialize::Reader reader(writeString.c_str());
-		reader.Visit(myOptionalA);
-		reader.Visit(myOptionalB);
+		reader.Visit(myNullableA);
+		reader.Visit(myNullableB);
 
-		REQUIRE(myOptionalA.has_value());
-		REQUIRE(myOptionalA.value() == s_Int32);
-		REQUIRE(!myOptionalB.has_value());
+		REQUIRE(myNullableA.has_value());
+		REQUIRE(myNullableA.value() == s_Int32);
+		REQUIRE(!myNullableB.has_value());
 	}
 }
 
 TEST_CASE("Variant")
 {
-	using MyVariant = std::variant<bool, int32, float>;
+	using MyVariant = Variant<bool, int32, float>;
 	str::String writeString;
 
 	{
@@ -312,57 +314,20 @@ TEST_CASE("Variant")
 		reader.Visit(myVariantB);
 		reader.Visit(myVariantC);
 
-		std::visit(core::VariantOverload
+		std::visit(core::Overload
 			{
 				[&](auto value) { FAIL("Variant with wrong type!"); },
 				[&](bool value) { REQUIRE(value == s_Bool); },
 			}, myVariantA);
-		std::visit(core::VariantOverload
+		std::visit(core::Overload
 			{
 				[&](auto value) { FAIL("Variant with wrong type!"); },
 				[&](int32 value) { REQUIRE(value == s_Int32); },
 			}, myVariantB);
-		std::visit(core::VariantOverload
+		std::visit(core::Overload
 			{
 				[&](auto value) { FAIL("Variant with wrong type!"); },
 				[&](float value) { REQUIRE(value == s_Float); },
 			}, myVariantC);
-	}
-}
-
-struct Replication
-{
-	int32 yesReflect;
-	int32 noReflect;
-};
-
-REFL_AUTO
-(
-	type(Replication)
-	, field(yesReflect, attr::Replicated())
-	, field(noReflect)
-)
-
-TEST_CASE("Replication")
-{
-	str::String writeString;
-
-	{
-		Replication myStruct = { s_Int32, s_Int32 };
-
-		serialize::Writer writer;
-		writer.Visit(myStruct);
-
-		writeString = writer.Conclude();
-	}
-
-	{
-		Replication myStruct = { 0, 0 };
-
-		serialize::Reader reader(writeString.c_str());
-		reader.Visit(myStruct);
-
-		REQUIRE(myStruct.yesReflect == s_Int32);
-		REQUIRE(myStruct.noReflect == 0);
 	}
 }

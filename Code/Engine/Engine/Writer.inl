@@ -50,7 +50,7 @@ void serialize::Writer::Visit(const Set<Type>& value)
 }
 
 template<typename Type>
-void serialize::Writer::Visit(const std::optional<Type>& value)
+void serialize::Writer::Visit(const Nullable<Type>& value)
 {
 	Visit(value.has_value());
 	if (value.has_value())
@@ -60,7 +60,7 @@ void serialize::Writer::Visit(const std::optional<Type>& value)
 }
 
 template<typename ...Types>
-void serialize::Writer::Visit(const std::variant<Types...>& value)
+void serialize::Writer::Visit(const Variant<Types...>& value)
 {
 	Visit(static_cast<uint32>(value.index()));
 	std::visit([&](auto&& val)

@@ -9,8 +9,8 @@ namespace editor
 {
 	struct Attributes
 	{
-		std::optional<attr::Name> m_Name = { };
-		std::optional<attr::Range> m_Range = { };
+		Nullable<attr::Name> m_Name = { };
+		Nullable<attr::Range> m_Range = { };
 	};
 
 	struct InspectorInfo

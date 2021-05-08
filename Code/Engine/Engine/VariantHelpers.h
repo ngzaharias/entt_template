@@ -1,24 +1,23 @@
 #pragma once
 
-#include <variant>
-
 namespace core
 {
 	template<typename T> struct IsVariant : std::false_type {};
 
 	template<typename ...Types>
-	struct IsVariant<std::variant<Types...>> : std::true_type {};
+	struct IsVariant<Variant<Types...>> : std::true_type {};
 
-	template<class... Types> struct VariantOverload : Types... { using Types::operator()...; };
-	template<class... Types> VariantOverload(Types...)->VariantOverload<Types...>;
+	template<class... Types> struct Overload : Types... { using Types::operator()...; };
+	template<class... Types> Overload(Types...)->Overload<Types...>;
 
 	template<class T, class U>
 	struct VariantDefaults;
 
 	template<class...Types, std::size_t... Indexes>
-	struct VariantDefaults<std::variant<Types...>, std::index_sequence<Indexes...>> {
-		using Variant = std::variant<Types...>;
-		constexpr static Variant variants[sizeof...(Types)]{ Variant{std::in_place_index<Indexes>}... };
+	struct VariantDefaults<Variant<Types...>, std::index_sequence<Indexes...>> 
+	{
+		using TVariant = Variant<Types...>;
+		constexpr static TVariant variants[sizeof...(Types)]{ TVariant{std::in_place_index<Indexes>}... };
 		// #todo: build display names as well
 	};
 
@@ -26,9 +25,9 @@ namespace core
 	struct VariantBuilder;
 
 	template<class...Types>
-	struct VariantBuilder<std::variant<Types...>>
+	struct VariantBuilder<Variant<Types...>>
 	{
 		using indices = std::make_index_sequence<sizeof...(Types)>;
-		using type = VariantDefaults<std::variant<Types...>, indices>;
+		using type = VariantDefaults<Variant<Types...>, indices>;
 	};
 }
