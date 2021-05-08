@@ -30,7 +30,7 @@ namespace editor
 		bool m_IsDirectory;
 	};
 
-	class AssetBrowser final : public core::System
+	class AssetBrowser final : public ecs::System
 	{
 		using EntrySet = Set<DirectoryEntry>;
 		using Selection = Array<int32>;
@@ -45,10 +45,10 @@ namespace editor
 		);
 		~AssetBrowser();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		bool IsVisible() { return m_IsVisible; }
 		void SetVisible(const bool value) { m_IsVisible = value; }
@@ -63,7 +63,7 @@ namespace editor
 		void ContextMenu_Sprite(const Selection& selection);
 		void ContextMenu_Texture(const Selection& selection);
 
-		void Render(entt::registry& registry);
+		void Render();
 		void Render_ContextMenu();
 		void Render_Entry(const int32 index);
 		void Render_MenuBar();

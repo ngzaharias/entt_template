@@ -28,16 +28,16 @@ namespace audio
 		const str::Name& m_Name;
 	};
 
-	class SoundSystem final : public core::System
+	class SoundSystem final : public ecs::System
 	{
 	public:
 		SoundSystem(core::AssetManager& assetManager);
 		~SoundSystem();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		void PlaySound(const str::Name& name);
 

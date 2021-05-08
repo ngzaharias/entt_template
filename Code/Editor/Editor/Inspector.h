@@ -10,16 +10,16 @@
 
 namespace editor
 {
-	class Inspector final : public core::System
+	class Inspector final : public ecs::System
 	{
 	public:
 		Inspector(editor::Historian& historian);
 		~Inspector();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		bool IsVisible() { return m_IsVisible; }
 
@@ -27,7 +27,7 @@ namespace editor
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:
-		void Render(entt::registry& registry);
+		void Render();
 		void Render_MenuBar(entt::registry& registry);
 		void Render_Selected(entt::registry& registry);
 

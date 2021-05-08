@@ -1,17 +1,21 @@
 #pragma once
 
+#include <Engine/EntityWorld.h>
 #include <Engine/GameTime.h>
 
-#include <entt/fwd.hpp>
-
-namespace core
+namespace ecs
 {
 	class System
 	{
-	public:
-		virtual void Initialize(entt::registry& registry) { }
-		virtual void Destroy(entt::registry& registry) { }
+		friend class EntityWorld;
 
-		virtual void Update(entt::registry& registry, const core::GameTime& gameTime) { }
+	public:
+		virtual void Initialise() { }
+		virtual void Destroy() { }
+
+		virtual void Update(const core::GameTime& gameTime) { }
+
+	protected:
+		EntityWorld* m_World = nullptr;
 	};
 }

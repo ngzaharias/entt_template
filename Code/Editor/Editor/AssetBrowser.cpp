@@ -117,7 +117,7 @@ editor::AssetBrowser::~AssetBrowser()
 {
 }
 
-void editor::AssetBrowser::Initialize(entt::registry& registry)
+void editor::AssetBrowser::Initialise()
 {
 	iconBack = new sf::Texture();
 	iconFile = new sf::Texture();
@@ -128,11 +128,11 @@ void editor::AssetBrowser::Initialize(entt::registry& registry)
 	iconFolder->loadFromFile("Code\\Editor\\Icons\\folder.png");
 }
 
-void editor::AssetBrowser::Destroy(entt::registry& registry)
+void editor::AssetBrowser::Destroy()
 {
 }
 
-void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::AssetBrowser::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
@@ -170,7 +170,7 @@ void editor::AssetBrowser::Update(entt::registry& registry, const core::GameTime
 		m_Entries.emplace(std::move(directoryEntry));
 	}
 
-	Render(registry);
+	Render();
 }
 
 void editor::AssetBrowser::Command_ContextMenu()
@@ -302,7 +302,7 @@ void editor::AssetBrowser::ContextMenu_Texture(const Selection& selection)
 	}
 }
 
-void editor::AssetBrowser::Render(entt::registry& registry)
+void editor::AssetBrowser::Render()
 {
 	if (!m_IsVisible)
 		return;

@@ -27,12 +27,10 @@ physics::PhysicsSystem::PhysicsSystem(physics::PhysicsManager& physicsManager)
 {
 }
 
-physics::PhysicsSystem::~PhysicsSystem()
+void physics::PhysicsSystem::Initialise()
 {
-}
+	auto& registry = m_World->m_Registry;
 
-void physics::PhysicsSystem::Initialize(entt::registry& registry)
-{
 	m_PhysicsManager.GetScene().setGravity(physx::PxVec3(0.f, s_Gravity, 0.f));
 
 	entt::sink(m_PhysicsManager.m_OnContactSignal).connect<&physics::PhysicsSystem::OnContact>(this);
@@ -40,8 +38,10 @@ void physics::PhysicsSystem::Initialize(entt::registry& registry)
 	registry.on_destroy<physics::RigidDynamicComponent>().connect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
 }
 
-void physics::PhysicsSystem::Destroy(entt::registry& registry)
+void physics::PhysicsSystem::Destroy()
 {
+	auto& registry = m_World->m_Registry;
+
 	for (const entt::entity& entity : registry.view<physics::RigidDynamicComponent>())
 	{
 		registry.destroy(entity);
@@ -50,9 +50,11 @@ void physics::PhysicsSystem::Destroy(entt::registry& registry)
 	registry.on_destroy<physics::RigidDynamicComponent>().disconnect<&physics::PhysicsSystem::OnDestroy_RigidBody>(this);
 }
 
-void physics::PhysicsSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
+void physics::PhysicsSystem::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
+
+	auto& registry = m_World->m_Registry;
 
 	m_DeltaTimeAccumulated += gameTime.asSeconds();
 

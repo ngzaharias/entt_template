@@ -9,17 +9,17 @@ namespace sf
 
 namespace editor
 {
-	class SceneEditor final : public core::System
+	class SceneEditor final : public ecs::System
 	{
 	public:
 		SceneEditor(sf::RenderTexture& renderTexture);
 		~SceneEditor();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
-		void Render(entt::registry& registry);
+		void Update(const core::GameTime& gameTime) override;
+		void Render();
 
 		bool IsVisible() { return m_IsVisible; }
 		void SetVisible(const bool value) { m_IsVisible = value; }

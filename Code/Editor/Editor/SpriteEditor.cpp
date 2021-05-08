@@ -30,15 +30,15 @@ editor::SpriteEditor::~SpriteEditor()
 {
 }
 
-void editor::SpriteEditor::Initialize(entt::registry& registry)
+void editor::SpriteEditor::Initialise()
 {
 }
 
-void editor::SpriteEditor::Destroy(entt::registry& registry)
+void editor::SpriteEditor::Destroy()
 {
 }
 
-void editor::SpriteEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::SpriteEditor::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 

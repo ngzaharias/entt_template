@@ -47,17 +47,19 @@ editor::EntityBrowser::~EntityBrowser()
 {
 }
 
-void editor::EntityBrowser::Initialize(entt::registry& registry)
+void editor::EntityBrowser::Initialise()
 {
 }
 
-void editor::EntityBrowser::Destroy(entt::registry& registry)
+void editor::EntityBrowser::Destroy()
 {
 }
 
-void editor::EntityBrowser::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::EntityBrowser::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
+
+	auto& registry = m_World->m_Registry;
 
 	m_Entries.clear();
 	registry.each([&](const entt::entity& entity)
@@ -76,11 +78,13 @@ void editor::EntityBrowser::Update(entt::registry& registry, const core::GameTim
 		m_Entries.insert({ entity, name });
 	});
 
-	Render(registry);
+	Render();
 }
 
-void editor::EntityBrowser::Render(entt::registry& registry)
+void editor::EntityBrowser::Render()
 {
+	auto& registry = m_World->m_Registry;
+
 	if (!m_IsVisible)
 		return;
 

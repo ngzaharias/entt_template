@@ -31,7 +31,7 @@ core::AssetManager::~AssetManager()
 {
 }
 
-void core::AssetManager::Initialize()
+void core::AssetManager::Initialise()
 {
 	LoadFilepath(s_AssetsDirectory, true);
 }

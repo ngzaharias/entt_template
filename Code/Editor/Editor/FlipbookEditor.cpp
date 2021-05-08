@@ -36,17 +36,19 @@ editor::FlipbookEditor::~FlipbookEditor()
 {
 }
 
-void editor::FlipbookEditor::Initialize(entt::registry& registry)
+void editor::FlipbookEditor::Initialise()
 {
 }
 
-void editor::FlipbookEditor::Destroy(entt::registry& registry)
+void editor::FlipbookEditor::Destroy()
 {
 }
 
-void editor::FlipbookEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::FlipbookEditor::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
+
+	auto& registry = m_World->m_Registry;
 
 	if (m_Guid && m_Entity == entt::null)
 	{

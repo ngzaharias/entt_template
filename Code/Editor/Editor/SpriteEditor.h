@@ -5,16 +5,16 @@
 
 namespace editor
 {
-	class SpriteEditor final : public core::System
+	class SpriteEditor final : public ecs::System
 	{
 	public:
 		SpriteEditor();
 		~SpriteEditor();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		void OpenEditor(const str::Name& guid);
 		void CloseEditor();

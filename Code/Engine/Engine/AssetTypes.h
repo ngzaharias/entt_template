@@ -1,6 +1,5 @@
 #pragma once
 
-#include <entt/fwd.hpp>
 #include <entt/core/type_info.hpp>
 
 namespace audio

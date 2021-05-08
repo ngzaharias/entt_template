@@ -113,7 +113,7 @@ physics::PhysicsManager::~PhysicsManager()
 {
 }
 
-void physics::PhysicsManager::Initialize()
+void physics::PhysicsManager::Initialise()
 {
 	physx::gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, physx::gAllocator, physx::gError);
 

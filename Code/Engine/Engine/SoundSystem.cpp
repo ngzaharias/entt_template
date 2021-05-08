@@ -20,17 +20,19 @@ audio::SoundSystem::~SoundSystem()
 {
 }
 
-void audio::SoundSystem::Initialize(entt::registry& registry)
+void audio::SoundSystem::Initialise()
 {
 }
 
-void audio::SoundSystem::Destroy(entt::registry& registry)
+void audio::SoundSystem::Destroy()
 {
 }
 
-void audio::SoundSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
+void audio::SoundSystem::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
+
+	auto& registry = m_World->m_Registry;
 
 	for (const audio::Request& request : m_Requests)
 	{

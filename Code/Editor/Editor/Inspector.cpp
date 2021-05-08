@@ -76,17 +76,19 @@ editor::Inspector::~Inspector()
 {
 }
 
-void editor::Inspector::Initialize(entt::registry& registry)
+void editor::Inspector::Initialise()
 {
 }
 
-void editor::Inspector::Destroy(entt::registry& registry)
+void editor::Inspector::Destroy()
 {
 }
 
-void editor::Inspector::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::Inspector::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
+
+	auto& registry = m_World->m_Registry;
 
 	m_HasChanged |= !registry.view<editor::RedoEventComponent>().empty();
 	m_HasChanged |= !registry.view<editor::UndoEventComponent>().empty();
@@ -101,11 +103,13 @@ void editor::Inspector::Update(entt::registry& registry, const core::GameTime& g
 		}
 	}
 
-	Render(registry);
+	Render();
 }
 
-void editor::Inspector::Render(entt::registry& registry)
+void editor::Inspector::Render()
 {
+	auto& registry = m_World->m_Registry;
+
 	if (!IsVisible())
 		return;
 

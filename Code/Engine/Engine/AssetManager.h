@@ -33,7 +33,7 @@ namespace core
 		AssetManager(physics::PhysicsManager& physicsManager);
 		~AssetManager();
 
-		void Initialize();
+		void Initialise();
 		void Destroy();
 
 		const AssetEntryMap& GetEntries() const { return m_AssetEntryMap; }

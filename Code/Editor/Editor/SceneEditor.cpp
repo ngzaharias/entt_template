@@ -24,22 +24,22 @@ editor::SceneEditor::~SceneEditor()
 {
 }
 
-void editor::SceneEditor::Initialize(entt::registry& registry)
+void editor::SceneEditor::Initialise()
 {
 }
 
-void editor::SceneEditor::Destroy(entt::registry& registry)
+void editor::SceneEditor::Destroy()
 {
 }
 
-void editor::SceneEditor::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::SceneEditor::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
-	Render(registry);
+	Render();
 }
 
-void editor::SceneEditor::Render(entt::registry& registry)
+void editor::SceneEditor::Render()
 {
 	if (!m_IsVisible)
 		return;

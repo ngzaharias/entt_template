@@ -33,43 +33,28 @@ namespace
 	str::Name strDefaultMaterial = NAME("a4835493-ae5a-40ba-8083-06deb381c801");
 }
 
-core::LevelSystem::LevelSystem
-(
-	physics::PhysicsManager& physicsManager
-	, core::AssetManager& assetManager
-)
-	: m_PhysicsManager(physicsManager)
-	, m_AssetManager(assetManager)
+core::LevelSystem::LevelSystem(
+	core::AssetManager& assetManager,
+	physics::PhysicsManager& physicsManager)
+	: m_AssetManager(assetManager)
+	, m_PhysicsManager(physicsManager)
 {
 }
 
-core::LevelSystem::~LevelSystem()
-{
-}
-
-void core::LevelSystem::Initialize(entt::registry& registry)
-{
-}
-
-void core::LevelSystem::Destroy(entt::registry& registry)
-{
-}
-
-void core::LevelSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
+void core::LevelSystem::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
-
 }
 
-bool core::LevelSystem::Load(entt::registry& registry, const str::Path& filepath)
+bool core::LevelSystem::Load(const str::Path& filepath)
 {
 	for (const auto& entry : std::filesystem::directory_iterator(filepath))
-		const entt::entity entity = CreateEntity(registry, entry.path());
+		const entt::entity entity = CreateEntity(m_World->m_Registry, entry.path());
 
 	return true;
 }
 
-void core::LevelSystem::Unload(entt::registry& registry)
+void core::LevelSystem::Unload()
 {
 }
 

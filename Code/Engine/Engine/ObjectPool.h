@@ -3,7 +3,6 @@
 #include <Engine/Types.h>
 
 #include <queue>
-#include <set>
 
 template<class Type, int32 t_Capacity>
 class ObjectPool

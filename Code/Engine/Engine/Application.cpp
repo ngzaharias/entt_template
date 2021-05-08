@@ -3,6 +3,7 @@
 
 #include "Engine/CameraComponent.h"
 #include "Engine/DebugSystem.h"
+#include "Engine/EntityWorld.h"
 #include "Engine/FileHelpers.h"
 #include "Engine/FlipbookSystem.h"
 #include "Engine/InputComponent.h"
@@ -26,7 +27,6 @@
 
 #include <iostream>
 #include <random>
-#include <set>
 
 core::Application::Application()
 	: m_AssetManager(m_PhysicsManager)
@@ -43,6 +43,8 @@ core::Application::Application()
 	const sf::VideoMode videoMode = sf::VideoMode(width, height);
 	m_RenderTexture.create(width, height, settings);
 	m_RenderWindow.create(videoMode, "...", style, settings);
+
+	m_EntityWorld = new ecs::EntityWorld();
 
 	srand((unsigned int)time(NULL));
 }
@@ -92,9 +94,9 @@ void core::Application::Execute(int argc, char* argv[])
 				keysPressed.insert(key);
 		}
 
-		for (auto& entity : m_Registry.view<input::InputComponent>())
+		for (auto& entity : m_EntityWorld->m_Registry.view<input::InputComponent>())
 		{
-			auto& component = m_Registry.get<input::InputComponent>(entity);
+			auto& component = m_EntityWorld->m_Registry.get<input::InputComponent>(entity);
 			component.m_KeysPrevious = component.m_KeysCurrent;
 			component.m_KeysCurrent = keysPressed;
 		}
@@ -125,45 +127,38 @@ void core::Application::Execute(int argc, char* argv[])
 void core::Application::Register()
 {
 	// components
-	RegisterComponent<core::CameraComponent>();
-	RegisterComponent<core::LevelComponent>();
-	RegisterComponent<core::NameComponent>();
-	RegisterComponent<core::TransformComponent>();
-	RegisterComponent<input::InputComponent>();
-	RegisterComponent<physics::RigidDynamicComponent>();
-	RegisterComponent<physics::RigidStaticComponent>();
-	RegisterComponent<render::SpriteComponent>();
+	m_EntityWorld->RegisterComponent<core::CameraComponent>();
+	m_EntityWorld->RegisterComponent<core::LevelComponent>();
+	m_EntityWorld->RegisterComponent<core::NameComponent>();
+	m_EntityWorld->RegisterComponent<core::TransformComponent>();
+	m_EntityWorld->RegisterComponent<input::InputComponent>();
+	m_EntityWorld->RegisterComponent<physics::RigidDynamicComponent>();
+	m_EntityWorld->RegisterComponent<physics::RigidStaticComponent>();
+	m_EntityWorld->RegisterComponent<render::SpriteComponent>();
 
 	// systems
-	RegisterSystem<render::FlipbookSystem>();
-	RegisterSystem<render::RenderSystem>(m_RenderTexture);
-	RegisterSystem<physics::PhysicsSystem>(m_PhysicsManager);
-	RegisterSystem<audio::SoundSystem>(m_AssetManager);
-	RegisterSystem<core::LevelSystem>
+	m_EntityWorld->RegisterSystem<render::FlipbookSystem>();
+	m_EntityWorld->RegisterSystem<render::RenderSystem>(m_RenderTexture);
+	m_EntityWorld->RegisterSystem<physics::PhysicsSystem>(m_PhysicsManager);
+	m_EntityWorld->RegisterSystem<audio::SoundSystem>(m_AssetManager);
+	m_EntityWorld->RegisterSystem<core::LevelSystem>
 		(
-			m_PhysicsManager 
-			, m_AssetManager
+			m_AssetManager
+			, m_PhysicsManager 
 		);
 
 	// register last
-	RegisterSystem<debug::DebugSystem>(m_RenderTexture);
+	m_EntityWorld->RegisterSystem<debug::DebugSystem>(m_RenderTexture);
 }
 
 void core::Application::Initialise()
 {
-	{
-		entt::entity entity = m_Registry.create();
-		m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
-		m_Registry.emplace<input::InputComponent>(entity);
-	}
-
 	// managers
-	m_AssetManager.Initialize();
-	m_PhysicsManager.Initialize();
+	m_AssetManager.Initialise();
+	m_PhysicsManager.Initialise();
 
-	// systems
-	for (core::SystemEntry& entry : m_SystemEntries)
-		entry.m_System->Initialize(m_Registry);
+	// ecs
+	m_EntityWorld->Initialise();
 
 	auto& colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
@@ -194,29 +189,24 @@ void core::Application::Initialise()
 	colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+
+	{
+		entt::entity entity = m_EntityWorld->m_Registry.create();
+		m_EntityWorld->m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
+		m_EntityWorld->m_Registry.emplace<input::InputComponent>(entity);
+	}
 }
 
 void core::Application::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
-	// systems
-	for (core::SystemEntry& entry : m_SystemEntries)
-	{
-		entry.m_System->Update(m_Registry, gameTime);
-	}
+	m_EntityWorld->Update(gameTime);
 }
 
 void core::Application::Destroy()
 {
-	// ecs
-	m_ComponentEntries.clear();
-	for (core::SystemEntry& entry : m_SystemEntries)
-	{
-		entry.m_System->Destroy(m_Registry);
-		delete entry.m_System;
-	}
-	m_SystemEntries.clear();
+	m_EntityWorld->Destroy();
 
 	// managers
 	m_AssetManager.Destroy();

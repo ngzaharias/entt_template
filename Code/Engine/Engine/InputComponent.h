@@ -1,6 +1,5 @@
 #pragma once
 
-#include <set>
 #include <SFML/Window/Keyboard.hpp>
 
 namespace input

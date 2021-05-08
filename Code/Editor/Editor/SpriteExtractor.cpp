@@ -56,19 +56,19 @@ editor::SpriteExtractor::~SpriteExtractor()
 {
 }
 
-void editor::SpriteExtractor::Initialize(entt::registry& registry)
+void editor::SpriteExtractor::Initialise()
 {
 }
 
-void editor::SpriteExtractor::Destroy(entt::registry& registry)
+void editor::SpriteExtractor::Destroy()
 {
 }
 
-void editor::SpriteExtractor::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::SpriteExtractor::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
-	Render(registry);
+	Render();
 }
 
 void editor::SpriteExtractor::OpenDialog(const str::Name& guid)
@@ -83,7 +83,7 @@ void editor::SpriteExtractor::CloseDialog()
 	ImGui::CloseCurrentPopup();
 }
 
-void editor::SpriteExtractor::Render(entt::registry& registry)
+void editor::SpriteExtractor::Render()
 {
 	constexpr float s_SettingsWidth = 400.f;
 	constexpr float s_SettingsBotHeight = 30.f;

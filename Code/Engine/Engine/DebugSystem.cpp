@@ -23,12 +23,12 @@ debug::DebugSystem::~DebugSystem()
 {
 }
 
-void debug::DebugSystem::Initialize(entt::registry& registry)
+void debug::DebugSystem::Initialise()
 {
 	m_Font.loadFromFile("C:/Personal/ZEngine/AssetsRaw/Fonts/F_Kenpixel.ttf");
 }
 
-void debug::DebugSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
+void debug::DebugSystem::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 

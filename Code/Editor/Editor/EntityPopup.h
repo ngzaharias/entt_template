@@ -4,7 +4,7 @@
 
 namespace editor
 {
-	class EntityPopup final : public core::System
+	class EntityPopup final : public ecs::System
 	{
 	public:
 	};

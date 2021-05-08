@@ -2,7 +2,6 @@
 
 #include <Engine/System.h>
 
-#include <entt/fwd.hpp>
 #include <SFML/Graphics/Font.hpp>
 
 namespace sf
@@ -43,14 +42,14 @@ namespace debug
 		float m_Timer = 0.f;
 	};
 
-	class DebugSystem : public core::System
+	class DebugSystem : public ecs::System
 	{
 	public:
 		DebugSystem(sf::RenderTarget& renderTarget);
 		~DebugSystem();
 
-		void Initialize(entt::registry& registry) override;
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Initialise() override;
+		void Update(const core::GameTime& gameTime) override;
 
 	private:
 		sf::RenderTarget& m_RenderTarget;

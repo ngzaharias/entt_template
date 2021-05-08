@@ -2,21 +2,20 @@
 
 #include <Engine/System.h>
 
-#include <set>
 #include <SFML/Window/Keyboard.hpp>
 
 namespace input
 {
-	class InputSystem final : core::System
+	class InputSystem final : ecs::System
 	{
 	public:
 		InputSystem();
 		~InputSystem();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 	private:
 		Set<sf::Keyboard::Key> m_KeysPrevious;

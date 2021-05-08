@@ -25,15 +25,14 @@ namespace physics
 {
 	class PhysicsManager;
 
-	class PhysicsSystem final : public core::System
+	class PhysicsSystem final : public ecs::System
 	{
 	public:
 		PhysicsSystem(physics::PhysicsManager& physicsManager);
-		~PhysicsSystem();
 
-		void Initialize(entt::registry& registry) override;
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Update(const core::GameTime& gameTime) override;
+		void Destroy() override;
 
 	private:
 		void OnContact(const entt::entity& entityA, const entt::entity& entityB);

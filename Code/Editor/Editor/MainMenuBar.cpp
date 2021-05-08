@@ -41,22 +41,22 @@ editor::MainMenuBar::~MainMenuBar()
 {
 }
 
-void editor::MainMenuBar::Initialize(entt::registry& registry)
+void editor::MainMenuBar::Initialise()
 {
 }
 
-void editor::MainMenuBar::Destroy(entt::registry& registry)
+void editor::MainMenuBar::Destroy()
 {
 }
 
-void editor::MainMenuBar::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::MainMenuBar::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
-	Render(registry);
+	Render();
 }
 
-void editor::MainMenuBar::Render(entt::registry& registry)
+void editor::MainMenuBar::Render()
 {
 	if (ImGui::BeginMainMenuBar())
 	{

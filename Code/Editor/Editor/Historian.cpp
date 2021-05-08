@@ -47,17 +47,19 @@ editor::Historian::~Historian()
 {
 }
 
-void editor::Historian::Initialize(entt::registry& registry)
+void editor::Historian::Initialise()
 {
 }
 
-void editor::Historian::Destroy(entt::registry& registry)
+void editor::Historian::Destroy()
 {
 }
 
-void editor::Historian::Update(entt::registry& registry, const core::GameTime& gameTime)
+void editor::Historian::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
+
+	auto& registry = m_World->m_Registry;
 
 	for (entt::entity entity : registry.view<editor::RedoEventComponent>())
 		registry.destroy(entity);
@@ -78,7 +80,7 @@ void editor::Historian::Update(entt::registry& registry, const core::GameTime& g
 			RedoRecord(registry);
 	}
 
-	Render(registry);
+	Render();
 }
 
 void editor::Historian::PushRecord(const Record& recordOld, const Record& recordNew)
@@ -131,8 +133,10 @@ void editor::Historian::UndoRecord(entt::registry& registry)
 	}
 }
 
-void editor::Historian::Render(entt::registry& registry)
+void editor::Historian::Render()
 {
+	auto& registry = m_World->m_Registry;
+
 	if (!IsVisible())
 		return;
 

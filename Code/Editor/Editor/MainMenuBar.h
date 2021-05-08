@@ -2,8 +2,6 @@
 
 #include <Engine/System.h>
 
-#include <entt/fwd.hpp>
-
 namespace editor
 {
 	class AssetBrowser;
@@ -12,7 +10,7 @@ namespace editor
 	class Historian;
 	class Inspector;
 
-	class MainMenuBar final : public core::System
+	class MainMenuBar final : public ecs::System
 	{
 	public:
 		MainMenuBar
@@ -24,11 +22,11 @@ namespace editor
 		);
 		~MainMenuBar();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
-		void Render(entt::registry& registry);
+		void Update(const core::GameTime& gameTime) override;
+		void Render();
 
 	private:
 		editor::AssetBrowser& m_AssetBrowser;

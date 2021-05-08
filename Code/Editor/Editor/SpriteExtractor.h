@@ -19,22 +19,22 @@ namespace editor
 		Vector2u m_Spacing = { 0, 0 };
 	};
 
-	class SpriteExtractor final : public core::System
+	class SpriteExtractor final : public ecs::System
 	{
 	public:
 		SpriteExtractor();
 		~SpriteExtractor();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		void OpenDialog(const str::Name& guid);
 		void CloseDialog();
 
 	private:
-		void Render(entt::registry& registry);
+		void Render();
 
 		bool ExtractDialog();
 

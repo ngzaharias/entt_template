@@ -1,6 +1,5 @@
 #pragma once
 
-#include <entt/fwd.hpp>
 #include <entt/signal/sigh.hpp>
 #include <PhysX/PxSimulationEventCallback.h>
 
@@ -28,7 +27,7 @@ namespace physics
 		PhysicsManager();
 		~PhysicsManager();
 
-		void Initialize();
+		void Initialise();
 		void Destroy();
 
 		physx::PxPhysics& GetPhysics() const { return *m_Physics; }

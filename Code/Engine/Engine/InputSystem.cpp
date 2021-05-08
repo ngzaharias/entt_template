@@ -5,9 +5,11 @@
 
 #include <entt/entity/registry.hpp>
 
-void input::InputSystem::Update(entt::registry& registry, const core::GameTime& gameTime)
+void input::InputSystem::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
+
+	auto& registry = m_World->m_Registry;
 
 	m_KeysPrevious = m_KeysCurrent;
 	for (int32 i = sf::Keyboard::Key::A; i < sf::Keyboard::Key::KeyCount; ++i)

@@ -25,7 +25,7 @@ namespace editor
 		Document m_Document = { };
 	};
 
-	class Historian final : public core::System
+	class Historian final : public ecs::System
 	{
 		using Database = Map<entt::entity, editor::Record>;
 		using Records = RingQueue<Record, 50>;
@@ -35,10 +35,10 @@ namespace editor
 		Historian();
 		~Historian();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		void PushRecord(const Record& recordOld, const Record& recordNew);
 		void RedoRecord(entt::registry& registry);
@@ -58,7 +58,7 @@ namespace editor
 		entt::sigh<void()> m_OnUndoRecord = { };
 
 	private:
-		void Render(entt::registry& registry);
+		void Render();
 
 	private:
 		Database m_Pending = { };

@@ -4,8 +4,6 @@
 
 #include <entt/entity/entity.hpp>
 
-#include <set>
-
 namespace editor
 {
 	class Inspector;
@@ -19,22 +17,22 @@ namespace editor
 		str::String m_Name = { };
 	};
 
-	class EntityBrowser final : public core::System
+	class EntityBrowser final : public ecs::System
 	{
 	public:
 		EntityBrowser(editor::Inspector& inspector);
 		~EntityBrowser();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		bool IsVisible() { return m_IsVisible; }
 		void SetVisible(const bool value) { m_IsVisible = value; }
 
 	private:
-		void Render(entt::registry& registry);
+		void Render();
 
 		void Command_CreateCamera(entt::registry& registry);
 		void Command_CreateEmpty(entt::registry& registry);

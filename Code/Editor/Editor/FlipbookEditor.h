@@ -13,16 +13,16 @@ namespace render
 
 namespace editor
 {
-	class FlipbookEditor final : public core::System
+	class FlipbookEditor final : public ecs::System
 	{
 	public:
 		FlipbookEditor();
 		~FlipbookEditor();
 
-		void Initialize(entt::registry& registry) override;
-		void Destroy(entt::registry& registry) override;
+		void Initialise() override;
+		void Destroy() override;
 
-		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
+		void Update(const core::GameTime& gameTime) override;
 
 		void OpenEditor(const str::Name& guid);
 		void CloseEditor();
