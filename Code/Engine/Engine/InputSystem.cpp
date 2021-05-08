@@ -19,9 +19,6 @@ void input::InputSystem::Update(const core::GameTime& gameTime)
 			m_KeysCurrent.insert(key);
 	}
 
-	Array<input::InputComponent*> components;
-	components.reserve(registry.size<input::InputComponent>());
-
 	for (auto& entity : registry.view<input::InputComponent>())
 	{
 		auto& component = registry.get<input::InputComponent>(entity);

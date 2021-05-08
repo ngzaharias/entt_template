@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/AssetManager.h>
+#include <Engine/EntityWorld.h>
 #include <Engine/GameTime.h>
 #include <Engine/PhysicsManager.h>
 #include <Engine/TypeList.h>
@@ -9,11 +10,6 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
-
-namespace ecs
-{
-	class EntityWorld;
-}
 
 namespace sf
 {
@@ -41,10 +37,11 @@ namespace core
 		core::AssetManager m_AssetManager;
 		physics::PhysicsManager m_PhysicsManager;
 
+		// ecs
+		ecs::EntityWorld m_EntityWorld;
+
 		sf::Clock m_Clock;
 		sf::RenderTexture m_RenderTexture;
 		sf::RenderWindow m_RenderWindow;
-
-		ecs::EntityWorld* m_EntityWorld = nullptr;
 	};
 }

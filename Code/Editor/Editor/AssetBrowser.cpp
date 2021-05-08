@@ -148,7 +148,7 @@ void editor::AssetBrowser::Update(const core::GameTime& gameTime)
 		if (!entry.is_directory())
 		{
 			// #todo: don't load documents every frame
-			// #fixme: loading texture assets is super slow
+			// #fixme: peek files instead of loading the whole thing because texture assets is super slow
 			rapidjson::Document document;
 			json::LoadDocument(entry.path(), document);
 

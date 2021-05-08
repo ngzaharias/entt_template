@@ -32,8 +32,8 @@ core::Application::Application()
 	: m_AssetManager(m_PhysicsManager)
 	, m_PhysicsManager()
 { 
-	const uint32 width = static_cast<unsigned int>(Screen::width);
-	const uint32 height = static_cast<unsigned int>(Screen::height);
+	const uint32 width = static_cast<uint32>(Screen::width);
+	const uint32 height = static_cast<uint32>(Screen::height);
 
 	sf::ContextSettings settings;
 	settings.majorVersion = 0;
@@ -43,8 +43,6 @@ core::Application::Application()
 	const sf::VideoMode videoMode = sf::VideoMode(width, height);
 	m_RenderTexture.create(width, height, settings);
 	m_RenderWindow.create(videoMode, "...", style, settings);
-
-	m_EntityWorld = new ecs::EntityWorld();
 
 	srand((unsigned int)time(NULL));
 }
@@ -86,22 +84,8 @@ void core::Application::Execute(int argc, char* argv[])
 			};
 		}
 
-		Set<sf::Keyboard::Key> keysPressed;
-		for (int32 i = sf::Keyboard::Key::A; i < sf::Keyboard::Key::KeyCount; ++i)
-		{
-			const sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(i);
-			if (sf::Keyboard::isKeyPressed(key))
-				keysPressed.insert(key);
-		}
-
-		for (auto& entity : m_EntityWorld->m_Registry.view<input::InputComponent>())
-		{
-			auto& component = m_EntityWorld->m_Registry.get<input::InputComponent>(entity);
-			component.m_KeysPrevious = component.m_KeysCurrent;
-			component.m_KeysCurrent = keysPressed;
-		}
-
 		ImGui::SFML::Update(m_RenderWindow, time);
+
 		Update(time);
 
 		// render to window
@@ -113,9 +97,9 @@ void core::Application::Execute(int argc, char* argv[])
 			sprite.setTexture(texture);
 			m_RenderWindow.draw(sprite);
 		}
+
 		ImGui::SFML::Render(m_RenderWindow);
 
-		// #todo
 		m_RenderWindow.display();
 	}
 
@@ -127,28 +111,28 @@ void core::Application::Execute(int argc, char* argv[])
 void core::Application::Register()
 {
 	// components
-	m_EntityWorld->RegisterComponent<core::CameraComponent>();
-	m_EntityWorld->RegisterComponent<core::LevelComponent>();
-	m_EntityWorld->RegisterComponent<core::NameComponent>();
-	m_EntityWorld->RegisterComponent<core::TransformComponent>();
-	m_EntityWorld->RegisterComponent<input::InputComponent>();
-	m_EntityWorld->RegisterComponent<physics::RigidDynamicComponent>();
-	m_EntityWorld->RegisterComponent<physics::RigidStaticComponent>();
-	m_EntityWorld->RegisterComponent<render::SpriteComponent>();
+	m_EntityWorld.RegisterComponent<core::CameraComponent>();
+	m_EntityWorld.RegisterComponent<core::LevelComponent>();
+	m_EntityWorld.RegisterComponent<core::NameComponent>();
+	m_EntityWorld.RegisterComponent<core::TransformComponent>();
+	m_EntityWorld.RegisterComponent<input::InputComponent>();
+	m_EntityWorld.RegisterComponent<physics::RigidDynamicComponent>();
+	m_EntityWorld.RegisterComponent<physics::RigidStaticComponent>();
+	m_EntityWorld.RegisterComponent<render::SpriteComponent>();
 
 	// systems
-	m_EntityWorld->RegisterSystem<render::FlipbookSystem>();
-	m_EntityWorld->RegisterSystem<render::RenderSystem>(m_RenderTexture);
-	m_EntityWorld->RegisterSystem<physics::PhysicsSystem>(m_PhysicsManager);
-	m_EntityWorld->RegisterSystem<audio::SoundSystem>(m_AssetManager);
-	m_EntityWorld->RegisterSystem<core::LevelSystem>
+	m_EntityWorld.RegisterSystem<render::FlipbookSystem>();
+	m_EntityWorld.RegisterSystem<render::RenderSystem>(m_RenderTexture);
+	m_EntityWorld.RegisterSystem<physics::PhysicsSystem>(m_PhysicsManager);
+	m_EntityWorld.RegisterSystem<audio::SoundSystem>(m_AssetManager);
+	m_EntityWorld.RegisterSystem<core::LevelSystem>
 		(
 			m_AssetManager
 			, m_PhysicsManager 
 		);
 
-	// register last
-	m_EntityWorld->RegisterSystem<debug::DebugSystem>(m_RenderTexture);
+	// #note: register last
+	m_EntityWorld.RegisterSystem<debug::DebugSystem>(m_RenderTexture);
 }
 
 void core::Application::Initialise()
@@ -158,42 +142,46 @@ void core::Application::Initialise()
 	m_PhysicsManager.Initialise();
 
 	// ecs
-	m_EntityWorld->Initialise();
+	// #note: do after managers
+	m_EntityWorld.Initialise();
 
-	auto& colors = ImGui::GetStyle().Colors;
-	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
+	// style
+	{
+		auto& colors = ImGui::GetStyle().Colors;
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
 
-	// Headers
-	colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-	colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-	colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// Headers
+		colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 
-	// Buttons
-	colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-	colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-	colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// Buttons
+		colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 
-	// Frame BG
-	colors[ImGuiCol_FrameBg] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-	colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-	colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// Frame BG
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 
-	// Tabs
-	colors[ImGuiCol_Tab] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TabHovered] = ImVec4{ 0.38f, 0.3805f, 0.381f, 1.0f };
-	colors[ImGuiCol_TabActive] = ImVec4{ 0.28f, 0.2805f, 0.281f, 1.0f };
-	colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		// Tabs
+		colors[ImGuiCol_Tab] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.38f, 0.3805f, 0.381f, 1.0f };
+		colors[ImGuiCol_TabActive] = ImVec4{ 0.28f, 0.2805f, 0.281f, 1.0f };
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
 
-	// Title
-	colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-	colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// Title
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+	}
 
 	{
-		entt::entity entity = m_EntityWorld->m_Registry.create();
-		m_EntityWorld->m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
-		m_EntityWorld->m_Registry.emplace<input::InputComponent>(entity);
+		entt::entity entity = m_EntityWorld.m_Registry.create();
+		m_EntityWorld.m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
+		m_EntityWorld.m_Registry.emplace<input::InputComponent>(entity);
 	}
 }
 
@@ -201,12 +189,12 @@ void core::Application::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
-	m_EntityWorld->Update(gameTime);
+	m_EntityWorld.Update(gameTime);
 }
 
 void core::Application::Destroy()
 {
-	m_EntityWorld->Destroy();
+	m_EntityWorld.Destroy();
 
 	// managers
 	m_AssetManager.Destroy();

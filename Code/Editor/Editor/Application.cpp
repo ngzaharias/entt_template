@@ -53,34 +53,34 @@ void editor::Application::Register()
 {
 	core::Application::Register();
 
-	m_EntityWorld->RegisterComponent<example::ExampleComponent>();
+	m_EntityWorld.RegisterComponent<example::ExampleComponent>();
 
-	m_EntityWorld->RegisterSystem<editor::Historian>();
-	m_EntityWorld->RegisterSystem<editor::FlipbookEditor>();
-	m_EntityWorld->RegisterSystem<editor::SceneEditor>(m_RenderTexture);
-	m_EntityWorld->RegisterSystem<editor::SpriteEditor>();
-	m_EntityWorld->RegisterSystem<editor::SpriteExtractor>();
-	m_EntityWorld->RegisterSystem<editor::AssetBrowser>
+	m_EntityWorld.RegisterSystem<editor::Historian>();
+	m_EntityWorld.RegisterSystem<editor::FlipbookEditor>();
+	m_EntityWorld.RegisterSystem<editor::SceneEditor>(m_RenderTexture);
+	m_EntityWorld.RegisterSystem<editor::SpriteEditor>();
+	m_EntityWorld.RegisterSystem<editor::SpriteExtractor>();
+	m_EntityWorld.RegisterSystem<editor::AssetBrowser>
 		(
 			m_AssetManager
-			, m_EntityWorld->GetSystem<editor::FlipbookEditor>()
-			, m_EntityWorld->GetSystem<editor::SpriteEditor>()
-			, m_EntityWorld->GetSystem<editor::SpriteExtractor>()
+			, m_EntityWorld.GetSystem<editor::FlipbookEditor>()
+			, m_EntityWorld.GetSystem<editor::SpriteEditor>()
+			, m_EntityWorld.GetSystem<editor::SpriteExtractor>()
 		);
-	m_EntityWorld->RegisterSystem<editor::Inspector>
+	m_EntityWorld.RegisterSystem<editor::Inspector>
 		(
-			m_EntityWorld->GetSystem<editor::Historian>()
+			m_EntityWorld.GetSystem<editor::Historian>()
 		);
-	m_EntityWorld->RegisterSystem<editor::EntityBrowser>
+	m_EntityWorld.RegisterSystem<editor::EntityBrowser>
 		(
-			m_EntityWorld->GetSystem<editor::Inspector>()
+			m_EntityWorld.GetSystem<editor::Inspector>()
 		);
-	m_EntityWorld->RegisterSystem<editor::MainMenuBar>
+	m_EntityWorld.RegisterSystem<editor::MainMenuBar>
 		(
-			m_EntityWorld->GetSystem<editor::AssetBrowser>()
-			, m_EntityWorld->GetSystem<editor::EntityBrowser>()
-			, m_EntityWorld->GetSystem<editor::Historian>()
-			, m_EntityWorld->GetSystem<editor::Inspector>()
+			m_EntityWorld.GetSystem<editor::AssetBrowser>()
+			, m_EntityWorld.GetSystem<editor::EntityBrowser>()
+			, m_EntityWorld.GetSystem<editor::Historian>()
+			, m_EntityWorld.GetSystem<editor::Inspector>()
 		);
 }
 
@@ -88,39 +88,39 @@ void editor::Application::Initialise()
 {
 	core::Application::Initialise();
 
-	core::LevelSystem& levelSystem = m_EntityWorld->GetSystem<core::LevelSystem>();
+	core::LevelSystem& levelSystem = m_EntityWorld.GetSystem<core::LevelSystem>();
 	levelSystem.Load(str::Path("Assets/Levels/Default/"));
 
 	// example entity
 	{
-		entt::entity entity = m_EntityWorld->m_Registry.create();
-		auto& exampleComponent = m_EntityWorld->m_Registry.emplace<example::ExampleComponent>(entity);
+		entt::entity entity = m_EntityWorld.m_Registry.create();
+		auto& exampleComponent = m_EntityWorld.m_Registry.emplace<example::ExampleComponent>(entity);
 		//exampleComponent.m_PhysicsMaterial = m_AssetManager->LoadAsset<physics::MaterialAsset>(strDefaultMaterial);
 		//exampleComponent.m_Sound = m_AssetManager->LoadAsset<audio::SoundAsset>(strDefaultSound);
 		//exampleComponent.m_Texture = m_AssetManager->LoadAsset<render::TextureAsset>(strDefaultTexture);
-		auto& nameComponent = m_EntityWorld->m_Registry.emplace<core::NameComponent>(entity);
+		auto& nameComponent = m_EntityWorld.m_Registry.emplace<core::NameComponent>(entity);
 		nameComponent.m_Name = "Example";
 	}
 
 	// flipbook entity
 	{
-		entt::entity entity = m_EntityWorld->m_Registry.create();
-		auto& transformComponent = m_EntityWorld->m_Registry.emplace<core::TransformComponent>(entity);
-		auto& flipbookComponent = m_EntityWorld->m_Registry.emplace<render::FlipbookComponent>(entity);
+		entt::entity entity = m_EntityWorld.m_Registry.create();
+		auto& transformComponent = m_EntityWorld.m_Registry.emplace<core::TransformComponent>(entity);
+		auto& flipbookComponent = m_EntityWorld.m_Registry.emplace<render::FlipbookComponent>(entity);
 		flipbookComponent.m_Flipbook = m_AssetManager.LoadAsset<render::FlipbookAsset>(strDefaultFlipbook);
 		flipbookComponent.m_Size = { 100, 100 };
-		auto& nameComponent = m_EntityWorld->m_Registry.emplace<core::NameComponent>(entity);
+		auto& nameComponent = m_EntityWorld.m_Registry.emplace<core::NameComponent>(entity);
 		nameComponent.m_Name = "Flipbook";
 	}
 
 	// sprite entity
 	{
-		entt::entity entity = m_EntityWorld->m_Registry.create();
-		auto& transformComponent = m_EntityWorld->m_Registry.emplace<core::TransformComponent>(entity);
-		auto& spriteComponent = m_EntityWorld->m_Registry.emplace<render::SpriteComponent>(entity);
+		entt::entity entity = m_EntityWorld.m_Registry.create();
+		auto& transformComponent = m_EntityWorld.m_Registry.emplace<core::TransformComponent>(entity);
+		auto& spriteComponent = m_EntityWorld.m_Registry.emplace<render::SpriteComponent>(entity);
 		spriteComponent.m_Sprite = m_AssetManager.LoadAsset<render::SpriteAsset>(strDefaultSprite);
 		spriteComponent.m_Size = { 100, 100 };
-		auto& nameComponent = m_EntityWorld->m_Registry.emplace<core::NameComponent>(entity);
+		auto& nameComponent = m_EntityWorld.m_Registry.emplace<core::NameComponent>(entity);
 		nameComponent.m_Name = "Sprite";
 	}
 }
