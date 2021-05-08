@@ -21,7 +21,7 @@ bool core::LoadFileAsBinary(const str::Path& filepath, str::String& out_String)
 	return true;
 }
 
-std::vector<str::Path> core::SelectFileDialog(const SelectFileSettings& settings)
+Array<str::Path> core::SelectFileDialog(const SelectFileSettings& settings)
 {
 	pfd::open_file openFile = pfd::open_file
 	(
@@ -31,7 +31,7 @@ std::vector<str::Path> core::SelectFileDialog(const SelectFileSettings& settings
 		, settings.m_IsMultiSelect ? pfd::opt::multiselect : pfd::opt::none
 	);
 
-	std::vector<str::Path> filepaths;
+	Array<str::Path> filepaths;
 	for (const auto& name : openFile.result())
 		filepaths.push_back(name);
 	return filepaths;

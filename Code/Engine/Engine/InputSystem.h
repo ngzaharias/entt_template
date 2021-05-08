@@ -19,7 +19,7 @@ namespace input
 		void Update(entt::registry& registry, const core::GameTime& gameTime) override;
 
 	private:
-		std::set<sf::Keyboard::Key> m_KeysPrevious;
-		std::set<sf::Keyboard::Key> m_KeysCurrent;
+		Set<sf::Keyboard::Key> m_KeysPrevious;
+		Set<sf::Keyboard::Key> m_KeysCurrent;
 	};
 }

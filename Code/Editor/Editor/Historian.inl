@@ -3,13 +3,9 @@
 #include <Engine/AttributeHelpers.h>
 #include <Engine/VariantHelpers.h>
 
-#include <map>
-#include <set>
 #include <variant>
-#include <vector>
 #include <rapidjson/allocators.h>
 #include <rapidjson/pointer.h>
-#include <refl/refl.hpp>
 
 namespace json
 {
@@ -140,7 +136,7 @@ namespace
 	}
 
 	template<typename Key, typename Val>
-	void CopyToContainer(const json::Object& object, std::map<Key, Val>& value)
+	void CopyToContainer(const json::Object& object, Map<Key, Val>& value)
 	{
 		if (object.IsNull())
 			return;
@@ -166,7 +162,7 @@ namespace
 	}
 
 	template<typename Type>
-	void CopyToContainer(const json::Object& object, std::vector<Type>& value)
+	void CopyToContainer(const json::Object& object, Array<Type>& value)
 	{
 		if (object.IsNull())
 			return;
@@ -307,9 +303,9 @@ namespace
 	}
 
 	template<typename Key, typename Val>
-	void CopyContainerToDocument(const std::map<Key, Val>& value, json::Object& object, json::Allocator& allocator)
+	void CopyContainerToDocument(const Map<Key, Val>& value, json::Object& object, json::Allocator& allocator)
 	{
-		using Iterator = typename std::map<Key, Val>::const_iterator;
+		using Iterator = typename Map<Key, Val>::const_iterator;
 		
 		object.SetArray();
 
@@ -329,9 +325,9 @@ namespace
 	}
 
 	template<typename Type>
-	void CopyContainerToDocument(const std::vector<Type>& value, json::Object& object, json::Allocator& allocator)
+	void CopyContainerToDocument(const Array<Type>& value, json::Object& object, json::Allocator& allocator)
 	{
-		using Iterator = typename std::vector<Type>::const_iterator;
+		using Iterator = typename Array<Type>::const_iterator;
 
 		object.SetArray();
 

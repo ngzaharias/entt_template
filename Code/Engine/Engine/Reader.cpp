@@ -6,12 +6,6 @@ serialize::Reader::Reader(const char* data)
 	m_Document.Parse(data);
 }
 
-serialize::Reader::Reader(const char* data, EMode mode)
-	: m_Mode(mode)
-{
-	m_Document.Parse(data);
-}
-
 void serialize::Reader::Visit(bool& value)
 {
 	value = m_Document[m_Index++].GetBool();

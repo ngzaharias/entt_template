@@ -7,13 +7,6 @@ serialize::Writer::Writer()
 	m_Writer.StartArray();
 }
 
-serialize::Writer::Writer(EMode mode)
-	: m_Mode(mode)
-	, m_Writer(m_Buffer)
-{
-	m_Writer.StartArray();
-}
-
 str::StringView serialize::Writer::Conclude()
 {
 	m_Writer.EndArray();

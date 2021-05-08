@@ -4,8 +4,6 @@
 #include <Engine/Path.h>
 #include <Engine/System.h>
 
-#include <vector>
-#include <entt/fwd.hpp>
 #include <SFML/Audio/Sound.hpp>
 
 namespace core
@@ -46,7 +44,7 @@ namespace audio
 	private:
 		core::AssetManager& m_AssetManager;
 
-		std::vector<audio::Request> m_Requests;
+		Array<audio::Request> m_Requests;
 		ObjectPool<sf::Sound, 128> m_SoundPool;
 	};
 };

@@ -17,10 +17,9 @@
 #include <SFML/Window/Keyboard.hpp>
 
 // #todo: preview icons
-// #todo: import via drag/drop -> inspector
-// #todo: renaming of files
+// #todo: drag/drop -> inspector/scene
 // #todo: ensure unique filename
-//		- create/rename/import
+// #todo: create/rename/import
 // #todo: fill guid into directory entry
 // #todo: refresh entries only on directory change
 
@@ -45,7 +44,7 @@ namespace
 		RightClick,
 	};
 
-	static const std::vector<std::string> s_AssetFilters =
+	static const Array<std::string> s_AssetFilters =
 	{
 		"All Files (" + strAll + ")", strAll,
 		"Sounds (" + strSounds + ")", strSounds,
@@ -53,7 +52,7 @@ namespace
 	};
 
 	template<typename Type>
-	bool Contains(const std::vector<Type>& container, const Type& value)
+	bool Contains(const Array<Type>& container, const Type& value)
 	{
 		return std::find(container.begin(), container.end(), value) != container.end();
 	}
@@ -187,7 +186,7 @@ void editor::AssetBrowser::Command_Import()
 
 	core::SelectFolderSettings folderSettings;
 
-	std::vector<str::Path> inputFilepaths = core::SelectFileDialog(fileSettings);
+	Array<str::Path> inputFilepaths = core::SelectFileDialog(fileSettings);
 	if (inputFilepaths.empty())
 		return;
 

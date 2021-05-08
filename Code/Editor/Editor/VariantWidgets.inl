@@ -24,7 +24,7 @@ void editor::InspectVariant(std::variant<Types...>& variant, Type& value, Inspec
 	constexpr TypeDescriptor typeDescriptor = refl::reflect<Type>();
 
 	// #todo: build this compile time
-	static std::vector<const char*> names = core::TypeNames<Types...>(); 
+	static Array<const char*> names = core::TypeNames<Types...>(); 
 	const char* name = info.m_Address.GetLast();
 
 	int index = static_cast<int>(variant.index());

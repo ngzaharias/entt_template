@@ -84,7 +84,7 @@ void core::Application::Execute(int argc, char* argv[])
 			};
 		}
 
-		std::set<sf::Keyboard::Key> keysPressed;
+		Set<sf::Keyboard::Key> keysPressed;
 		for (int32 i = sf::Keyboard::Key::A; i < sf::Keyboard::Key::KeyCount; ++i)
 		{
 			const sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(i);

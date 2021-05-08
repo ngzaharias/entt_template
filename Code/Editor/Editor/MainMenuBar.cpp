@@ -94,7 +94,7 @@ void editor::MainMenuBar::Render(entt::registry& registry)
 
 		if (ImGui::BeginMenu("Debug"))
 		{
-			if (ImGui::MenuItem("Optick"))
+			if (ImGui::MenuItem("Profiler"))
 			{
 				// #todo: use relative path
 				system("start C:/Personal/ZEngine/3rdParty/optick/1.3.1/Optick.exe");

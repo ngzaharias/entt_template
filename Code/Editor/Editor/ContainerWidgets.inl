@@ -75,14 +75,14 @@ void editor::InspectContainer(Container& container, InspectorInfo& info)
 }
 
 template<class Key, class Value>
-void editor::InspectContainer(std::map<Key, Value>& container, InspectorInfo& info)
+void editor::InspectContainer(Map<Key, Value>& container, InspectorInfo& info)
 {
 	struct None { };
 	struct Insert { Key key; };
 	struct RemoveAll { };
 	struct Rename { int32 index; Key key; };
 
-	using Iterator = typename std::map<Key, Value>::iterator;
+	using Iterator = typename Map<Key, Value>::iterator;
 	using Command = std::variant<None, Insert, RemoveAll, Rename>;
 
 	if constexpr (!refl::trait::is_reflectable<Key>::value || !refl::trait::is_reflectable<Value>::value)
@@ -203,7 +203,7 @@ void editor::InspectContainer(std::map<Key, Value>& container, InspectorInfo& in
 }
 
 template<typename Type>
-void editor::InspectContainer(std::vector<Type>& container, InspectorInfo& info)
+void editor::InspectContainer(Array<Type>& container, InspectorInfo& info)
 {
 	struct None { };
 	struct DragDrop { int32 source, target; };
@@ -211,7 +211,7 @@ void editor::InspectContainer(std::vector<Type>& container, InspectorInfo& info)
 	struct RemoveAll { };
 
 	using Command = std::variant<None, DragDrop, Insert, RemoveAll>;
-	using Iterator = typename std::vector<Type>::iterator;
+	using Iterator = typename Array<Type>::iterator;
 
 	if constexpr (!refl::trait::is_reflectable<Type>::value)
 		return;

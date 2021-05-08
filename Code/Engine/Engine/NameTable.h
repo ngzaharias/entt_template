@@ -1,11 +1,6 @@
 #pragma once
 
 #include <Engine/Hash.h>
-#include <Engine/Name.h>
-#include <Engine/String.h>
-#include <Engine/StringView.h>
-
-#include <map>
 
 namespace str
 {
@@ -24,6 +19,6 @@ namespace str
 		const str::String& Retrieve(const core::Hash& hash) const;
 
 	private:
-		std::map<core::Hash, str::String> m_Values;
+		Map<core::Hash, str::String> m_Values;
 	};
 }

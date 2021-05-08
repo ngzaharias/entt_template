@@ -24,8 +24,8 @@ namespace input
 				&& m_KeysCurrent.count(key) == 0;
 		}
 
-		std::set<sf::Keyboard::Key> m_KeysPrevious;
-		std::set<sf::Keyboard::Key> m_KeysCurrent;
+		Set<sf::Keyboard::Key> m_KeysPrevious;
+		Set<sf::Keyboard::Key> m_KeysCurrent;
 	};
 }
 

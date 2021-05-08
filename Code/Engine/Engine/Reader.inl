@@ -25,9 +25,7 @@ void serialize::Reader::Visit(Type& value)
 	{
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
-			constexpr bool isReplicated = refl::descriptor::has_attribute<attr::Replicated>(field);
-			if (m_Mode != EMode::Replication || isReplicated)
-				Visit(field(value));
+			Visit(field(value));
 		});
 	}
 	else
@@ -36,19 +34,8 @@ void serialize::Reader::Visit(Type& value)
 	}
 }
 
-template<typename Type, size_t Size>
-void serialize::Reader::Visit(std::array<Type, Size>& value)
-{
-	Type val;
-	for (uint32 i = 0; i < Size; ++i)
-	{
-		Visit(val);
-		value[i] = val;
-	}
-}
-
 template<typename Key, typename Val>
-void serialize::Reader::Visit(std::map<Key, Val>& value)
+void serialize::Reader::Visit(Map<Key, Val>& value)
 {
 	uint32 size;
 	Visit(size);
@@ -63,7 +50,7 @@ void serialize::Reader::Visit(std::map<Key, Val>& value)
 }
 
 template<typename Type>
-void serialize::Reader::Visit(std::set<Type>& value)
+void serialize::Reader::Visit(Set<Type>& value)
 {
 	uint32 size;
 	Visit(size);
@@ -77,7 +64,7 @@ void serialize::Reader::Visit(std::set<Type>& value)
 }
 
 template<typename Type>
-void serialize::Reader::Visit(std::vector<Type>& value)
+void serialize::Reader::Visit(Array<Type>& value)
 {
 	uint32 size;
 	Visit(size);

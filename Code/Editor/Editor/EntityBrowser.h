@@ -44,7 +44,7 @@ namespace editor
 	private:
 		editor::Inspector& m_Inspector;
 
-		std::set<EntityEntry> m_Entries;
+		Set<EntityEntry> m_Entries;
 		str::String m_Filter;
 		bool m_IsVisible = true;
 	};

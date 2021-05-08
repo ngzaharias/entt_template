@@ -1,6 +1,9 @@
 #include <Catch2/catch.hpp>
 
+#include <Engine/Array.h>
+#include <Engine/Map.h>
 #include <Engine/Name.h>
+#include <Engine/Set.h>
 #include <Engine/String.h>
 #include <Engine/StringView.h>
 #include <Engine/Types.h>
@@ -8,17 +11,12 @@
 #include <Engine/Vector2.h>
 #include <Engine/Vector3.h>
 
-#include <Engine/Reader.h>
-#include <Engine/Writer.h>
-
+#include <variant>
 #include <refl/refl.hpp>
 
-#include <array>
-#include <map>
-#include <set>
-#include <variant>
-#include <vector>
-
+// include last
+#include <Engine/Reader.h>
+#include <Engine/Writer.h>
 namespace
 {
 	constexpr bool s_Bool = true;
@@ -180,25 +178,26 @@ TEST_CASE("Array")
 	str::String writeString;
 
 	{
-		std::array<int32, 5> myArray = { 1, 2, 3, 4, 5 };
+		Array<int32> myVector = { 1, 2, 3, 4, 5 };
 
 		serialize::Writer writer;
-		writer.Visit(myArray);
+		writer.Visit(myVector);
 
 		writeString = writer.Conclude();
 	}
 
 	{
-		std::array<int32, 5> myArray;
+		Array<int32> myVector;
 
 		serialize::Reader reader(writeString.c_str());
-		reader.Visit(myArray);
+		reader.Visit(myVector);
 
-		REQUIRE(myArray[0] == 1);
-		REQUIRE(myArray[1] == 2);
-		REQUIRE(myArray[2] == 3);
-		REQUIRE(myArray[3] == 4);
-		REQUIRE(myArray[4] == 5);
+		REQUIRE(myVector.size() == 5);
+		REQUIRE(myVector[0] == 1);
+		REQUIRE(myVector[1] == 2);
+		REQUIRE(myVector[2] == 3);
+		REQUIRE(myVector[3] == 4);
+		REQUIRE(myVector[4] == 5);
 	}
 }
 
@@ -207,7 +206,7 @@ TEST_CASE("Map")
 	str::String writeString;
 
 	{
-		std::map<int32, bool> myMap = { {3, true}, {2, false}, {1, true} };
+		Map<int32, bool> myMap = { {3, true}, {2, false}, {1, true} };
 
 		serialize::Writer writer;
 		writer.Visit(myMap);
@@ -216,7 +215,7 @@ TEST_CASE("Map")
 	}
 
 	{
-		std::map<int32, bool> myMap;
+		Map<int32, bool> myMap;
 
 		serialize::Reader reader(writeString.c_str());
 		reader.Visit(myMap);
@@ -242,7 +241,7 @@ TEST_CASE("Set")
 	}
 
 	{
-		std::vector<int32> mySet;
+		Array<int32> mySet;
 
 		serialize::Reader reader(writeString.c_str());
 		reader.Visit(mySet);
@@ -253,34 +252,6 @@ TEST_CASE("Set")
 		REQUIRE(mySet[2] == 3);
 		REQUIRE(mySet[3] == 4);
 		REQUIRE(mySet[4] == 5);
-	}
-}
-
-TEST_CASE("Vector")
-{
-	str::String writeString;
-
-	{
-		std::vector<int32> myVector = { 1, 2, 3, 4, 5 };
-
-		serialize::Writer writer;
-		writer.Visit(myVector);
-
-		writeString = writer.Conclude();
-	}
-
-	{
-		std::vector<int32> myVector;
-
-		serialize::Reader reader(writeString.c_str());
-		reader.Visit(myVector);
-
-		REQUIRE(myVector.size() == 5);
-		REQUIRE(myVector[0] == 1);
-		REQUIRE(myVector[1] == 2);
-		REQUIRE(myVector[2] == 3);
-		REQUIRE(myVector[3] == 4);
-		REQUIRE(myVector[4] == 5);
 	}
 }
 
@@ -379,7 +350,7 @@ TEST_CASE("Replication")
 	{
 		Replication myStruct = { s_Int32, s_Int32 };
 
-		serialize::Writer writer(serialize::Writer::EMode::Replication);
+		serialize::Writer writer;
 		writer.Visit(myStruct);
 
 		writeString = writer.Conclude();
@@ -388,7 +359,7 @@ TEST_CASE("Replication")
 	{
 		Replication myStruct = { 0, 0 };
 
-		serialize::Reader reader(writeString.c_str(), serialize::Reader::EMode::Replication);
+		serialize::Reader reader(writeString.c_str());
 		reader.Visit(myStruct);
 
 		REQUIRE(myStruct.yesReflect == s_Int32);

@@ -4,14 +4,8 @@
 #include <Engine/PhysicsMaterialAsset.h>
 #include <Engine/SoundAsset.h>
 #include <Engine/TextureAsset.h>
-#include <Engine/Vector2.h>
-#include <Engine/Vector3.h>
 
-#include <map>
-#include <set>
 #include <variant>
-#include <vector>
-#include <refl/refl.hpp>
 
 namespace example
 {
@@ -74,17 +68,17 @@ namespace example
 		render::TextureHandle m_Texture;
 
 		// map
-		std::map<int32, int32> m_MapA = { {1, 10}, {2, 10}, {3, 10} };
-		std::map<int32, YesReflect> m_MapB = { { 1, YesReflect()}, { 2, YesReflect()} };
-		std::map<YesReflect, int32> m_MapC = { { YesReflect(), 10} };
-		std::map<YesReflect, YesReflect> m_MapD = { {YesReflect(), YesReflect()} };
+		Map<int32, int32> m_MapA = { {1, 10}, {2, 10}, {3, 10} };
+		Map<int32, YesReflect> m_MapB = { { 1, YesReflect()}, { 2, YesReflect()} };
+		Map<YesReflect, int32> m_MapC = { { YesReflect(), 10} };
+		Map<YesReflect, YesReflect> m_MapD = { {YesReflect(), YesReflect()} };
 
 		// set
-		std::set<int32> m_SetA = { 1, 2, 3 };
+		Set<int32> m_SetA = { 1, 2, 3 };
 
 		// vector
-		std::vector<int32> m_VectorA = { 1, 2, 3 };
-		std::vector<AsInts> m_VectorB = { AsInts(), AsInts(), AsInts() };
+		Array<int32> m_VectorA = { 1, 2, 3 };
+		Array<AsInts> m_VectorB = { AsInts(), AsInts(), AsInts() };
 
 		// variant
 		std::variant<bool, float, int32, AsBools, AsFloat, AsInts, AsStruct> m_Variant = AsInts();

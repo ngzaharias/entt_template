@@ -4,8 +4,6 @@
 #include <Engine/System.h>
 
 #include <filesystem>
-#include <set>
-#include <vector>
 
 namespace core
 {
@@ -34,8 +32,8 @@ namespace editor
 
 	class AssetBrowser final : public core::System
 	{
-		using EntrySet = std::set<DirectoryEntry>;
-		using Selection = std::vector<int32>;
+		using EntrySet = Set<DirectoryEntry>;
+		using Selection = Array<int32>;
 
 	public:
 		AssetBrowser

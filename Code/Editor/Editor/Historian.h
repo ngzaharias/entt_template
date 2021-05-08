@@ -4,8 +4,6 @@
 #include <Engine/System.h>
 #include <Engine/TypeList.h>
 
-#include <map>
-#include <vector>
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 #include <rapidjson/document.h>
@@ -29,9 +27,9 @@ namespace editor
 
 	class Historian final : public core::System
 	{
-		using Database = std::map<entt::entity, editor::Record>;
+		using Database = Map<entt::entity, editor::Record>;
 		using Records = RingQueue<Record, 50>;
-		using Transactions = std::vector<Transaction>;
+		using Transactions = Array<Transaction>;
 
 	public:
 		Historian();

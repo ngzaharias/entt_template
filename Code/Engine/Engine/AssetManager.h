@@ -9,8 +9,6 @@
 #include <Engine/SpriteAsset.h>
 #include <Engine/TextureAsset.h>
 
-#include <map>
-
 namespace editor
 {
 	class AssetBrowser;
@@ -23,7 +21,7 @@ namespace physics
 
 namespace core
 {
-	using AssetEntryMap = std::map<str::Name, AssetEntry>;
+	using AssetEntryMap = Map<str::Name, AssetEntry>;
 	
 	class AssetManager final
 	{

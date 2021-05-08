@@ -17,7 +17,7 @@ void input::InputSystem::Update(entt::registry& registry, const core::GameTime& 
 			m_KeysCurrent.insert(key);
 	}
 
-	std::vector<input::InputComponent*> components;
+	Array<input::InputComponent*> components;
 	components.reserve(registry.size<input::InputComponent>());
 
 	for (auto& entity : registry.view<input::InputComponent>())

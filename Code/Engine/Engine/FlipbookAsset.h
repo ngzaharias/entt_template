@@ -25,7 +25,7 @@ namespace render
 
 	struct FlipbookAsset : public core::Asset
 	{
-		std::vector<FlipbookFrame> m_Frames = { };
+		Array<FlipbookFrame> m_Frames = { };
 		float m_FPS = 30.f;
 		bool m_IsLooping = true;
 	};

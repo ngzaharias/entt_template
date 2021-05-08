@@ -13,9 +13,7 @@ void serialize::Writer::Visit(const Type& value)
 	{
 		for_each(refl::reflect<Type>().members, [&](auto field)
 		{
-			constexpr bool isReplicated = refl::descriptor::has_attribute<attr::Replicated>(field);
-			if (m_Mode != EMode::Replication || isReplicated)
-				Visit(field(value));
+			Visit(field(value));
 		});
 	}
 	else
@@ -24,15 +22,16 @@ void serialize::Writer::Visit(const Type& value)
 	}
 }
 
-template<typename Type, size_t Size>
-void serialize::Writer::Visit(const std::array<Type, Size>& value)
+template<typename Type>
+void serialize::Writer::Visit(const Array<Type>& value)
 {
-	for (const Type& val : value)
+	Visit(static_cast<uint32>(value.size()));
+	for (auto&& val : value)
 		Visit(val);
 }
 
 template<typename Key, typename Val>
-void serialize::Writer::Visit(const std::map<Key, Val>& value)
+void serialize::Writer::Visit(const Map<Key, Val>& value)
 {
 	Visit(static_cast<uint32>(value.size()));
 	for (auto&& [key, val] : value)
@@ -43,18 +42,10 @@ void serialize::Writer::Visit(const std::map<Key, Val>& value)
 }
 
 template<typename Type>
-void serialize::Writer::Visit(const std::set<Type>& value)
+void serialize::Writer::Visit(const Set<Type>& value)
 {
 	Visit(static_cast<uint32>(value.size()));
 	for (const Type& val : value)
-		Visit(val);
-}
-
-template<typename Type>
-void serialize::Writer::Visit(const std::vector<Type>& value)
-{
-	Visit(static_cast<uint32>(value.size()));
-	for (auto&& val : value)
 		Visit(val);
 }
 

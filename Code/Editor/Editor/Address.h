@@ -4,7 +4,7 @@ namespace editor
 {
 	class Address
 	{
-		using Positions = std::vector<size_t>;
+		using Positions = Array<size_t>;
 
 	public:
 		void Push(int32 index);

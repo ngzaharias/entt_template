@@ -20,12 +20,11 @@ namespace str
 	//	void operator=(const str::String& rhs);
 	//	void operator=(const str::StringView& rhs);
 
-	//	void operator+=(const char* rhs);
 	//	void operator+=(const str::Path& rhs);
-	//	void operator+=(const str::String& rhs);
 	//	void operator+=(const str::StringView& rhs);
 
-	//	bool HasFileExtension(const char* extension) const;
+	//	bool HasFileExtension(const str::StringView& rhs) const;
+	// 
 	//	bool IsDirectory() const;
 	//	bool IsEmpty() const { return m_Value == ""; }
 	//	bool IsFile() const;

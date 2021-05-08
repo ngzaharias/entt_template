@@ -15,7 +15,7 @@ namespace editor
 
 	struct InspectorInfo
 	{
-		using Transactions = std::vector<Transaction>;
+		using Transactions = Array<Transaction>;
 
 		Address		 m_Address = { };
 		Attributes	 m_Attributes = { };

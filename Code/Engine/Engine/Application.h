@@ -70,9 +70,9 @@ namespace core
 		// entities
 		entt::registry m_Registry;
 		// components
-		std::vector<ComponentEntry> m_ComponentEntries;
+		Array<ComponentEntry> m_ComponentEntries;
 		// systems
-		std::vector<SystemEntry> m_SystemEntries;
+		Array<SystemEntry> m_SystemEntries;
 
 		sf::Clock m_Clock;
 		sf::RenderTexture m_RenderTexture;

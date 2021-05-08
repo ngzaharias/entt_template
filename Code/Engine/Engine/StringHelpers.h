@@ -1,10 +1,8 @@
 #pragma once
 
-#include <vector>
-
 namespace str
 {
-	using StringViews = std::vector<str::StringView>;
+	using StringViews = Array<str::StringView>;
 
 	constexpr str::StringView strDelimiters = " .,:;'\"<>[]{}()\\|/";
 	constexpr str::StringView strWhitespace = " \t\f\v\n\r";

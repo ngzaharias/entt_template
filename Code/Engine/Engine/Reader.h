@@ -3,11 +3,8 @@
 #include <rapidjson/document.h>
 
 #include <array>
-#include <map>
 #include <optional>
-#include <set>
 #include <variant>
-#include <vector>
 
 namespace serialize
 {
@@ -16,26 +13,18 @@ namespace serialize
 		using Document = rapidjson::Document;
 
 	public:
-		enum class EMode
-		{
-			None,
-			Replication,
-		};
 
-		explicit Reader(const char* data);
-		explicit Reader(const char* data, EMode mode);
+		Reader(const char* data);
 
 		template<typename Type>
 		void Visit(Type& value);
 
-		template<typename Type, size_t Size>
-		void Visit(std::array<Type, Size>& value);
 		template<typename Key, typename Val>
-		void Visit(std::map<Key, Val>& value);
+		void Visit(Map<Key, Val>& value);
 		template<typename Type>
-		void Visit(std::set<Type>& value);
+		void Visit(Set<Type>& value);
 		template<typename Type>
-		void Visit(std::vector<Type>& value);
+		void Visit(Array<Type>& value);
 
 		template<typename Type>
 		void Visit(std::optional<Type>& value);
@@ -56,8 +45,6 @@ namespace serialize
 		void Visit(Vector3i& value);
 
 	private:
-		const EMode m_Mode = EMode::None;
-
 		Document m_Document = { };
 		int32 m_Index = 0;
 	};

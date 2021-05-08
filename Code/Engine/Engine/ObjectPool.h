@@ -20,7 +20,7 @@ public:
 	void ReleaseObject(Type* object);
 
 private:
-	std::set<Type*> m_UsedObjects;
+	Set<Type*> m_UsedObjects;
 	std::queue<Type*> m_FreeObjects;
 	uint32 m_Capacity = 0;
 };

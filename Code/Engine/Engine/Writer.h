@@ -4,10 +4,7 @@
 #include <rapidjson/stringbuffer.h>
 
 #include <array>
-#include <map>
-#include <set>
 #include <variant>
-#include <vector>
 
 namespace serialize
 {
@@ -17,28 +14,19 @@ namespace serialize
 		using StringBuffer = rapidjson::StringBuffer;
 
 	public:
-		enum class EMode
-		{
-			None,
-			Replication,
-		};
-
-		explicit Writer();
-		explicit Writer(EMode mode);
+		Writer();
 
 		str::StringView Conclude();
 
 		template<typename Type>
 		void Visit(const Type& value);
 
-		template<typename Type, size_t Size>
-		void Visit(const std::array<Type, Size>& value);
+		template<typename Type>
+		void Visit(const Array<Type>& value);
 		template<typename Key, typename Val>
-		void Visit(const std::map<Key, Val>& value);
+		void Visit(const Map<Key, Val>& value);
 		template<typename Type>
-		void Visit(const std::set<Type>& value);
-		template<typename Type>
-		void Visit(const std::vector<Type>& value);
+		void Visit(const Set<Type>& value);
 
 		template<typename Type>
 		void Visit(const std::optional<Type>& value);
@@ -59,8 +47,6 @@ namespace serialize
 		void Visit(const Vector3i& value);
 
 	private:
-		const EMode m_Mode = EMode::None;
-
 		PrettyWriter m_Writer;
 		StringBuffer m_Buffer = { };
 	};

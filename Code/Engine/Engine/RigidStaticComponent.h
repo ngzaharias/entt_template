@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 namespace physx
 {
 	class PxRigidStatic;
@@ -13,7 +11,7 @@ namespace physics
 	struct RigidStaticComponent
 	{
 		physx::PxRigidStatic* m_Actor;
-		std::vector<physx::PxShape*> m_Shapes;
+		Array<physx::PxShape*> m_Shapes;
 	};
 }
 
