@@ -30,6 +30,7 @@ namespace str
 	//	bool IsFile() const;
 
 	//	const char* ToChar() const { return m_Value.c_str(); }
+	//	str::StringView ToView() const { return m_Value; }
 
 	//	///		/My/Example/Directory/Foo.bar
 	//	///		++++++++++++++++++++++

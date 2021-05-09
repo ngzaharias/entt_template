@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/AssetTypes.h>
+#include <Engine/Hash.h>
 #include <Engine/System.h>
 
 #include <filesystem>
@@ -18,21 +19,20 @@ namespace editor
 	class SpriteEditor;
 	class SpriteExtractor;
 
-	struct DirectoryEntry
-	{
-		bool operator==(const DirectoryEntry& rhs) const;
-		bool operator<(const DirectoryEntry& rhs) const;
-
-		str::Name m_Guid;
-		str::Path m_Filepath;
-		str::String m_Name;
-		core::EAssetType m_Type;
-		bool m_IsDirectory;
-	};
-
 	class AssetBrowser final : public ecs::System
 	{
-		using EntrySet = Set<DirectoryEntry>;
+		struct Entry
+		{
+			bool operator==(const Entry& rhs) const;
+			bool operator<(const Entry& rhs) const;
+
+			str::Name m_Guid;
+			str::Path m_Filepath;
+			str::String m_Name;
+			core::EAssetType m_Type;
+			bool m_IsDirectory;
+		};
+
 		using Selection = Array<int32>;
 
 	public:
@@ -57,6 +57,7 @@ namespace editor
 		void Command_ContextMenu();
 		void Command_Import();
 		void Command_Open();
+		void Command_ReloadAll();
 		void Command_Select(const int32 index);
 
 		void ContextMenu_Common(const Selection& selection);
@@ -68,15 +69,17 @@ namespace editor
 		void Render_Entry(const int32 index);
 		void Render_MenuBar();
 
+
 	private:
 		core::AssetManager& m_AssetManager;
 		editor::FlipbookEditor& m_FlipbookEditor;
 		editor::SpriteEditor& m_SpriteEditor;
 		editor::SpriteExtractor& m_SpriteExtractor;
 
-		str::Path m_Directory = "Assets";
+		str::Path m_DirectoryPath = "Assets";
+		Set<Entry> m_DirectoryEntries = { };
+		Set<core::Hash> m_DirectoryHash = { };
 
-		EntrySet m_Entries = { };
 		Selection m_Selection = { };
 
 		bool m_IsVisible = true;

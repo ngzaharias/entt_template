@@ -2,7 +2,6 @@
 #include "Engine/NameTable.h"
 
 #include <assert.h>
-#include <entt/core/hashed_string.hpp>
 
 namespace
 {
@@ -30,7 +29,7 @@ str::NameTable::~NameTable()
 
 core::Hash str::NameTable::Register(const char* string)
 {
-	const core::Hash hash = entt::hashed_string{ string };
+	const core::Hash hash = str::ToHash(string);
 	const auto itr = m_Values.find(hash);
 	if (itr == m_Values.end())
 		m_Values[hash] = string;
@@ -39,7 +38,7 @@ core::Hash str::NameTable::Register(const char* string)
 
 core::Hash str::NameTable::Register(const str::String& string)
 {
-	const core::Hash hash = entt::hashed_string{ string.c_str() };
+	const core::Hash hash = str::ToHash(string);
 	const auto itr = m_Values.find(hash);
 	if (itr == m_Values.end())
 		m_Values[hash] = string;
@@ -48,7 +47,8 @@ core::Hash str::NameTable::Register(const str::String& string)
 
 core::Hash str::NameTable::Register(const str::StringView& string)
 {
-	const core::Hash hash = entt::hashed_string{ str::String(string).c_str() };
+	// #fixme: shouldn't need to convert to string
+	const core::Hash hash = str::ToHash(str::String(string));
 	const auto itr = m_Values.find(hash);
 	if (itr == m_Values.end())
 		m_Values[hash] = string;

@@ -9,7 +9,13 @@
 // #todo:
 // - matrix
 // - quaternions
+
+#include <entt/fwd.hpp>
+#include <refl/refl.hpp>
+
+#include "Engine/Algorithms.h"
 #include "Engine/Array.h"
+#include "Engine/Hash.h"
 #include "Engine/Map.h"
 #include "Engine/MathHelpers.h"
 #include "Engine/Name.h"
@@ -26,6 +32,3 @@
 #include "Engine/Vector2.h"
 #include "Engine/Vector3.h"
 #include "Engine/VectorHelpers.h"
-
-#include <entt/fwd.hpp>
-#include <refl/refl.hpp>

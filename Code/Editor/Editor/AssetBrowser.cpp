@@ -20,8 +20,6 @@
 // #todo: drag/drop -> inspector/scene
 // #todo: ensure unique filename
 // #todo: create/rename/import
-// #todo: fill guid into directory entry
-// #todo: refresh entries only on directory change
 
 namespace
 {
@@ -86,12 +84,12 @@ namespace
 	}
 }
 
-bool editor::DirectoryEntry::operator==(const DirectoryEntry& rhs) const
+bool editor::AssetBrowser::Entry::operator==(const Entry& rhs) const
 {
 	return m_Name == rhs.m_Name;
 }
 
-bool editor::DirectoryEntry::operator<(const DirectoryEntry& rhs) const
+bool editor::AssetBrowser::Entry::operator<(const Entry& rhs) const
 {
 	if (m_IsDirectory != rhs.m_IsDirectory)
 		return m_IsDirectory;
@@ -136,38 +134,26 @@ void editor::AssetBrowser::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
-	m_Entries.clear();
-	for (const auto& entry : std::filesystem::directory_iterator(m_Directory))
+	Set<core::Hash> directoryHash;
+	for (const auto& entry : std::filesystem::directory_iterator(m_DirectoryPath))
 	{
-		if (!entry.is_directory() && entry.path().extension() != L".asset")
+		const str::Path& path = entry.path();
+		if (!entry.is_directory() && path.extension() != L".asset")
 			break;
 
-		str::Name assetGuid = str::strNullGuid;
-		core::EAssetType assetType = core::EAssetType::Unknown;
+		const str::String name = path.stem().u8string();
+		const core::Hash hash = str::ToHash(name);
+		directoryHash.emplace(hash);
+	}
 
-		if (!entry.is_directory())
-		{
-			// #todo: don't load documents every frame
-			// #fixme: peek files instead of loading the whole thing because texture assets is super slow
-			rapidjson::Document document;
-			json::LoadDocument(entry.path(), document);
+	Set<core::Hash> difference;
+	core::Difference(directoryHash, m_DirectoryHash, difference);
+	core::Difference(m_DirectoryHash, directoryHash, difference);
 
-			const char* asset_guid = json::ParseString(document, "asset_guid", nullptr);
-			const char* asset_type = json::ParseString(document, "asset_type", nullptr);
-
-			assetGuid = NAME(asset_guid);
-			assetType = core::ToAssetType(asset_type);
-		}
-
-		DirectoryEntry directoryEntry =
-		{
-			assetGuid
-			, entry.path()
-			, entry.path().stem().u8string()
-			, assetType
-			, entry.is_directory() 
-		};
-		m_Entries.emplace(std::move(directoryEntry));
+	if (!difference.empty())
+	{
+		m_DirectoryHash = directoryHash;
+		Command_ReloadAll();
 	}
 
 	Render();
@@ -219,12 +205,12 @@ void editor::AssetBrowser::Command_Open()
 {
 	for (const auto& index : m_Selection)
 	{
-		auto entry = m_Entries.begin();
+		auto entry = m_DirectoryEntries.begin();
 		std::advance(entry, index);
 
 		if (entry->m_IsDirectory)
 		{
-			m_Directory = entry->m_Filepath;
+			m_DirectoryPath = entry->m_Filepath;
 		}
 		else
 		{
@@ -240,6 +226,42 @@ void editor::AssetBrowser::Command_Open()
 		}
 	}
 	m_Selection.clear();
+}
+
+void editor::AssetBrowser::Command_ReloadAll()
+{
+	m_DirectoryEntries.clear();
+	for (const auto& entry : std::filesystem::directory_iterator(m_DirectoryPath))
+	{
+		const str::Path& path = entry.path();
+		const str::String name = path.stem().u8string();
+		if (!entry.is_directory() && path.extension() != L".asset")
+			break;
+
+		str::Name guid = str::strNullGuid;
+		core::EAssetType type = core::EAssetType::Unknown;
+		if (!entry.is_directory())
+		{
+			rapidjson::Document document;
+			json::LoadDocument(entry.path(), document);
+
+			const char* asset_guid = json::ParseString(document, "asset_guid", nullptr);
+			const char* asset_type = json::ParseString(document, "asset_type", nullptr);
+
+			guid = NAME(asset_guid);
+			type = core::ToAssetType(asset_type);
+		}
+
+		Entry directoryEntry =
+		{
+			guid
+			, path
+			, name
+			, type
+			, entry.is_directory()
+		};
+		m_DirectoryEntries.emplace(std::move(directoryEntry));
+	}
 }
 
 void editor::AssetBrowser::Command_Select(const int32 index)
@@ -281,7 +303,7 @@ void editor::AssetBrowser::ContextMenu_Sprite(const Selection& selection)
 			render::FlipbookAsset& flipbookAsset = flipbookHandle.get();
 			for (const int32& index : selection)
 			{
-				auto entry = m_Entries.begin();
+				auto entry = m_DirectoryEntries.begin();
 				std::advance(entry, index);
 
 				render::SpriteHandle spriteHandle = m_AssetManager.LoadAsset<render::SpriteAsset>(entry->m_Guid);
@@ -296,7 +318,7 @@ void editor::AssetBrowser::ContextMenu_Texture(const Selection& selection)
 	ImGui::TextDisabled("Texture Actions");
 	if (ImGui::MenuItem("Extract Sprites..."))
 	{
-		auto entry = m_Entries.begin();
+		auto entry = m_DirectoryEntries.begin();
 		std::advance(entry, m_Selection[0]);
 		m_SpriteExtractor.OpenDialog(entry->m_Guid);
 	}
@@ -311,13 +333,13 @@ void editor::AssetBrowser::Render()
 	{
 		Render_MenuBar();
 
-		if (ImGui::ImageButton(*iconBack, { 16.f, 16.f }) && !m_Directory.parent_path().empty())
-			m_Directory = m_Directory.parent_path();
+		if (ImGui::ImageButton(*iconBack, { 16.f, 16.f }) && !m_DirectoryPath.parent_path().empty())
+			m_DirectoryPath = m_DirectoryPath.parent_path();
 
 		ImGui::SameLine();
 
 		ImGui::SetWindowFontScale(1.5f);
-		ImGui::Text(m_Directory.string().c_str());
+		ImGui::Text(m_DirectoryPath.string().c_str());
 		ImGui::SetWindowFontScale(1.f);
 
 		ImGui::Separator();
@@ -335,7 +357,7 @@ void editor::AssetBrowser::Render()
 			ImGui::Separator();
 			ImGui::TableNextRow();
 
-			for (int32 index = 0; index < m_Entries.size(); ++index)
+			for (int32 index = 0; index < m_DirectoryEntries.size(); ++index)
 			{
 				ImGui::TableSetColumnIndex(0);
 				Render_Entry(index);
@@ -359,7 +381,7 @@ void editor::AssetBrowser::Render_ContextMenu()
 		core::EAssetType assetType = core::EAssetType::Unknown;
 		for (const auto& index : m_Selection)
 		{
-			auto entry = m_Entries.begin();
+			auto entry = m_DirectoryEntries.begin();
 			std::advance(entry, index);
 
 			if (assetType != core::EAssetType::Unknown && entry->m_Type != assetType)
@@ -406,7 +428,7 @@ void editor::AssetBrowser::Render_ContextMenu()
 
 void editor::AssetBrowser::Render_Entry(const int32 index)
 {
-	auto entry = m_Entries.begin();
+	auto entry = m_DirectoryEntries.begin();
 	std::advance(entry, index);
 
 	const ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;

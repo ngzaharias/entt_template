@@ -1,9 +1,9 @@
 #pragma once
 
-#include <entt/core/hashed_string.hpp>
+#include <Engine/Hash.h>
 
 namespace core
 {
-	const entt::hashed_string strInspector = "Inspector"_hs;
-	const entt::hashed_string strPrettyName = "PrettyName"_hs;
+	const core::Hash strInspector = "Inspector"_hs;
+	const core::Hash strPrettyName = "PrettyName"_hs;
 }
