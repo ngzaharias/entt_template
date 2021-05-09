@@ -273,7 +273,11 @@ namespace refl
             return {};
         }
 
-        /**
+#ifdef __INTELLISENSE__
+#pragma diag_suppress 28
+#endif // __INTELLISENSE__
+
+		/**
          * Creates an instance of const_string<N>
          *
          * @see refl::util::const_string
