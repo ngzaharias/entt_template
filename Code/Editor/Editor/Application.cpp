@@ -20,7 +20,9 @@
 #include <Engine/FlipbookComponent.h>
 #include <Engine/LevelSystem.h>
 #include <Engine/NameComponent.h>
+#include <Engine/PhysicsSystem.h>
 #include <Engine/Screen.h>
+#include <Engine/SoundSystem.h>
 #include <Engine/SpriteComponent.h>
 #include <Engine/TextureAsset.h>
 #include <Engine/TransformComponent.h>
@@ -77,7 +79,8 @@ void editor::Application::Register()
 		);
 	m_EntityWorld.RegisterSystem<editor::MainMenuBar>
 		(
-			m_EntityWorld.GetSystem<editor::AssetBrowser>()
+			m_EntityWorld.GetSystem<audio::SoundSystem>()
+			, m_EntityWorld.GetSystem<editor::AssetBrowser>()
 			, m_EntityWorld.GetSystem<editor::EntityBrowser>()
 			, m_EntityWorld.GetSystem<editor::Historian>()
 			, m_EntityWorld.GetSystem<editor::Inspector>()
@@ -87,6 +90,9 @@ void editor::Application::Register()
 void editor::Application::Initialise()
 {
 	core::Application::Initialise();
+
+	physics::PhysicsSystem& physicsSystem = m_EntityWorld.GetSystem<physics::PhysicsSystem>();
+	entt::sink(physicsSystem.m_OnCollideSignal).connect<&editor::Application::PlaySound>(this);
 
 	core::LevelSystem& levelSystem = m_EntityWorld.GetSystem<core::LevelSystem>();
 	levelSystem.Load(str::Path("Assets/Levels/Default/"));
@@ -138,4 +144,9 @@ void editor::Application::Update(const core::GameTime& gameTime)
 void editor::Application::Destroy()
 {
 	return core::Application::Destroy();
+}
+
+void editor::Application::PlaySound()
+{
+	m_EntityWorld.GetSystem<audio::SoundSystem>().PlaySound(strDefaultSound);
 }

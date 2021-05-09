@@ -5,17 +5,18 @@
 #include "Engine/AssetManager.h"
 #include "Engine/AssetTypes.h"
 #include "Engine/JsonHelpers.h"
+#include "Engine/JsonTypes.h"
 #include "Engine/SpriteAsset.h"
 
 bool render::FlipbookLoader::save(const FlipbookAsset& asset, const core::AssetEntry& entry) const
 {
 	static const char* s_AssetType = core::ToAssetType(core::EAssetType::Flipbook);
 
-	rapidjson::Document document;
-	rapidjson::Value asset_guid;
-	rapidjson::Value asset_type;
-	rapidjson::Value fps;
-	rapidjson::Value frames;
+	json::Document document;
+	json::Object asset_guid;
+	json::Object asset_type;
+	json::Object fps;
+	json::Object frames;
 	auto& allocator = document.GetAllocator();
 
 	document.SetObject();

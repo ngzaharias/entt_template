@@ -5,6 +5,8 @@
 #include "Engine/FileHelpers.h"
 #include "Engine/JsonHelpers.h"
 
+// #todo: source_file should be a relative path
+
 bool audio::SoundLoader::Import(const str::Path& inputPath, const str::Path& outputPath) const
 {
 	str::String AssetGuid = str::GenerateGUID();

@@ -2,6 +2,11 @@
 
 #include <Engine/System.h>
 
+namespace audio
+{
+	class SoundSystem;
+}
+
 namespace editor
 {
 	class AssetBrowser;
@@ -15,7 +20,8 @@ namespace editor
 	public:
 		MainMenuBar
 		(
-			editor::AssetBrowser& assetBrowser
+			audio::SoundSystem& soundSystem
+			, editor::AssetBrowser& assetBrowser
 			, editor::EntityBrowser& entityBrowser
 			, editor::Historian& historian
 			, editor::Inspector& inspector
@@ -29,6 +35,7 @@ namespace editor
 		void Render();
 
 	private:
+		audio::SoundSystem& m_SoundSystem;
 		editor::AssetBrowser& m_AssetBrowser;
 		editor::EntityBrowser& m_EntityBrowser;
 		editor::Historian& m_Historian;

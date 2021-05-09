@@ -3,6 +3,9 @@
 
 #include <random>
 
+// #todo: move functions like ToUpper/TrimLeft into the string class
+// and replace the implementations here with a return value.
+
 namespace
 {
 	std::mt19937_64 s_MT = std::mt19937_64(std::random_device{}());

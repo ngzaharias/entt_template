@@ -2,11 +2,11 @@
 
 #include <Engine/AssetHandle.h>
 #include <Engine/AssetTypes.h>
-#include <Engine/EntityTemplateAsset.h>
 #include <Engine/FlipbookAsset.h>
 #include <Engine/PhysicsMaterialAsset.h>
 #include <Engine/SoundAsset.h>
 #include <Engine/SpriteAsset.h>
+#include <Engine/TemplateAsset.h>
 #include <Engine/TextureAsset.h>
 
 namespace editor
@@ -57,19 +57,19 @@ namespace core
 		void SaveAsset(const render::SpriteAsset& asset);
 
 		template<class Type>
-		core::AssetHandle<Type> LoadAsset(const str::Name& guid);
+		core::AssetHandle<Type> LoadAsset(const str::Guid& guid);
 		template<>
-		core::EntityTemplateHandle LoadAsset<core::EntityTemplateAsset>(const str::Name& guid);
+		render::FlipbookHandle LoadAsset<render::FlipbookAsset>(const str::Guid& guid);
 		template<>
-		render::FlipbookHandle LoadAsset<render::FlipbookAsset>(const str::Name& guid);
+		physics::MaterialHandle LoadAsset<physics::MaterialAsset>(const str::Guid& guid);
 		template<>
-		physics::MaterialHandle LoadAsset<physics::MaterialAsset>(const str::Name& guid);
+		audio::SoundHandle LoadAsset<audio::SoundAsset>(const str::Guid& guid);
 		template<>
-		audio::SoundHandle LoadAsset<audio::SoundAsset>(const str::Name& guid);
+		render::SpriteHandle LoadAsset<render::SpriteAsset>(const str::Guid& guid);
 		template<>
-		render::SpriteHandle LoadAsset<render::SpriteAsset>(const str::Name& guid);
+		core::TemplateHandle LoadAsset<core::TemplateAsset>(const str::Guid& guid);
 		template<>
-		render::TextureHandle LoadAsset<render::TextureAsset>(const str::Name& guid);
+		render::TextureHandle LoadAsset<render::TextureAsset>(const str::Guid& guid);
 
 	private:
 		void LoadFilepath(const str::Path& filepath, const bool isSearchingSubdirectories);
@@ -79,11 +79,11 @@ namespace core
 
 		core::AssetEntryMap m_AssetEntryMap;
 
-		core::EntityTemplateCache m_EntityTemplateCache;
 		render::FlipbookCache m_FlipbookCache;
 		physics::MaterialCache m_PhysicsMaterialCache;
 		audio::SoundCache m_SoundCache;
 		render::SpriteCache m_SpriteCache;
+		core::TemplateCache m_TemplateCache;
 		render::TextureCache m_TextureCache;
 	};
 }

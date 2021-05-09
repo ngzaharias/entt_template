@@ -400,9 +400,6 @@ void editor::AssetBrowser::Render_ContextMenu()
 		{
 			switch (assetType)
 			{
-			case core::EAssetType::EntityTemplate:
-				ImGui::TextDisabled("Template Actions");
-				break;
 			case core::EAssetType::Flipbook:
 				ImGui::TextDisabled("Flipbook Actions");
 				break;
@@ -414,6 +411,9 @@ void editor::AssetBrowser::Render_ContextMenu()
 				break;
 			case core::EAssetType::Sprite:
 				ContextMenu_Sprite(m_Selection);
+				break;
+			case core::EAssetType::Template:
+				ImGui::TextDisabled("Template Actions");
 				break;
 			case core::EAssetType::Texture:
 				ContextMenu_Texture(m_Selection);

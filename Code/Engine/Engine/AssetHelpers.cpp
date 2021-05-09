@@ -6,8 +6,6 @@
 
 core::EAssetType core::ToAssetType(const str::StringView& string)
 {
-	if (str::Equals(string, "entity_template"))
-		return core::EAssetType::EntityTemplate;
 	if (str::Equals(string, "flipbook"))
 		return core::EAssetType::Flipbook;
 	if (str::Equals(string, "physics_material"))
@@ -16,6 +14,8 @@ core::EAssetType core::ToAssetType(const str::StringView& string)
 		return core::EAssetType::Sound;
 	if (str::Equals(string, "sprite"))
 		return core::EAssetType::Sprite;
+	if (str::Equals(string, "template"))
+		return core::EAssetType::Template;
 	if (str::Equals(string, "texture"))
 		return core::EAssetType::Texture;
 
@@ -27,8 +27,6 @@ const char* core::ToAssetType(core::EAssetType type)
 {
 	switch (type)
 	{
-	case core::EAssetType::EntityTemplate:
-		return "entity_template";
 	case core::EAssetType::Flipbook:
 		return "flipbook";
 	case core::EAssetType::PhysicsMaterial:
@@ -37,6 +35,8 @@ const char* core::ToAssetType(core::EAssetType type)
 		return "sound";
 	case core::EAssetType::Sprite:
 		return "sprite";
+	case core::EAssetType::Template:
+		return "template";
 	case core::EAssetType::Texture:
 		return "texture";
 	}

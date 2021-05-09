@@ -6,6 +6,8 @@
 #include "Editor/Historian.h"
 #include "Editor/Inspector.h"
 
+#include <Engine/SoundSystem.h>
+
 #include <imgui/imgui.h>
 
 namespace
@@ -25,12 +27,14 @@ namespace
 
 editor::MainMenuBar::MainMenuBar
 (
-	editor::AssetBrowser& assetBrowser
+	audio::SoundSystem& soundSystem
+	, editor::AssetBrowser& assetBrowser
 	, editor::EntityBrowser& entityBrowser
 	, editor::Historian& historian
 	, editor::Inspector& inspector
 )
-	: m_AssetBrowser(assetBrowser)
+	: m_SoundSystem(soundSystem)
+	, m_AssetBrowser(assetBrowser)
 	, m_EntityBrowser(entityBrowser)
 	, m_Historian(historian)
 	, m_Inspector(inspector)
@@ -88,6 +92,15 @@ void editor::MainMenuBar::Render()
 
 			ImGui::TextDisabled("Configuration");
 			ImGui::MenuItem("Settings", nullptr, false, false);
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Audio"))
+		{
+			float volume = m_SoundSystem.GetVolume();
+			ImGui::SliderFloat("Volume", &volume, 0.f, 100.f, "%.0f");
+			m_SoundSystem.SetVolume(volume);
 
 			ImGui::EndMenu();
 		}

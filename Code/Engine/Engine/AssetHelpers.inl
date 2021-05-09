@@ -6,6 +6,6 @@
 template<class Type>
 core::EAssetType core::ToAssetType()
 {
-	constexpr entt::id_type typeId = entt::type_info<Type>::id();
+	constexpr core::TypeId typeId = core::ToTypeId<Type>();
 	return static_cast<core::EAssetType>(typeId);
 }

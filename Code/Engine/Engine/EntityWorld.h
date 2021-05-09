@@ -10,15 +10,13 @@ namespace ecs
 
 	struct ComponentEntry
 	{
-		using TypeId = entt::id_type;
-		const TypeId m_TypeId = 0;
+		const core::TypeId m_TypeId = 0;
 	};
 
 	struct SystemEntry
 	{
-		using TypeId = entt::id_type;
-		const TypeId m_TypeId = 0;
-		System* m_System;
+		const core::TypeId m_TypeId = 0;
+		ecs::System* m_System;
 	};
 
 	class EntityWorld final

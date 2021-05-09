@@ -53,25 +53,14 @@ void core::AssetManager::ImportAsset<render::TextureAsset>(const str::Path& inpu
 }
 
 template<class Type>
-core::AssetHandle<Type> core::AssetManager::LoadAsset(const str::Name& guid)
+core::AssetHandle<Type> core::AssetManager::LoadAsset(const str::Guid& guid)
 {
 	static_assert(false, "Can't Load an asset of Type!");
 	return nullptr;
 }
 
 template<>
-core::EntityTemplateHandle core::AssetManager::LoadAsset<core::EntityTemplateAsset>(const str::Name& guid)
-{
-	const auto find = m_AssetEntryMap.find(guid);
-	if (find == m_AssetEntryMap.end())
-		return { };
-
-	const core::AssetEntry& assetEntry = find->second;
-	return m_EntityTemplateCache.load<core::EntityTemplateLoader>(guid.ToHash(), assetEntry);
-}
-
-template<>
-render::FlipbookHandle core::AssetManager::LoadAsset<render::FlipbookAsset>(const str::Name& guid)
+render::FlipbookHandle core::AssetManager::LoadAsset<render::FlipbookAsset>(const str::Guid& guid)
 {
 	const auto find = m_AssetEntryMap.find(guid);
 	if (find == m_AssetEntryMap.end())
@@ -82,7 +71,7 @@ render::FlipbookHandle core::AssetManager::LoadAsset<render::FlipbookAsset>(cons
 }
 
 template<>
-physics::MaterialHandle core::AssetManager::LoadAsset<physics::MaterialAsset>(const str::Name& guid)
+physics::MaterialHandle core::AssetManager::LoadAsset<physics::MaterialAsset>(const str::Guid& guid)
 {
 	const auto find = m_AssetEntryMap.find(guid);
 	if (find == m_AssetEntryMap.end())
@@ -93,7 +82,7 @@ physics::MaterialHandle core::AssetManager::LoadAsset<physics::MaterialAsset>(co
 }
 
 template<>
-audio::SoundHandle core::AssetManager::LoadAsset<audio::SoundAsset>(const str::Name& guid)
+audio::SoundHandle core::AssetManager::LoadAsset<audio::SoundAsset>(const str::Guid& guid)
 {
 	const auto find = m_AssetEntryMap.find(guid);
 	if (find == m_AssetEntryMap.end())
@@ -104,7 +93,7 @@ audio::SoundHandle core::AssetManager::LoadAsset<audio::SoundAsset>(const str::N
 }
 
 template<>
-render::SpriteHandle core::AssetManager::LoadAsset<render::SpriteAsset>(const str::Name& guid)
+render::SpriteHandle core::AssetManager::LoadAsset<render::SpriteAsset>(const str::Guid& guid)
 {
 	const auto find = m_AssetEntryMap.find(guid);
 	if (find == m_AssetEntryMap.end())
@@ -115,7 +104,18 @@ render::SpriteHandle core::AssetManager::LoadAsset<render::SpriteAsset>(const st
 }
 
 template<>
-render::TextureHandle core::AssetManager::LoadAsset<render::TextureAsset>(const str::Name& guid)
+core::TemplateHandle core::AssetManager::LoadAsset<core::TemplateAsset>(const str::Guid& guid)
+{
+	const auto find = m_AssetEntryMap.find(guid);
+	if (find == m_AssetEntryMap.end())
+		return { };
+
+	const core::AssetEntry& assetEntry = find->second;
+	return m_TemplateCache.load<core::TemplateLoader>(guid.ToHash(), assetEntry);
+}
+
+template<>
+render::TextureHandle core::AssetManager::LoadAsset<render::TextureAsset>(const str::Guid& guid)
 {
 	const auto find = m_AssetEntryMap.find(guid);
 	if (find == m_AssetEntryMap.end())

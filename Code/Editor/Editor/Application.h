@@ -15,5 +15,7 @@ namespace editor
 		void Initialise() override;
 		void Update(const core::GameTime& gameTime) override;
 		void Destroy() override;
+
+		void PlaySound();
 	};
 }

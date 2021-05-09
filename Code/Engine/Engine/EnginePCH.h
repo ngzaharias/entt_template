@@ -15,6 +15,7 @@
 
 #include "Engine/Algorithms.h"
 #include "Engine/Array.h"
+#include "Engine/Guid.h"
 #include "Engine/Hash.h"
 #include "Engine/Map.h"
 #include "Engine/MathHelpers.h"

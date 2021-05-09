@@ -16,16 +16,11 @@ namespace sf
 	class Time;
 }
 
-namespace str
-{
-	class Name;
-}
-
 namespace audio
 {
 	struct Request
 	{
-		const str::Name& m_Name;
+		const str::Guid& m_Guid;
 	};
 
 	class SoundSystem final : public ecs::System
@@ -39,12 +34,17 @@ namespace audio
 
 		void Update(const core::GameTime& gameTime) override;
 
-		void PlaySound(const str::Name& name);
+		void PlaySound(const str::Guid& guid);
+
+		float GetVolume() const { return m_Volume; }
+		void SetVolume(float value) { m_Volume = value; }
 
 	private:
 		core::AssetManager& m_AssetManager;
 
 		Array<audio::Request> m_Requests;
 		ObjectPool<sf::Sound, 128> m_SoundPool;
+
+		float m_Volume = 0.f;
 	};
 };

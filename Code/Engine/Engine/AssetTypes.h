@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/TypeId.h>
+
 #include <entt/core/type_info.hpp>
 
 namespace audio
@@ -21,24 +23,24 @@ namespace render
 
 namespace core
 {
-	struct EntityTemplateAsset;
+	struct TemplateAsset;
 
 	enum class EAssetType : entt::id_type
 	{
 		Unknown,
 
-		EntityTemplate		= entt::type_info<core::EntityTemplateAsset>::id(),
-		Flipbook			= entt::type_info<render::FlipbookAsset>::id(),
-		PhysicsMaterial		= entt::type_info<physics::MaterialAsset>::id(),
-		Sound				= entt::type_info<audio::SoundAsset>::id(),
-		Sprite				= entt::type_info<render::SpriteAsset>::id(),
-		Texture				= entt::type_info<render::TextureAsset>::id(),
+		Flipbook			= core::ToTypeId<render::FlipbookAsset>(),
+		PhysicsMaterial		= core::ToTypeId<physics::MaterialAsset>(),
+		Sound				= core::ToTypeId<audio::SoundAsset>(),
+		Sprite				= core::ToTypeId<render::SpriteAsset>(),
+		Template			= core::ToTypeId<core::TemplateAsset>(),
+		Texture				= core::ToTypeId<render::TextureAsset>(),
 	};
 
 	struct AssetEntry
 	{
-		core::EAssetType	m_Type;
-		str::Name			m_Guid;
-		str::Path			m_Filepath;
+		core::EAssetType	m_Type = EAssetType::Unknown;
+		str::Name			m_Guid = { };
+		str::Path			m_Filepath = { };
 	};
 }

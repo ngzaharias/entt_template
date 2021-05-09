@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/TypeId.h>
+
 // #todo: m_ComponentEntries: convert to map
 // #todo: m_ComponentEntries: assert on duplicates
 // #todo: m_SystemEntries: convert to map
@@ -8,7 +10,7 @@
 template<class TSystem>
 TSystem& ecs::EntityWorld::GetSystem() const
 {
-	const SystemEntry::TypeId& typeId = entt::type_info<TSystem>::id();
+	const core::TypeId& typeId = core::ToTypeId<TSystem>();
 
 	const auto first = m_SystemEntries.begin();
 	const auto last = m_SystemEntries.end();
@@ -28,7 +30,7 @@ void ecs::EntityWorld::RegisterComponent()
 
 	ComponentEntry entry =
 	{
-		entt::type_info<TComponent>::id()
+		core::ToTypeId<TComponent>()
 	};
 	m_ComponentEntries.push_back(entry);
 }
@@ -38,7 +40,7 @@ void ecs::EntityWorld::RegisterSystem(TArgs&&... args)
 {
 	SystemEntry entry =
 	{
-		entt::type_info<TSystem>::id()
+		core::ToTypeId<TSystem>()
 		, new TSystem(std::forward<TArgs>(args)...)
 	};
 
