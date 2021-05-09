@@ -16,7 +16,7 @@ namespace editor
 
 		void Update(const core::GameTime& gameTime) override;
 
-		void OpenEditor(const str::Name& guid);
+		void OpenEditor(const str::Guid& guid);
 		void CloseEditor();
 
 	private:

@@ -10,7 +10,7 @@ namespace
 	core::AssetEntry GenerateEntry(const core::EAssetType& type, const str::Path& folder)
 	{
 		core::AssetEntry entry;
-		entry.m_Guid = NAME(str::GenerateGUID());
+		entry.m_Guid = GUID(str::GenerateGUID());
 		entry.m_Filepath = folder;
 		entry.m_Type = type;
 		return entry;
@@ -18,7 +18,7 @@ namespace
 }
 
 template<class Type>
-str::Name core::AssetManager::CreateAsset(const Type& asset, const str::Path& filepath)
+str::Guid core::AssetManager::CreateAsset(const Type& asset, const str::Path& filepath)
 {
 	static_assert(false, "Can't Create an asset of Type!");
 	return str::strNullGuid;

@@ -15,11 +15,11 @@ bool render::TextureLoader::Import(const str::Path& inputPath, const str::Path& 
 	core::LoadFileAsBinary(inputPath, binaryData);
 	rapidjson::SizeType binarySize = static_cast<rapidjson::SizeType>(binaryData.size());
 
-	rapidjson::Document document;
-	rapidjson::Value asset_guid;
-	rapidjson::Value asset_type;
-	rapidjson::Value source_file;
-	rapidjson::Value binary_data;
+	json::Document document;
+	json::Object asset_guid;
+	json::Object asset_type;
+	json::Object source_file;
+	json::Object binary_data;
 
 	document.SetObject();
 	asset_guid.SetString(AssetGuid.c_str(), document.GetAllocator());
@@ -39,7 +39,7 @@ bool render::TextureLoader::Import(const str::Path& inputPath, const str::Path& 
 
 core::AssetPtr<render::TextureAsset> render::TextureLoader::load(const core::AssetEntry& entry) const
 {
-	rapidjson::Document document;
+	json::Document document;
 	json::LoadDocument(entry.m_Filepath, document);
 
 	str::Path sourceFile = json::ParseString(document, "source_file", "");

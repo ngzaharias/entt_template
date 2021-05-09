@@ -30,7 +30,7 @@
 
 namespace
 {
-	str::Name strDefaultMaterial = NAME("a4835493-ae5a-40ba-8083-06deb381c801");
+	str::Guid strDefaultMaterial = GUID("a4835493-ae5a-40ba-8083-06deb381c801");
 }
 
 core::LevelSystem::LevelSystem(
@@ -60,7 +60,7 @@ void core::LevelSystem::Unload()
 
 entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str::Path& filepath)
 {
-	rapidjson::Document document;
+	json::Document document;
 	if (!json::LoadDocument(filepath, document))
 		return entt::null;
 
@@ -122,7 +122,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 
 	//	if (auto itr_texture = itr_flipbook->value.FindMember("texture_guid"); itr_texture != itr_flipbook->value.MemberEnd())
 	//	{
-	//		const str::Name name = NAME(itr_texture->value.GetString());
+	//		const str::Guid name = GUID(itr_texture->value.GetString());
 	//		const render::TextureHandle handle = m_AssetManager.LoadAsset<render::TextureAsset>(name);
 
 	//		flipbook.m_Sprite.setTexture(handle->m_Texture);
@@ -234,7 +234,7 @@ entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str
 
 		if (auto itr_guid = itr_sprite->value.FindMember("guid"); itr_guid != itr_sprite->value.MemberEnd())
 		{
-			const str::Name guid = NAME(itr_guid->value.GetString());
+			const str::Guid guid = GUID(itr_guid->value.GetString());
 			sprite.m_Sprite = m_AssetManager.LoadAsset<render::SpriteAsset>(guid);
 		}
 	}

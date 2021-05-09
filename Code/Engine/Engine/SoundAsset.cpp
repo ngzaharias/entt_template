@@ -15,11 +15,11 @@ bool audio::SoundLoader::Import(const str::Path& inputPath, const str::Path& out
 	core::LoadFileAsBinary(inputPath, binaryData);
 	rapidjson::SizeType binarySize = static_cast<rapidjson::SizeType>(binaryData.size());
 
-	rapidjson::Document document;
-	rapidjson::Value asset_guid;
-	rapidjson::Value asset_type;
-	rapidjson::Value source_file;
-	rapidjson::Value binary_data;
+	json::Document document;
+	json::Object asset_guid;
+	json::Object asset_type;
+	json::Object source_file;
+	json::Object binary_data;
 
 	document.SetObject();
 	asset_guid.SetString(AssetGuid.c_str(), document.GetAllocator());
@@ -39,16 +39,16 @@ bool audio::SoundLoader::Import(const str::Path& inputPath, const str::Path& out
 
 core::AssetPtr<audio::SoundAsset> audio::SoundLoader::load(const core::AssetEntry& entry) const
 {
-	rapidjson::Document document;
+	json::Document document;
 	json::LoadDocument(entry.m_Filepath, document);
 
 	str::Path sourceFile = json::ParseString(document, "source_file", nullptr);
 	json::Binary binaryData = json::ParseBinary(document, "binary_data", json::Binary());
 
-	audio::SoundAsset* Asset = new audio::SoundAsset();
-	Asset->m_Guid = entry.m_Guid;
-	Asset->m_Filepath = entry.m_Filepath;
-	Asset->m_SourceFile = sourceFile;
-	Asset->m_SoundBuffer.loadFromMemory(binaryData.m_Data, binaryData.m_Size);
-	return core::AssetPtr<audio::SoundAsset>(Asset);
+	audio::SoundAsset* asset = new audio::SoundAsset();
+	asset->m_Guid = entry.m_Guid;
+	asset->m_Filepath = entry.m_Filepath;
+	asset->m_SourceFile = sourceFile;
+	asset->m_SoundBuffer.loadFromMemory(binaryData.m_Data, binaryData.m_Size);
+	return core::AssetPtr<audio::SoundAsset>(asset);
 }

@@ -18,7 +18,7 @@ namespace
 {
 	using Key = sf::Keyboard::Key;
 
-	void PrintDocument(const rapidjson::Document& document)
+	void PrintDocument(const json::Document& document)
 	{
 		rapidjson::StringBuffer buffer;
 		rapidjson::PrettyWriter writer(buffer);

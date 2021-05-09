@@ -40,7 +40,7 @@ namespace core
 	struct AssetEntry
 	{
 		core::EAssetType	m_Type = EAssetType::Unknown;
-		str::Name			m_Guid = { };
+		str::Guid			m_Guid = { };
 		str::Path			m_Filepath = { };
 	};
 }

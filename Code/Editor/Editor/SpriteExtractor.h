@@ -30,7 +30,7 @@ namespace editor
 
 		void Update(const core::GameTime& gameTime) override;
 
-		void OpenDialog(const str::Name& guid);
+		void OpenDialog(const str::Guid& guid);
 		void CloseDialog();
 
 	private:

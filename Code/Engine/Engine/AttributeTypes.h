@@ -24,4 +24,5 @@ namespace attr
 	};
 
 	struct Replicated : refl::attr::usage::field { };
+	struct Template : refl::attr::usage::field { };
 }

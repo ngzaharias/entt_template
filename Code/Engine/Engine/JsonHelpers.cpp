@@ -7,7 +7,7 @@
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/prettywriter.h>
 
-bool json::LoadDocument(const str::Path& filepath, rapidjson::Document& document)
+bool json::LoadDocument(const str::Path& filepath, json::Document& document)
 {
 	FILE* file;
 	_wfopen_s(&file, filepath.c_str(), L"r");
@@ -34,7 +34,7 @@ bool json::LoadDocument(const str::Path& filepath, rapidjson::Document& document
 	return true;
 }
 
-bool json::SaveDocument(const str::Path& filepath, rapidjson::Document& document)
+bool json::SaveDocument(const str::Path& filepath, json::Document& document)
 {
 	FILE* file;
 	_wfopen_s(&file, filepath.c_str(), L"w");
@@ -55,7 +55,7 @@ bool json::SaveDocument(const str::Path& filepath, rapidjson::Document& document
 	return result;
 }
 
-bool json::ParseArray(const rapidjson::Value& value, const char* member, const json::Callback& callback)
+bool json::ParseArray(const json::Object& value, const char* member, const json::Callback& callback)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsArray())
@@ -68,7 +68,7 @@ bool json::ParseArray(const rapidjson::Value& value, const char* member, const j
 	return false;
 }
 
-json::Binary json::ParseBinary(const rapidjson::Value& value, const char* member, const json::Binary& _default)
+json::Binary json::ParseBinary(const json::Object& value, const char* member, const json::Binary& _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsString())
@@ -76,7 +76,7 @@ json::Binary json::ParseBinary(const rapidjson::Value& value, const char* member
 	return _default;
 }
 
-bool json::ParseBool(const rapidjson::Value& value, const char* member, const bool _default)
+bool json::ParseBool(const json::Object& value, const char* member, const bool _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsBool())
@@ -84,7 +84,7 @@ bool json::ParseBool(const rapidjson::Value& value, const char* member, const bo
 	return _default;
 }
 
-double json::ParseDouble(const rapidjson::Value& value, const char* member, const double _default)
+double json::ParseDouble(const json::Object& value, const char* member, const double _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsNumber())
@@ -92,7 +92,7 @@ double json::ParseDouble(const rapidjson::Value& value, const char* member, cons
 	return _default;
 }
 
-float json::ParseFloat(const rapidjson::Value& value, const char* member, const float _default)
+float json::ParseFloat(const json::Object& value, const char* member, const float _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsNumber())
@@ -100,7 +100,7 @@ float json::ParseFloat(const rapidjson::Value& value, const char* member, const 
 	return _default;
 }
 
-int32 json::ParseInt(const rapidjson::Value& value, const char* member, const int32 _default)
+int32 json::ParseInt(const json::Object& value, const char* member, const int32 _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsNumber())
@@ -108,7 +108,7 @@ int32 json::ParseInt(const rapidjson::Value& value, const char* member, const in
 	return _default;
 }
 
-uint32 json::ParseUint(const rapidjson::Value& value, const char* member, const uint32 _default)
+uint32 json::ParseUint(const json::Object& value, const char* member, const uint32 _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsNumber())
@@ -116,7 +116,7 @@ uint32 json::ParseUint(const rapidjson::Value& value, const char* member, const 
 	return _default;
 }
 
-const char* json::ParseString(const rapidjson::Value& value, const char* member, const char* _default)
+str::String json::ParseString(const json::Object& value, const char* member, const str::String& _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd() && itr->value.IsString())
@@ -124,7 +124,7 @@ const char* json::ParseString(const rapidjson::Value& value, const char* member,
 	return _default;
 }
 
-void json::PrintMembers(const rapidjson::Value& value)
+void json::PrintMembers(const json::Object& value)
 {
 	for (auto iter = value.MemberBegin(); iter != value.MemberEnd(); ++iter)
 		printf("\"%s\" : \"%s\"\n", iter->name.GetString(), iter->value.GetString());

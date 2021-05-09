@@ -71,7 +71,7 @@ void editor::SpriteExtractor::Update(const core::GameTime& gameTime)
 	Render();
 }
 
-void editor::SpriteExtractor::OpenDialog(const str::Name& guid)
+void editor::SpriteExtractor::OpenDialog(const str::Guid& guid)
 {
 	core::AssetManager& assetManager = core::AssetManager::Instance();
 	m_Texture = assetManager.LoadAsset<render::TextureAsset>(guid);

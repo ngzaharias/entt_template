@@ -26,16 +26,16 @@ bool render::FlipbookLoader::save(const FlipbookAsset& asset, const core::AssetE
 	frames.SetArray();
 	for (const render::FlipbookFrame& value : asset.m_Frames)
 	{
-		str::Name spriteGuid = str::strNullGuid;
+		str::Guid spriteGuid = str::strNullGuid;
 		if (value.m_Sprite)
 		{
 			const render::SpriteAsset& sprite = value.m_Sprite.get();
 			spriteGuid = sprite.m_Guid;
 		}
 
-		rapidjson::Value frame;
-		rapidjson::Value frame_count;
-		rapidjson::Value sprite_guid;
+		json::Object frame;
+		json::Object frame_count;
+		json::Object sprite_guid;
 		frame.SetObject();
 		frame_count.SetInt(value.m_FrameCount);
 		sprite_guid.SetString(spriteGuid.ToChar(), allocator);
@@ -55,17 +55,17 @@ bool render::FlipbookLoader::save(const FlipbookAsset& asset, const core::AssetE
 
 core::AssetPtr<render::FlipbookAsset> render::FlipbookLoader::load(const core::AssetEntry& entry) const
 {
-	rapidjson::Document document;
+	json::Document document;
 	json::LoadDocument(entry.m_Filepath, document);
 
 	render::FlipbookAsset* asset = new render::FlipbookAsset();
 	asset->m_Guid = entry.m_Guid;
 	asset->m_Filepath = entry.m_Filepath;
 	asset->m_FPS = json::ParseFloat(document, "fps", 30);
-	json::ParseArray(document, "frames", [&asset](const rapidjson::Value& child)
+	json::ParseArray(document, "frames", [&asset](const json::Object& child)
 	{
-		const char* sprite_guid = json::ParseString(child, "sprite_guid", str::strNullGuid.ToChar());
-		const str::Name spriteGuid = NAME(sprite_guid);
+		const str::String sprite_guid = json::ParseString(child, "sprite_guid", str::strNullGuid.ToChar());
+		const str::Guid spriteGuid = GUID(sprite_guid);
 
 		render::FlipbookFrame frame;
 		frame.m_FrameCount = json::ParseInt(child, "frame_count", 1);

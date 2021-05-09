@@ -21,7 +21,7 @@ namespace physics
 
 namespace core
 {
-	using AssetEntryMap = Map<str::Name, AssetEntry>;
+	using AssetEntryMap = Map<str::Guid, AssetEntry>;
 	
 	class AssetManager final
 	{
@@ -39,10 +39,10 @@ namespace core
 		const AssetEntryMap& GetEntries() const { return m_AssetEntryMap; }
 
 		template<class Type>
-		str::Name CreateAsset(const Type& asset, const str::Path& filepath);
-		str::Name CreateAsset(const render::FlipbookAsset& asset, const str::Path& filepath);
-		str::Name CreateAsset(const physics::MaterialAsset& asset, const str::Path& filepath);
-		str::Name CreateAsset(const render::SpriteAsset& asset, const str::Path& filepath);
+		str::Guid CreateAsset(const Type& asset, const str::Path& filepath);
+		str::Guid CreateAsset(const render::FlipbookAsset& asset, const str::Path& filepath);
+		str::Guid CreateAsset(const physics::MaterialAsset& asset, const str::Path& filepath);
+		str::Guid CreateAsset(const render::SpriteAsset& asset, const str::Path& filepath);
 
 		template<class Type>
 		void ImportAsset(const str::Path& inputPath, const str::Path& outputPath);

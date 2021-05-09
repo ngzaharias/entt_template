@@ -79,7 +79,7 @@ void editor::FlipbookEditor::Update(const core::GameTime& gameTime)
 	}
 }
 
-void editor::FlipbookEditor::OpenEditor(const str::Name& guid)
+void editor::FlipbookEditor::OpenEditor(const str::Guid& guid)
 {
 	m_Guid = guid;
 }

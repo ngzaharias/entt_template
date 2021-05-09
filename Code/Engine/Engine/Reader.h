@@ -1,15 +1,12 @@
 #pragma once
 
-#include <rapidjson/document.h>
+#include <Engine/JsonTypes.h>
 
 namespace serialize
 {
 	class Reader final
 	{
-		using Document = rapidjson::Document;
-
 	public:
-
 		Reader(const char* data);
 
 		template<typename Type>
@@ -41,7 +38,7 @@ namespace serialize
 		void Visit(Vector3i& value);
 
 	private:
-		Document m_Document = { };
+		json::Document m_Document = { };
 		int32 m_Index = 0;
 	};
 }

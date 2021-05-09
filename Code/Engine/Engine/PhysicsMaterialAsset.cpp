@@ -13,12 +13,12 @@ bool physics::MaterialLoader::save(const MaterialAsset& asset, const core::Asset
 {
 	static const char* s_AssetType = core::ToAssetType(core::EAssetType::PhysicsMaterial);
 
-	rapidjson::Document document;
-	rapidjson::Value asset_guid;
-	rapidjson::Value asset_type;
-	rapidjson::Value static_friction;
-	rapidjson::Value dynamic_friction;
-	rapidjson::Value restituation;
+	json::Document document;
+	json::Object asset_guid;
+	json::Object asset_type;
+	json::Object static_friction;
+	json::Object dynamic_friction;
+	json::Object restituation;
 
 	document.SetObject();
 	asset_guid.SetString(entry.m_Guid.ToChar(), document.GetAllocator());
@@ -40,7 +40,7 @@ core::AssetPtr<physics::MaterialAsset> physics::MaterialLoader::load(const core:
 {
 	physx::PxPhysics& physics = physicsManager.GetPhysics();
 
-	rapidjson::Document document;
+	json::Document document;
 	json::LoadDocument(entry.m_Filepath, document);
 
 	const float static_friction = json::ParseFloat(document, "static_friction", 0.f);

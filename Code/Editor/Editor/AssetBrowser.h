@@ -26,7 +26,7 @@ namespace editor
 			bool operator==(const Entry& rhs) const;
 			bool operator<(const Entry& rhs) const;
 
-			str::Name m_Guid;
+			str::Guid m_Guid;
 			str::Path m_Filepath;
 			str::String m_Name;
 			core::EAssetType m_Type;

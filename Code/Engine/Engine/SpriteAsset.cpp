@@ -10,21 +10,21 @@ bool render::SpriteLoader::save(const render::SpriteAsset& asset, const core::As
 {
 	static const char* s_AssetType = core::ToAssetType(core::EAssetType::Sprite);
 
-	str::Name textureGuid = str::strNullGuid;
+	str::Guid textureGuid = str::strNullGuid;
 	if (asset.m_Texture)
 	{
 		const render::TextureAsset& textureAsset = asset.m_Texture.get();
 		textureGuid = textureAsset.m_Guid;
 	}
 
-	rapidjson::Document document;
-	rapidjson::Value asset_guid;
-	rapidjson::Value asset_type;
-	rapidjson::Value texture_guid;
-	rapidjson::Value rectangle_left;
-	rapidjson::Value rectangle_top;
-	rapidjson::Value rectangle_width;
-	rapidjson::Value rectangle_height;
+	json::Document document;
+	json::Object asset_guid;
+	json::Object asset_type;
+	json::Object texture_guid;
+	json::Object rectangle_left;
+	json::Object rectangle_top;
+	json::Object rectangle_width;
+	json::Object rectangle_height;
 
 	document.SetObject();
 	asset_guid.SetString(entry.m_Guid.ToChar(), document.GetAllocator());
@@ -48,11 +48,11 @@ bool render::SpriteLoader::save(const render::SpriteAsset& asset, const core::As
 
 core::AssetPtr<render::SpriteAsset> render::SpriteLoader::load(const core::AssetEntry& entry) const
 {
-	rapidjson::Document document;
+	json::Document document;
 	json::LoadDocument(entry.m_Filepath, document);
 
-	const char* texture_guid = json::ParseString(document, "texture_guid", str::strNullGuid.ToChar());
-	const str::Name textureGuid = NAME(texture_guid);
+	const str::String texture_guid = json::ParseString(document, "texture_guid", str::strNullGuid.ToChar());
+	const str::Guid textureGuid = GUID(texture_guid);
 
 	render::SpriteAsset* asset = new render::SpriteAsset();
 	asset->m_Guid = entry.m_Guid;

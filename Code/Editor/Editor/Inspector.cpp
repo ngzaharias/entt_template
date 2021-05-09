@@ -25,7 +25,7 @@ namespace editor
 
 	static float s_DividerOffset = 250.f;
 
-	void PrintDocument(const rapidjson::Document& document)
+	void PrintDocument(const json::Document& document)
 	{
 		rapidjson::StringBuffer buffer;
 		rapidjson::PrettyWriter writer(buffer);

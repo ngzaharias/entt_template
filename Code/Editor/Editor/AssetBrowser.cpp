@@ -9,6 +9,7 @@
 #include <Engine/AssetManager.h>
 #include <Engine/FileHelpers.h>
 #include <Engine/JsonHelpers.h>
+#include <Engine/JsonTypes.h>
 #include <Engine/SortHelpers.h>
 
 #include <imgui/imgui.h>
@@ -238,17 +239,17 @@ void editor::AssetBrowser::Command_ReloadAll()
 		if (!entry.is_directory() && path.extension() != L".asset")
 			break;
 
-		str::Name guid = str::strNullGuid;
+		str::Guid guid = str::strNullGuid;
 		core::EAssetType type = core::EAssetType::Unknown;
 		if (!entry.is_directory())
 		{
-			rapidjson::Document document;
+			json::Document document;
 			json::LoadDocument(entry.path(), document);
 
-			const char* asset_guid = json::ParseString(document, "asset_guid", nullptr);
-			const char* asset_type = json::ParseString(document, "asset_type", nullptr);
+			const str::String asset_guid = json::ParseString(document, "asset_guid", { });
+			const str::String asset_type = json::ParseString(document, "asset_type", { });
 
-			guid = NAME(asset_guid);
+			guid = GUID(asset_guid);
 			type = core::ToAssetType(asset_type);
 		}
 
@@ -296,7 +297,7 @@ void editor::AssetBrowser::ContextMenu_Sprite(const Selection& selection)
 	ImGui::TextDisabled("Sprite Actions");
 	if (ImGui::MenuItem("Create Flipbook..."))
 	{
-		const str::Name flipbookGuid = m_AssetManager.CreateAsset(render::FlipbookAsset{}, "Assets\\Example.asset");
+		const str::Guid flipbookGuid = m_AssetManager.CreateAsset(render::FlipbookAsset{}, "Assets\\Example.asset");
 		if (flipbookGuid != str::strNullGuid)
 		{
 			render::FlipbookHandle flipbookHandle = m_AssetManager.LoadAsset<render::FlipbookAsset>(flipbookGuid);

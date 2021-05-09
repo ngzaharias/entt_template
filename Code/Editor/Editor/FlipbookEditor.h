@@ -24,7 +24,7 @@ namespace editor
 
 		void Update(const core::GameTime& gameTime) override;
 
-		void OpenEditor(const str::Name& guid);
+		void OpenEditor(const str::Guid& guid);
 		void CloseEditor();
 
 	private:
@@ -34,6 +34,6 @@ namespace editor
 
 	private:
 		entt::entity m_Entity = entt::null;
-		Nullable<str::Name> m_Guid = { };
+		Nullable<str::Guid> m_Guid = { };
 	};
 }

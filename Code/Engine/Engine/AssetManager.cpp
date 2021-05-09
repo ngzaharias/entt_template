@@ -43,7 +43,7 @@ void core::AssetManager::Destroy()
 	m_TextureCache.clear();
 }
 
-str::Name core::AssetManager::CreateAsset(const render::FlipbookAsset& asset, const str::Path& folderPath)
+str::Guid core::AssetManager::CreateAsset(const render::FlipbookAsset& asset, const str::Path& folderPath)
 {
 	core::AssetEntry entry = GenerateEntry(core::EAssetType::Flipbook, folderPath);
 
@@ -56,7 +56,7 @@ str::Name core::AssetManager::CreateAsset(const render::FlipbookAsset& asset, co
 	return str::strNullGuid;
 }
 
-str::Name core::AssetManager::CreateAsset(const physics::MaterialAsset& asset, const str::Path& folderPath)
+str::Guid core::AssetManager::CreateAsset(const physics::MaterialAsset& asset, const str::Path& folderPath)
 {
 	core::AssetEntry entry = GenerateEntry(core::EAssetType::PhysicsMaterial, folderPath);
 
@@ -69,7 +69,7 @@ str::Name core::AssetManager::CreateAsset(const physics::MaterialAsset& asset, c
 	return str::strNullGuid;
 }
 
-str::Name core::AssetManager::CreateAsset(const render::SpriteAsset& asset, const str::Path& folderPath)
+str::Guid core::AssetManager::CreateAsset(const render::SpriteAsset& asset, const str::Path& folderPath)
 {
 	core::AssetEntry entry = GenerateEntry(core::EAssetType::Sprite, folderPath);
 
@@ -106,14 +106,14 @@ void core::AssetManager::LoadFilepath(const str::Path& filepath, const bool isSe
 	{
 		if (filepath.extension() == s_AssetExtension)
 		{
-			rapidjson::Document document;
+			json::Document document;
 			json::LoadDocument(filepath, document);
 
-			const char* guidString = json::ParseString(document, "asset_guid", nullptr);
-			const char* typeString = json::ParseString(document, "asset_type", nullptr);
+			const str::String asset_guid = json::ParseString(document, "asset_guid", nullptr);
+			const str::String asset_type = json::ParseString(document, "asset_type", nullptr);
 
-			const str::Name guid = NAME(guidString);
-			const core::EAssetType type = core::ToAssetType(typeString);
+			const str::Guid guid = GUID(asset_guid);
+			const core::EAssetType type = core::ToAssetType(asset_type);
 			m_AssetEntryMap.insert({ guid, AssetEntry{ type, guid, filepath } });
 		}
 	}

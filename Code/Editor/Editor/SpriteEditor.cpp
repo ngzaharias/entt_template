@@ -45,7 +45,7 @@ void editor::SpriteEditor::Update(const core::GameTime& gameTime)
 	Render();
 }
 
-void editor::SpriteEditor::OpenEditor(const str::Name& guid)
+void editor::SpriteEditor::OpenEditor(const str::Guid& guid)
 {
 	core::AssetManager& assetManager = core::AssetManager::Instance();
 	m_Sprite = assetManager.LoadAsset<render::SpriteAsset>(guid);

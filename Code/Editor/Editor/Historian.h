@@ -1,12 +1,12 @@
 #pragma once
 
+#include <Engine/JsonTypes.h>
 #include <Engine/RingQueue.h>
 #include <Engine/System.h>
 #include <Engine/TypeList.h>
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
-#include <rapidjson/document.h>
 
 namespace editor
 {
@@ -14,15 +14,12 @@ namespace editor
 
 	struct Record
 	{
-		using Entity = entt::entity;
-		using Document = rapidjson::Document;
-
 		Record() = default;
 		Record(const Record& rhs);
 		void operator=(const Record& rhs) noexcept;
 
-		Entity	 m_Entity = entt::null;
-		Document m_Document = { };
+		entt::entity m_Entity = entt::null;
+		json::Document m_Document = { };
 	};
 
 	class Historian final : public ecs::System

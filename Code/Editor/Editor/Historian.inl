@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/AttributeHelpers.h>
+#include <Engine/JsonTypes.h>
 #include <Engine/VariantHelpers.h>
 
 #include <rapidjson/allocators.h>
@@ -8,9 +9,9 @@
 
 namespace json
 {
-	using Allocator = rapidjson::Document::AllocatorType;
-	using Document = rapidjson::Document;
-	using Object = rapidjson::Value;
+	using Allocator = json::Document::AllocatorType;
+	using Document = json::Document;
+	using Object = json::Object;
 	using Pointer = rapidjson::Pointer;
 }
 

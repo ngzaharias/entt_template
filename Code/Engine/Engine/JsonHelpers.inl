@@ -1,7 +1,7 @@
 #pragma once
 
 template<class TEnum>
-TEnum json::ParseEnum(const rapidjson::Value& value, const char* member, const TEnum _default)
+TEnum json::ParseEnum(const json::Object& value, const char* member, const TEnum _default)
 {
 	const auto itr = value.FindMember(member);
 	if (itr != value.MemberEnd(); itr->value.IsNumber())
