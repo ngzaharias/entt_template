@@ -1,10 +1,10 @@
 #pragma once
 
 #include <Engine/AssetManager.h>
-#include <Engine/EntityWorld.h>
 #include <Engine/GameTime.h>
 #include <Engine/PhysicsManager.h>
 #include <Engine/TypeList.h>
+#include <Engine/World.h>
 
 #include <entt/core/type_info.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -38,7 +38,7 @@ namespace core
 		physics::PhysicsManager m_PhysicsManager;
 
 		// ecs
-		ecs::EntityWorld m_EntityWorld;
+		ecs::World m_World;
 
 		sf::Clock m_Clock;
 		sf::RenderTexture m_RenderTexture;

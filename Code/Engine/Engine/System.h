@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Engine/EntityWorld.h>
 #include <Engine/GameTime.h>
+#include <Engine/World.h>
 
 namespace ecs
 {
 	class System
 	{
-		friend class EntityWorld;
+		friend class ecs::World;
 
 	public:
 		virtual void Initialise() { }
@@ -16,6 +16,6 @@ namespace ecs
 		virtual void Update(const core::GameTime& gameTime) { }
 
 	protected:
-		EntityWorld* m_World = nullptr;
+		ecs::World* m_World = nullptr;
 	};
 }

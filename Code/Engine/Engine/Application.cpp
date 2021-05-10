@@ -3,7 +3,6 @@
 
 #include "Engine/CameraComponent.h"
 #include "Engine/DebugSystem.h"
-#include "Engine/EntityWorld.h"
 #include "Engine/FileHelpers.h"
 #include "Engine/FlipbookSystem.h"
 #include "Engine/InputComponent.h"
@@ -111,28 +110,26 @@ void core::Application::Execute(int argc, char* argv[])
 void core::Application::Register()
 {
 	// components
-	m_EntityWorld.RegisterComponent<core::CameraComponent>();
-	m_EntityWorld.RegisterComponent<core::LevelComponent>();
-	m_EntityWorld.RegisterComponent<core::NameComponent>();
-	m_EntityWorld.RegisterComponent<core::TransformComponent>();
-	m_EntityWorld.RegisterComponent<input::InputComponent>();
-	m_EntityWorld.RegisterComponent<physics::RigidDynamicComponent>();
-	m_EntityWorld.RegisterComponent<physics::RigidStaticComponent>();
-	m_EntityWorld.RegisterComponent<render::SpriteComponent>();
+	m_World.RegisterComponent<core::CameraComponent>();
+	m_World.RegisterComponent<core::LevelComponent>();
+	m_World.RegisterComponent<core::NameComponent>();
+	m_World.RegisterComponent<core::TransformComponent>();
+	m_World.RegisterComponent<input::InputComponent>();
+	m_World.RegisterComponent<physics::RigidDynamicComponent>();
+	m_World.RegisterComponent<physics::RigidStaticComponent>();
+	m_World.RegisterComponent<render::SpriteComponent>();
 
 	// systems
-	m_EntityWorld.RegisterSystem<render::FlipbookSystem>();
-	m_EntityWorld.RegisterSystem<render::RenderSystem>(m_RenderTexture);
-	m_EntityWorld.RegisterSystem<physics::PhysicsSystem>(m_PhysicsManager);
-	m_EntityWorld.RegisterSystem<audio::SoundSystem>(m_AssetManager);
-	m_EntityWorld.RegisterSystem<core::LevelSystem>
-		(
-			m_AssetManager
-			, m_PhysicsManager 
-		);
+	m_World.RegisterSystem<render::FlipbookSystem>();
+	m_World.RegisterSystem<render::RenderSystem>(m_RenderTexture);
+	m_World.RegisterSystem<physics::PhysicsSystem>(m_PhysicsManager);
+	m_World.RegisterSystem<audio::SoundSystem>(m_AssetManager);
+	m_World.RegisterSystem<core::LevelSystem>(
+		m_AssetManager, 
+		m_PhysicsManager);
 
 	// #note: register last
-	m_EntityWorld.RegisterSystem<debug::DebugSystem>(m_RenderTexture);
+	m_World.RegisterSystem<debug::DebugSystem>(m_RenderTexture);
 }
 
 void core::Application::Initialise()
@@ -143,7 +140,7 @@ void core::Application::Initialise()
 
 	// ecs
 	// #note: do after managers
-	m_EntityWorld.Initialise();
+	m_World.Initialise();
 
 	// style
 	{
@@ -179,9 +176,9 @@ void core::Application::Initialise()
 	}
 
 	{
-		entt::entity entity = m_EntityWorld.m_Registry.create();
-		m_EntityWorld.m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
-		m_EntityWorld.m_Registry.emplace<input::InputComponent>(entity);
+		entt::entity entity = m_World.m_Registry.create();
+		m_World.m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
+		m_World.m_Registry.emplace<input::InputComponent>(entity);
 	}
 }
 
@@ -189,12 +186,12 @@ void core::Application::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
-	m_EntityWorld.Update(gameTime);
+	m_World.Update(gameTime);
 }
 
 void core::Application::Destroy()
 {
-	m_EntityWorld.Destroy();
+	m_World.Destroy();
 
 	// managers
 	m_AssetManager.Destroy();

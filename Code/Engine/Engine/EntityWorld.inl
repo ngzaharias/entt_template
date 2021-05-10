@@ -8,7 +8,7 @@
 // #todo: m_SystemEntries: assert on duplicates
 
 template<class TSystem>
-TSystem& ecs::EntityWorld::GetSystem() const
+TSystem& ecs::World::GetSystem() const
 {
 	const core::TypeId& typeId = core::ToTypeId<TSystem>();
 
@@ -24,7 +24,7 @@ TSystem& ecs::EntityWorld::GetSystem() const
 }
 
 template<class TComponent>
-void ecs::EntityWorld::RegisterComponent()
+void ecs::World::RegisterComponent()
 {
 	static_assert(std::is_assignable<TComponent, TComponent>::value, "Component Type isn't assignable!");
 
@@ -36,7 +36,7 @@ void ecs::EntityWorld::RegisterComponent()
 }
 
 template<class TSystem, typename... TArgs>
-void ecs::EntityWorld::RegisterSystem(TArgs&&... args)
+void ecs::World::RegisterSystem(TArgs&&... args)
 {
 	SystemEntry entry =
 	{

@@ -1,7 +1,6 @@
 #include "GamePCH.h"
 #include "Game/Application.h"
 
-#include <Engine/EntityWorld.h>
 #include <Engine/LevelSystem.h>
 #include <Engine/Name.h>
 #include <Engine/PhysicsSystem.h>
@@ -35,10 +34,10 @@ void game::Application::Initialise()
 {
 	core::Application::Initialise();
 
-	physics::PhysicsSystem& physicsSystem = m_EntityWorld.GetSystem<physics::PhysicsSystem>();
+	physics::PhysicsSystem& physicsSystem = m_World.GetSystem<physics::PhysicsSystem>();
 	entt::sink(physicsSystem.m_OnCollideSignal).connect<&game::Application::PlaySound>(this);
 
-	core::LevelSystem& levelSystem = m_EntityWorld.GetSystem<core::LevelSystem>();
+	core::LevelSystem& levelSystem = m_World.GetSystem<core::LevelSystem>();
 	levelSystem.Load(strDefaultLevel);
 }
 
@@ -56,5 +55,5 @@ void game::Application::Destroy()
 
 void game::Application::PlaySound()
 {
-	m_EntityWorld.GetSystem<audio::SoundSystem>().PlaySound(strDefaultSound);
+	m_World.GetSystem<audio::SoundSystem>().PlaySound(strDefaultSound);
 }

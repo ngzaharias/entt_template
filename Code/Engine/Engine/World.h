@@ -19,7 +19,7 @@ namespace ecs
 		ecs::System* m_System;
 	};
 
-	class EntityWorld final
+	class World final
 	{
 	public:
 		void Initialise();
