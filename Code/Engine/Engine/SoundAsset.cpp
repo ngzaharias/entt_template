@@ -42,7 +42,7 @@ core::AssetPtr<audio::SoundAsset> audio::SoundLoader::load(const core::AssetEntr
 	json::Document document;
 	json::LoadDocument(entry.m_Filepath, document);
 
-	str::Path sourceFile = json::ParseString(document, "source_file", nullptr);
+	str::Path sourceFile = json::ParseString(document, "source_file", { });
 	json::Binary binaryData = json::ParseBinary(document, "binary_data", json::Binary());
 
 	audio::SoundAsset* asset = new audio::SoundAsset();

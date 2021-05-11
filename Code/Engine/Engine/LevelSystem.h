@@ -37,7 +37,7 @@ namespace core
 		void Unload();
 
 	private:
-		entt::entity CreateEntity(entt::registry& registry, const str::Path& filepath);
+		ecs::Entity CreateEntity(entt::registry& registry, const str::Path& filepath);
 
 	private:
 		core::AssetManager& m_AssetManager;

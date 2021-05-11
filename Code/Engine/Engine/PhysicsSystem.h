@@ -35,12 +35,12 @@ namespace physics
 		void Destroy() override;
 
 	private:
-		void OnContact(const entt::entity& entityA, const entt::entity& entityB);
-		void OnDestroy_RigidBody(entt::registry& registry, entt::entity entity);
+		void OnContact(const ecs::Entity& entityA, const ecs::Entity& entityB);
+		void OnDestroy_RigidBody(entt::registry& registry, ecs::Entity entity);
 
 	public:
-		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnCollideSignal;
-		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnOverlapSignal;
+		entt::sigh<void(const ecs::Entity&, const ecs::Entity&)> m_OnCollideSignal;
+		entt::sigh<void(const ecs::Entity&, const ecs::Entity&)> m_OnOverlapSignal;
 
 	public:
 		physics::PhysicsManager& m_PhysicsManager;

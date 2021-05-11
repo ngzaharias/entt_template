@@ -18,13 +18,13 @@ namespace editor
 		Record(const Record& rhs);
 		void operator=(const Record& rhs) noexcept;
 
-		entt::entity m_Entity = entt::null;
+		ecs::Entity m_Entity = entt::null;
 		json::Document m_Document = { };
 	};
 
 	class Historian final : public ecs::System
 	{
-		using Database = Map<entt::entity, editor::Record>;
+		using Database = Map<ecs::Entity, editor::Record>;
 		using Records = RingQueue<Record, 50>;
 		using Transactions = Array<Transaction>;
 

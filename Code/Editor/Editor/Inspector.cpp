@@ -2,10 +2,10 @@
 #include "Editor/Inspector.h"
 
 #include "Editor/ComponentList.h"
-#include "Editor/Historian.h"
 #include "Editor/HistorianComponents.h"
 #include "Editor/InspectorTypes.h"
 #include "Editor/InspectorWidgets.h"
+#include "Editor/SceneEditor.h"
 
 #include <Engine/TypeList.h>
 
@@ -35,7 +35,7 @@ namespace editor
 	}
 
 	template<typename Component>
-	void InspectComponent(entt::registry& registry, entt::entity entity, InspectorInfo& info)
+	void InspectComponent(entt::registry& registry, ecs::Entity entity, InspectorInfo& info)
 	{
 		if (Component* component = registry.try_get<Component>(entity))
 		{
@@ -56,7 +56,7 @@ namespace editor
 	}
 
 	template <typename ...Types>
-	void InspectComponents(entt::registry& registry, entt::entity entity, InspectorInfo& info, core::TypeList<Types...> typeList)
+	void InspectComponents(entt::registry& registry, ecs::Entity entity, InspectorInfo& info, core::TypeList<Types...> typeList)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 20.f);
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 8.f, 8.f });
@@ -67,20 +67,11 @@ namespace editor
 	}
 }
 
-editor::Inspector::Inspector(editor::Historian& historian)
+editor::Inspector::Inspector(
+	editor::Historian& historian,
+	editor::SceneEditor& sceneEditor)
 	: m_Historian(historian)
-{
-}
-
-editor::Inspector::~Inspector()
-{
-}
-
-void editor::Inspector::Initialise()
-{
-}
-
-void editor::Inspector::Destroy()
+	, m_SceneEditor(sceneEditor)
 {
 }
 
@@ -90,15 +81,9 @@ void editor::Inspector::Update(const core::GameTime& gameTime)
 
 	auto& registry = m_World->m_Registry;
 
-	m_HasChanged |= !registry.view<editor::RedoEventComponent>().empty();
-	m_HasChanged |= !registry.view<editor::UndoEventComponent>().empty();
 
-	if (m_HasChanged)
 	{
-		m_HasChanged = false;
-		if (registry.valid(m_Entity))
 		{
-			m_Record.m_Entity = m_Entity;
 			m_Historian.CopyToRecord(registry, m_Record, s_ComponentList);
 		}
 	}
@@ -116,7 +101,6 @@ void editor::Inspector::Render()
 	if (ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar))
 	{
 		Render_MenuBar(registry);
-		Render_Selected(registry);
 	}
 	ImGui::End();
 }
@@ -129,16 +113,12 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 	}
 }
 
-void editor::Inspector::Render_Selected(entt::registry& registry)
 {
 	if (ImGui::BeginChild("entity"))
 	{
-		if (registry.valid(m_Entity))
 		{
-			ImGui::PushID(static_cast<int>(m_Entity));
 
 			InspectorInfo info;
-			InspectComponents(registry, m_Entity, info, s_ComponentList);
 
 			if (!info.m_Transactions.empty())
 			{

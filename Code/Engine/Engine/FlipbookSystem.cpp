@@ -25,7 +25,7 @@ void render::FlipbookSystem::Update(const core::GameTime& gameTime)
 	auto& registry = m_World->m_Registry;
 
 	const auto view = registry.view<render::FlipbookComponent>();
-	for (const entt::entity& renderEntity : view)
+	for (const ecs::Entity& renderEntity : view)
 	{
 		auto& flipbookComponent = view.get<render::FlipbookComponent>(renderEntity);
 		if (!flipbookComponent.m_Flipbook)

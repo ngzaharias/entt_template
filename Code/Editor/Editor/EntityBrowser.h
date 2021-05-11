@@ -13,7 +13,7 @@ namespace editor
 		bool operator==(const EntityEntry& rhs) const;
 		bool operator<(const EntityEntry& rhs) const;
 
-		entt::entity m_Entity = entt::null;
+		ecs::Entity m_Entity = entt::null;
 		str::String m_Name = { };
 	};
 

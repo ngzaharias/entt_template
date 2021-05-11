@@ -42,8 +42,8 @@ namespace physics
 		void onWake(physx::PxActor** actors, physx::PxU32 count) override;
 
 	public:
-		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnContactSignal;
-		entt::sigh<void(const entt::entity&, const entt::entity&)> m_OnTriggerSignal;
+		entt::sigh<void(const ecs::Entity&, const ecs::Entity&)> m_OnContactSignal;
+		entt::sigh<void(const ecs::Entity&, const ecs::Entity&)> m_OnTriggerSignal;
 
 	public:
 		physx::PxPhysics* m_Physics = nullptr;

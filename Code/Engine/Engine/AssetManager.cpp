@@ -109,8 +109,8 @@ void core::AssetManager::LoadFilepath(const str::Path& filepath, const bool isSe
 			json::Document document;
 			json::LoadDocument(filepath, document);
 
-			const str::String asset_guid = json::ParseString(document, "asset_guid", nullptr);
-			const str::String asset_type = json::ParseString(document, "asset_type", nullptr);
+			const str::String asset_guid = json::ParseString(document, "asset_guid", { });
+			const str::String asset_type = json::ParseString(document, "asset_type", { });
 
 			const str::Guid guid = GUID(asset_guid);
 			const core::EAssetType type = core::ToAssetType(asset_type);

@@ -42,7 +42,7 @@ void audio::SoundSystem::Update(const core::GameTime& gameTime)
 		if (!handle)
 			continue;
 
-		entt::entity entity = registry.create();
+		ecs::Entity entity = registry.create();
 		auto& name = registry.emplace<core::NameComponent>(entity);
 		auto& sound = registry.emplace<audio::SoundComponent>(entity);
 		auto& transform = registry.emplace<core::TransformComponent>(entity);
@@ -57,7 +57,7 @@ void audio::SoundSystem::Update(const core::GameTime& gameTime)
 	m_Requests.clear();
 
 	const auto view = registry.view<audio::SoundComponent>();
-	for (const entt::entity& entity : view)
+	for (const ecs::Entity& entity : view)
 	{
 		auto& sound = registry.get<audio::SoundComponent>(entity);
 		if (sound.m_Sound->getStatus() == sf::Sound::Stopped)

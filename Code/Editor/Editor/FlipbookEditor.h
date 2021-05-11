@@ -33,7 +33,7 @@ namespace editor
 		void Render_Preview(render::FlipbookComponent& component);
 
 	private:
-		entt::entity m_Entity = entt::null;
+		ecs::Entity m_Entity = entt::null;
 		Nullable<str::Guid> m_Guid = { };
 	};
 }

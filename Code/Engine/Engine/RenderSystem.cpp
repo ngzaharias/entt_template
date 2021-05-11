@@ -31,7 +31,7 @@ void render::RenderSystem::Update(const core::GameTime& /*gameTime*/)
 	auto& registry = m_World->m_Registry;
 
 	const auto cameraView = registry.view<core::CameraComponent, core::TransformComponent>();
-	for (const entt::entity& cameraEntity : cameraView)
+	for (const ecs::Entity& cameraEntity : cameraView)
 	{
 		// camera
 		{
@@ -48,7 +48,7 @@ void render::RenderSystem::Update(const core::GameTime& /*gameTime*/)
 		// sprite
 		{
 			const auto spriteView = registry.view<render::SpriteComponent, core::TransformComponent>();
-			for (const entt::entity& renderEntity : spriteView)
+			for (const ecs::Entity& renderEntity : spriteView)
 			{
 				auto& spriteComponent = spriteView.get<render::SpriteComponent>(renderEntity);
 				auto& transformComponent = spriteView.get<core::TransformComponent>(renderEntity);
@@ -90,7 +90,7 @@ void render::RenderSystem::Update(const core::GameTime& /*gameTime*/)
 		// flipbook
 		{
 			const auto flipbookView = registry.view<render::FlipbookComponent, core::TransformComponent>();
-			for (const entt::entity& renderEntity : flipbookView)
+			for (const ecs::Entity& renderEntity : flipbookView)
 			{
 				auto& flipbookComponent = flipbookView.get<render::FlipbookComponent>(renderEntity);
 				auto& transformComponent = flipbookView.get<core::TransformComponent>(renderEntity);

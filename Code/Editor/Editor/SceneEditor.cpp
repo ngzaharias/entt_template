@@ -1,7 +1,10 @@
 #include "EditorPCH.h"
 #include "Editor/SceneEditor.h"
 
+#include "Editor/HistorianComponents.h"
+
 #include <Engine/Screen.h>
+#include <Engine/TransformComponent.h>
 
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
@@ -15,20 +18,13 @@
 // #todo: multiple windows
 // #todo: dropdown select camera
 
-editor::SceneEditor::SceneEditor(sf::RenderTexture& renderTexture)
+namespace
+{
+}
+
+editor::SceneEditor::SceneEditor(
+	sf::RenderTexture& renderTexture)
 	: m_RenderTexture(renderTexture)
-{
-}
-
-editor::SceneEditor::~SceneEditor()
-{
-}
-
-void editor::SceneEditor::Initialise()
-{
-}
-
-void editor::SceneEditor::Destroy()
 {
 }
 
@@ -53,7 +49,9 @@ void editor::SceneEditor::Render()
 	if (ImGui::Begin("Scene", &m_IsVisible, flags))
 	{
 		if (ImGui::BeginMenuBar())
+		{
 			ImGui::EndMenuBar();
+		}
 
 		// #fixme: update the camera size
 		const Vector2f regionSize = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };

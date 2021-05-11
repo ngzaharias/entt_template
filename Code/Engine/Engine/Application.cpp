@@ -176,7 +176,7 @@ void core::Application::Initialise()
 	}
 
 	{
-		entt::entity entity = m_World.m_Registry.create();
+		ecs::Entity entity = m_World.m_Registry.create();
 		m_World.m_Registry.emplace<core::NameComponent>(entity).m_Name = "Input";
 		m_World.m_Registry.emplace<input::InputComponent>(entity);
 	}

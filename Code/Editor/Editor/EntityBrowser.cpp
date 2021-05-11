@@ -62,7 +62,7 @@ void editor::EntityBrowser::Update(const core::GameTime& gameTime)
 	auto& registry = m_World->m_Registry;
 
 	m_Entries.clear();
-	registry.each([&](const entt::entity& entity)
+	registry.each([&](const ecs::Entity& entity)
 	{
 		const uint32 value = static_cast<uint32>(entity);
 		str::String name;
@@ -127,7 +127,7 @@ void editor::EntityBrowser::Render()
 			ImGui::PushID(static_cast<int32>(entry.m_Entity));
 
 			if (ImGui::Selectable(entry.m_Name.c_str()))
-				m_Inspector.SetEntity(entry.m_Entity);
+				m_Inspector.SetSelection(entry.m_Entity);
 
 			if (ImGui::BeginPopupContextItem(""))
 			{
@@ -144,7 +144,7 @@ void editor::EntityBrowser::Render()
 
 void editor::EntityBrowser::Command_CreateCamera(entt::registry& registry)
 {
-	entt::entity entity = registry.create();
+	ecs::Entity entity = registry.create();
 	registry.emplace<core::CameraComponent>(entity);
 	registry.emplace<core::NameComponent>(entity);
 	registry.emplace<core::TransformComponent>(entity);
@@ -152,14 +152,14 @@ void editor::EntityBrowser::Command_CreateCamera(entt::registry& registry)
 
 void editor::EntityBrowser::Command_CreateEmpty(entt::registry& registry)
 {
-	entt::entity entity = registry.create();
+	ecs::Entity entity = registry.create();
 	registry.emplace<core::NameComponent>(entity);
 	registry.emplace<core::TransformComponent>(entity);
 }
 
 void editor::EntityBrowser::Command_CreateFlipbook(entt::registry& registry)
 {
-	entt::entity entity = registry.create();
+	ecs::Entity entity = registry.create();
 	registry.emplace<core::NameComponent>(entity);
 	registry.emplace<core::TransformComponent>(entity);
 	registry.emplace<render::FlipbookComponent>(entity);
@@ -167,7 +167,7 @@ void editor::EntityBrowser::Command_CreateFlipbook(entt::registry& registry)
 
 void editor::EntityBrowser::Command_CreateSprite(entt::registry& registry)
 {
-	entt::entity entity = registry.create();
+	ecs::Entity entity = registry.create();
 	registry.emplace<core::NameComponent>(entity);
 	registry.emplace<core::TransformComponent>(entity);
 	registry.emplace<render::SpriteComponent>(entity);

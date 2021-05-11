@@ -152,8 +152,8 @@ void physics::PhysicsManager::onConstraintBreak(physx::PxConstraintInfo* constra
 
 void physics::PhysicsManager::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
 {
-	entt::entity entity0 = entt::entity(size_t(pairHeader.actors[0]->userData));
-	entt::entity entity1 = entt::entity(size_t(pairHeader.actors[1]->userData));
+	ecs::Entity entity0 = ecs::Entity(size_t(pairHeader.actors[0]->userData));
+	ecs::Entity entity1 = ecs::Entity(size_t(pairHeader.actors[1]->userData));
 
 	m_OnContactSignal.publish(entity0, entity1);
 }

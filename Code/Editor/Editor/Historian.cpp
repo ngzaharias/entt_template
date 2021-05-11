@@ -61,9 +61,9 @@ void editor::Historian::Update(const core::GameTime& gameTime)
 
 	auto& registry = m_World->m_Registry;
 
-	for (entt::entity entity : registry.view<editor::RedoEventComponent>())
+	for (ecs::Entity entity : registry.view<editor::RedoEventComponent>())
 		registry.destroy(entity);
-	for (entt::entity entity : registry.view<editor::UndoEventComponent>())
+	for (ecs::Entity entity : registry.view<editor::UndoEventComponent>())
 		registry.destroy(entity);
 
 	for (auto& entity : registry.view<input::InputComponent>())
@@ -106,7 +106,7 @@ void editor::Historian::RedoRecord(entt::registry& registry)
 		// pop redo
 		m_RedoRecords.Pop();
 
-		entt::entity entity = registry.create();
+		ecs::Entity entity = registry.create();
 		registry.emplace<editor::RedoEventComponent>(entity);
 	}
 }
@@ -128,7 +128,7 @@ void editor::Historian::UndoRecord(entt::registry& registry)
 		// pop undo
 		m_UndoRecords.Pop();
 
-		entt::entity entity = registry.create();
+		ecs::Entity entity = registry.create();
 		registry.emplace<editor::UndoEventComponent>(entity);
 	}
 }

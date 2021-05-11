@@ -42,7 +42,7 @@ void physics::PhysicsSystem::Destroy()
 {
 	auto& registry = m_World->m_Registry;
 
-	for (const entt::entity& entity : registry.view<physics::RigidDynamicComponent>())
+	for (const ecs::Entity& entity : registry.view<physics::RigidDynamicComponent>())
 	{
 		registry.destroy(entity);
 	}
@@ -68,7 +68,7 @@ void physics::PhysicsSystem::Update(const core::GameTime& gameTime)
 		}
 	}
 
-	for (const entt::entity& entity : registry.view<physics::RigidDynamicComponent, core::TransformComponent>())
+	for (const ecs::Entity& entity : registry.view<physics::RigidDynamicComponent, core::TransformComponent>())
 	{
 		auto& rigidDynamic = registry.get<physics::RigidDynamicComponent>(entity);
 		auto& transform = registry.get<core::TransformComponent>(entity);
@@ -78,12 +78,12 @@ void physics::PhysicsSystem::Update(const core::GameTime& gameTime)
 	}
 }
 
-void physics::PhysicsSystem::OnContact(const entt::entity& entityA, const entt::entity& entityB)
+void physics::PhysicsSystem::OnContact(const ecs::Entity& entityA, const ecs::Entity& entityB)
 {
 	m_OnCollideSignal.publish(entityA, entityB);
 }
 
-void physics::PhysicsSystem::OnDestroy_RigidBody(entt::registry& registry, entt::entity entity)
+void physics::PhysicsSystem::OnDestroy_RigidBody(entt::registry& registry, ecs::Entity entity)
 {
 	auto& rigidDynamic = registry.get<physics::RigidDynamicComponent>(entity);
 

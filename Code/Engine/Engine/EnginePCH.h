@@ -10,11 +10,11 @@
 // - matrix
 // - quaternions
 
-#include <entt/fwd.hpp>
 #include <refl/refl.hpp>
 
 #include "Engine/Algorithms.h"
 #include "Engine/Array.h"
+#include "Engine/Entity.h"
 #include "Engine/Guid.h"
 #include "Engine/Hash.h"
 #include "Engine/Map.h"

@@ -49,7 +49,7 @@ void core::LevelSystem::Update(const core::GameTime& gameTime)
 bool core::LevelSystem::Load(const str::Path& filepath)
 {
 	for (const auto& entry : std::filesystem::directory_iterator(filepath))
-		const entt::entity entity = CreateEntity(m_World->m_Registry, entry.path());
+		const ecs::Entity entity = CreateEntity(m_World->m_Registry, entry.path());
 
 	return true;
 }
@@ -58,13 +58,13 @@ void core::LevelSystem::Unload()
 {
 }
 
-entt::entity core::LevelSystem::CreateEntity(entt::registry& registry, const str::Path& filepath)
+ecs::Entity core::LevelSystem::CreateEntity(entt::registry& registry, const str::Path& filepath)
 {
 	json::Document document;
 	if (!json::LoadDocument(filepath, document))
 		return entt::null;
 
-	const entt::entity entity = registry.create();
+	const ecs::Entity entity = registry.create();
 
 	// level
 	{

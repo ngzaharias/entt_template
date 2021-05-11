@@ -54,28 +54,32 @@ void editor::Application::Register()
 {
 	core::Application::Register();
 
+	// components
 	m_World.RegisterComponent<example::ExampleComponent>();
 
+	// systems
 	m_World.RegisterSystem<editor::Historian>();
 	m_World.RegisterSystem<editor::FlipbookEditor>();
-	m_World.RegisterSystem<editor::SceneEditor>(m_RenderTexture);
+	m_World.RegisterSystem<editor::SceneEditor>(
+		m_RenderTexture);
 	m_World.RegisterSystem<editor::SpriteEditor>();
 	m_World.RegisterSystem<editor::SpriteExtractor>();
 	m_World.RegisterSystem<editor::AssetBrowser>(
-			m_AssetManager,
-			m_World.GetSystem<editor::FlipbookEditor>(),
-			m_World.GetSystem<editor::SpriteEditor>(),
-			m_World.GetSystem<editor::SpriteExtractor>());
+		m_AssetManager,
+		m_World.GetSystem<editor::FlipbookEditor>(),
+		m_World.GetSystem<editor::SpriteEditor>(),
+		m_World.GetSystem<editor::SpriteExtractor>());
 	m_World.RegisterSystem<editor::Inspector>(
-			m_World.GetSystem<editor::Historian>());
+		m_World.GetSystem<editor::Historian>(),
+		m_World.GetSystem<editor::SceneEditor>());
 	m_World.RegisterSystem<editor::EntityBrowser>(
-			m_World.GetSystem<editor::Inspector>());
+		m_World.GetSystem<editor::Inspector>());
 	m_World.RegisterSystem<editor::MainMenuBar>(
-			m_World.GetSystem<audio::SoundSystem>(),
-			m_World.GetSystem<editor::AssetBrowser>(),
-			m_World.GetSystem<editor::EntityBrowser>(),
-			m_World.GetSystem<editor::Historian>(),
-			m_World.GetSystem<editor::Inspector>());
+		m_World.GetSystem<audio::SoundSystem>(),
+		m_World.GetSystem<editor::AssetBrowser>(),
+		m_World.GetSystem<editor::EntityBrowser>(),
+		m_World.GetSystem<editor::Historian>(),
+		m_World.GetSystem<editor::Inspector>());
 }
 
 void editor::Application::Initialise()
@@ -90,7 +94,7 @@ void editor::Application::Initialise()
 
 	// example entity
 	{
-		entt::entity entity = m_World.m_Registry.create();
+		ecs::Entity entity = m_World.m_Registry.create();
 		auto& exampleComponent = m_World.m_Registry.emplace<example::ExampleComponent>(entity);
 		//exampleComponent.m_PhysicsMaterial = m_AssetManager->LoadAsset<physics::MaterialAsset>(strDefaultMaterial);
 		//exampleComponent.m_Sound = m_AssetManager->LoadAsset<audio::SoundAsset>(strDefaultSound);
@@ -101,7 +105,7 @@ void editor::Application::Initialise()
 
 	// flipbook entity
 	{
-		entt::entity entity = m_World.m_Registry.create();
+		ecs::Entity entity = m_World.m_Registry.create();
 		auto& transformComponent = m_World.m_Registry.emplace<core::TransformComponent>(entity);
 		auto& flipbookComponent = m_World.m_Registry.emplace<render::FlipbookComponent>(entity);
 		flipbookComponent.m_Flipbook = m_AssetManager.LoadAsset<render::FlipbookAsset>(strDefaultFlipbook);
@@ -112,7 +116,7 @@ void editor::Application::Initialise()
 
 	// sprite entity
 	{
-		entt::entity entity = m_World.m_Registry.create();
+		ecs::Entity entity = m_World.m_Registry.create();
 		auto& transformComponent = m_World.m_Registry.emplace<core::TransformComponent>(entity);
 		auto& spriteComponent = m_World.m_Registry.emplace<render::SpriteComponent>(entity);
 		spriteComponent.m_Sprite = m_AssetManager.LoadAsset<render::SpriteAsset>(strDefaultSprite);
