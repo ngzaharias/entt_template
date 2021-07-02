@@ -2,7 +2,6 @@
 #include "Engine/PhysicsSystem.h"
 
 #include "Engine/CameraComponent.h"
-#include "Engine/MathHelpers.h"
 #include "Engine/NameComponent.h"
 #include "Engine/PhysicsManager.h"
 #include "Engine/RigidDynamicComponent.h"

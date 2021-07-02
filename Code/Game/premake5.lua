@@ -1,6 +1,6 @@
 project "Game"
 	kind "WindowedApp"
-	dependson { "Engine", "Imgui" }
+	dependson { "Core", "Engine", "Imgui" }
 	pchheader "GamePCH.h"
 	pchsource "Game/GamePCH.cpp"
 	location "%{wks.location}/Projects/Game"
@@ -18,6 +18,7 @@ project "Game"
 		"%{wks.location}/3rdParty/optick/1.3.1/include/",
 		"%{wks.location}/3rdParty/PhysX/Include/",
 		"%{wks.location}/3rdParty/SFML/Include/",
+		"%{wks.location}/Code/Core/",
 		"%{wks.location}/Code/Engine/",
 		"%{wks.location}/Code/Game/",
 		"%{wks.location}/Code/Imgui/",
@@ -29,12 +30,14 @@ project "Game"
 		"%{wks.location}/3rdParty/optick/1.3.1/lib/x64/%{cfg.buildcfg}/",
 		"%{wks.location}/3rdParty/PhysX/Library/%{cfg.buildcfg}/",
 		"%{wks.location}/3rdParty/SFML/Library/%{cfg.buildcfg}/",
+		"%{wks.location}/Build/Core/%{cfg.buildcfg}_%{cfg.platform}/",
 		"%{wks.location}/Build/Engine/%{cfg.buildcfg}_%{cfg.platform}/",
 		"%{wks.location}/Build/Imgui/%{cfg.buildcfg}_%{cfg.platform}/",
 	}
 
 	links 
 	{ 
+		"Core.lib",
 		"Engine.lib",
 		"Imgui.lib",
 

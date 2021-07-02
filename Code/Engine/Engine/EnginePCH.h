@@ -12,13 +12,14 @@
 
 #include <refl/refl.hpp>
 
+#include "Core/Math.h"
+
 #include "Engine/Algorithms.h"
 #include "Engine/Array.h"
 #include "Engine/Entity.h"
 #include "Engine/Guid.h"
 #include "Engine/Hash.h"
 #include "Engine/Map.h"
-#include "Engine/MathHelpers.h"
 #include "Engine/Name.h"
 #include "Engine/Nullable.h"
 #include "Engine/OptickProfiler.h"

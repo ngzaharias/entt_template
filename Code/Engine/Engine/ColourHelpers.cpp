@@ -1,8 +1,6 @@
 #include "EnginePCH.h"
 #include "Engine/ColourHelpers.h"
 
-#include "Engine/MathHelpers.h"
-
 Vector3f colour::LerpRGB(const Vector3f& a, const Vector3f& b, const float t)
 {
 	const Vector3f hsvA = ToHSV(a);

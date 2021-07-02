@@ -1,6 +1,6 @@
 project "Editor"
 	kind "ConsoleApp"
-	dependson { "Engine", "Game", "Imgui" }
+	dependson { "Core", "Engine", "Game", "Imgui" }
 	pchheader "EditorPCH.h"
 	pchsource "Editor/EditorPCH.cpp"
 	location "%{wks.location}/Projects/Editor"
@@ -11,6 +11,7 @@ project "Editor"
 		"%{wks.location}/3rdParty/optick/1.3.1/include/",
 		"%{wks.location}/3rdParty/PhysX/Include/",
 		"%{wks.location}/3rdParty/SFML/Include/",
+		"%{wks.location}/Code/Core/",
 		"%{wks.location}/Code/Editor/",
 		"%{wks.location}/Code/Engine/",
 		"%{wks.location}/Code/Game/",
@@ -23,12 +24,14 @@ project "Editor"
 		"%{wks.location}/3rdParty/optick/1.3.1/lib/x64/%{cfg.buildcfg}/",
 		"%{wks.location}/3rdParty/PhysX/Library/%{cfg.buildcfg}/",
 		"%{wks.location}/3rdParty/SFML/Library/%{cfg.buildcfg}/",
+		"%{wks.location}/Build/Core/%{cfg.buildcfg}_%{cfg.platform}/",
 		"%{wks.location}/Build/Engine/%{cfg.buildcfg}_%{cfg.platform}/",
 		"%{wks.location}/Build/Imgui/%{cfg.buildcfg}_%{cfg.platform}/",
 	}
 
 	links 
 	{ 
+		"Core.lib",
 		"Engine.lib",
 		"Imgui.lib",
 

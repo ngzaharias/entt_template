@@ -40,11 +40,13 @@ workspace "ZEngine"
 
 	-- projects
 	include "Code/Imgui/premake5.lua"
+	include "Code/Core/premake5.lua"
 	include "Code/Engine/premake5.lua"
 	include "Code/Game/premake5.lua"
 	include "Code/Editor/premake5.lua"
 
 	group "ut"
+		include "Code/Core_ut/premake5.lua"
 		include "Code/Engine_ut/premake5.lua"
 	group ""
 
