@@ -81,26 +81,31 @@ void editor::Inspector::Update(const core::GameTime& gameTime)
 
 	auto& registry = m_World->m_Registry;
 
+	m_HasChanged |= !registry.view<editor::RedoEventComponent>().empty();
+	m_HasChanged |= !registry.view<editor::UndoEventComponent>().empty();
 
+	if (m_HasChanged)
 	{
+		m_HasChanged = false;
+		if (registry.valid(m_Selection))
 		{
+			m_Record.m_Entity = m_Selection;
 			m_Historian.CopyToRecord(registry, m_Record, s_ComponentList);
 		}
 	}
-
 	Render();
 }
 
 void editor::Inspector::Render()
 {
 	auto& registry = m_World->m_Registry;
-
 	if (!IsVisible())
 		return;
 
 	if (ImGui::Begin("Inspector", &m_IsVisible, ImGuiWindowFlags_MenuBar))
 	{
 		Render_MenuBar(registry);
+		Render_Selection(registry);
 	}
 	ImGui::End();
 }
@@ -113,22 +118,24 @@ void editor::Inspector::Render_MenuBar(entt::registry& registry)
 	}
 }
 
+void editor::Inspector::Render_Selection(entt::registry& registry)
 {
 	if (ImGui::BeginChild("entity"))
 	{
+		if (registry.valid(m_Selection))
 		{
+			ImGui::PushID(static_cast<int>(m_Selection));
 
 			InspectorInfo info;
+			InspectComponents(registry, m_Selection, info, s_ComponentList);
 
 			if (!info.m_Transactions.empty())
 			{
 				editor::Record recordOld = m_Record;
 				for (const auto& transaction : info.m_Transactions)
 					transaction.ApplyTo(m_Record.m_Document);
-
 				m_Historian.PushRecord(recordOld, m_Record);
 			}
-
 			ImGui::PopID();
 		}
 	}
