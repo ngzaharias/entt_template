@@ -253,6 +253,6 @@ void editor::FlipbookEditor::Render_Preview(render::FlipbookComponent& component
 		, spriteAsset.m_RectangleSize.y
 	));
 
-	const Vector2f size = Vector2f(texture.getSize());
+	const sf::Vector2f size = sf::Vector2f(texture.getSize());
 	ImGui::Image(sprite, { size.x, size.y });
 }

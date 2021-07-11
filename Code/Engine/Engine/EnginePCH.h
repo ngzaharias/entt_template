@@ -12,7 +12,10 @@
 
 #include <refl/refl.hpp>
 
-#include "Core/Math.h"
+#include <Core/Math.h>
+#include <Core/Types.h>
+#include <Core/Vector.h>
+#include <Core/VectorHelpers.h>
 
 #include "Engine/Algorithms.h"
 #include "Engine/Array.h"
@@ -29,8 +32,4 @@
 #include "Engine/StringHelpers.h"
 #include "Engine/StringView.h"
 #include "Engine/TypeId.h"
-#include "Engine/Types.h"
 #include "Engine/Variant.h"
-#include "Engine/Vector2.h"
-#include "Engine/Vector3.h"
-#include "Engine/VectorHelpers.h"

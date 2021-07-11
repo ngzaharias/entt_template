@@ -1,5 +1,5 @@
-#include "EnginePCH.h"
-#include "Engine/VectorHelpers.h"
+#include "Core/VectorHelpers.h"
+#include "Core/Vector.h"
 
 #include <cmath>
 
@@ -38,7 +38,7 @@ Vector2f math::Reflect(const Vector2f& vector, const Vector2f& normal)
 {
 	// -2 * (V dot N)*N + V
 	const float dot2 = Dot(vector, normal) * -2.0f;
-	return (dot2 * normal) + vector;
+	return Multiply(dot2, normal) + vector;
 }
 
 Vector2f math::Divide(const Vector2f& lhs, const Vector2f& rhs)

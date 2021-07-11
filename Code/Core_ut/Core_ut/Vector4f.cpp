@@ -1,15 +1,25 @@
 #include <Catch2/catch.hpp>
 
-#include <Core/Vectorf.h>
+#include <Core/Vector.h>
 
 TEST_CASE("Vector4f")
 {
-	SECTION("Vector4f()")
+	SECTION("Vector4f::Zero")
 	{
 		Vector4f vector = Vector4f::Zero;
 		CHECK(vector.x == 0.f);
 		CHECK(vector.y == 0.f);
 		CHECK(vector.z == 0.f);
+		CHECK(vector.w == 0.f);
+	}
+
+	SECTION("Vector4f::Identity")
+	{
+		Vector4f vector = Vector4f::Identity;
+		CHECK(vector.x == 0.f);
+		CHECK(vector.y == 0.f);
+		CHECK(vector.z == 0.f);
+		CHECK(vector.w == 1.f);
 	}
 
 	SECTION("Vector4f(Vector3f, w)")

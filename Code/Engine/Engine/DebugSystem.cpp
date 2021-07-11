@@ -49,8 +49,8 @@ void debug::DebugSystem::Update(const core::GameTime& gameTime)
 		sf::Text text;
 		text.setFillColor(colour);
 		text.setFont(m_Font);
-		text.setPosition(Vector2f(Screen::width * -0.5f, Screen::height * 0.5f));
-		text.setScale(Vector2f(1.f, -1.f) * 0.5f);
+		text.setPosition(sf::Vector2f(Screen::width * -0.5f, Screen::height * 0.5f));
+		text.setScale(sf::Vector2f(1.f, -1.f) * 0.5f);
 		text.setString(string);
 		m_RenderTarget.draw(text);
 	}

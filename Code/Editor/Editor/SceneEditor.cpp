@@ -54,8 +54,8 @@ void editor::SceneEditor::Render()
 		}
 
 		// #fixme: update the camera size
-		const Vector2f regionSize = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
-		const Vector2f viewSize = m_RenderTexture.getView().getSize();
+		const sf::Vector2f regionSize = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+		const sf::Vector2f viewSize = m_RenderTexture.getView().getSize();
 		Screen::width = regionSize.x;
 		Screen::height = regionSize.y;
 

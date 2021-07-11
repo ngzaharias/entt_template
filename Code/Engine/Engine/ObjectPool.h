@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Engine/Types.h>
-
 #include <queue>
 
 template<class Type, int32 t_Capacity>

@@ -50,11 +50,11 @@ namespace example
 		float m_Float = 0.666f;
 		int32 m_Int32 = -1337;
 		uint32 m_Uint32 = 4444;
-		sf::Vector2f m_Vector2f = { 1.f, 2.f };
-		sf::Vector2i m_Vector2i = { 1, 2 };
-		sf::Vector2u m_Vector2u = { 1, 2 };
-		sf::Vector3f m_Vector3f = { 1.f, 2.f, 3.f };
-		sf::Vector3i m_Vector3i = { 1, 2, 3 };
+		Vector2f m_Vector2f = { 1.f, 2.f };
+		Vector2i m_Vector2i = { 1, 2 };
+		Vector2u m_Vector2u = { 1, 2 };
+		Vector3f m_Vector3f = { 1.f, 2.f, 3.f };
+		Vector3i m_Vector3i = { 1, 2, 3 };
 
 		// struct
 		YesReflect m_YesReflect = YesReflect();

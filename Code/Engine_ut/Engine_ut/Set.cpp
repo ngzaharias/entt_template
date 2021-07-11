@@ -1,8 +1,9 @@
 #include <Catch2/catch.hpp>
 
+#include <Core/Types.h>
+
 #include <Engine/Algorithms.h>
 #include <Engine/Set.h>
-#include <Engine/Types.h>
 
 TEST_CASE("Difference")
 {

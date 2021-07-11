@@ -1,10 +1,10 @@
 #include <Catch2/catch.hpp>
 
-#include <Core/Vectorf.h>
+#include <Core/Vector.h>
 
 TEST_CASE("Vector3f")
 {
-	SECTION("Vector3f()")
+	SECTION("Vector3f::Zero")
 	{
 		Vector3f vector = Vector3f::Zero;
 		CHECK(vector.x == 0.f);

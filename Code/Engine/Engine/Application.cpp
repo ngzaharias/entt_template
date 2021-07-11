@@ -90,7 +90,7 @@ void core::Application::Execute(int argc, char* argv[])
 		// render to window
 		{
 			const sf::Texture& texture = m_RenderTexture.getTexture();
-			const Vector2f size = Vector2f(texture.getSize());
+			const sf::Vector2f size = sf::Vector2f(texture.getSize());
 
 			sf::Sprite sprite;
 			sprite.setTexture(texture);

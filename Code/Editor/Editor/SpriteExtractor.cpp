@@ -98,7 +98,8 @@ void editor::SpriteExtractor::Render()
 	{
 		ImGui::OpenPopup(s_Label);
 		m_GridSettings.m_Count = { 1, 1 };
-		m_GridSettings.m_Size = textureAsset.m_Texture.getSize();
+		m_GridSettings.m_Size.x = textureAsset.m_Texture.getSize().x;
+		m_GridSettings.m_Size.y = textureAsset.m_Texture.getSize().y;
 	}
 
 	const ImVec2 position = { ImGui::GetIO().DisplaySize.x * 0.5f, ImGui::GetIO().DisplaySize.y * 0.5f };

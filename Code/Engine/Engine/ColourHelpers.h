@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine/Colour.h>
-#include <Engine/Vector3.h>
 
 namespace colour
 {

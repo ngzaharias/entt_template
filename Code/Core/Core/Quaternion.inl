@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core/Math.h>
-#include <Core/Vectorf.h>
+#include <Core/Vector.h>
 
 inline constexpr Quaternion::Quaternion(const Vector3f& value, const float w)
 	: x(value.x), y(value.y), z(value.z), w(w)

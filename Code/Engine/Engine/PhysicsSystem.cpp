@@ -8,7 +8,6 @@
 #include "Engine/Screen.h"
 #include "Engine/SpriteComponent.h"
 #include "Engine/TransformComponent.h"
-#include "Engine/VectorHelpers.h"
 
 #include <entt/entt.hpp>
 #include <PhysX/PxRigidDynamic.h>

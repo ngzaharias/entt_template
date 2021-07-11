@@ -1,5 +1,8 @@
 #pragma once
 
+class Vector2f;
+class Vector3f;
+
 namespace math
 {
 	float Dot(const Vector2f& a, const Vector2f& b);

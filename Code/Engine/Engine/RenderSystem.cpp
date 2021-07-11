@@ -6,7 +6,6 @@
 #include "Engine/Screen.h"
 #include "Engine/SpriteComponent.h"
 #include "Engine/TransformComponent.h"
-#include "Engine/VectorHelpers.h"
 
 #include <entt/entt.hpp>
 #include <SFML/Graphics.hpp>
@@ -63,7 +62,7 @@ void render::RenderSystem::Update(const core::GameTime& /*gameTime*/)
 				const render::TextureAsset& textureAsset = spriteAsset.m_Texture.get();
 
 				const sf::Texture& texture = textureAsset.m_Texture;
-				const Vector2f size = Vector2f(spriteAsset.m_RectangleSize);
+				const sf::Vector2f size = sf::Vector2f(spriteAsset.m_RectangleSize.x, spriteAsset.m_RectangleSize.y);
 
 				// #note: inverse scale because of SFML
 				const float scaleX = spriteComponent.m_Size.x / size.x;
@@ -116,7 +115,7 @@ void render::RenderSystem::Update(const core::GameTime& /*gameTime*/)
 				const render::TextureAsset& textureAsset = spriteAsset.m_Texture.get();
 
 				const sf::Texture& texture = textureAsset.m_Texture;
-				const Vector2f size = Vector2f(spriteAsset.m_RectangleSize);
+				const sf::Vector2f size = sf::Vector2f(spriteAsset.m_RectangleSize.x, spriteAsset.m_RectangleSize.y);
 
 				const float scaleX = flipbookComponent.m_Size.x / size.x;
 				const float scaleY = flipbookComponent.m_Size.y / size.y * -1.f;

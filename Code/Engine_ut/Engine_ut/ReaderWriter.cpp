@@ -1,5 +1,7 @@
 #include <Catch2/catch.hpp>
 
+#include <Core/Vector.h>
+
 #include <Engine/Array.h>
 #include <Engine/Map.h>
 #include <Engine/Name.h>
@@ -7,11 +9,8 @@
 #include <Engine/Set.h>
 #include <Engine/String.h>
 #include <Engine/StringView.h>
-#include <Engine/Types.h>
 #include <Engine/Variant.h>
 #include <Engine/VariantHelpers.h>
-#include <Engine/Vector2.h>
-#include <Engine/Vector3.h>
 
 #include <refl/refl.hpp>
 

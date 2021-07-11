@@ -1,6 +1,6 @@
 project "Engine_ut"
 	kind "ConsoleApp"
-	dependson { "Engine" }
+	dependson { "Core", "Engine" }
 	location "%{wks.location}/Projects/Engine_ut"
 
 	files 
@@ -14,15 +14,18 @@ project "Engine_ut"
 	{ 
 		"%{wks.location}/3rdParty/",
 		"%{wks.location}/3rdParty/SFML/Include/",
+		"%{wks.location}/Code/Core/",
 		"%{wks.location}/Code/Engine/",
 	}
 
 	libdirs 
 	{ 
-		"%{wks.location}/Build/Engine/%{cfg.buildcfg}_%{cfg.platform}/" 
+		"%{wks.location}/Build/Core/%{cfg.buildcfg}_%{cfg.platform}/",
+		"%{wks.location}/Build/Engine/%{cfg.buildcfg}_%{cfg.platform}/",
 	}
 	
 	links 
 	{ 
-		"Engine.lib" 
+		"Core.lib",
+		"Engine.lib",
 	}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Core/Types.h>
+
 class Vector2f;
 class Vector3f;
 class Vector4f;
@@ -9,8 +11,8 @@ class Vector2f
 {
 public:
 	constexpr Vector2f() : x(), y() {}
-	constexpr explicit Vector2f(const float value) : x(value), y(value) {}
-	constexpr explicit Vector2f(const float x, const float y) : x(x), y(y) {}
+	constexpr Vector2f(const float value) : x(value), y(value) {}
+	constexpr Vector2f(const float x, const float y) : x(x), y(y) {}
 
 	bool operator==(const Vector2f& rhs) const { return (x == rhs.x) && (y == rhs.y); }
 	bool operator!=(const Vector2f& rhs) const { return (x != rhs.x) || (y != rhs.y); }
@@ -46,12 +48,46 @@ public:
 };
 
 /// \brief
+class Vector2i
+{
+public:
+	constexpr Vector2i() : x(), y() {}
+	constexpr Vector2i(const int32 value) : x(value), y(value) {}
+	constexpr Vector2i(const int32 x, const int32 y) : x(x), y(y) {}
+	
+	bool operator==(const Vector2i& rhs) const { return (x == rhs.x) && (y == rhs.y); }
+	bool operator!=(const Vector2i& rhs) const { return (x != rhs.x) || (y != rhs.y); }
+
+	static const Vector2i Zero;
+
+public:
+	int32 x, y;
+};
+
+/// \brief
+class Vector2u
+{
+public:
+	constexpr Vector2u() : x(), y() {}
+	constexpr Vector2u(const uint32 value) : x(value), y(value) {}
+	constexpr Vector2u(const uint32 x, const uint32 y) : x(x), y(y) {}
+
+	bool operator==(const Vector2u& rhs) const { return (x == rhs.x) && (y == rhs.y); }
+	bool operator!=(const Vector2u& rhs) const { return (x != rhs.x) || (y != rhs.y); }
+
+	static const Vector2u Zero;
+
+public:
+	uint32 x, y;
+};
+
+/// \brief
 class Vector3f
 {
 public:
 	constexpr Vector3f() : x(), y(), z() {}
-	constexpr explicit Vector3f(const float value) : x(value), y(value), z(value) {}
-	constexpr explicit Vector3f(const float x, const float y, const float z) : x(x), y(y), z(z) {}
+	constexpr Vector3f(const float value) : x(value), y(value), z(value) {}
+	constexpr Vector3f(const float x, const float y, const float z) : x(x), y(y), z(z) {}
 
 	bool operator==(const Vector3f& rhs) const { return (x == rhs.x) && (y == rhs.y) && (z == rhs.z); }
 	bool operator!=(const Vector3f& rhs) const { return (x != rhs.x) || (y != rhs.y) || (z != rhs.z); }
@@ -90,12 +126,29 @@ public:
 };
 
 /// \brief
+class Vector3i
+{
+public:
+	constexpr Vector3i() : x(), y(), z() {}
+	constexpr Vector3i(const int32 value) : x(value), y(value), z(value) {}
+	constexpr Vector3i(const int32 x, const int32 y, const int32 z) : x(x), y(y), z(z) {}
+
+	bool operator==(const Vector3i& rhs) const { return (x == rhs.x) && (y == rhs.y) && (z == rhs.z); }
+	bool operator!=(const Vector3i& rhs) const { return (x != rhs.x) || (y != rhs.y) || (z != rhs.z); }
+
+	static const Vector3i Zero;
+
+public:
+	int32 x, y, z;
+};
+
+/// \brief
 class Vector4f
 {
 public:
 	constexpr Vector4f() : x(), y(), z(), w() { }
-	constexpr explicit Vector4f(const Vector3f& value, const float w) : x(value.x), y(value.y), z(value.z), w(w) { }
-	constexpr explicit Vector4f(const float x, const float y, const float z, const float w) : x(x), y(y), z(z), w(w) { }
+	constexpr Vector4f(const Vector3f& value, const float w) : x(value.x), y(value.y), z(value.z), w(w) { }
+	constexpr Vector4f(const float x, const float y, const float z, const float w) : x(x), y(y), z(z), w(w) { }
 
 	bool operator==(const Vector4f& rhs) const { return (x == rhs.x) && (y == rhs.y) && (z == rhs.z) && (w == rhs.w); }
 	bool operator!=(const Vector4f& rhs) const { return (x != rhs.x) || (y != rhs.y) || (z != rhs.z) || (w != rhs.w); }
@@ -130,4 +183,4 @@ public:
 	float x, y, z, w;
 };
 
-#include <Core/Vectorf.inl>
+#include <Core/Vector.inl>
