@@ -1,9 +1,9 @@
 #include "EnginePCH.h"
-#include "Engine/World.h"
+#include "Engine/EntityWorld.h"
 
 #include "Engine/System.h"
 
-void ecs::World::Initialise()
+void ecs::EntityWorld::Initialise()
 {
 	PROFILE_FUNCTION();
 
@@ -11,7 +11,7 @@ void ecs::World::Initialise()
 		entry.m_System->Initialise();
 }
 
-void ecs::World::Update(const core::GameTime& gameTime)
+void ecs::EntityWorld::Update(const core::GameTime& gameTime)
 {
 	PROFILE_FUNCTION();
 
@@ -19,7 +19,7 @@ void ecs::World::Update(const core::GameTime& gameTime)
 		entry.m_System->Update(gameTime);
 }
 
-void ecs::World::Destroy()
+void ecs::EntityWorld::Destroy()
 {
 	PROFILE_FUNCTION();
 

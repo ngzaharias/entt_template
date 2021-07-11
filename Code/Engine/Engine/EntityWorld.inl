@@ -8,23 +8,23 @@
 // #todo: m_SystemEntries: assert on duplicates
 
 template<class TSystem>
-TSystem& ecs::World::GetSystem() const
+TSystem& ecs::EntityWorld::GetSystem() const
 {
 	const core::TypeId& typeId = core::ToTypeId<TSystem>();
 
 	const auto first = m_SystemEntries.begin();
 	const auto last = m_SystemEntries.end();
 	auto result = std::find_if(first, last, [&](const SystemEntry& entry)
-	{
-		return entry.m_TypeId == typeId;
-	});
+		{
+			return entry.m_TypeId == typeId;
+		});
 
 	assert(result != last);
 	return *dynamic_cast<TSystem*>(result->m_System);
 }
 
 template<class TComponent>
-void ecs::World::RegisterComponent()
+void ecs::EntityWorld::RegisterComponent()
 {
 	static_assert(std::is_assignable<TComponent, TComponent>::value, "Component Type isn't assignable!");
 
@@ -36,7 +36,7 @@ void ecs::World::RegisterComponent()
 }
 
 template<class TSystem, typename... TArgs>
-void ecs::World::RegisterSystem(TArgs&&... args)
+void ecs::EntityWorld::RegisterSystem(TArgs&&... args)
 {
 	SystemEntry entry =
 	{
