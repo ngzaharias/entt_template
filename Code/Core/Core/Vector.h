@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core/Defines.h>
 #include <Core/Types.h>
 
 class Vector2f;
@@ -143,7 +144,7 @@ public:
 };
 
 /// \brief
-class Vector4f
+class ALIGN_16 Vector4f
 {
 public:
 	constexpr Vector4f() : x(), y(), z(), w() { }

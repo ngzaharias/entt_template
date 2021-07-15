@@ -4,6 +4,11 @@
 
 TEST_CASE("Vector4f")
 {
+	SECTION("Alignment")
+	{
+		CHECK(alignof(Vector4f) == 16);
+	}
+
 	SECTION("Vector4f::Zero")
 	{
 		Vector4f vector = Vector4f::Zero;

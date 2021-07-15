@@ -1,36 +1,37 @@
 #pragma once
 
-#include <Core/Vector.h>
+#include <Core/Defines.h>
+
+class Vector4f;
 
 /// \brief
-class Matrix4x4
+class ALIGN_16 Matrix4x4
 {
 public:
-	Matrix4x4();
-	Matrix4x4(
-		const float col0row0, const float col0row1, const float col0row2, const float col0row3,
-		const float col1row0, const float col1row1, const float col1row2, const float col1row3,
-		const float col2row0, const float col2row1, const float col2row2, const float col2row3,
-		const float col3row0, const float col3row1, const float col3row2, const float col3row3);
-	Matrix4x4(const Vector4f& col0, const Vector4f& col1, const Vector4f& col2, const Vector4f& col3);
+	constexpr Matrix4x4();
+	constexpr Matrix4x4(
+		const float v00, const float v01, const float v02, const float v03,
+		const float v04, const float v05, const float v06, const float v07,
+		const float v08, const float v09, const float v10, const float v11,
+		const float v12, const float v13, const float v14, const float v15);
+	constexpr Matrix4x4(const Vector4f& v0, const Vector4f& v1, const Vector4f& v2, const Vector4f& v3);
 
 	bool operator==(const Matrix4x4& rhs) const;
 	bool operator!=(const Matrix4x4& rhs) const;
 
 	Matrix4x4 operator+(const Matrix4x4& rhs) const;
 	Matrix4x4 operator-(const Matrix4x4& rhs) const;
+	Matrix4x4 operator*(const Matrix4x4& rhs) const;
 
 	Matrix4x4& operator+=(const Matrix4x4& rhs);
 	Matrix4x4& operator-=(const Matrix4x4& rhs);
+	Matrix4x4& operator*=(const Matrix4x4& rhs);
 
 	static const Matrix4x4 Identity;
 	static const Matrix4x4 Zero;
 
 public:
-	Vector4f m_Column0;
-	Vector4f m_Column1;
-	Vector4f m_Column2;
-	Vector4f m_Column3;
+	float m_Data[16];
 };
 
 #include <Core/Matrix.inl>

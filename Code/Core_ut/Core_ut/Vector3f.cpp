@@ -4,6 +4,11 @@
 
 TEST_CASE("Vector3f")
 {
+	SECTION("Alignment")
+	{
+		CHECK(alignof(Vector3f) == 4);
+	}
+
 	SECTION("Vector3f::Zero")
 	{
 		Vector3f vector = Vector3f::Zero;

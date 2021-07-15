@@ -4,37 +4,40 @@
 
 TEST_CASE("Vector2f")
 {
+	SECTION("Alignment")
+	{
+		CHECK(alignof(Vector2f) == 4);
+	}
+
 	SECTION("Vector2f::Zero")
 	{
-		Vector2f vector = Vector2f::Zero;
-		CHECK(vector.x == 0.f);
-		CHECK(vector.y == 0.f);
+		CHECK(Vector2f::Zero == Vector2f(0.f));
 	}
 
 	SECTION("Vector2f(value)")
 	{
-		Vector2f vector(1.f);
+		const Vector2f vector(1.f);
 		CHECK(vector.x == 1.f);
 		CHECK(vector.y == 1.f);
 	}
 
 	SECTION("Vector2f(x, y)")
 	{
-		Vector2f vector(1.f, 2.f);
+		const Vector2f vector(1.f, 2.f);
 		CHECK(vector.x == 1.f);
 		CHECK(vector.y == 2.f);
 	}
 
 	SECTION("operator==")
 	{
-		CHECK(Vector2f(0.f) == Vector2f(0.f));
-		CHECK_FALSE(Vector2f(0.f) == Vector2f(1.f));
+		CHECK(Vector2f::Zero == Vector2f::Zero);
+		CHECK_FALSE(Vector2f::Zero == Vector2f(1.f));
 	}
 
 	SECTION("operator!=")
 	{
-		CHECK(Vector2f(0.f) != Vector2f(1.f));
-		CHECK_FALSE(Vector2f(0.f) != Vector2f(0.f));
+		CHECK(Vector2f::Zero != Vector2f(1.f));
+		CHECK_FALSE(Vector2f::Zero != Vector2f::Zero);
 	}
 
 	SECTION("operator+")
